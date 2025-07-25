@@ -208,14 +208,34 @@ export default function About() {
           </div>
           <div className="grid md:grid-cols-4 gap-8">
             {[
-              { name: "Max Mitchell", role: "Founder" },
-              { name: "Sarah Johnson", role: "Chief Real Estate Officer" },
-              { name: "David Brown", role: "Head of Property Management" },
-              { name: "Michael Turner", role: "Legal Counsel" }
+              { 
+                name: "Max Mitchell", 
+                role: "Founder",
+                image: "https://picsum.photos/400/400?random=7"
+              },
+              { 
+                name: "Sarah Johnson", 
+                role: "Chief Real Estate Officer",
+                image: "https://picsum.photos/400/400?random=8"
+              },
+              { 
+                name: "David Brown", 
+                role: "Head of Property Management",
+                image: "https://picsum.photos/400/400?random=9"
+              },
+              { 
+                name: "Michael Turner", 
+                role: "Legal Counsel",
+                image: "https://picsum.photos/400/400?random=10"
+              }
             ].map((member, index) => (
               <div key={index} className="text-center">
-                <div className="w-32 h-32 bg-blue-600 rounded-full mx-auto mb-4 flex items-center justify-center">
-                  <span className="text-white text-2xl font-bold">{member.name.split(' ').map(n => n[0]).join('')}</span>
+                <div className="w-32 h-32 rounded-full mx-auto mb-4 overflow-hidden border-4 border-blue-600">
+                  <img 
+                    src={member.image} 
+                    alt={member.name}
+                    className="w-full h-full object-cover"
+                  />
                 </div>
                 <h3 className="text-xl font-semibold mb-2">{member.name}</h3>
                 <p className="text-gray-400 mb-4">{member.role}</p>

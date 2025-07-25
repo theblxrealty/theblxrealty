@@ -106,7 +106,7 @@ export default function Properties() {
                 bathrooms: 3,
                 type: "Villa",
                 price: 55000000,
-                image: "bg-gradient-to-br from-blue-500 to-cyan-400"
+                image: "https://picsum.photos/800/400?random=1"
               },
               {
                 title: "Mumbai Metropolitan Haven",
@@ -115,7 +115,7 @@ export default function Properties() {
                 bathrooms: 2,
                 type: "Apartment",
                 price: 45000000,
-                image: "bg-gradient-to-br from-purple-500 to-pink-400"
+                image: "https://picsum.photos/800/400?random=2"
               },
               {
                 title: "Delhi Rustic Cottage",
@@ -124,11 +124,13 @@ export default function Properties() {
                 bathrooms: 2,
                 type: "Cottage",
                 price: 35000000,
-                image: "bg-gradient-to-br from-indigo-500 to-purple-600"
+                image: "https://picsum.photos/800/400?random=3"
               }
             ].map((property, index) => (
               <div key={index} className="bg-zinc-900 rounded-xl overflow-hidden border border-zinc-800">
-                <div className={`h-48 ${property.image}`}></div>
+                <div className="h-48 bg-cover bg-center relative" style={{backgroundImage: `url(${property.image})`}}>
+                  <div className="absolute inset-0 bg-black bg-opacity-20"></div>
+                </div>
                 <div className="p-6">
                   <h3 className="text-xl font-semibold mb-2">{property.title}</h3>
                   <p className="text-gray-300 mb-4 text-sm">{property.description}</p>
