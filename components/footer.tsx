@@ -100,7 +100,7 @@ export default function Footer() {
                 placeholder="Your email address"
                 className="bg-navy-800/50 border-slate-600 text-white placeholder:text-slate-400 focus:border-gold-400"
               />
-              <Button className="w-full bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-600 hover:to-gold-700 text-white">
+              <Button variant="premium" className="w-full">
                 Subscribe
               </Button>
             </form>
