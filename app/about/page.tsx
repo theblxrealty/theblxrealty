@@ -1,6 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowRight, Users, Award, Shield, Target, CheckCircle2 } from "lucide-react"
+import { ArrowRight, Users, Award, Shield, Target, CheckCircle2, Building, TrendingUp, MapPin } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import TeamMember from "@/components/team-member"
 
@@ -87,7 +87,7 @@ export default function AboutPage() {
                 city's most prestigious locations.
               </p>
               <Link href="/contact">
-                <Button className="bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-600 hover:to-gold-700 text-white">
+                <Button variant="premium">
                   Get in Touch <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
@@ -104,8 +104,130 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Our Values */}
+      {/* Market Leadership */}
       <section className="py-16 md:py-24 bg-gradient-to-br from-slate-50 to-slate-100">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="order-2 lg:order-1">
+              <div className="relative h-[500px] rounded-2xl overflow-hidden shadow-2xl">
+                <Image
+                  src="/placeholder.svg?height=1000&width=800"
+                  alt="Luxury property portfolio"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+            </div>
+            <div className="order-1 lg:order-2">
+              <div className="inline-block rounded-lg bg-gradient-to-r from-gold-100 to-gold-200 px-3 py-1 text-sm text-gold-800 mb-4">
+                Market Leadership
+              </div>
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-navy-900">Leading the Luxury Market</h2>
+              <p className="text-slate-600 mb-6">
+                As Bangalore's premier luxury real estate platform, we've established ourselves as the trusted partner
+                for high-net-worth individuals, institutional investors, and discerning property buyers and sellers.
+              </p>
+              <p className="text-slate-600 mb-6">
+                Our deep understanding of the local market dynamics, combined with international standards of service,
+                has positioned us as the go-to destination for premium property transactions in the city.
+              </p>
+              <p className="text-slate-600 mb-8">
+                With over ₹500 crores in successful transactions and a portfolio spanning the city's most prestigious
+                locations, we continue to set new benchmarks in luxury real estate excellence.
+              </p>
+              <Link href="/properties">
+                <Button variant="premium">
+                  Explore Properties <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Technology & Innovation */}
+      <section className="py-16 md:py-24 bg-white">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <div className="inline-block rounded-lg bg-gradient-to-r from-navy-100 to-navy-200 px-3 py-1 text-sm text-navy-800 mb-4">
+                Innovation
+              </div>
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-navy-900">Technology Meets Luxury</h2>
+              <p className="text-slate-600 mb-6">
+                We leverage cutting-edge technology to enhance the luxury real estate experience, from virtual property
+                tours to advanced market analytics and seamless transaction management.
+              </p>
+              <p className="text-slate-600 mb-6">
+                Our proprietary platform combines AI-powered property matching, blockchain-secured transactions, and
+                immersive 3D property visualizations to deliver an unparalleled service experience.
+              </p>
+              <p className="text-slate-600 mb-8">
+                By embracing innovation while maintaining the personal touch that luxury clients expect, we're
+                revolutionizing how premium properties are bought, sold, and managed in Bangalore.
+              </p>
+              <Link href="/contact">
+                <Button variant="premium">
+                  Experience Innovation <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </Link>
+            </div>
+            <div className="relative h-[500px] rounded-2xl overflow-hidden shadow-2xl">
+              <Image
+                src="/placeholder.svg?height=1000&width=800"
+                alt="Technology and innovation in real estate"
+                fill
+                className="object-cover"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Global Network */}
+      <section className="py-16 md:py-24 bg-gradient-to-br from-slate-50 to-slate-100">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="order-2 lg:order-1">
+              <div className="relative h-[500px] rounded-2xl overflow-hidden shadow-2xl">
+                <Image
+                  src="/placeholder.svg?height=1000&width=800"
+                  alt="Global network and partnerships"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+            </div>
+            <div className="order-1 lg:order-2">
+              <div className="inline-block rounded-lg bg-gradient-to-r from-gold-100 to-gold-200 px-3 py-1 text-sm text-gold-800 mb-4">
+                Global Network
+              </div>
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-navy-900">Connecting Global Opportunities</h2>
+              <p className="text-slate-600 mb-6">
+                Our extensive network spans international markets, connecting Bangalore's luxury real estate with
+                global investors and high-net-worth individuals seeking premium opportunities in India's tech capital.
+              </p>
+              <p className="text-slate-600 mb-6">
+                Through strategic partnerships with leading international real estate firms and investment banks, we
+                provide our clients with access to exclusive global opportunities while showcasing Bangalore's finest
+                properties to the world.
+              </p>
+              <p className="text-slate-600 mb-8">
+                This global perspective, combined with deep local expertise, enables us to deliver exceptional value
+                to both domestic and international clients seeking premium real estate opportunities in Bangalore.
+              </p>
+              <Link href="/contact">
+                <Button variant="premium">
+                  Join Our Network <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Our Values */}
+      <section className="py-16 md:py-24 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <div className="inline-block rounded-lg bg-gradient-to-r from-navy-100 to-navy-200 px-3 py-1 text-sm text-navy-800 mb-4">
@@ -153,8 +275,8 @@ export default function AboutPage() {
             </div>
 
             <div className="bg-white p-8 rounded-2xl shadow-lg border border-slate-200">
-              <div className="bg-gradient-to-br from-emerald-100 to-emerald-200 p-3 rounded-2xl w-12 h-12 flex items-center justify-center mb-6">
-                <Target className="h-6 w-6 text-emerald-600" />
+              <div className="bg-gradient-to-br from-navy-100 to-navy-200 p-3 rounded-2xl w-12 h-12 flex items-center justify-center mb-6">
+                <Target className="h-6 w-6 text-navy-600" />
               </div>
               <h3 className="text-xl font-bold mb-3 text-navy-900">Innovation</h3>
               <p className="text-slate-600">
@@ -167,7 +289,7 @@ export default function AboutPage() {
       </section>
 
       {/* Our Approach */}
-      <section className="py-16 md:py-24 bg-white">
+      <section className="py-16 md:py-24 bg-gradient-to-br from-slate-50 to-slate-100">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="order-2 lg:order-1">
@@ -199,8 +321,8 @@ export default function AboutPage() {
                   </p>
                 </div>
 
-                <div className="bg-gradient-to-br from-emerald-50 to-emerald-100 p-6 rounded-2xl border border-emerald-200">
-                  <CheckCircle2 className="h-6 w-6 text-emerald-600 mb-4" />
+                <div className="bg-gradient-to-br from-navy-50 to-navy-100 p-6 rounded-2xl border border-navy-200">
+                  <CheckCircle2 className="h-6 w-6 text-navy-600 mb-4" />
                   <h3 className="text-lg font-bold mb-2 text-navy-900">Personalized Service</h3>
                   <p className="text-slate-600 text-sm">
                     Our dedicated relationship managers provide white-glove service tailored to each client's unique
@@ -233,7 +355,7 @@ export default function AboutPage() {
       </section>
 
       {/* Our Team */}
-      <section className="py-16 md:py-24 bg-gradient-to-br from-slate-50 to-slate-100">
+      <section className="py-16 md:py-24 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <div className="inline-block rounded-lg bg-gradient-to-r from-navy-100 to-navy-200 px-3 py-1 text-sm text-navy-800 mb-4">
@@ -267,7 +389,7 @@ export default function AboutPage() {
               <Link href="/properties">
                 <Button
                   size="lg"
-                  className="bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-600 hover:to-gold-700 text-white"
+                  variant="premium"
                 >
                   Explore Our Properties
                 </Button>
@@ -275,8 +397,7 @@ export default function AboutPage() {
               <Link href="/contact">
                 <Button
                   size="lg"
-                  variant="outline"
-                  className="border-white text-white hover:bg-white/10 bg-transparent backdrop-blur-sm"
+                  variant="outlineWhite"
                 >
                   Contact Us
                 </Button>
