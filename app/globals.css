@@ -54,7 +54,62 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground transition-colors duration-300;
+  }
+}
+
+@layer components {
+  /* Consistent section spacing */
+  .section-padding {
+    @apply py-16 md:py-24;
+  }
+  
+  .section-padding-sm {
+    @apply py-12 md:py-16;
+  }
+  
+  /* Consistent container spacing */
+  .container-padding {
+    @apply px-4 sm:px-6 lg:px-8;
+  }
+  
+  /* Consistent card styling */
+  .premium-card {
+    @apply bg-white dark:bg-slate-800 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-slate-200 dark:border-slate-700;
+  }
+  
+  /* Consistent gradient backgrounds */
+  .premium-gradient {
+    @apply bg-gradient-to-br from-navy-900 via-navy-800 to-slate-900;
+  }
+  
+  .light-gradient {
+    @apply bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800 dark:to-slate-900;
+  }
+  
+  /* Consistent text styling */
+  .heading-xl {
+    @apply text-3xl md:text-4xl lg:text-5xl font-bold;
+  }
+  
+  .heading-lg {
+    @apply text-2xl md:text-3xl font-bold;
+  }
+  
+  .heading-md {
+    @apply text-xl font-bold;
+  }
+  
+  .body-lg {
+    @apply text-lg;
+  }
+  
+  .body-md {
+    @apply text-base;
+  }
+  
+  .body-sm {
+    @apply text-sm;
   }
 }
 
@@ -86,4 +141,102 @@
 
 .luxury-gradient {
   background: linear-gradient(135deg, #1e293b 0%, #334155 25%, #475569 50%, #64748b 75%, #94a3b8 100%);
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Improved focus states */
+.focus-ring {
+  @apply focus:outline-none focus:ring-2 focus:ring-navy-500 focus:ring-offset-2 dark:focus:ring-gold-500;
+}
+
+/* Consistent hover effects */
+.hover-lift {
+  @apply transition-all duration-300 hover:transform hover:scale-105 hover:shadow-xl;
+}
+
+/* Premium text gradients */
+.text-gradient-gold {
+  @apply text-transparent bg-clip-text bg-gradient-to-r from-gold-400 to-gold-600;
+}
+
+.text-gradient-navy {
+  @apply text-transparent bg-clip-text bg-gradient-to-r from-navy-600 to-navy-800;
+}
+
+/* Line clamp utilities for consistent text truncation */
+.line-clamp-1 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
+.line-clamp-2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.line-clamp-3 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+/* Dark mode specific styles */
+.dark .text-navy-900 {
+  @apply text-white;
+}
+
+.dark .text-slate-600 {
+  @apply text-slate-300;
+}
+
+.dark .text-slate-700 {
+  @apply text-slate-200;
+}
+
+.dark .bg-white {
+  @apply bg-slate-800;
+}
+
+.dark .border-slate-200 {
+  @apply border-slate-700;
+}
+
+.dark .bg-slate-50 {
+  @apply bg-slate-800;
+}
+
+.dark .bg-slate-100 {
+  @apply bg-slate-700;
+}
+
+.dark .text-slate-500 {
+  @apply text-slate-400;
+}
+
+/* Theme toggle animations */
+.theme-toggle-enter {
+  transform: rotate(0deg);
+}
+
+.theme-toggle-enter-active {
+  transform: rotate(180deg);
+  transition: transform 300ms ease-in-out;
+}
+
+.theme-toggle-exit {
+  transform: rotate(180deg);
+}
+
+.theme-toggle-exit-active {
+  transform: rotate(0deg);
+  transition: transform 300ms ease-in-out;
 }
