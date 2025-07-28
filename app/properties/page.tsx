@@ -176,7 +176,7 @@ export default function PropertiesPage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {properties.map((property) => (
               <PropertyCard key={property.id} property={property} />
             ))}
@@ -214,14 +214,13 @@ export default function PropertiesPage() {
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <Button
                 size="lg"
-                className="bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-600 hover:to-gold-700 text-white"
+                variant="premium"
               >
                 Schedule a Consultation
               </Button>
               <Button
                 size="lg"
-                variant="outline"
-                className="border-white text-white hover:bg-white/10 bg-transparent backdrop-blur-sm"
+                variant="outlineWhite"
               >
                 Contact Our Team
               </Button>
