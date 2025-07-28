@@ -74,7 +74,7 @@ export default function HeroSection() {
     setIsAutoPlaying(false)
   }
 
-  const goToSlide = (index) => {
+  const goToSlide = (index: number) => {
     setCurrentSlide(index)
     setIsAutoPlaying(false)
   }
@@ -165,17 +165,10 @@ export default function HeroSection() {
               </div>
 
               <div className="flex flex-col sm:flex-row gap-4">
-                <Button
-                  size="lg"
-                  className="bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-600 hover:to-gold-700 text-white shadow-xl"
-                >
+                <Button size="lg" variant="premium">
                   View Property <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="bg-white/10 text-white border-white/20 hover:bg-white/20 backdrop-blur-sm"
-                >
+                <Button size="lg" variant="outlineWhite">
                   <Play className="mr-2 h-5 w-5" />
                   Virtual Tour
                 </Button>
@@ -204,7 +197,7 @@ export default function HeroSection() {
                 </div>
                 <h3 className="text-xl font-bold text-white mb-2">{heroProperties[currentSlide].title}</h3>
                 <p className="text-slate-200 mb-4">{heroProperties[currentSlide].description}</p>
-                <Button className="w-full bg-gradient-to-r from-navy-600 to-navy-700 hover:from-navy-700 hover:to-navy-800 text-white">
+                <Button variant="navy" className="w-full">
                   Learn More
                 </Button>
               </div>
