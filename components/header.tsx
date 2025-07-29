@@ -36,10 +36,9 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 backdrop-blur-md shadow-lg ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 backdrop-blur-md shadow-lg bg-gradient-to-br from-[#011337] via-[#011337]/90 to-[#011337]/80 ${
         isScrolled ? "py-2" : "py-4"
       }`}
-      style={{ backgroundColor: 'rgba(1, 19, 55, 255)' }}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
@@ -50,7 +49,7 @@ export default function Header() {
                 src="/logo.jpg"
                 alt="11Square Logo"
                 fill
-                className="object-cover"
+                className="object-contain"
                 priority
               />
             </div>
@@ -84,7 +83,6 @@ export default function Header() {
             <Button className="bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-600 hover:to-gold-700 text-white shadow-lg">
               Register
             </Button>
-            <ThemeToggle />
           </div>
 
           {/* Mobile Menu Button */}
@@ -107,8 +105,7 @@ export default function Header() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden backdrop-blur-md border-t border-slate-700"
-            style={{ backgroundColor: 'rgba(1, 19, 55, 0.95)' }}
+            className="md:hidden backdrop-blur-md border-t border-slate-700 bg-gradient-to-br from-[#011337] via-[#011337]/95 to-[#011337]/90"
           >
             <div className="container mx-auto px-4 py-4 flex flex-col space-y-4">
               {navItems.map((item) => (
