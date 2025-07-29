@@ -43,8 +43,9 @@ export default function Header() {
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
+          {/* Left Section - Logo */}
           <Link href="/" className="flex items-center">
-            <div className="relative w-12 h-12 rounded-xl overflow-hidden">
+            <div className="relative w-14 h-14 overflow-hidden">
               <Image
                 src="/logo.jpg"
                 alt="11Square Logo"
@@ -53,10 +54,10 @@ export default function Header() {
                 priority
               />
             </div>
-            <span className="ml-3 text-xl font-bold text-white">11Square</span>
           </Link>
 
-          <nav className="hidden md:flex items-center space-x-8">
+          {/* Center Section - Navigation */}
+          <nav className="hidden md:flex items-center space-x-8 absolute left-1/2 transform -translate-x-1/2">
             {navItems.map((item) => (
               <Link
                 key={item.name}
@@ -78,19 +79,15 @@ export default function Header() {
             ))}
           </nav>
 
+          {/* Right Section - Register Button and Toggle */}
           <div className="hidden md:flex items-center space-x-4">
-            <div className="flex items-center text-slate-200">
-              <Phone className="h-4 w-4 mr-2" />
-              <span className="text-sm font-medium">+91 98765 43210</span>
-            </div>
-
             <Button className="bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-600 hover:to-gold-700 text-white shadow-lg">
-              Schedule Visit
+              Register
             </Button>
-
             <ThemeToggle />
           </div>
 
+          {/* Mobile Menu Button */}
           <div className="md:hidden flex items-center space-x-2">
             <ThemeToggle />
             <button className="md:hidden" onClick={() => setMobileMenuOpen(!mobileMenuOpen)} aria-label="Toggle menu">
@@ -128,13 +125,8 @@ export default function Header() {
               ))}
 
               <div className="pt-4 border-t border-slate-700">
-                <div className="flex items-center text-slate-200 mb-4">
-                  <Phone className="h-4 w-4 mr-2" />
-                  <span className="text-sm">+91 98765 43210</span>
-                </div>
-
                 <Button className="w-full bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-600 hover:to-gold-700 text-white">
-                  Schedule Visit
+                  Register
                 </Button>
               </div>
             </div>
