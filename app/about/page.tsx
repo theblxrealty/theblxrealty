@@ -36,7 +36,7 @@ export default function AboutPage() {
   return (
     <div className="flex flex-col min-h-screen pt-16">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-navy-900 via-navy-800 to-slate-900 text-white py-20 md:py-28">
+      <section className="relative bg-gradient-to-br from-[#011337] via-[#011337]/90 to-[#011337]/80 text-white py-20 md:py-28">
         <div className="absolute inset-0 overflow-hidden">
           <Image
             src="/placeholder.svg?height=1080&width=1920"
@@ -67,10 +67,10 @@ export default function AboutPage() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              <div className="inline-block rounded-lg bg-gradient-to-r from-navy-100 to-navy-200 px-3 py-1 text-sm text-navy-800 mb-4">
+              <div className="inline-block rounded-lg bg-gradient-to-r from-[#011337]/20 to-[#011337]/30 px-3 py-1 text-sm text-[#011337] mb-4">
                 Our Story
               </div>
-              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-navy-900">From Vision to Reality</h2>
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-[#011337]">From Vision to Reality</h2>
               <p className="text-slate-600 mb-6">
                 11Square was founded in 2015 with a singular vision: to redefine luxury real estate in Bangalore by
                 creating a platform that connects discerning buyers and sellers with the city's most exceptional
@@ -122,7 +122,7 @@ export default function AboutPage() {
               <div className="inline-block rounded-lg bg-gradient-to-r from-gold-100 to-gold-200 px-3 py-1 text-sm text-gold-800 mb-4">
                 Market Leadership
               </div>
-              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-navy-900">Leading the Luxury Market</h2>
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-[#011337]">Leading the Luxury Market</h2>
               <p className="text-slate-600 mb-6">
                 As Bangalore's premier luxury real estate platform, we've established ourselves as the trusted partner
                 for high-net-worth individuals, institutional investors, and discerning property buyers and sellers.
@@ -185,7 +185,7 @@ export default function AboutPage() {
       </section>
 
       {/* Global Network */}
-      <section className="py-16 md:py-24 bg-gradient-to-br from-slate-50 to-slate-100">
+      {/* <section className="py-16 md:py-24 bg-gradient-to-br from-slate-50 to-slate-100">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="order-2 lg:order-1">
@@ -224,7 +224,7 @@ export default function AboutPage() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Our Values */}
       <section className="py-16 md:py-24 bg-white">
@@ -242,10 +242,10 @@ export default function AboutPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="bg-white p-8 rounded-2xl shadow-lg border border-slate-200">
-              <div className="bg-gradient-to-br from-navy-100 to-navy-200 p-3 rounded-2xl w-12 h-12 flex items-center justify-center mb-6">
-                <Shield className="h-6 w-6 text-navy-600" />
-              </div>
-              <h3 className="text-xl font-bold mb-3 text-navy-900">Trust & Integrity</h3>
+                          <div className="bg-gradient-to-br from-[#011337]/20 to-[#011337]/30 p-3 rounded-2xl w-12 h-12 flex items-center justify-center mb-6">
+              <Shield className="h-6 w-6 text-[#011337]" />
+            </div>
+            <h3 className="text-xl font-bold mb-3 text-[#011337]">Trust & Integrity</h3>
               <p className="text-slate-600">
                 We prioritize transparency and honesty in every transaction, ensuring our clients make informed
                 decisions with complete confidence.
@@ -275,10 +275,10 @@ export default function AboutPage() {
             </div>
 
             <div className="bg-white p-8 rounded-2xl shadow-lg border border-slate-200">
-              <div className="bg-gradient-to-br from-navy-100 to-navy-200 p-3 rounded-2xl w-12 h-12 flex items-center justify-center mb-6">
-                <Target className="h-6 w-6 text-navy-600" />
-              </div>
-              <h3 className="text-xl font-bold mb-3 text-navy-900">Innovation</h3>
+                          <div className="bg-gradient-to-br from-[#011337]/20 to-[#011337]/30 p-3 rounded-2xl w-12 h-12 flex items-center justify-center mb-6">
+              <Target className="h-6 w-6 text-[#011337]" />
+            </div>
+            <h3 className="text-xl font-bold mb-3 text-[#011337]">Innovation</h3>
               <p className="text-slate-600">
                 We continuously embrace new technologies and approaches to enhance the property buying and selling
                 experience.
@@ -288,15 +288,15 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Our Approach */}
+      {/* Our Approach
       <section className="py-16 md:py-24 bg-gradient-to-br from-slate-50 to-slate-100">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="order-2 lg:order-1">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="bg-gradient-to-br from-navy-50 to-navy-100 p-6 rounded-2xl border border-navy-200">
-                  <CheckCircle2 className="h-6 w-6 text-navy-600 mb-4" />
-                  <h3 className="text-lg font-bold mb-2 text-navy-900">Premium Curation</h3>
+                            <div className="bg-gradient-to-br from-[#011337]/10 to-[#011337]/20 p-6 rounded-2xl border border-[#011337]/20">
+              <CheckCircle2 className="h-6 w-6 text-[#011337] mb-4" />
+              <h3 className="text-lg font-bold mb-2 text-[#011337]">Premium Curation</h3>
                   <p className="text-slate-600 text-sm">
                     We carefully select only the finest properties that meet our strict criteria for luxury, location,
                     and investment potential.
@@ -321,9 +321,9 @@ export default function AboutPage() {
                   </p>
                 </div>
 
-                <div className="bg-gradient-to-br from-navy-50 to-navy-100 p-6 rounded-2xl border border-navy-200">
-                  <CheckCircle2 className="h-6 w-6 text-navy-600 mb-4" />
-                  <h3 className="text-lg font-bold mb-2 text-navy-900">Personalized Service</h3>
+                            <div className="bg-gradient-to-br from-[#011337]/10 to-[#011337]/20 p-6 rounded-2xl border border-[#011337]/20">
+              <CheckCircle2 className="h-6 w-6 text-[#011337] mb-4" />
+              <h3 className="text-lg font-bold mb-2 text-[#011337]">Personalized Service</h3>
                   <p className="text-slate-600 text-sm">
                     Our dedicated relationship managers provide white-glove service tailored to each client's unique
                     requirements.
@@ -352,7 +352,7 @@ export default function AboutPage() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Our Team */}
       <section className="py-16 md:py-24 bg-white">
@@ -377,7 +377,7 @@ export default function AboutPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 md:py-24 bg-gradient-to-br from-navy-900 via-navy-800 to-slate-900 text-white">
+      <section className="py-16 md:py-24 bg-gradient-to-br from-[#011337] via-[#011337]/90 to-[#011337]/80 text-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-bold mb-6">Join Us in Building a Premium Future</h2>

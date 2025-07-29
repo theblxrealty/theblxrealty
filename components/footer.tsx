@@ -5,10 +5,11 @@ import { Input } from "@/components/ui/input"
 
 export default function Footer() {
   return (
-    <footer className="bg-gradient-to-br from-navy-900 via-navy-800 to-slate-900 text-white">
+    <footer className="bg-gradient-to-br from-[#011337] via-[#011337]/90 to-[#011337]/80 text-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-          <div>
+        <div className="flex flex-col lg:flex-row justify-between gap-10">
+          {/* Section 1: Company Info & Social Links */}
+          <div className="lg:w-1/3">
             <Link href="/" className="flex items-center mb-6">
               <div className="p-2 rounded-xl bg-gold-500/20 backdrop-blur-sm">
                 <Crown className="h-6 w-6 text-gold-400" />
@@ -40,7 +41,8 @@ export default function Footer() {
             </div>
           </div>
 
-          <div>
+          {/* Section 2: Quick Links */}
+          <div className="lg:w-1/3 flex flex-col items-center text-center">
             <h3 className="text-lg font-bold mb-6 text-gold-400">Quick Links</h3>
             <ul className="space-y-4">
               <li>
@@ -71,7 +73,8 @@ export default function Footer() {
             </ul>
           </div>
 
-          <div>
+          {/* Section 3: Contact Us */}
+          <div className="lg:w-1/3">
             <h3 className="text-lg font-bold mb-6 text-gold-400">Contact Us</h3>
             <ul className="space-y-4">
               <li className="flex">
@@ -87,23 +90,6 @@ export default function Footer() {
                 <span className="text-slate-300">info@11square.com</span>
               </li>
             </ul>
-          </div>
-
-          <div>
-            <h3 className="text-lg font-bold mb-6 text-gold-400">Newsletter</h3>
-            <p className="text-slate-300 mb-4">
-              Subscribe to our newsletter for exclusive property updates and luxury market insights in Bangalore.
-            </p>
-            <form className="space-y-3">
-              <Input
-                type="email"
-                placeholder="Your email address"
-                className="bg-navy-800/50 border-slate-600 text-white placeholder:text-slate-400 focus:border-gold-400"
-              />
-              <Button variant="premium" className="w-full">
-                Subscribe
-              </Button>
-            </form>
           </div>
         </div>
 
