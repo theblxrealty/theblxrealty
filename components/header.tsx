@@ -2,9 +2,10 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
+import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
-import { Menu, X, Phone, Crown } from "lucide-react"
+import { Menu, X, Phone } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import ThemeToggle from "@/components/theme-toggle"
 
@@ -12,7 +13,6 @@ const navItems = [
   { name: "Home", path: "/" },
   { name: "Properties", path: "/properties" },
   { name: "About", path: "/about" },
-  { name: "Blog", path: "/blog" },
   { name: "Contact", path: "/contact" },
 ]
 
@@ -36,17 +36,23 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white/95 backdrop-blur-md shadow-lg dark:bg-slate-900/95 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-gradient-to-r from-slate-800 to-slate-900 backdrop-blur-md shadow-lg dark:from-slate-900 dark:to-slate-800 ${
         isScrolled ? "py-2" : "py-4"
       }`}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           <Link href="/" className="flex items-center">
-            <div className="p-2 rounded-xl bg-navy-600">
-              <Crown className="h-6 w-6 text-gold-400" />
+            <div className="relative w-12 h-12 rounded-xl overflow-hidden">
+              <Image
+                src="/logo.jpg"
+                alt="11Square Logo"
+                fill
+                className="object-cover"
+                priority
+              />
             </div>
-            <span className="ml-3 text-xl font-bold text-navy-900 dark:text-white">11Square</span>
+            <span className="ml-3 text-xl font-bold text-white">11Square</span>
             <span className="ml-2 text-xs px-2 py-1 rounded-full bg-gold-100 text-gold-800 dark:bg-gold-900 dark:text-gold-200">
               PREMIUM
             </span>
@@ -59,8 +65,8 @@ export default function Header() {
                 href={item.path}
                 className={`text-sm font-medium transition-colors relative ${
                   pathname === item.path
-                    ? "text-navy-600 dark:text-gold-400 font-bold"
-                    : "text-slate-700 dark:text-slate-300 hover:text-navy-600 dark:hover:text-gold-400"
+                    ? "text-gold-400 font-bold"
+                    : "text-slate-200 hover:text-gold-400"
                 }`}
               >
                 {item.name}
@@ -75,14 +81,12 @@ export default function Header() {
           </nav>
 
           <div className="hidden md:flex items-center space-x-4">
-            <div className="flex items-center text-slate-700 dark:text-slate-300">
+            <div className="flex items-center text-slate-200">
               <Phone className="h-4 w-4 mr-2" />
               <span className="text-sm font-medium">+91 98765 43210</span>
             </div>
 
-            
-
-            <Button className="bg-gradient-to-r from-navy-600 to-navy-700 hover:from-navy-700 hover:to-navy-800 text-white shadow-lg">
+            <Button className="bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-600 hover:to-gold-700 text-white shadow-lg">
               Schedule Visit
             </Button>
 
@@ -93,9 +97,9 @@ export default function Header() {
             <ThemeToggle />
             <button className="md:hidden" onClick={() => setMobileMenuOpen(!mobileMenuOpen)} aria-label="Toggle menu">
               {mobileMenuOpen ? (
-                <X className="h-6 w-6 text-navy-900 dark:text-white" />
+                <X className="h-6 w-6 text-white" />
               ) : (
-                <Menu className="h-6 w-6 text-navy-900 dark:text-white" />
+                <Menu className="h-6 w-6 text-white" />
               )}
             </button>
           </div>
@@ -108,7 +112,7 @@ export default function Header() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-white/95 backdrop-blur-md border-t border-slate-200 dark:bg-slate-900/95 dark:border-slate-700"
+            className="md:hidden bg-slate-800/95 backdrop-blur-md border-t border-slate-700"
           >
             <div className="container mx-auto px-4 py-4 flex flex-col space-y-4">
               {navItems.map((item) => (
@@ -116,7 +120,7 @@ export default function Header() {
                   key={item.name}
                   href={item.path}
                   className={`text-base py-2 ${
-                    pathname === item.path ? "text-navy-600 dark:text-gold-400 font-medium" : "text-slate-700 dark:text-slate-300 hover:text-navy-600 dark:hover:text-gold-400"
+                    pathname === item.path ? "text-gold-400 font-medium" : "text-slate-200 hover:text-gold-400"
                   }`}
                   onClick={() => setMobileMenuOpen(false)}
                 >
@@ -124,13 +128,13 @@ export default function Header() {
                 </Link>
               ))}
 
-              <div className="pt-4 border-t border-slate-200 dark:border-slate-700">
-                <div className="flex items-center text-slate-700 dark:text-slate-300 mb-4">
+              <div className="pt-4 border-t border-slate-700">
+                <div className="flex items-center text-slate-200 mb-4">
                   <Phone className="h-4 w-4 mr-2" />
                   <span className="text-sm">+91 98765 43210</span>
                 </div>
 
-                <Button className="w-full bg-gradient-to-r from-navy-600 to-navy-700 hover:from-navy-700 hover:to-navy-800 text-white">
+                <Button className="w-full bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-600 hover:to-gold-700 text-white">
                   Schedule Visit
                 </Button>
               </div>
