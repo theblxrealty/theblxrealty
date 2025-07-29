@@ -129,15 +129,16 @@ const blogPosts = [
   },
 ]
 
-export default function BlogPostPage({ params }) {
-  const post = blogPosts.find((p) => p.id.toString() === params.id) || blogPosts[0]
+export default async function BlogPostPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
+  const post = blogPosts.find((p) => p.id.toString() === id) || blogPosts[0]
 
   // Get related posts
   const relatedPosts = post.relatedPosts
     ? blogPosts.filter((p) => post.relatedPosts.includes(p.id))
     : blogPosts.filter((p) => p.id !== post.id && p.category === post.category).slice(0, 3)
 
-  const getCategoryColor = (category) => {
+  const getCategoryColor = (category: string) => {
     switch (category) {
       case "Buying Guide":
         return "bg-navy-600"

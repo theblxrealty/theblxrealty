@@ -58,8 +58,9 @@ const properties = [
   },
 ]
 
-export default function PropertyDetailPage({ params }) {
-  const property = properties.find((p) => p.id.toString() === params.id) || properties[0]
+export default async function PropertyDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
+  const property = properties.find((p) => p.id.toString() === id) || properties[0]
 
   return (
     <div className="flex flex-col min-h-screen pt-16">
