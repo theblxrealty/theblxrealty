@@ -36,9 +36,10 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-gradient-to-r from-slate-800 to-slate-900 backdrop-blur-md shadow-lg dark:from-slate-900 dark:to-slate-800 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 backdrop-blur-md shadow-lg ${
         isScrolled ? "py-2" : "py-4"
       }`}
+      style={{ backgroundColor: 'rgba(1, 19, 55, 255)' }}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
@@ -53,9 +54,6 @@ export default function Header() {
               />
             </div>
             <span className="ml-3 text-xl font-bold text-white">11Square</span>
-            <span className="ml-2 text-xs px-2 py-1 rounded-full bg-gold-100 text-gold-800 dark:bg-gold-900 dark:text-gold-200">
-              PREMIUM
-            </span>
           </Link>
 
           <nav className="hidden md:flex items-center space-x-8">
@@ -112,7 +110,8 @@ export default function Header() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-slate-800/95 backdrop-blur-md border-t border-slate-700"
+            className="md:hidden backdrop-blur-md border-t border-slate-700"
+            style={{ backgroundColor: 'rgba(1, 19, 55, 0.95)' }}
           >
             <div className="container mx-auto px-4 py-4 flex flex-col space-y-4">
               {navItems.map((item) => (
