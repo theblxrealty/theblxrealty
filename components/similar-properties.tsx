@@ -1,9 +1,24 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo } from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import PropertyCard from "@/components/property-card"
+
+interface Property {
+  id: number
+  title: string
+  location: string
+  image: string
+  beds?: number
+  baths?: number
+  sqft: number
+  amenities?: string[]
+  isNew?: boolean
+  featured?: boolean
+  type: string
+  rating?: number
+}
 
 // Sample property data
 const properties = [
@@ -11,63 +26,70 @@ const properties = [
     id: 2,
     title: "Verdant Villa",
     location: "Green Valley, GV",
-
     image: "/placeholder.svg?height=600&width=800",
     beds: 5,
     baths: 4,
     sqft: 3500,
-    ecoFeatures: ["Geothermal Heating", "Smart Home System", "Living Wall"],
+    amenities: ["Geothermal Heating", "Smart Home System", "Living Wall"],
     isNew: false,
     featured: true,
+    type: "Villa",
+    rating: 4.8,
   },
   {
     id: 3,
     title: "Oasis Apartments",
     location: "Sustainable Heights, SH",
-
     image: "/placeholder.svg?height=600&width=800",
     beds: 3,
     baths: 2,
     sqft: 1800,
-    ecoFeatures: ["Energy-Efficient Appliances", "Sustainable Materials", "Community Garden"],
+    amenities: ["Energy-Efficient Appliances", "Sustainable Materials", "Community Garden"],
     isNew: true,
     featured: false,
+    type: "Apartment",
+    rating: 4.5,
   },
   {
     id: 4,
     title: "Harmony House",
     location: "Eco City, EC",
-
     image: "/placeholder.svg?height=600&width=800",
     beds: 4,
     baths: 3.5,
     sqft: 3200,
-    ecoFeatures: ["Solar Panels", "Greywater System", "Passive Design"],
+    amenities: ["Solar Panels", "Greywater System", "Passive Design"],
     isNew: false,
     featured: true,
+    type: "House",
+    rating: 4.9,
   },
   {
     id: 5,
     title: "Serenity Lofts",
     location: "Urban Eco District, UED",
-
     image: "/placeholder.svg?height=600&width=800",
     beds: 2,
     baths: 2,
     sqft: 1600,
-    ecoFeatures: ["Green Roof", "Energy-Efficient Windows", "Recycled Materials"],
+    amenities: ["Green Roof", "Energy-Efficient Windows", "Recycled Materials"],
     isNew: true,
     featured: false,
+    type: "Loft",
+    rating: 4.6,
   },
 ]
 
-export default function SimilarProperties({ currentPropertyId }) {
-  const [visibleProperties, setVisibleProperties] = useState([])
+export default function SimilarProperties({ currentPropertyId }: { currentPropertyId: number }) {
+  const [visibleProperties, setVisibleProperties] = useState<Property[]>([])
   const [startIndex, setStartIndex] = useState(0)
   const [visibleCount, setVisibleCount] = useState(3)
 
   // Filter out the current property and get similar ones
-  const similarProperties = properties.filter((p) => p.id !== currentPropertyId)
+  const similarProperties = useMemo(() => 
+    properties.filter((p) => p.id !== currentPropertyId), 
+    [currentPropertyId]
+  )
 
   useEffect(() => {
     // Update visible count based on screen size

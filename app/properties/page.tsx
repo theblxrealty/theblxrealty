@@ -1,3 +1,7 @@
+"use client"
+
+import { useState, useEffect, useMemo } from "react"
+import { useSearchParams } from "next/navigation"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -6,26 +10,41 @@ import PropertyCard from "@/components/property-card"
 
 // Sample property data for Bangalore
 const properties = [
+  // Luxury Villas
   {
     id: 1,
-    title: "Luxury Villa in Koramangala",
+    title: "Ultra Luxury Villa in Koramangala",
     location: "Koramangala 5th Block, Bangalore",
-
     image: "/placeholder.svg?height=600&width=800",
-    beds: 4,
-    baths: 3,
-    sqft: 2800,
-    amenities: ["Swimming Pool", "Gym", "Security", "Parking"],
+    beds: 5,
+    baths: 4,
+    sqft: 4500,
+    amenities: ["Private Pool", "Home Theater", "Wine Cellar", "Garden"],
     isNew: true,
     featured: true,
-    type: "Villa",
+    type: "luxury-villas",
     rating: 4.9,
   },
   {
     id: 2,
-    title: "Premium Apartment in Indiranagar",
+    title: "Prestige Villa in Whitefield",
+    location: "Whitefield, Bangalore",
+    image: "/placeholder.svg?height=600&width=800",
+    beds: 4,
+    baths: 3,
+    sqft: 3800,
+    amenities: ["Swimming Pool", "Gym", "Security", "Parking"],
+    isNew: false,
+    featured: true,
+    type: "luxury-villas",
+    rating: 4.8,
+  },
+  
+  // Flats
+  {
+    id: 3,
+    title: "Premium Flat in Indiranagar",
     location: "Indiranagar 100 Feet Road, Bangalore",
-
     image: "/placeholder.svg?height=600&width=800",
     beds: 3,
     baths: 2,
@@ -33,14 +52,13 @@ const properties = [
     amenities: ["Club House", "Garden", "Power Backup", "Lift"],
     isNew: false,
     featured: true,
-    type: "Apartment",
-    rating: 4.8,
+    type: "flats",
+    rating: 4.7,
   },
   {
-    id: 3,
-    title: "Modern Flat in Whitefield",
-    location: "Whitefield Main Road, Bangalore",
-
+    id: 4,
+    title: "Modern Flat in Electronic City",
+    location: "Electronic City Phase 1, Bangalore",
     image: "/placeholder.svg?height=600&width=800",
     beds: 2,
     baths: 2,
@@ -48,87 +66,199 @@ const properties = [
     amenities: ["IT Park Nearby", "Metro Access", "Shopping Mall", "Hospital"],
     isNew: true,
     featured: false,
-    type: "Apartment",
-    rating: 4.7,
-  },
-  {
-    id: 4,
-    title: "Spacious House in HSR Layout",
-    location: "HSR Layout Sector 2, Bangalore",
-
-    image: "/placeholder.svg?height=600&width=800",
-    beds: 3,
-    baths: 3,
-    sqft: 2200,
-    amenities: ["Garden", "Car Parking", "Gated Community", "Park View"],
-    isNew: false,
-    featured: true,
-    type: "Independent House",
+    type: "flats",
     rating: 4.6,
   },
   {
     id: 5,
-    title: "Studio Apartment in Electronic City",
-    location: "Electronic City Phase 1, Bangalore",
-
-    image: "/placeholder.svg?height=600&width=800",
-    beds: 1,
-    baths: 1,
-    sqft: 650,
-    amenities: ["Tech Parks Nearby", "Bus Connectivity", "Food Court", "ATM"],
-    isNew: true,
-    featured: false,
-    type: "Studio",
-    rating: 4.5,
-  },
-  {
-    id: 6,
-    title: "Penthouse in UB City",
+    title: "Luxury Flat in UB City",
     location: "UB City Mall, Bangalore",
-
-    image: "/placeholder.svg?height=600&width=800",
-    beds: 4,
-    baths: 4,
-    sqft: 3500,
-    amenities: ["City View", "Premium Location", "Concierge", "Valet Parking"],
-    isNew: false,
-    featured: true,
-    type: "Penthouse",
-    rating: 4.9,
-  },
-  {
-    id: 7,
-    title: "Family Home in Jayanagar",
-    location: "Jayanagar 4th Block, Bangalore",
-
-    image: "/placeholder.svg?height=600&width=800",
-    beds: 3,
-    baths: 2,
-    sqft: 1800,
-    amenities: ["Traditional Area", "Schools Nearby", "Parks", "Metro Station"],
-    isNew: false,
-    featured: false,
-    type: "Independent House",
-    rating: 4.4,
-  },
-  {
-    id: 8,
-    title: "Luxury Flat in Brigade Road",
-    location: "Brigade Road, Bangalore",
-
     image: "/placeholder.svg?height=600&width=800",
     beds: 3,
     baths: 3,
     sqft: 2100,
-    amenities: ["Shopping District", "Restaurants", "Entertainment", "Central Location"],
+    amenities: ["City View", "Premium Location", "Concierge", "Valet Parking"],
     isNew: true,
     featured: true,
-    type: "Apartment",
+    type: "flats",
     rating: 4.8,
+  },
+
+  // New Building
+  {
+    id: 6,
+    title: "Brand New Apartment Complex",
+    location: "HSR Layout, Bangalore",
+    image: "/placeholder.svg?height=600&width=800",
+    beds: 3,
+    baths: 3,
+    sqft: 2200,
+    amenities: ["Brand New", "Smart Home", "Gated Community", "Park View"],
+    isNew: true,
+    featured: true,
+    type: "new-building",
+    rating: 4.9,
+  },
+  {
+    id: 7,
+    title: "New Construction in Marathahalli",
+    location: "Marathahalli, Bangalore",
+    image: "/placeholder.svg?height=600&width=800",
+    beds: 2,
+    baths: 2,
+    sqft: 1400,
+    amenities: ["Under Construction", "Modern Design", "Green Building", "Tech Park"],
+    isNew: true,
+    featured: false,
+    type: "new-building",
+    rating: 4.5,
+  },
+
+  // Farm House
+  {
+    id: 8,
+    title: "Serene Farm House in Devanahalli",
+    location: "Devanahalli, Bangalore",
+    image: "/placeholder.svg?height=600&width=800",
+    beds: 4,
+    baths: 3,
+    sqft: 5000,
+    amenities: ["Large Garden", "Organic Farm", "Guest House", "Privacy"],
+    isNew: false,
+    featured: true,
+    type: "farm-house",
+    rating: 4.7,
+  },
+  {
+    id: 9,
+    title: "Luxury Farm House in Kanakapura",
+    location: "Kanakapura Road, Bangalore",
+    image: "/placeholder.svg?height=600&width=800",
+    beds: 6,
+    baths: 5,
+    sqft: 6500,
+    amenities: ["Resort Style", "Private Lake", "Horse Riding", "Event Space"],
+    isNew: false,
+    featured: true,
+    type: "farm-house",
+    rating: 4.8,
+  },
+
+  // Sites
+  {
+    id: 10,
+    title: "Premium Plot in Sarjapur",
+    location: "Sarjapur Road, Bangalore",
+    image: "/placeholder.svg?height=600&width=800",
+    sqft: 2400,
+    amenities: ["RERA Approved", "Clear Title", "Gated Layout", "Near IT Hub"],
+    isNew: true,
+    featured: false,
+    type: "sites",
+    rating: 4.6,
+  },
+  {
+    id: 11,
+    title: "Investment Plot in Hennur",
+    location: "Hennur Main Road, Bangalore",
+    image: "/placeholder.svg?height=600&width=800",
+    sqft: 1800,
+    amenities: ["Future Metro", "Developing Area", "Investment Potential", "Good Connectivity"],
+    isNew: false,
+    featured: false,
+    type: "sites",
+    rating: 4.4,
+  },
+
+  // Commercial
+  {
+    id: 12,
+    title: "Premium Office Space in Koramangala",
+    location: "Koramangala 80 Feet Road, Bangalore",
+    image: "/placeholder.svg?height=600&width=800",
+    sqft: 3000,
+    amenities: ["IT Ready", "Parking", "Cafeteria", "Conference Rooms"],
+    isNew: false,
+    featured: true,
+    type: "commercial",
+    rating: 4.7,
+  },
+  {
+    id: 13,
+    title: "Retail Space in Brigade Road",
+    location: "Brigade Road, Bangalore",
+    image: "/placeholder.svg?height=600&width=800",
+    sqft: 1500,
+    amenities: ["High Footfall", "Shopping District", "Parking", "Prime Location"],
+    isNew: true,
+    featured: true,
+    type: "commercial",
+    rating: 4.8,
+  },
+
+  // Investment
+  {
+    id: 14,
+    title: "High ROI Apartment in Bommanahalli",
+    location: "Bommanahalli, Bangalore",
+    image: "/placeholder.svg?height=600&width=800",
+    beds: 2,
+    baths: 2,
+    sqft: 1100,
+    amenities: ["Rental Guarantee", "High ROI", "IT Corridor", "Metro Nearby"],
+    isNew: false,
+    featured: true,
+    type: "investment",
+    rating: 4.6,
+  },
+  {
+    id: 15,
+    title: "Investment Villa in Yelahanka",
+    location: "Yelahanka New Town, Bangalore",
+    image: "/placeholder.svg?height=600&width=800",
+    beds: 3,
+    baths: 3,
+    sqft: 2500,
+    amenities: ["Capital Appreciation", "Rental Income", "Gated Community", "Airport Proximity"],
+    isNew: true,
+    featured: false,
+    type: "investment",
+    rating: 4.5,
   },
 ]
 
+// Property type display names mapping
+const typeDisplayNames: { [key: string]: string } = {
+  "luxury-villas": "Luxury Villas",
+  "flats": "Flats",
+  "new-building": "New Buildings",
+  "farm-house": "Farm Houses",
+  "sites": "Sites",
+  "commercial": "Commercial Properties",
+  "investment": "Investment Properties",
+}
+
 export default function PropertiesPage() {
+  const searchParams = useSearchParams()
+  const selectedType = searchParams.get('type')
+  
+  // Filter properties based on selected type
+  const filteredProperties = useMemo(() => {
+    if (!selectedType) {
+      return properties
+    }
+    return properties.filter(property => property.type === selectedType)
+  }, [selectedType])
+
+  // Get page title based on selected type
+  const pageTitle = selectedType 
+    ? `${typeDisplayNames[selectedType]} in Bangalore`
+    : "Premium Properties in Bangalore"
+
+  const pageDescription = selectedType
+    ? `Discover premium ${typeDisplayNames[selectedType].toLowerCase()} for sale across Bangalore's most prestigious locations`
+    : "Discover your perfect luxury home from our exclusive collection of premium properties across Bangalore's most prestigious locations"
+
   return (
     <div className="flex flex-col min-h-screen pt-16">
       {/* Hero Section */}
@@ -144,12 +274,18 @@ export default function PropertiesPage() {
         <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4" style={{fontFamily: 'Tiempos Headline, serif'}}>
-              Premium Properties in Bangalore
+              {pageTitle}
             </h2>
             <p className="text-lg md:text-xl text-slate-200 mb-8">
-              Discover your perfect luxury home from our exclusive collection of premium properties across Bangalore's
-              most prestigious locations
+              {pageDescription}
             </p>
+            {selectedType && (
+              <div className="mt-4">
+                <span className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-white/10 text-white border border-white/20">
+                  Showing {filteredProperties.length} {typeDisplayNames[selectedType].toLowerCase()}
+                </span>
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -165,7 +301,14 @@ export default function PropertiesPage() {
       <section className="py-12 md:py-16 bg-gradient-to-br from-slate-50 to-slate-100">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center mb-8">
-            <h2 className="text-2xl md:text-3xl font-bold text-navy-900">Available Properties</h2>
+            <div>
+              <h2 className="text-2xl md:text-3xl font-bold text-navy-900">
+                {selectedType ? typeDisplayNames[selectedType] : "Available Properties"}
+              </h2>
+              <p className="text-slate-600 mt-2">
+                {filteredProperties.length} properties found{selectedType ? ` in ${typeDisplayNames[selectedType].toLowerCase()}` : ""}
+              </p>
+            </div>
             <div className="flex items-center gap-2">
               <span className="text-slate-600">Sort by:</span>
               <Select defaultValue="newest">
@@ -174,18 +317,32 @@ export default function PropertiesPage() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="newest">Newest</SelectItem>
-                  
                   <SelectItem value="size">Size</SelectItem>
                 </SelectContent>
               </Select>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {properties.map((property) => (
-              <PropertyCard key={property.id} property={property} />
-            ))}
-          </div>
+          {filteredProperties.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {filteredProperties.map((property) => (
+                <PropertyCard key={property.id} property={property} />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-16">
+              <h3 className="text-xl font-semibold text-slate-700 mb-2">No properties found</h3>
+              <p className="text-slate-500 mb-4">
+                {selectedType 
+                  ? `No ${typeDisplayNames[selectedType].toLowerCase()} are currently available.`
+                  : "No properties match your current filters."
+                }
+              </p>
+              <Button variant="outline" onClick={() => window.location.href = '/properties'}>
+                View All Properties
+              </Button>
+            </div>
+          )}
 
           <div className="mt-12 flex justify-center">
             <div className="flex items-center gap-2">
