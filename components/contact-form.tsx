@@ -136,14 +136,7 @@ export default function ContactForm() {
         </Button>
       </form>
 
-      <div className="mt-6 text-center">
-        <p className="text-sm text-slate-500 dark:text-slate-400">
-          By submitting this form, you agree to our{" "}
-          <a href="/privacy" className="text-navy-600 dark:text-gold-400 hover:underline">
-            Privacy Policy
-          </a>
-        </p>
-      </div>
+
     </div>
   )
 }
