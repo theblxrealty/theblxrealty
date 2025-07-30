@@ -12,7 +12,6 @@ interface Property {
   id: number
   title: string
   location: string
-  price: string
   image: string
   beds?: number
   baths?: number
@@ -55,11 +54,7 @@ export default function PropertyCard({ property }: { property: Property }) {
           </Badge>
         )}
 
-        <div className="absolute bottom-4 left-4">
-          <Badge variant="outline" className="bg-black/50 text-white border-0 backdrop-blur-sm">
-            {property.price}
-          </Badge>
-        </div>
+
 
         <div className="absolute top-4 right-4 flex gap-2">
           <Badge variant="secondary" className="bg-white/90 dark:bg-slate-700/90 text-navy-800 dark:text-white">

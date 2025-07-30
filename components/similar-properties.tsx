@@ -11,7 +11,7 @@ const properties = [
     id: 2,
     title: "Verdant Villa",
     location: "Green Valley, GV",
-    price: "$1,850,000",
+
     image: "/placeholder.svg?height=600&width=800",
     beds: 5,
     baths: 4,
@@ -24,7 +24,7 @@ const properties = [
     id: 3,
     title: "Oasis Apartments",
     location: "Sustainable Heights, SH",
-    price: "$950,000",
+
     image: "/placeholder.svg?height=600&width=800",
     beds: 3,
     baths: 2,
@@ -37,7 +37,7 @@ const properties = [
     id: 4,
     title: "Harmony House",
     location: "Eco City, EC",
-    price: "$1,450,000",
+
     image: "/placeholder.svg?height=600&width=800",
     beds: 4,
     baths: 3.5,
@@ -50,7 +50,7 @@ const properties = [
     id: 5,
     title: "Serenity Lofts",
     location: "Urban Eco District, UED",
-    price: "$875,000",
+
     image: "/placeholder.svg?height=600&width=800",
     beds: 2,
     baths: 2,

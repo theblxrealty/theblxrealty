@@ -14,7 +14,7 @@ const properties = [
     id: 1,
     title: "Luxury Villa in Koramangala",
     location: "Koramangala 5th Block, Bangalore",
-    price: "₹2.5 Crores",
+
     image: "/placeholder.svg?height=600&width=800",
     beds: 4,
     baths: 3,
@@ -30,7 +30,7 @@ const properties = [
     id: 2,
     title: "Commercial Office Space",
     location: "Outer Ring Road, Bangalore",
-    price: "₹1.2 Crores",
+
     image: "/placeholder.svg?height=600&width=800",
     beds: null,
     baths: 4,
@@ -46,7 +46,7 @@ const properties = [
     id: 3,
     title: "Residential Plot in Whitefield",
     location: "Whitefield, Bangalore",
-    price: "₹85 Lakhs",
+
     image: "/placeholder.svg?height=600&width=800",
     beds: null,
     baths: null,
@@ -62,7 +62,7 @@ const properties = [
     id: 4,
     title: "Retail Shop in Commercial Street",
     location: "Commercial Street, Bangalore",
-    price: "₹75 Lakhs",
+
     image: "/placeholder.svg?height=600&width=800",
     beds: null,
     baths: 1,
@@ -78,7 +78,7 @@ const properties = [
     id: 5,
     title: "3BHK Apartment in HSR Layout",
     location: "HSR Layout Sector 2, Bangalore",
-    price: "₹1.6 Crores",
+
     image: "/placeholder.svg?height=600&width=800",
     beds: 3,
     baths: 3,
@@ -94,7 +94,7 @@ const properties = [
     id: 6,
     title: "Warehouse in Electronic City",
     location: "Electronic City Phase 2, Bangalore",
-    price: "₹3.2 Crores",
+
     image: "/placeholder.svg?height=600&width=800",
     beds: null,
     baths: 2,
@@ -172,11 +172,7 @@ export default function FeaturedProperties() {
                   New Listing
                 </Badge>
               )}
-              <div className="absolute bottom-4 left-4">
-                <Badge variant="outline" className="bg-black/50 text-white border-0 backdrop-blur-sm">
-                  {property.price}
-                </Badge>
-              </div>
+
               <div className="absolute top-4 right-4 flex flex-col gap-2">
                 <Badge className={`${getCategoryColor(property.category)} text-white`}>{property.category}</Badge>
                 <Badge variant="secondary" className="bg-white/90 text-navy-800">

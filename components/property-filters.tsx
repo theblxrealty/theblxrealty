@@ -12,15 +12,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 
 export default function PropertyFilters() {
   const [isExpanded, setIsExpanded] = useState(false)
-  const [priceRange, setPriceRange] = useState([5000000, 50000000]) // 50 lakhs to 5 crores
 
-  const formatPrice = (price) => {
-    if (price >= 10000000) {
-      return `₹${(price / 10000000).toFixed(1)} Cr`
-    } else {
-      return `₹${(price / 100000).toFixed(0)} L`
-    }
-  }
 
   return (
     <div className="bg-white rounded-2xl shadow-lg border border-slate-200 p-6">
@@ -70,24 +62,7 @@ export default function PropertyFilters() {
       {/* Advanced Filters */}
       {isExpanded && (
         <div className="mt-6 pt-6 border-t border-slate-200 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="space-y-4">
-            <h3 className="font-medium text-navy-900">Price Range</h3>
-            <div className="px-2">
-              <Slider
-                defaultValue={[5000000, 50000000]}
-                min={1000000}
-                max={100000000}
-                step={500000}
-                value={priceRange}
-                onValueChange={setPriceRange}
-                className="my-6"
-              />
-              <div className="flex justify-between text-sm text-slate-600">
-                <span>{formatPrice(priceRange[0])}</span>
-                <span>{formatPrice(priceRange[1])}</span>
-              </div>
-            </div>
-          </div>
+
 
           <div className="space-y-4">
             <h3 className="font-medium text-navy-900">Bedrooms & Bathrooms</h3>

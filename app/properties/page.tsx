@@ -1,3 +1,4 @@
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import PropertyFilters from "@/components/property-filters"
@@ -9,7 +10,7 @@ const properties = [
     id: 1,
     title: "Luxury Villa in Koramangala",
     location: "Koramangala 5th Block, Bangalore",
-    price: "₹2.5 Crores",
+
     image: "/placeholder.svg?height=600&width=800",
     beds: 4,
     baths: 3,
@@ -24,7 +25,7 @@ const properties = [
     id: 2,
     title: "Premium Apartment in Indiranagar",
     location: "Indiranagar 100 Feet Road, Bangalore",
-    price: "₹1.8 Crores",
+
     image: "/placeholder.svg?height=600&width=800",
     beds: 3,
     baths: 2,
@@ -39,7 +40,7 @@ const properties = [
     id: 3,
     title: "Modern Flat in Whitefield",
     location: "Whitefield Main Road, Bangalore",
-    price: "₹95 Lakhs",
+
     image: "/placeholder.svg?height=600&width=800",
     beds: 2,
     baths: 2,
@@ -54,7 +55,7 @@ const properties = [
     id: 4,
     title: "Spacious House in HSR Layout",
     location: "HSR Layout Sector 2, Bangalore",
-    price: "₹1.6 Crores",
+
     image: "/placeholder.svg?height=600&width=800",
     beds: 3,
     baths: 3,
@@ -69,7 +70,7 @@ const properties = [
     id: 5,
     title: "Studio Apartment in Electronic City",
     location: "Electronic City Phase 1, Bangalore",
-    price: "₹45 Lakhs",
+
     image: "/placeholder.svg?height=600&width=800",
     beds: 1,
     baths: 1,
@@ -84,7 +85,7 @@ const properties = [
     id: 6,
     title: "Penthouse in UB City",
     location: "UB City Mall, Bangalore",
-    price: "₹5.2 Crores",
+
     image: "/placeholder.svg?height=600&width=800",
     beds: 4,
     baths: 4,
@@ -99,7 +100,7 @@ const properties = [
     id: 7,
     title: "Family Home in Jayanagar",
     location: "Jayanagar 4th Block, Bangalore",
-    price: "₹1.2 Crores",
+
     image: "/placeholder.svg?height=600&width=800",
     beds: 3,
     baths: 2,
@@ -114,7 +115,7 @@ const properties = [
     id: 8,
     title: "Luxury Flat in Brigade Road",
     location: "Brigade Road, Bangalore",
-    price: "₹2.8 Crores",
+
     image: "/placeholder.svg?height=600&width=800",
     beds: 3,
     baths: 3,
@@ -131,15 +132,20 @@ export default function PropertiesPage() {
   return (
     <div className="flex flex-col min-h-screen pt-16">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-navy-900 via-navy-800 to-slate-900 text-white py-16 md:py-24">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="relative bg-gradient-to-br from-[#011337] via-[#011337]/90 to-[#011337]/80 text-white py-20 md:py-28 h-[80vh]">
+        <div className="absolute inset-0 overflow-hidden">
+          <Image
+            src="/banner3.jpeg?height=1080&width=1920"
+            alt="Luxury properties in Bangalore"
+            fill
+            className="object-cover opacity-20"
+          />
+        </div>
+        <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
-              Premium Properties in{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold-400 to-gold-600">
-                Bangalore
-              </span>
-            </h1>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4" style={{fontFamily: 'Tiempos Headline, serif'}}>
+              Premium Properties in Bangalore
+            </h2>
             <p className="text-lg md:text-xl text-slate-200 mb-8">
               Discover your perfect luxury home from our exclusive collection of premium properties across Bangalore's
               most prestigious locations
@@ -168,8 +174,7 @@ export default function PropertiesPage() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="newest">Newest</SelectItem>
-                  <SelectItem value="price-high">Price: High to Low</SelectItem>
-                  <SelectItem value="price-low">Price: Low to High</SelectItem>
+                  
                   <SelectItem value="size">Size</SelectItem>
                 </SelectContent>
               </Select>
@@ -212,17 +217,19 @@ export default function PropertiesPage() {
               investment goals.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <Button
-                size="lg"
-                variant="premium"
-              >
-                Schedule a Consultation
+            <Button 
+                    size="lg" 
+                    variant="outlineWhite"
+                    className="text-lg px-8 py-4 h-auto mr-4 "
+                  >
+                    Schedule a Consultation
               </Button>
-              <Button
-                size="lg"
-                variant="outlineWhite"
-              >
-                Contact Our Team
+              <Button 
+                    size="lg" 
+                    variant="outlineWhite"
+                    className="text-lg px-8 py-4 h-auto mr-4 "
+                  >
+                    Contact Our Team
               </Button>
             </div>
           </div>

@@ -17,7 +17,7 @@ const properties = [
     longDescription:
       "The Emerald Residence was designed with sustainability at its core. The home features a comprehensive solar panel system that provides clean energy for daily use, significantly reducing electricity costs and carbon footprint. The innovative rainwater harvesting system collects and filters rainwater for irrigation and non-potable water needs, while the green roof provides natural insulation, reduces stormwater runoff, and creates a habitat for local wildlife.\n\nInside, the home boasts open-concept living spaces with abundant natural light, reducing the need for artificial lighting during daylight hours. Energy-efficient appliances, LED lighting throughout, and a smart home system allow for optimal energy management. The materials used in construction and finishes were carefully selected for their sustainability, durability, and low environmental impact.\n\nThe property includes a private garden with native, drought-resistant plants that require minimal maintenance and water. A home composting system makes it easy to reduce waste and create nutrient-rich soil for the garden.",
     location: "123 Green Avenue, Eco City, EC",
-    price: "$1,250,000",
+
     images: [
       "/placeholder.svg?height=600&width=800",
       "/placeholder.svg?height=600&width=800",
@@ -81,7 +81,6 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
 
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
                   <h1 className="text-3xl md:text-4xl font-bold">{property.title}</h1>
-                  <div className="text-2xl md:text-3xl font-bold text-emerald-600">{property.price}</div>
                 </div>
 
                 <div className="flex items-center text-gray-600 mb-6">
@@ -263,6 +262,86 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
                 </div>
 
                 <PropertyContactForm propertyTitle={property.title} />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Property Location Map */}
+      <section className="py-12 bg-white">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mb-8">
+            <h2 className="text-2xl md:text-3xl font-bold mb-4">Property Location</h2>
+            <p className="text-gray-600 mb-6">
+              Located at {property.location}. Explore the neighborhood and nearby amenities.
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Map */}
+            <div className="lg:col-span-2">
+              <div className="h-[650px] bg-gray-100 rounded-xl overflow-hidden shadow-lg">
+                <PropertyMap location={property.location} />
+              </div>
+            </div>
+            
+            {/* Location Details */}
+            <div className="space-y-6">
+              <div className="bg-gray-50 p-6 rounded-xl">
+                <h3 className="text-xl font-bold mb-4 flex items-center">
+                  <MapPin className="h-5 w-5 text-emerald-600 mr-2" />
+                  Address
+                </h3>
+                <p className="text-gray-700">{property.location}</p>
+              </div>
+              
+              <div className="bg-gray-50 p-6 rounded-xl">
+                <h3 className="text-xl font-bold mb-4">Nearby Amenities</h3>
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-gray-600">Shopping Centers</span>
+                    <span className="font-semibold">0.5 mi</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-gray-600">Schools</span>
+                    <span className="font-semibold">0.8 mi</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-gray-600">Public Transport</span>
+                    <span className="font-semibold">0.3 mi</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-gray-600">Parks</span>
+                    <span className="font-semibold">0.2 mi</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-gray-600">Hospitals</span>
+                    <span className="font-semibold">1.2 mi</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="bg-gray-50 p-6 rounded-xl">
+                <h3 className="text-xl font-bold mb-4">Transportation</h3>
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-gray-600">Bus Stop</span>
+                    <span className="font-semibold">5 min walk</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-gray-600">Metro Station</span>
+                    <span className="font-semibold">15 min walk</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-gray-600">Airport</span>
+                    <span className="font-semibold">30 min drive</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-gray-600">Highway Access</span>
+                    <span className="font-semibold">10 min drive</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
