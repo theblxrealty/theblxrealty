@@ -63,15 +63,15 @@ export default function Header() {
                 href={item.path}
                 className={`text-sm font-medium transition-colors relative ${
                   pathname === item.path
-                    ? "text-gold-400 font-bold"
-                    : "text-slate-200 hover:text-gold-400"
+                    ? "text-red-400 font-bold"
+                    : "text-slate-200 hover:text-red-400"
                 }`}
               >
                 {item.name}
                 {pathname === item.path && (
                   <motion.div
                     layoutId="activeTab"
-                    className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gold-500"
+                    className="absolute -bottom-1 left-0 right-0 h-0.5 bg-red-500"
                   />
                 )}
               </Link>
@@ -80,7 +80,7 @@ export default function Header() {
 
           {/* Right Section - Register Button and Toggle */}
           <div className="hidden md:flex items-center space-x-4">
-            <Button className="bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-600 hover:to-gold-700 text-white shadow-lg">
+            <Button className="bg-transparent text-white transition-colors">
               Register
             </Button>
           </div>
@@ -113,7 +113,7 @@ export default function Header() {
                   key={item.name}
                   href={item.path}
                   className={`text-base py-2 ${
-                    pathname === item.path ? "text-gold-400 font-medium" : "text-slate-200 hover:text-gold-400"
+                    pathname === item.path ? "text-red-400 font-medium" : "text-slate-200 hover:text-red-400"
                   }`}
                   onClick={() => setMobileMenuOpen(false)}
                 >
@@ -122,7 +122,7 @@ export default function Header() {
               ))}
 
               <div className="pt-4 border-t border-slate-700">
-                <Button className="w-full bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-600 hover:to-gold-700 text-white">
+                <Button className="w-full bg-transparent text-white border-b-2 border-red-500 hover:border-red-600 transition-colors">
                   Register
                 </Button>
               </div>

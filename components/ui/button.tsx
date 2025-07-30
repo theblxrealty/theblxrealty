@@ -19,7 +19,7 @@ const buttonVariants = cva(
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
         // Premium variants
-        premium: "bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-600 hover:to-gold-700 text-white shadow-lg",
+        premium: "bg-transparent text-black border-b-2 border-red-500 hover:border-red-600 transition-colors",
         navy: "bg-gradient-to-r from-navy-600 to-navy-700 hover:from-navy-700 hover:to-navy-800 text-white shadow-lg",
         outlineNavy: "border-navy-600 text-navy-600 hover:bg-navy-50 bg-transparent",
         outlineWhite: "border-white text-white hover:bg-white/10 bg-transparent backdrop-blur-sm",

@@ -1,3 +1,4 @@
+import Image from "next/image"
 import { MapPin, Phone, Mail, Clock } from "lucide-react"
 import ContactForm from "@/components/contact-form"
 import ContactMap from "@/components/contact-map"
@@ -6,13 +7,19 @@ export default function ContactPage() {
   return (
     <div className="flex flex-col min-h-screen pt-16">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-navy-900 via-navy-800 to-slate-900 text-white py-16 md:py-24">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="relative bg-gradient-to-br from-[#011337] via-[#011337]/90 to-[#011337]/80 text-white py-20 md:py-28 h-[80vh]">
+        <div className="absolute inset-0 overflow-hidden">
+          <Image
+            src="/banner2.jpeg?height=1080&width=1920"
+            alt="Contact our luxury property experts"
+            fill
+            className="object-cover opacity-20"
+          />
+        </div>
+        <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
-              Get in{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold-400 to-gold-600">Touch</span>
-            </h1>
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4" style={{fontFamily: 'Tiempos Headline, serif'}}>
+              Get in Touch            </h1>
             <p className="text-lg md:text-xl text-slate-200">
               Connect with our luxury property experts for personalized guidance on buying, selling, or investing in
               Bangalore's premium real estate market.
@@ -190,7 +197,7 @@ export default function ContactPage() {
       </section>
 
       {/* Map Section */}
-      <section className="py-12 md:py-16 bg-gradient-to-br from-slate-50 to-slate-100">
+      <section className="py-12 md:py-16 bg-gradient-to-br from-slate-50 to-slate-100 ">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-12">
             <h2 className="text-2xl md:text-3xl font-bold mb-4 text-navy-900">Find Us</h2>

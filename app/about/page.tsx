@@ -36,23 +36,20 @@ export default function AboutPage() {
   return (
     <div className="flex flex-col min-h-screen pt-16">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-[#011337] via-[#011337]/90 to-[#011337]/80 text-white py-20 md:py-28">
+      <section className="relative bg-gradient-to-br from-[#011337] via-[#011337]/90 to-[#011337]/80 text-white py-20 md:py-28 h-[80vh]">
         <div className="absolute inset-0 overflow-hidden">
           <Image
-            src="/placeholder.svg?height=1080&width=1920"
+            src="/banner1.jpeg?height=1080&width=1920"
             alt="Luxury building with premium architecture"
             fill
             className="object-cover opacity-20"
           />
         </div>
         <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl">
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
-              Building a{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold-400 to-gold-600">
-                Premium Future
-              </span>
-              , One Property at a Time
+          <div className="max-w-3xl mx-auto text-center">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4" style={{fontFamily: 'Tiempos Headline, serif'}}>
+              Building a Premium Future
+              One Property at a Time
             </h1>
             <p className="text-lg md:text-xl text-slate-200 mb-8">
               At 11Square, we're committed to creating exceptional real estate experiences that connect discerning
@@ -338,7 +335,7 @@ export default function AboutPage() {
               </div>
               <h2 className="text-3xl md:text-4xl font-bold mb-6 text-navy-900">Luxury Real Estate by Design</h2>
               <p className="text-slate-600 mb-6">
-                At 11Square, luxury isn't just about price—it's about creating exceptional experiences that reflect our
+                At 11Square, luxury isn't just about value—it's about creating exceptional experiences that reflect our
                 clients' aspirations and lifestyle goals.
               </p>
               <p className="text-slate-600 mb-6">
@@ -389,7 +386,7 @@ export default function AboutPage() {
               <Link href="/properties">
                 <Button
                   size="lg"
-                  variant="premium"
+                  variant="outlineWhite"
                 >
                   Explore Our Properties
                 </Button>

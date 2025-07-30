@@ -23,7 +23,7 @@ const testimonials = [
     role: "Property Seller",
     image: "/placeholder.svg?height=200&width=200",
     quote:
-      "I was able to sell my apartment in HSR Layout at the best market price through 11Square. They handled everything from valuation to documentation. Highly professional team!",
+              "I was able to sell my apartment in HSR Layout successfully through 11Square. They handled everything from valuation to documentation. Highly professional team!",
     rating: 5,
   },
   {
