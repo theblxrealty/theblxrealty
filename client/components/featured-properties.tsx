@@ -246,7 +246,7 @@ export default function FeaturedProperties() {
 
               <div className="mt-auto">
                 <Link href={`/properties/${property.id}`}>
-                  <Button variant="navy" className="w-full">
+                  <Button className="w-full bg-blue-500 hover:bg-blue-600 text-white">
                     View Details <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 </Link>
