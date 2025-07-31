@@ -11,13 +11,14 @@ import SimilarProperties from "@/components/similar-properties"
 const properties = [
   {
     id: 1,
-    title: "Emerald Residence",
+    title: "Cold Norton Farm, Ockham Lane, Cobham, KT11",
     description:
-      "Nestled in the heart of Eco City, the Emerald Residence is a stunning example of sustainable luxury living. This 4-bedroom, 3-bathroom home seamlessly blends modern design with eco-friendly features to create a space that's both beautiful and environmentally responsible.",
+      "A stunning luxury development nestled in the prestigious area of Cobham, Surrey. This exceptional property offers the perfect blend of modern luxury and countryside charm, providing an idyllic setting for discerning buyers seeking the finest in residential living.",
     longDescription:
-      "The Emerald Residence was designed with sustainability at its core. The home features a comprehensive solar panel system that provides clean energy for daily use, significantly reducing electricity costs and carbon footprint. The innovative rainwater harvesting system collects and filters rainwater for irrigation and non-potable water needs, while the green roof provides natural insulation, reduces stormwater runoff, and creates a habitat for local wildlife.\n\nInside, the home boasts open-concept living spaces with abundant natural light, reducing the need for artificial lighting during daylight hours. Energy-efficient appliances, LED lighting throughout, and a smart home system allow for optimal energy management. The materials used in construction and finishes were carefully selected for their sustainability, durability, and low environmental impact.\n\nThe property includes a private garden with native, drought-resistant plants that require minimal maintenance and water. A home composting system makes it easy to reduce waste and create nutrient-rich soil for the garden.",
-    location: "123 Green Avenue, Eco City, EC",
-
+      "Cold Norton Farm represents the pinnacle of luxury residential development in the sought-after Cobham area. This exclusive development features meticulously designed homes that combine contemporary architecture with traditional craftsmanship. Each property has been thoughtfully planned to maximize natural light and create seamless indoor-outdoor living spaces.\n\nThe development offers a range of property types from elegant townhouses to spacious family homes, all finished to the highest standards. The homes feature premium materials throughout, including bespoke kitchens with integrated appliances, luxury bathrooms with designer fixtures, and smart home technology for modern convenience.\n\nResidents benefit from extensive landscaped gardens, secure parking, and access to premium amenities. The development is perfectly positioned for easy access to excellent schools, transport links, and the vibrant local community of Cobham.",
+    location: "Cobham, Surrey, KT11",
+    price: "Price Range Of £750,000 - £1,395,000",
+    development: true,
     images: [
       "/placeholder.svg?height=600&width=800",
       "/placeholder.svg?height=600&width=800",
@@ -28,7 +29,7 @@ const properties = [
     beds: 4,
     baths: 3,
     sqft: 2800,
-    yearBuilt: 2022,
+    yearBuilt: 2024,
     lotSize: "0.25 acres",
     ecoFeatures: [
       "Solar Panels",
@@ -51,8 +52,8 @@ const properties = [
     featured: true,
     agent: {
       name: "Sarah Johnson",
-      phone: "(555) 123-4567",
-      email: "sarah@greenhaven.com",
+      phone: "+44 20 7123 4567",
+      email: "sarah@11square.com",
       image: "/placeholder.svg?height=200&width=200",
     },
   },
@@ -68,64 +69,69 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
       <PropertyGallery images={property.images} title={property.title} />
 
       {/* Property Details */}
-      <section className="py-12">
+      <section className="py-12 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row gap-12">
             {/* Main Content */}
             <div className="flex-1">
               <div className="mb-6">
-                <Link href="/properties" className="text-emerald-600 hover:text-emerald-700 flex items-center mb-4">
+                <Link href="/properties" className="text-red-500 hover:text-red-600 flex items-center mb-4 font-['Suisse_Intl',sans-serif]">
                   <ArrowLeft className="h-4 w-4 mr-2" />
                   Back to Properties
                 </Link>
 
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
-                  <h1 className="text-3xl md:text-4xl font-bold">{property.title}</h1>
+                  <h1 className="text-3xl md:text-4xl font-bold text-black" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>{property.title}</h1>
                 </div>
 
-                <div className="flex items-center text-gray-600 mb-6">
-                  <MapPin className="h-5 w-5 mr-2 text-emerald-600" />
+                <div className="flex items-center text-gray-600 mb-6 font-['Suisse_Intl',sans-serif]">
+                  <MapPin className="h-5 w-5 mr-2 text-red-500" />
                   {property.location}
+                </div>
+
+                {/* Price */}
+                <div className="mb-8">
+                  <p className="text-2xl font-bold text-black font-['Suisse_Intl',sans-serif]">{property.price}</p>
                 </div>
 
                 <div className="flex flex-wrap gap-6 mb-8">
                   <div className="flex items-center">
-                    <Bed className="h-5 w-5 text-emerald-600 mr-2" />
+                    <Bed className="h-5 w-5 text-red-500 mr-2" />
                     <div>
-                      <div className="font-bold">{property.beds}</div>
-                      <div className="text-sm text-gray-500">Bedrooms</div>
+                      <div className="font-bold text-black font-['Suisse_Intl',sans-serif]">{property.beds}</div>
+                      <div className="text-sm text-gray-500 font-['Suisse_Intl',sans-serif]">Bedrooms</div>
                     </div>
                   </div>
 
                   <div className="flex items-center">
-                    <Bath className="h-5 w-5 text-emerald-600 mr-2" />
+                    <Bath className="h-5 w-5 text-red-500 mr-2" />
                     <div>
-                      <div className="font-bold">{property.baths}</div>
-                      <div className="text-sm text-gray-500">Bathrooms</div>
+                      <div className="font-bold text-black font-['Suisse_Intl',sans-serif]">{property.baths}</div>
+                      <div className="text-sm text-gray-500 font-['Suisse_Intl',sans-serif]">Bathrooms</div>
                     </div>
                   </div>
 
                   <div className="flex items-center">
-                    <Maximize className="h-5 w-5 text-emerald-600 mr-2" />
+                    <Maximize className="h-5 w-5 text-red-500 mr-2" />
                     <div>
-                      <div className="font-bold">{property.sqft}</div>
-                      <div className="text-sm text-gray-500">Square Feet</div>
+                      <div className="font-bold text-black font-['Suisse_Intl',sans-serif]">{property.sqft}</div>
+                      <div className="text-sm text-gray-500 font-['Suisse_Intl',sans-serif]">Square Feet</div>
                     </div>
                   </div>
 
                   <div className="flex items-center">
-                    <Calendar className="h-5 w-5 text-emerald-600 mr-2" />
+                    <Calendar className="h-5 w-5 text-red-500 mr-2" />
                     <div>
-                      <div className="font-bold">{property.yearBuilt}</div>
-                      <div className="text-sm text-gray-500">Year Built</div>
+                      <div className="font-bold text-black font-['Suisse_Intl',sans-serif]">{property.yearBuilt}</div>
+                      <div className="text-sm text-gray-500 font-['Suisse_Intl',sans-serif]">Year Built</div>
                     </div>
                   </div>
 
                   <div className="flex items-center">
-                    <Home className="h-5 w-5 text-emerald-600 mr-2" />
+                    <Home className="h-5 w-5 text-red-500 mr-2" />
                     <div>
-                      <div className="font-bold">{property.lotSize}</div>
-                      <div className="text-sm text-gray-500">Lot Size</div>
+                      <div className="font-bold text-black font-['Suisse_Intl',sans-serif]">{property.lotSize}</div>
+                      <div className="text-sm text-gray-500 font-['Suisse_Intl',sans-serif]">Lot Size</div>
                     </div>
                   </div>
                 </div>
@@ -141,19 +147,19 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
 
                 <TabsContent value="overview" className="space-y-6">
                   <div>
-                    <h2 className="text-2xl font-bold mb-4">Property Description</h2>
-                    <p className="text-gray-700 mb-4">{property.description}</p>
-                    <p className="text-gray-700 whitespace-pre-line">{property.longDescription}</p>
+                    <h2 className="text-2xl font-bold mb-4 text-black" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>Property Description</h2>
+                    <p className="text-gray-700 mb-4 font-['Suisse_Intl',sans-serif]">{property.description}</p>
+                    <p className="text-gray-700 whitespace-pre-line font-['Suisse_Intl',sans-serif]">{property.longDescription}</p>
                   </div>
                 </TabsContent>
 
                 <TabsContent value="features" className="space-y-6">
                   <div>
-                    <h2 className="text-2xl font-bold mb-4">Property Features</h2>
+                    <h2 className="text-2xl font-bold mb-4 text-black" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>Property Features</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
                       {property.amenities.map((amenity, index) => (
-                        <div key={index} className="flex items-center">
-                          <div className="h-2 w-2 rounded-full bg-emerald-600 mr-3"></div>
+                        <div key={index} className="flex items-center font-['Suisse_Intl',sans-serif]">
+                          <div className="h-2 w-2 rounded-full bg-red-500 mr-3"></div>
                           <span>{amenity}</span>
                         </div>
                       ))}
@@ -163,15 +169,15 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
 
                 <TabsContent value="sustainability" className="space-y-6">
                   <div>
-                    <h2 className="text-2xl font-bold mb-4">Eco-Friendly Features</h2>
+                    <h2 className="text-2xl font-bold mb-4 text-black" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>Eco-Friendly Features</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                       {property.ecoFeatures.map((feature, index) => (
-                        <div key={index} className="bg-emerald-50 p-4 rounded-lg">
+                        <div key={index} className="bg-red-50 p-4 rounded-lg">
                           <div className="flex items-center mb-2">
-                            <Leaf className="h-5 w-5 text-emerald-600 mr-2" />
-                            <h3 className="font-bold">{feature}</h3>
+                            <Leaf className="h-5 w-5 text-red-500 mr-2" />
+                            <h3 className="font-bold font-['Suisse_Intl',sans-serif]">{feature}</h3>
                           </div>
-                          <p className="text-gray-600 text-sm">
+                          <p className="text-gray-600 text-sm font-['Suisse_Intl',sans-serif]">
                             {feature === "Solar Panels" &&
                               "High-efficiency solar panels that generate clean, renewable energy for the home, reducing electricity costs and carbon footprint."}
                             {feature === "Rainwater Harvesting" &&
@@ -193,10 +199,10 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
 
                 <TabsContent value="location" className="space-y-6">
                   <div>
-                    <h2 className="text-2xl font-bold mb-4">Location</h2>
-                    <p className="text-gray-700 mb-6">
-                      Located in the heart of Eco City, this property offers easy access to parks, schools, shopping
-                      centers, and public transportation. The neighborhood is known for its commitment to sustainability
+                    <h2 className="text-2xl font-bold mb-4 text-black" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>Location</h2>
+                    <p className="text-gray-700 mb-6 font-['Suisse_Intl',sans-serif]">
+                      Located in the prestigious area of Cobham, Surrey, this property offers easy access to excellent schools, 
+                      transport links, and the vibrant local community. The neighborhood is known for its commitment to luxury living 
                       and community-focused initiatives.
                     </p>
                     <div className="h-[400px] bg-gray-100 rounded-lg overflow-hidden">
@@ -205,8 +211,8 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
 
                     <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
                       <div className="bg-gray-50 p-4 rounded-lg">
-                        <h3 className="font-bold mb-2">Transportation</h3>
-                        <ul className="text-sm text-gray-600 space-y-1">
+                        <h3 className="font-bold mb-2 font-['Suisse_Intl',sans-serif]">Transportation</h3>
+                        <ul className="text-sm text-gray-600 space-y-1 font-['Suisse_Intl',sans-serif]">
                           <li>5 min to public transit</li>
                           <li>15 min to downtown</li>
                           <li>30 min to airport</li>
@@ -215,21 +221,21 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
                       </div>
 
                       <div className="bg-gray-50 p-4 rounded-lg">
-                        <h3 className="font-bold mb-2">Education</h3>
-                        <ul className="text-sm text-gray-600 space-y-1">
-                          <li>Green Elementary School (0.5 mi)</li>
-                          <li>Eco Middle School (1.2 mi)</li>
-                          <li>Sustainable High School (2.0 mi)</li>
-                          <li>Community College (3.5 mi)</li>
+                        <h3 className="font-bold mb-2 font-['Suisse_Intl',sans-serif]">Education</h3>
+                        <ul className="text-sm text-gray-600 space-y-1 font-['Suisse_Intl',sans-serif]">
+                          <li>Reed's School (0.5 mi)</li>
+                          <li>Cobham Free School (1.2 mi)</li>
+                          <li>ACS International School (2.0 mi)</li>
+                          <li>University of Surrey (3.5 mi)</li>
                         </ul>
                       </div>
 
                       <div className="bg-gray-50 p-4 rounded-lg">
-                        <h3 className="font-bold mb-2">Amenities</h3>
-                        <ul className="text-sm text-gray-600 space-y-1">
-                          <li>Organic grocery store (0.3 mi)</li>
-                          <li>Community garden (0.2 mi)</li>
-                          <li>Eco Park (0.7 mi)</li>
+                        <h3 className="font-bold mb-2 font-['Suisse_Intl',sans-serif]">Amenities</h3>
+                        <ul className="text-sm text-gray-600 space-y-1 font-['Suisse_Intl',sans-serif]">
+                          <li>Waitrose supermarket (0.3 mi)</li>
+                          <li>Cobham Village (0.2 mi)</li>
+                          <li>Painshill Park (0.7 mi)</li>
                           <li>Farmers market (weekends)</li>
                         </ul>
                       </div>
@@ -241,7 +247,7 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
 
             {/* Sidebar */}
             <div className="w-full lg:w-[380px] mt-8 lg:mt-0">
-              <div className="bg-white rounded-xl shadow-md p-6 sticky top-24">
+              <div className="bg-white rounded-xl shadow-md p-6 sticky top-24 border border-gray-200">
                 <div className="flex items-center mb-6">
                   <div className="relative h-16 w-16 rounded-full overflow-hidden mr-4">
                     <Image
@@ -252,9 +258,9 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
                     />
                   </div>
                   <div>
-                    <h3 className="font-bold">{property.agent.name}</h3>
-                    <p className="text-gray-600 text-sm">Eco Property Specialist</p>
-                    <div className="flex items-center text-sm text-emerald-600 mt-1">
+                    <h3 className="font-bold font-['Suisse_Intl',sans-serif]">{property.agent.name}</h3>
+                    <p className="text-gray-600 text-sm font-['Suisse_Intl',sans-serif]">Luxury Property Specialist</p>
+                    <div className="flex items-center text-sm text-red-500 mt-1 font-['Suisse_Intl',sans-serif]">
                       <Phone className="h-3 w-3 mr-1" />
                       {property.agent.phone}
                     </div>
@@ -272,8 +278,8 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
       <section className="py-12 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-8">
-            <h2 className="text-2xl md:text-3xl font-bold mb-4">Property Location</h2>
-            <p className="text-gray-600 mb-6">
+            <h2 className="text-2xl md:text-3xl font-bold mb-4 text-black" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>Property Location</h2>
+            <p className="text-gray-600 mb-6 font-['Suisse_Intl',sans-serif]">
               Located at {property.location}. Explore the neighborhood and nearby amenities.
             </p>
           </div>
@@ -289,16 +295,16 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
             {/* Location Details */}
             <div className="space-y-6">
               <div className="bg-gray-50 p-6 rounded-xl">
-                <h3 className="text-xl font-bold mb-4 flex items-center">
-                  <MapPin className="h-5 w-5 text-emerald-600 mr-2" />
+                <h3 className="text-xl font-bold mb-4 flex items-center font-['Suisse_Intl',sans-serif]">
+                  <MapPin className="h-5 w-5 text-red-500 mr-2" />
                   Address
                 </h3>
-                <p className="text-gray-700">{property.location}</p>
+                <p className="text-gray-700 font-['Suisse_Intl',sans-serif]">{property.location}</p>
               </div>
               
               <div className="bg-gray-50 p-6 rounded-xl">
-                <h3 className="text-xl font-bold mb-4">Nearby Amenities</h3>
-                <div className="space-y-3">
+                <h3 className="text-xl font-bold mb-4 font-['Suisse_Intl',sans-serif]">Nearby Amenities</h3>
+                <div className="space-y-3 font-['Suisse_Intl',sans-serif]">
                   <div className="flex items-center justify-between">
                     <span className="text-gray-600">Shopping Centers</span>
                     <span className="font-semibold">0.5 mi</span>
@@ -323,8 +329,8 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
               </div>
               
               <div className="bg-gray-50 p-6 rounded-xl">
-                <h3 className="text-xl font-bold mb-4">Transportation</h3>
-                <div className="space-y-3">
+                <h3 className="text-xl font-bold mb-4 font-['Suisse_Intl',sans-serif]">Transportation</h3>
+                <div className="space-y-3 font-['Suisse_Intl',sans-serif]">
                   <div className="flex items-center justify-between">
                     <span className="text-gray-600">Bus Stop</span>
                     <span className="font-semibold">5 min walk</span>
@@ -351,7 +357,7 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
       {/* Similar Properties */}
       <section className="py-12 bg-gray-50">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl md:text-3xl font-bold mb-8">Similar Properties</h2>
+          <h2 className="text-2xl md:text-3xl font-bold mb-8 text-black" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>Similar Properties</h2>
           <SimilarProperties currentPropertyId={property.id} />
         </div>
       </section>
