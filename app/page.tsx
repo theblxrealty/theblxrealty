@@ -13,165 +13,62 @@ export default function HomePage() {
     <main>
       <HeroSection />
 
-
-      {/* Property Categories */}
-      <section className="py-8 bg-white">
+      {/* Property Valuation Section */}
+      <section className="py-16 md:py-24 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          
-          <div className="relative">
-            <div className="flex gap-8 overflow-x-auto pb-8 pt-4 px-6 scrollbar-hide">
-              {/* Luxury Villas */}
-              <Link href="/properties?type=luxury-villas" className="group flex-shrink-0">
-                <div className="w-72 bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 group-hover:scale-105">
-                  <div className="relative h-48 w-full rounded-t-lg overflow-hidden">
-                    <Image
-                      src="/property_type/img1.webp"
-                      alt="Luxury Villas"
-                      fill
-                      className="object-cover group-hover:scale-110 transition-transform duration-300"
-                    />
-                  </div>
-                  <div className="p-4 text-center">
-                    <h3 className="text-lg font-semibold text-[#011337]">Luxury Villas</h3>
-                  </div>
-                </div>
-              </Link>
-
-              {/* Flats */}
-              <Link href="/properties?type=flats" className="group flex-shrink-0">
-                <div className="w-72 bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 group-hover:scale-105">
-                  <div className="relative h-48 w-full rounded-t-lg overflow-hidden">
-                    <Image
-                      src="/property_type/flats.webp"
-                      alt="Flats"
-                      fill
-                      className="object-cover group-hover:scale-110 transition-transform duration-300"
-                    />
-                  </div>
-                  <div className="p-4 text-center">
-                    <h3 className="text-lg font-semibold text-[#011337]">Flats</h3>
-                  </div>
-                </div>
-              </Link>
-
-              {/* New Building */}
-              <Link href="/properties?type=new-building" className="group flex-shrink-0">
-                <div className="w-72 bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 group-hover:scale-105">
-                  <div className="relative h-48 w-full rounded-t-lg overflow-hidden">
-                    <Image
-                      src="/property_type/house.webp"
-                      alt="New Building"
-                      fill
-                      className="object-cover group-hover:scale-110 transition-transform duration-300"
-                    />
-                  </div>
-                  <div className="p-4 text-center">
-                    <h3 className="text-lg font-semibold text-[#011337]">New Building</h3>
-                  </div>
-                </div>
-              </Link>
-
-              {/* Farm House */}
-              <Link href="/properties?type=farm-house" className="group flex-shrink-0">
-                <div className="w-72 bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 group-hover:scale-105">
-                  <div className="relative h-48 w-full rounded-t-lg overflow-hidden">
-                    <Image
-                      src="/property_type/farmhouse.webp"
-                      alt="Farm House"
-                      fill
-                      className="object-cover group-hover:scale-110 transition-transform duration-300"
-                    />
-                  </div>
-                  <div className="p-4 text-center">
-                    <h3 className="text-lg font-semibold text-[#011337]">Farm House</h3>
-                  </div>
-                </div>
-              </Link>
-
-              {/* Sites */}
-              <Link href="/properties?type=sites" className="group flex-shrink-0">
-                <div className="w-72 bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 group-hover:scale-105">
-                  <div className="relative h-48 w-full rounded-t-lg overflow-hidden">
-                    <Image
-                      src="/property_type/farm.webp"
-                      alt="Sites"
-                      fill
-                      className="object-cover group-hover:scale-110 transition-transform duration-300"
-                    />
-                  </div>
-                  <div className="p-4 text-center">
-                    <h3 className="text-lg font-semibold text-[#011337]">Sites</h3>
-                  </div>
-                </div>
-              </Link>
-
-              {/* Commercial */}
-              <Link href="/properties?type=commercial" className="group flex-shrink-0">
-                <div className="w-72 bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 group-hover:scale-105">
-                  <div className="relative h-48 w-full rounded-t-lg overflow-hidden">
-                    <Image
-                      src="/property_type/property.webp"
-                      alt="Commercial Properties"
-                      fill
-                      className="object-cover group-hover:scale-110 transition-transform duration-300"
-                    />
-                  </div>
-                  <div className="p-4 text-center">
-                    <h3 className="text-lg font-semibold text-[#011337]">Commercial</h3>
-                  </div>
-                </div>
-              </Link>
-
-              {/* Investment */}
-              <Link href="/properties?type=investment" className="group flex-shrink-0">
-                <div className="w-72 bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 group-hover:scale-105">
-                  <div className="relative h-48 w-full rounded-t-lg overflow-hidden">
-                    <Image
-                      src="/property_type/img2.webp"
-                      alt="Investment Properties"
-                      fill
-                      className="object-cover group-hover:scale-110 transition-transform duration-300"
-                    />
-                  </div>
-                  <div className="p-4 text-center">
-                    <h3 className="text-lg font-semibold text-[#011337]">Investment</h3>
-                  </div>
-                </div>
-              </Link>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div>
+              <h2 className="text-4xl md:text-4xl font-bold mb-6 text-black" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>How much is your property worth?</h2>
+              <p className="text-lg text-gray-500 mb-8 font-['Suisse_Intl',sans-serif]">
+                We will provide a reliable estimate of your property's value, based on the latest market insights.
+              </p>
+              <Button className="bg-red-500 hover:bg-red-600 text-white px-8 py-4 font-['Suisse_Intl',sans-serif] font-medium">
+                Book your free valuation
+              </Button>
+            </div>
+            <div className="relative h-[250px] w-full bg-gray-50 overflow-hidden">
+              <Image
+                src="/property-value.webp"
+                alt="Luxury property interior"
+                fill
+                className="object-cover"
+              />
             </div>
           </div>
         </div>
       </section>
 
-
-
-            {/* Dream Properties Section */}
-      <section className="py-16 md:py-24 bg-white">
+      {/* Dream Properties Section */}
+      <section className="py-4 md:py-8increase  bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div className="order-2 lg:order-1">
               <div className="relative h-[600px] w-full">
                 <Image
-                  src="/image1.webp?height=600&width=600"
+                  src="/image1.webp?height=2560&width=2560"
                   alt="Luxury interior with chandelier"
                   fill
-                  className="object-cover rounded-xl"
+                  className="object-cover"
                 />
               </div>
             </div>
             <div className="order-1 lg:order-2">
-              <h2 className="text-4xl md:text-4xl font-bold mb-6 text-black" style={{fontFamily: 'Tiempos Headline, serif'}}>Dream properties</h2>
-              <p className="text-lg text-black mb-8">
+              <h2 className="text-4xl md:text-4xl font-bold mb-6 text-black" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>Dream properties</h2>
+              <p className="text-lg text-gray-500 mb-8 font-['Suisse_Intl',sans-serif]">
                 We specialise in selling and letting a wide range of homes, from modern London apartments to historical country houses, farms, and international pieds-à-terre.
               </p>
-              <div className="space-y-6">
-                <Link href="/properties" className="group cursor-pointer">
-                  <div className="text-black font-['Suisse_Intl',sans-serif]" style={{fontSize: '1.2rem', fontWeight: 600, lineHeight: 1}}>Sell with us</div>
-                  <div style={{width: 'fit-content', height: '2px', backgroundColor: '#ef4444', borderRadius: '1px'}}></div>
+              <div className="space-y-8">
+                <Link href="/properties" className="group cursor-pointer block">
+                  <div className="text-black font-['Suisse_Intl',sans-serif] relative inline-block" style={{fontSize: '1.2rem', fontWeight: 550, lineHeight: 1}}>
+                    Sell with us
+                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-red-500 transition-all duration-300 group-hover:w-full"></span>
+                  </div>
                 </Link>
-                <Link href="/properties" className="group cursor-pointer">
-                  <div className="text-black font-['Suisse_Intl',sans-serif]" style={{fontSize: '1.2rem', fontWeight: 600, lineHeight: 1}}>Let with us</div>
-                  <div style={{width: 'fit-content', height: '2px', backgroundColor: '#ef4444', borderRadius: '1px'}}></div>
+                <Link href="/properties" className="group cursor-pointer block">
+                  <div className="text-black font-['Suisse_Intl',sans-serif] relative inline-block" style={{fontSize: '1.2rem', fontWeight: 550, lineHeight: 1}}>
+                    Buy with us
+                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-red-500 transition-all duration-300 group-hover:w-full"></span>
+                  </div>
                 </Link>
               </div>
             </div>
@@ -182,30 +79,30 @@ export default function HomePage() {
       {/* We're here for you Section */}
       <section className="py-16 md:py-24 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
-              <h2 className="text-4xl md:text-4xl font-bold mb-6 text-black" style={{fontFamily: 'Tiempos Headline, serif'}}>We're here for you</h2>
-              <p className="text-lg text-gray-600 mb-8">
+              <h2 className="text-4xl md:text-4xl font-bold mb-6 text-black" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>We're here for you</h2>
+              <p className="text-lg text-gray-500 mb-8 font-['Suisse_Intl',sans-serif]">
                 Whether you're looking to buy, sell or rent a property, as your next home or an investment, we're committed to finding your perfect match.
               </p>
               <div className="mb-8">
                 <div className="flex items-start">
-                  <blockquote className="text-2xl font-bold text-black mb-6 leading-tight flex-1" style={{fontFamily: 'Tiempos Headline, serif', lineHeight: 1.2}}>
+                  <blockquote className="text-3xl font-bold text-black mb-6 leading-tight flex-1" style={{fontFamily: 'Tiempos Headline, serif', lineHeight: 1.2, fontWeight: '500'}}>
                     "This was by far and away the best experience I have had with an estate agency. Lovely people and above all supremely professional with both me as a seller and the buyers."
                   </blockquote>
                 </div>
                 <div className="mt-6">
-                  <div className="font-bold text-black text-lg">Lorraine</div>
+                  <div className="font-bold text-black text-lg font-['Suisse_Intl',sans-serif]">Lorraine</div>
                   <div className="text-gray-600">11Square office</div>
                 </div>
               </div>
             </div>
             <div className="relative h-[600px] w-full">
               <Image
-                src="/image2.webp?height=600&width=600"
+                src="/image2.webp?height=2560&width=2560"
                 alt="Woman with teacup"
                 fill
-                className="object-cover rounded-xl"
+                className="object-cover"
               />
             </div>
           </div>
@@ -213,22 +110,22 @@ export default function HomePage() {
       </section>
 
       {/* The View from Knight Frank Section */}
-      <section className="py-16 md:py-24 bg-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <section className="py-16 md:py-24 bg-white justify-between">
+        <div className="container mx-auto px-8 sm:px-6 lg:px-8 justify-between">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div className="order-2 lg:order-1">
               <div className="relative h-[600px] w-full">
                 <Image
-                  src="/image3.webp?height=600&width=600"
+                  src="/image3.webp?height=2560&width=2560"
                   alt="Woman looking through window"
                   fill
-                  className="object-cover rounded-xl"
+                  className="object-cover"
                 />
               </div>
             </div>
             <div className="order-1 lg:order-2">
-              <h2 className="text-4xl md:text-4xl font-bold mb-6 text-black" style={{fontFamily: 'Tiempos Headline, serif'}}>The View from 11Square Realty</h2>
-              <p className="text-lg text-black mb-8">
+              <h2 className="text-4xl md:text-4xl font-bold mb-6 text-black" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>The View from 11Square Realty</h2>
+              <p className="text-lg text-gray-500 mb-8 font-['Suisse_Intl',sans-serif]">
                 Dream property inspiration, the latest on luxury trends, and insights into the best areas to live in the Bangalore.
               </p>
               <button className="border border-red-500 text-red-500 px-8 py-3 rounded hover:bg-red-500 hover:text-white transition-colors font-semibold">
@@ -276,99 +173,190 @@ export default function HomePage() {
       </section> */}
 
       {/* Features Section */}
-      <section className="py-20 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800 dark:to-slate-900">
+      <section className="py-20 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-[#011337] dark:text-white mb-4">Why Choose 11Square</h2>
-            <p className="text-lg text-slate-600 dark:text-slate-300 max-w-3xl mx-auto">
+            <h2 className="text-4xl md:text-4xl font-bold mb-6 text-black" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>Why Choose 11Square</h2>
+            <p className="text-lg text-gray-500 mb-8 font-['Suisse_Intl',sans-serif] max-w-3xl mx-auto">
               Bangalore's premier luxury property marketplace connecting discerning buyers and sellers across
               residential, commercial, and investment properties.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-            <div className="flex flex-col items-center text-center p-8 rounded-2xl bg-white dark:bg-slate-800 shadow-lg hover:shadow-xl transition-all duration-300 border border-slate-200 dark:border-slate-700">
-              <div className="bg-gradient-to-br from-[#011337]/20 to-[#011337]/30 dark:from-[#011337] dark:to-[#011337]/80 p-4 rounded-2xl mb-6">
-                <Building className="h-8 w-8 text-[#011337] dark:text-[#011337]" />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="bg-white p-8 rounded-lg shadow-lg border border-gray-100">
+              <div className="mb-6">
+                <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-4">
+                  <Building className="h-8 w-8 text-red-600" />
+                </div>
+                <h3 className="text-xl font-bold mb-3 text-black font-['Suisse_Intl',sans-serif]">Premium Property Portfolio</h3>
+                <p className="text-gray-500 font-['Suisse_Intl',sans-serif]">
+                  Curated collection of luxury apartments, villas, commercial spaces, and investment properties in
+                  Bangalore's most prestigious locations.
+                </p>
               </div>
-              <h3 className="text-xl font-bold mb-3 text-[#011337] dark:text-white">Premium Property Portfolio</h3>
-              <p className="text-slate-600 dark:text-slate-300">
-                Curated collection of luxury apartments, villas, commercial spaces, and investment properties in
-                Bangalore's most prestigious locations.
-              </p>
             </div>
 
-            <div className="flex flex-col items-center text-center p-8 rounded-2xl bg-white dark:bg-slate-800 shadow-lg hover:shadow-xl transition-all duration-300 border border-slate-200 dark:border-slate-700">
-                          <div className="bg-gradient-to-br from-red-100 to-red-200 dark:from-red-900 dark:to-red-800 p-4 rounded-2xl mb-6">
-              <Award className="h-8 w-8 text-red-600 dark:text-red-400" />
-            </div>
-              <h3 className="text-xl font-bold mb-3 text-navy-900 dark:text-white">Expert Market Insights</h3>
-              <p className="text-slate-600 dark:text-slate-300">
-                Professional property valuations, market analysis, and investment guidance from certified real estate
-                experts and market specialists.
-              </p>
+            <div className="bg-white p-8 rounded-lg shadow-lg border border-gray-100">
+              <div className="mb-6">
+                <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-4">
+                  <Award className="h-8 w-8 text-red-600" />
+                </div>
+                <h3 className="text-xl font-bold mb-3 text-black font-['Suisse_Intl',sans-serif]">Expert Market Insights</h3>
+                <p className="text-gray-500 font-['Suisse_Intl',sans-serif]">
+                  Professional property valuations, market analysis, and investment guidance from certified real estate
+                  experts and market specialists.
+                </p>
+              </div>
             </div>
 
-            <div className="flex flex-col items-center text-center p-8 rounded-2xl bg-white dark:bg-slate-800 shadow-lg hover:shadow-xl transition-all duration-300 border border-slate-200 dark:border-slate-700">
-              <div className="bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-700 dark:to-slate-600 p-4 rounded-2xl mb-6">
-                <Shield className="h-8 w-8 text-slate-600 dark:text-slate-400" />
+            <div className="bg-white p-8 rounded-lg shadow-lg border border-gray-100">
+              <div className="mb-6">
+                <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-4">
+                  <Shield className="h-8 w-8 text-red-600" />
+                </div>
+                <h3 className="text-xl font-bold mb-3 text-black font-['Suisse_Intl',sans-serif]">Complete Transaction Security</h3>
+                <p className="text-gray-500 font-['Suisse_Intl',sans-serif]">
+                  End-to-end support with legal verification, documentation, financing assistance, and secure transaction
+                  management.
+                </p>
               </div>
-              <h3 className="text-xl font-bold mb-3 text-navy-900 dark:text-white">Complete Transaction Security</h3>
-              <p className="text-slate-600 dark:text-slate-300">
-                End-to-end support with legal verification, documentation, financing assistance, and secure transaction
-                management.
-              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Our Success Stories Section */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-4xl font-bold mb-6 text-black" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>Our Success Stories</h2>
+            <p className="text-lg text-gray-500 mb-8 font-['Suisse_Intl',sans-serif] max-w-3xl mx-auto">
+              Hear from discerning property buyers and sellers who achieved their real estate goals with 11Square.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Success Story 1 */}
+            <div className="bg-white p-8 rounded-lg shadow-lg border border-gray-100">
+              <div className="mb-6">
+                <div className="w-16 h-16 rounded-full overflow-hidden mb-4">
+                  <Image
+                    src="/pfp1.jpeg"
+                    alt="Sarah Mitchell"
+                    width={64}
+                    height={64}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <blockquote className="text-lg text-gray-700 mb-4 font-['Suisse_Intl',sans-serif] leading-relaxed">
+                  "This was by far and away the best experience I have had with an estate agency. Lovely people and above all supremely professional."
+                </blockquote>
+              </div>
+              <div>
+                <div className="font-bold text-black text-lg font-['Suisse_Intl',sans-serif]">Sarah Mitchell</div>
+                <div className="text-gray-500 text-sm">Luxury Villa Buyer</div>
+              </div>
+            </div>
+
+            {/* Success Story 2 */}
+            <div className="bg-white p-8 rounded-lg shadow-lg border border-gray-100">
+              <div className="mb-6">
+                <div className="w-16 h-16 rounded-full overflow-hidden mb-4">
+                  <Image
+                    src="/pfp2.jpeg"
+                    alt="Michael Chen"
+                    width={64}
+                    height={64}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <blockquote className="text-lg text-gray-700 mb-4 font-['Suisse_Intl',sans-serif] leading-relaxed">
+                  "11Square helped me sell my premium property in record time with excellent returns. Their market knowledge is unmatched."
+                </blockquote>
+              </div>
+              <div>
+                <div className="font-bold text-black text-lg font-['Suisse_Intl',sans-serif]">Michael Chen</div>
+                <div className="text-gray-500 text-sm">Property Seller</div>
+              </div>
+            </div>
+
+            {/* Success Story 3 */}
+            <div className="bg-white p-8 rounded-lg shadow-lg border border-gray-100">
+              <div className="mb-6">
+                <div className="w-16 h-16 rounded-full overflow-hidden mb-4">
+                  <Image
+                    src="/pfp3.jpeg"
+                    alt="Priya Sharma"
+                    width={64}
+                    height={64}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <blockquote className="text-lg text-gray-700 mb-4 font-['Suisse_Intl',sans-serif] leading-relaxed">
+                  "Found my dream home through 11Square. Their personalized approach and attention to detail made all the difference."
+                </blockquote>
+              </div>
+              <div>
+                <div className="font-bold text-black text-lg font-['Suisse_Intl',sans-serif]">Priya Sharma</div>
+                <div className="text-gray-500 text-sm">Apartment Buyer</div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Contact Section */}
-      <section className="py-20 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800 dark:to-slate-900">
+      <section className="py-20 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
-              <h2 className="text-3xl md:text-4xl font-bold text-[#011337] dark:text-white mb-4">Ready to Buy or Sell?</h2>
-              <p className="text-lg text-slate-600 dark:text-slate-300 mb-8">
+              <h2 className="text-4xl md:text-4xl font-bold mb-6 text-black" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>Ready to Buy or Sell?</h2>
+              <p className="text-lg text-gray-500 mb-8 font-['Suisse_Intl',sans-serif]">
                 Whether you're seeking a luxury property or looking to sell your premium asset, our expert team provides
                 personalized guidance throughout your real estate journey.
               </p>
 
-              <div className="space-y-6">
+              <div className="space-y-6 mb-8">
                 <div className="flex items-start">
-                  <MapPin className="h-6 w-6 text-red-600 mr-4 mt-1" />
+                  <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mr-4">
+                    <MapPin className="h-6 w-6 text-red-600" />
+                  </div>
                   <div>
-                    <h3 className="font-medium text-[#011337] dark:text-white">Visit Our Premium Office</h3>
-                    <p className="text-slate-600 dark:text-slate-300">Brigade Road, Bangalore, Karnataka 560001</p>
+                    <h3 className="font-bold text-black text-lg font-['Suisse_Intl',sans-serif]">Visit Our Premium Office</h3>
+                    <p className="text-gray-500 font-['Suisse_Intl',sans-serif]">Brigade Road, Bangalore, Karnataka 560001</p>
                   </div>
                 </div>
 
                 <div className="flex items-start">
-                  <Phone className="h-6 w-6 text-red-600 mr-4 mt-1" />
+                  <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mr-4">
+                    <Phone className="h-6 w-6 text-red-600" />
+                  </div>
                   <div>
-                    <h3 className="font-medium text-[#011337] dark:text-white">Call Our Experts</h3>
-                    <p className="text-slate-600 dark:text-slate-300">+91 98765 43210</p>
+                    <h3 className="font-bold text-black text-lg font-['Suisse_Intl',sans-serif]">Call Our Experts</h3>
+                    <p className="text-gray-500 font-['Suisse_Intl',sans-serif]">+91 98765 43210</p>
                   </div>
                 </div>
               </div>
 
-              <div className="mt-8 flex flex-col sm:flex-row gap-4">
+              <div className="flex flex-col sm:flex-row gap-4">
                 <Button
                   size="lg"
-                  variant="premium"
+                  className="bg-red-500 hover:bg-red-600 text-white px-8 py-4 font-['Suisse_Intl',sans-serif] font-medium"
                 >
                   List Your Property
                 </Button>
                 <Button
                   size="lg"
-                  variant="premium"
+                  variant="outline"
+                  className="border-red-500 text-red-500 hover:bg-red-500 hover:text-white px-8 py-4 font-['Suisse_Intl',sans-serif] font-medium"
                 >
                   Get Property Valuation
                 </Button>
               </div>
             </div>
 
-            <div className="bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700">
+            <div className="bg-white p-8 rounded-lg shadow-lg border border-gray-100">
               <ContactForm />
             </div>
           </div>
