@@ -20,6 +20,7 @@ client/build
 # Misc
 .DS_Store
 *.pem
+11square-keypair.pem
 
 # Debug
 npm-debug.log*
