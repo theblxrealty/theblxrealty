@@ -61,7 +61,7 @@ export default function Header() {
               <Link
                 key={item.name}
                 href={item.path}
-                className={`text-sm font-medium transition-colors relative font-['Suisse_Intl',sans-serif] ${
+                className={`text-base font-medium transition-colors relative font-['Suisse_Intl',sans-serif] ${
                   pathname === item.path
                     ? "text-red-400 font-bold"
                     : "text-slate-200 hover:text-red-400"
@@ -80,10 +80,10 @@ export default function Header() {
 
           {/* Right Section - Register Button and Toggle */}
           <div className="hidden md:flex items-center space-x-4">
-            <Button className="bg-transparent text-white px-6 py-2 font-['Suisse_Intl',sans-serif] font-medium hover:bg-transparent hover:text-white transition-all duration-300 relative group">
-              <span className="relative">
-                Register
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
+            <Button className="bg-transparent text-white px-6 py-2 font-['Suisse_Intl',sans-serif] font-medium hover:bg-transparent hover:text-white transition-all duration-300 relative group text-base">
+              <span className="relative flex items-center gap-2">
+                <span className="text-white">👤</span> Register
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-red-500 transition-all duration-300 group-hover:w-full"></span>
               </span>
             </Button>
           </div>
@@ -115,9 +115,9 @@ export default function Header() {
                 <Link
                   key={item.name}
                   href={item.path}
-                  className={`text-base py-2 font-['Suisse_Intl',sans-serif] ${
-                    pathname === item.path ? "text-red-400 font-medium" : "text-slate-200 hover:text-red-400"
-                  }`}
+                                  className={`text-lg py-2 font-['Suisse_Intl',sans-serif] ${
+                  pathname === item.path ? "text-red-400 font-medium" : "text-slate-200 hover:text-red-400"
+                }`}
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   {item.name}
@@ -125,10 +125,10 @@ export default function Header() {
               ))}
 
               <div className="pt-4 border-t border-slate-700">
-                <Button className="w-full bg-transparent text-white font-['Suisse_Intl',sans-serif] font-medium hover:bg-transparent hover:text-white transition-all duration-300 relative group">
-                  <span className="relative">
-                    Register
-                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
+                <Button className="w-full bg-transparent text-white font-['Suisse_Intl',sans-serif] font-medium hover:bg-transparent hover:text-white transition-all duration-300 relative group text-lg">
+                  <span className="relative flex items-center gap-2">
+                    <span className="text-white">👤</span> Register
+                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-red-500 transition-all duration-300 group-hover:w-full"></span>
                   </span>
                 </Button>
               </div>
