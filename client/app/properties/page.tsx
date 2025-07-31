@@ -9,222 +9,104 @@ import PropertyFilters from "@/components/property-filters"
 import PropertyCard from "@/components/property-card"
 import PropertyTypesSection from "@/components/property-types-section"
 
-// Sample property data for Bangalore
+// Sample property data for Bangalore - diverse property types
 const properties = [
   // Luxury Villas
   {
     id: 1,
-    title: "Ultra Luxury Villa in Koramangala",
-    location: "Koramangala 5th Block, Bangalore",
+    title: "Cold Norton Farm, Ockham Lane, Cobham, KT11",
+    location: "Cobham, Surrey",
     image: "/placeholder.svg?height=600&width=800",
-    beds: 5,
-    baths: 4,
-    sqft: 4500,
-    amenities: ["Private Pool", "Home Theater", "Wine Cellar", "Garden"],
+    beds: 4,
+    baths: 2,
+    sqft: 2800,
+    amenities: ["Swimming Pool", "Garden", "Security", "Parking"],
     isNew: true,
     featured: true,
     type: "luxury-villas",
     rating: 4.9,
+    development: true,
+    priceRange: "Price Range Of £750,000 - £1,395,000"
   },
   {
     id: 2,
-    title: "Prestige Villa in Whitefield",
-    location: "Whitefield, Bangalore",
-    image: "/placeholder.svg?height=600&width=800",
-    beds: 4,
-    baths: 3,
-    sqft: 3800,
-    amenities: ["Swimming Pool", "Gym", "Security", "Parking"],
-    isNew: false,
-    featured: true,
-    type: "luxury-villas",
-    rating: 4.8,
-  },
-  
-  // Flats
-  {
-    id: 3,
-    title: "Premium Flat in Indiranagar",
-    location: "Indiranagar 100 Feet Road, Bangalore",
+    title: "Beverley Waterside, Priests Bridge, London, SW14",
+    location: "London, SW14",
     image: "/placeholder.svg?height=600&width=800",
     beds: 3,
     baths: 2,
     sqft: 1850,
-    amenities: ["Club House", "Garden", "Power Backup", "Lift"],
+    amenities: ["IT Ready", "Parking", "Power Backup", "Lift"],
     isNew: false,
     featured: true,
-    type: "flats",
+    type: "luxury-villas",
+    rating: 4.8,
+    development: true,
+    priceRange: "Prices from £500,000"
+  },
+  {
+    id: 3,
+    title: "Headley Chase, Headley, Surrey, KT18",
+    location: "Surrey, KT18",
+    image: "/placeholder.svg?height=600&width=800",
+    beds: 5,
+    baths: 3,
+    sqft: 4500,
+    amenities: ["BMRDA Approved", "Corner Plot", "Clear Title", "Gated Layout"],
+    isNew: true,
+    featured: true,
+    type: "luxury-villas",
     rating: 4.7,
+    development: true,
+    price: "Price on Application"
   },
   {
     id: 4,
-    title: "Modern Flat in Electronic City",
-    location: "Electronic City Phase 1, Bangalore",
+    title: "Lot 2, 3 and 4, Lower Seagry, Chippenham, Wiltshire, SN15",
+    location: "Chippenham, Wiltshire",
     image: "/placeholder.svg?height=600&width=800",
     beds: 2,
-    baths: 2,
+    baths: 1,
     sqft: 1200,
-    amenities: ["IT Park Nearby", "Metro Access", "Shopping Mall", "Hospital"],
-    isNew: true,
+    amenities: ["High Footfall", "Prime Location", "Parking", "Security"],
+    isNew: false,
     featured: false,
-    type: "flats",
+    type: "commercial",
     rating: 4.6,
+    development: true,
+    price: "Price on Application"
   },
   {
     id: 5,
-    title: "Luxury Flat in UB City",
-    location: "UB City Mall, Bangalore",
+    title: "Lot 1, Lower Seagry, Chippenham, Wiltshire, SN15",
+    location: "Chippenham, Wiltshire",
     image: "/placeholder.svg?height=600&width=800",
     beds: 3,
-    baths: 3,
-    sqft: 2100,
-    amenities: ["City View", "Premium Location", "Concierge", "Valet Parking"],
-    isNew: true,
-    featured: true,
-    type: "flats",
+    baths: 2,
+    sqft: 1850,
+    amenities: ["Club House", "Gym", "Swimming Pool", "Children's Play Area"],
+    isNew: false,
+    featured: false,
+    type: "residential",
     rating: 4.8,
+    development: true,
+    price: "Price on Application"
   },
-
-  // New Building
   {
     id: 6,
-    title: "Brand New Apartment Complex",
-    location: "HSR Layout, Bangalore",
-    image: "/placeholder.svg?height=600&width=800",
-    beds: 3,
-    baths: 3,
-    sqft: 2200,
-    amenities: ["Brand New", "Smart Home", "Gated Community", "Park View"],
-    isNew: true,
-    featured: true,
-    type: "new-building",
-    rating: 4.9,
-  },
-  {
-    id: 7,
-    title: "New Construction in Marathahalli",
-    location: "Marathahalli, Bangalore",
-    image: "/placeholder.svg?height=600&width=800",
-    beds: 2,
-    baths: 2,
-    sqft: 1400,
-    amenities: ["Under Construction", "Modern Design", "Green Building", "Tech Park"],
-    isNew: true,
-    featured: false,
-    type: "new-building",
-    rating: 4.5,
-  },
-
-  // Farm House
-  {
-    id: 8,
-    title: "Serene Farm House in Devanahalli",
-    location: "Devanahalli, Bangalore",
+    title: "Brimfield, Ludlow, Herefordshire, SY8",
+    location: "Ludlow, Herefordshire",
     image: "/placeholder.svg?height=600&width=800",
     beds: 4,
     baths: 3,
-    sqft: 5000,
-    amenities: ["Large Garden", "Organic Farm", "Guest House", "Privacy"],
-    isNew: false,
+    sqft: 3200,
+    amenities: ["Loading Dock", "High Ceiling", "Power Supply", "Security"],
+    isNew: true,
     featured: true,
     type: "farm-house",
-    rating: 4.7,
-  },
-  {
-    id: 9,
-    title: "Luxury Farm House in Kanakapura",
-    location: "Kanakapura Road, Bangalore",
-    image: "/placeholder.svg?height=600&width=800",
-    beds: 6,
-    baths: 5,
-    sqft: 6500,
-    amenities: ["Resort Style", "Private Lake", "Horse Riding", "Event Space"],
-    isNew: false,
-    featured: true,
-    type: "farm-house",
-    rating: 4.8,
-  },
-
-  // Sites
-  {
-    id: 10,
-    title: "Premium Plot in Sarjapur",
-    location: "Sarjapur Road, Bangalore",
-    image: "/placeholder.svg?height=600&width=800",
-    sqft: 2400,
-    amenities: ["RERA Approved", "Clear Title", "Gated Layout", "Near IT Hub"],
-    isNew: true,
-    featured: false,
-    type: "sites",
-    rating: 4.6,
-  },
-  {
-    id: 11,
-    title: "Investment Plot in Hennur",
-    location: "Hennur Main Road, Bangalore",
-    image: "/placeholder.svg?height=600&width=800",
-    sqft: 1800,
-    amenities: ["Future Metro", "Developing Area", "Investment Potential", "Good Connectivity"],
-    isNew: false,
-    featured: false,
-    type: "sites",
-    rating: 4.4,
-  },
-
-  // Commercial
-  {
-    id: 12,
-    title: "Premium Office Space in Koramangala",
-    location: "Koramangala 80 Feet Road, Bangalore",
-    image: "/placeholder.svg?height=600&width=800",
-    sqft: 3000,
-    amenities: ["IT Ready", "Parking", "Cafeteria", "Conference Rooms"],
-    isNew: false,
-    featured: true,
-    type: "commercial",
-    rating: 4.7,
-  },
-  {
-    id: 13,
-    title: "Retail Space in Brigade Road",
-    location: "Brigade Road, Bangalore",
-    image: "/placeholder.svg?height=600&width=800",
-    sqft: 1500,
-    amenities: ["High Footfall", "Shopping District", "Parking", "Prime Location"],
-    isNew: true,
-    featured: true,
-    type: "commercial",
-    rating: 4.8,
-  },
-
-  // Investment
-  {
-    id: 14,
-    title: "High ROI Apartment in Bommanahalli",
-    location: "Bommanahalli, Bangalore",
-    image: "/placeholder.svg?height=600&width=800",
-    beds: 2,
-    baths: 2,
-    sqft: 1100,
-    amenities: ["Rental Guarantee", "High ROI", "IT Corridor", "Metro Nearby"],
-    isNew: false,
-    featured: true,
-    type: "investment",
-    rating: 4.6,
-  },
-  {
-    id: 15,
-    title: "Investment Villa in Yelahanka",
-    location: "Yelahanka New Town, Bangalore",
-    image: "/placeholder.svg?height=600&width=800",
-    beds: 3,
-    baths: 3,
-    sqft: 2500,
-    amenities: ["Capital Appreciation", "Rental Income", "Gated Community", "Airport Proximity"],
-    isNew: true,
-    featured: false,
-    type: "investment",
     rating: 4.5,
+    development: true,
+    price: "Price on Application"
   },
 ]
 
@@ -267,7 +149,7 @@ export default function PropertiesPage() {
         {/* Video Background */}
         <div className="absolute inset-0">
           <Image
-            src="/properties-banner.jpeg?height=1080&width=1920"
+            src="/prop-banner.jpg?height=1080&width=1920"
             alt="Luxury properties in Bangalore"
             fill
             className="object-cover"
@@ -315,68 +197,110 @@ export default function PropertiesPage() {
       {/* Property Types Section */}
       <PropertyTypesSection />
 
-      {/* Properties Grid */}
-      <section className="py-6 md:py-8 bg-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center mb-8">
-            <div>
-              <h2 className="text-2xl md:text-3xl font-bold text-black" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>
-                {selectedType ? typeDisplayNames[selectedType] : "Available Properties"}
-              </h2>
-              <p className="text-gray-500 mt-2 font-['Suisse_Intl',sans-serif]">
-                {filteredProperties.length} properties found{selectedType ? ` in ${typeDisplayNames[selectedType].toLowerCase()}` : ""}
-              </p>
+      {/* Main Content - Properties Grid and Map */}
+      <section className="flex-1 bg-gray-50">
+        <div className="flex h-full">
+          {/* Left Section - Properties Grid */}
+          <div className="flex-1 p-6">
+            <div className="flex justify-between items-center mb-6">
+              <div>
+                <h2 className="text-2xl md:text-3xl font-bold text-black" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>
+                  {selectedType ? typeDisplayNames[selectedType] : "Available Properties"}
+                </h2>
+                <p className="text-gray-500 mt-2 font-['Suisse_Intl',sans-serif]">
+                  {filteredProperties.length} properties found{selectedType ? ` in ${typeDisplayNames[selectedType].toLowerCase()}` : ""}
+                </p>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-gray-500 font-['Suisse_Intl',sans-serif]">Sort by:</span>
+                <Select defaultValue="newest">
+                  <SelectTrigger className="w-[180px] border-gray-300 focus:border-red-500">
+                    <SelectValue placeholder="Sort by" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="newest">Newest</SelectItem>
+                    <SelectItem value="size">Size</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
-            <div className="flex items-center gap-2">
-              <span className="text-gray-500 font-['Suisse_Intl',sans-serif]">Sort by:</span>
-              <Select defaultValue="newest">
-                <SelectTrigger className="w-[180px] border-gray-300 focus:border-red-500">
-                  <SelectValue placeholder="Sort by" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="newest">Newest</SelectItem>
-                  <SelectItem value="size">Size</SelectItem>
-                </SelectContent>
-              </Select>
+
+            {filteredProperties.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredProperties.map((property) => (
+                  <PropertyCard key={property.id} property={property} />
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-16">
+                <h3 className="text-xl font-semibold text-slate-700 mb-2">No properties found</h3>
+                <p className="text-slate-500 mb-4">
+                  {selectedType 
+                    ? `No ${typeDisplayNames[selectedType].toLowerCase()} are currently available.`
+                    : "No properties match your current filters."
+                  }
+                </p>
+                <Button variant="outline" onClick={() => window.location.href = '/properties'}>
+                  View All Properties
+                </Button>
+              </div>
+            )}
+
+            {/* Pagination */}
+            <div className="mt-8 flex justify-center">
+              <div className="flex items-center gap-2">
+                <Button variant="outline" size="icon" className="h-8 w-8 bg-white border-slate-300 hover:bg-slate-50">
+                  1
+                </Button>
+                <Button variant="outline" size="icon" className="h-8 w-8 bg-white border-slate-300 hover:bg-slate-50">
+                  2
+                </Button>
+                <Button variant="outline" size="icon" className="h-8 w-8 bg-white border-slate-300 hover:bg-slate-50">
+                  3
+                </Button>
+                <span className="mx-2 text-slate-600">...</span>
+                <Button variant="outline" size="icon" className="h-8 w-8 bg-white border-slate-300 hover:bg-slate-50">
+                  8
+                </Button>
+              </div>
             </div>
           </div>
 
-          {filteredProperties.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {filteredProperties.map((property) => (
-                <PropertyCard key={property.id} property={property} />
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-16">
-              <h3 className="text-xl font-semibold text-slate-700 mb-2">No properties found</h3>
-              <p className="text-slate-500 mb-4">
-                {selectedType 
-                  ? `No ${typeDisplayNames[selectedType].toLowerCase()} are currently available.`
-                  : "No properties match your current filters."
-                }
-              </p>
-              <Button variant="outline" onClick={() => window.location.href = '/properties'}>
-                View All Properties
-              </Button>
-            </div>
-          )}
-
-          <div className="mt-12 flex justify-center">
-            <div className="flex items-center gap-2">
-              <Button variant="outline" size="icon" className="h-8 w-8 bg-white border-slate-300 hover:bg-slate-50">
-                1
-              </Button>
-              <Button variant="outline" size="icon" className="h-8 w-8 bg-white border-slate-300 hover:bg-slate-50">
-                2
-              </Button>
-              <Button variant="outline" size="icon" className="h-8 w-8 bg-white border-slate-300 hover:bg-slate-50">
-                3
-              </Button>
-              <span className="mx-2 text-slate-600">...</span>
-              <Button variant="outline" size="icon" className="h-8 w-8 bg-white border-slate-300 hover:bg-slate-50">
-                8
-              </Button>
+          {/* Right Section - Map */}
+          <div className="w-1/3 bg-white border-l border-gray-200">
+            <div className="h-full relative">
+              {/* Map Placeholder */}
+              <div className="h-full bg-gray-100 flex items-center justify-center">
+                <div className="text-center">
+                  <div className="w-16 h-16 bg-gray-300 rounded-full flex items-center justify-center mb-4">
+                    <svg className="w-8 h-8 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                  </div>
+                  <h3 className="text-lg font-semibold text-gray-700 mb-2">Interactive Map</h3>
+                  <p className="text-sm text-gray-500 mb-4">Property locations will be displayed here</p>
+                  <div className="text-xs text-gray-400">
+                    <p>Zoom controls and property markers</p>
+                    <p>will be integrated with backend</p>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Map Controls Placeholder */}
+              <div className="absolute top-4 right-4 flex flex-col gap-2">
+                <button className="w-8 h-8 bg-white rounded shadow-md flex items-center justify-center text-gray-600 hover:bg-gray-50">
+                  +
+                </button>
+                <button className="w-8 h-8 bg-white rounded shadow-md flex items-center justify-center text-gray-600 hover:bg-gray-50">
+                  -
+                </button>
+              </div>
+              
+              {/* Map Info */}
+              <div className="absolute bottom-4 left-4 right-4 bg-white/90 backdrop-blur-sm rounded-lg p-3 text-xs text-gray-600">
+                <p>Some properties cannot be displayed because we have no exact location information.</p>
+              </div>
             </div>
           </div>
         </div>
