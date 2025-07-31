@@ -26,7 +26,7 @@ export default function HeroSection() {
           muted 
           playsInline
         >
-          <source src="/home-banner.mp4" type="video/mp4" />
+          <source src="/home-banner2.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
         
@@ -45,38 +45,33 @@ export default function HeroSection() {
               className="text-white"
             >
               {/* Main Heading */}
-              <h1 className="font-bold mb-6 font-serif" style={{ fontFamily: 'Tiempos Headline, serif', fontSize: '50px' }}>
+              <h1 className="font-bold mb-6 font-serif" style={{ fontFamily: 'Tiempos Headline, serif', fontSize: '50px', fontWeight: '400' }}>
                 Find your dream property
               </h1>
-
-              {/* Subtitle */}
-              <p className="text-lg md:text-xl text-slate-200 mb-8 max-w-2xl mx-auto">
-                Search from top properties across India with premium locations and modern amenities
-              </p>
 
               {/* Search Form */}
               <motion.form 
                 onSubmit={handleSearch}
-                className="max-w-2xl mx-auto mb-8"
+                className="max-w-4xl mx-auto mb-8"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
               >
                 <div className="relative">
-                  <div className="flex items-center bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 shadow-2xl overflow-hidden">
+                  <div className="flex items-center bg-white rounded-2xl shadow-2xl overflow-hidden">
                     <div className="flex-1 flex items-center px-6 py-4">
-                      <MapPin className="h-5 w-5 text-red-400 mr-3 flex-shrink-0" />
+                      <MapPin className="h-5 w-5 text-red-500 mr-3 flex-shrink-0" />
                       <input
                         type="text"
-                        placeholder="Enter location..."
+                        placeholder="Search by county, town or city"
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className="flex-1 bg-transparent text-white placeholder-slate-300 outline-none text-lg"
+                        className="flex-1 bg-transparent text-gray-800 placeholder-gray-500 outline-none text-lg"
                       />
                     </div>
                     <button
                       type="submit"
-                      className="bg-gray-800/80 hover:bg-gray-700/80 text-white px-8 py-4 transition-all duration-300 flex items-center gap-2"
+                      className="bg-transparent hover:bg-gray-50 text-gray-800 px-8 py-4 transition-all duration-300 flex items-center gap-2"
                     >
                       <Search className="h-5 w-5" />
                       <span className="font-medium">Search</span>
@@ -90,25 +85,31 @@ export default function HeroSection() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.4 }}
-                className="flex flex-col sm:flex-row gap-4 justify-center"
+                className="flex flex-col sm:flex-row gap-8 justify-center"
               >
                 <Link href="/properties">
                   <Button 
                     size="lg" 
-                    variant="outlineWhite"
-                    className="text-lg px-8 py-4 h-auto mr-4 "
+                    variant="ghost"
+                    className="text-lg px-8 py-4 h-auto text-white hover:bg-transparent hover:text-white transition-all duration-300 hover:scale-105 relative group"
                   >
-                    Buy Properties
+                    <span className="relative">
+                      Buy Properties
+                      <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
+                    </span>
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                 </Link>
                 <Link href="/properties">
                   <Button 
                     size="lg" 
-                    variant="outlineWhite"
-                    className="text-lg px-8 py-4 h-auto "
+                    variant="ghost"
+                    className="text-lg px-8 py-4 h-auto text-white hover:bg-transparent hover:text-white transition-all duration-300 hover:scale-105 relative group"
                   >
-                    Sell Properties
+                    <span className="relative">
+                      Sell Properties
+                      <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
+                    </span>
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                 </Link>

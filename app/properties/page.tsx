@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import PropertyFilters from "@/components/property-filters"
 import PropertyCard from "@/components/property-card"
+import PropertyTypesSection from "@/components/property-types-section"
 
 // Sample property data for Bangalore
 const properties = [
@@ -262,30 +263,44 @@ export default function PropertiesPage() {
   return (
     <div className="flex flex-col min-h-screen pt-16">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-[#011337] via-[#011337]/90 to-[#011337]/80 text-white py-20 md:py-28 h-[80vh]">
-        <div className="absolute inset-0 overflow-hidden">
+      <section className="relative w-full h-[85vh] overflow-hidden">
+        {/* Video Background */}
+        <div className="absolute inset-0">
           <Image
-            src="/banner3.jpeg?height=1080&width=1920"
+            src="/properties-banner.jpeg?height=1080&width=1920"
             alt="Luxury properties in Bangalore"
             fill
-            className="object-cover opacity-20"
+            className="object-cover"
           />
+          
+          {/* Overlay */}
+          <div className="absolute inset-0 bg-black/20" />
         </div>
-        <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4" style={{fontFamily: 'Tiempos Headline, serif'}}>
-              {pageTitle}
-            </h2>
-            <p className="text-lg md:text-xl text-slate-200 mb-8">
-              {pageDescription}
-            </p>
-            {selectedType && (
-              <div className="mt-4">
-                <span className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-white/10 text-white border border-white/20">
-                  Showing {filteredProperties.length} {typeDisplayNames[selectedType].toLowerCase()}
-                </span>
+
+        {/* Content */}
+        <div className="relative z-10 h-full flex items-end pb-20">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-4xl mx-auto text-center">
+              <div className="text-white">
+                {/* Main Heading */}
+                <h1 className="font-bold mb-6 font-serif" style={{ fontFamily: 'Tiempos Headline, serif', fontSize: '50px', fontWeight: '400' }}>
+                  {pageTitle}
+                </h1>
+
+                {/* Description */}
+                <p className="text-lg text-white mb-8 font-['Suisse_Intl',sans-serif]">
+                  {pageDescription}
+                </p>
+
+                {selectedType && (
+                  <div className="mt-4">
+                    <span className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-white/10 text-white border border-white/20 font-['Suisse_Intl',sans-serif]">
+                      Showing {filteredProperties.length} {typeDisplayNames[selectedType].toLowerCase()}
+                    </span>
+                  </div>
+                )}
               </div>
-            )}
+            </div>
           </div>
         </div>
       </section>
@@ -297,22 +312,25 @@ export default function PropertiesPage() {
         </div>
       </section>
 
+      {/* Property Types Section */}
+      <PropertyTypesSection />
+
       {/* Properties Grid */}
-      <section className="py-12 md:py-16 bg-gradient-to-br from-slate-50 to-slate-100">
+      <section className="py-6 md:py-8 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center mb-8">
             <div>
-              <h2 className="text-2xl md:text-3xl font-bold text-navy-900">
+              <h2 className="text-2xl md:text-3xl font-bold text-black" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>
                 {selectedType ? typeDisplayNames[selectedType] : "Available Properties"}
               </h2>
-              <p className="text-slate-600 mt-2">
+              <p className="text-gray-500 mt-2 font-['Suisse_Intl',sans-serif]">
                 {filteredProperties.length} properties found{selectedType ? ` in ${typeDisplayNames[selectedType].toLowerCase()}` : ""}
               </p>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-slate-600">Sort by:</span>
+              <span className="text-gray-500 font-['Suisse_Intl',sans-serif]">Sort by:</span>
               <Select defaultValue="newest">
-                <SelectTrigger className="w-[180px] border-slate-300 focus:border-navy-500">
+                <SelectTrigger className="w-[180px] border-gray-300 focus:border-red-500">
                   <SelectValue placeholder="Sort by" />
                 </SelectTrigger>
                 <SelectContent>
@@ -365,28 +383,27 @@ export default function PropertiesPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-12 md:py-16 bg-gradient-to-br from-navy-900 via-navy-800 to-slate-900 text-white">
+      <section className="py-12 md:py-16 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-2xl md:text-3xl font-bold mb-4">Can't find what you're looking for?</h2>
-            <p className="text-lg text-slate-200 mb-8">
+            <h2 className="text-2xl md:text-3xl font-bold mb-4 text-black" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>Can't find what you're looking for?</h2>
+            <p className="text-lg text-gray-500 mb-8 font-['Suisse_Intl',sans-serif]">
               Let our luxury property experts help you find the perfect property that matches your requirements and
               investment goals.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Button 
-                    size="lg" 
-                    variant="outlineWhite"
-                    className="text-lg px-8 py-4 h-auto mr-4 "
-                  >
-                    Schedule a Consultation
+              <Button 
+                size="lg" 
+                className="bg-red-500 hover:bg-red-600 text-white px-8 py-4 font-['Suisse_Intl',sans-serif] font-medium"
+              >
+                Schedule a Consultation
               </Button>
               <Button 
-                    size="lg" 
-                    variant="outlineWhite"
-                    className="text-lg px-8 py-4 h-auto mr-4 "
-                  >
-                    Contact Our Team
+                size="lg" 
+                variant="outline"
+                className="border-red-500 text-red-500 hover:bg-red-500 hover:text-white px-8 py-4 font-['Suisse_Intl',sans-serif] font-medium"
+              >
+                Contact Our Team
               </Button>
             </div>
           </div>

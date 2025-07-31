@@ -36,25 +36,38 @@ export default function AboutPage() {
   return (
     <div className="flex flex-col min-h-screen pt-16">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-[#011337] via-[#011337]/90 to-[#011337]/80 text-white py-20 md:py-28 h-[80vh]">
-        <div className="absolute inset-0 overflow-hidden">
+      <section className="relative w-full h-[85vh] overflow-hidden">
+        {/* Video Background */}
+        <div className="absolute inset-0">
           <Image
             src="/banner1.jpeg?height=1080&width=1920"
             alt="Luxury building with premium architecture"
             fill
-            className="object-cover opacity-20"
+            className="object-cover"
           />
+          
+          {/* Overlay */}
+          <div className="absolute inset-0 bg-black/20" />
         </div>
-        <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4" style={{fontFamily: 'Tiempos Headline, serif'}}>
-              Building a Premium Future
-              One Property at a Time
-            </h1>
-            <p className="text-lg md:text-xl text-slate-200 mb-8">
-              At 11Square, we're committed to creating exceptional real estate experiences that connect discerning
-              clients with Bangalore's most prestigious properties.
-            </p>
+
+        {/* Content */}
+        <div className="relative z-10 h-full flex items-end pb-20">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-4xl mx-auto text-center">
+              <div className="text-white">
+                {/* Main Heading */}
+                <h1 className="font-bold mb-6 font-serif" style={{ fontFamily: 'Tiempos Headline, serif', fontSize: '50px', fontWeight: '400' }}>
+                  Building a Premium Future
+                  One Property at a Time
+                </h1>
+
+                {/* Description */}
+                <p className="text-lg text-white mb-8 font-['Suisse_Intl',sans-serif]">
+                  At 11Square, we're committed to creating exceptional real estate experiences that connect discerning
+                  clients with Bangalore's most prestigious properties.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -62,34 +75,31 @@ export default function AboutPage() {
       {/* Our Story */}
       <section className="py-16 md:py-24 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
-              <div className="inline-block rounded-lg bg-gradient-to-r from-[#011337]/20 to-[#011337]/30 px-3 py-1 text-sm text-[#011337] mb-4">
-                Our Story
-              </div>
-              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-[#011337]">From Vision to Reality</h2>
-              <p className="text-slate-600 mb-6">
+              <h2 className="text-4xl md:text-4xl font-bold mb-6 text-black" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>From Vision to Reality</h2>
+              <p className="text-lg text-gray-500 mb-8 font-['Suisse_Intl',sans-serif]">
                 11Square was founded in 2015 with a singular vision: to redefine luxury real estate in Bangalore by
                 creating a platform that connects discerning buyers and sellers with the city's most exceptional
                 properties.
               </p>
-              <p className="text-slate-600 mb-6">
+              <p className="text-lg text-gray-500 mb-8 font-['Suisse_Intl',sans-serif]">
                 Our founder, Sarah Johnson, recognized that Bangalore's rapidly growing luxury market needed a
                 sophisticated approach that combined deep local knowledge with international standards of service and
                 professionalism.
               </p>
-              <p className="text-slate-600 mb-8">
+              <p className="text-lg text-gray-500 mb-8 font-['Suisse_Intl',sans-serif]">
                 Today, 11Square has grown into Bangalore's premier luxury real estate platform, with a portfolio
                 spanning premium residential properties, commercial spaces, and investment opportunities across the
                 city's most prestigious locations.
               </p>
               <Link href="/contact">
-                <Button variant="premium">
+                <Button className="bg-red-500 hover:bg-red-600 text-white px-8 py-4 font-['Suisse_Intl',sans-serif] font-medium">
                   Get in Touch <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
             </div>
-            <div className="relative h-[500px] rounded-2xl overflow-hidden shadow-2xl">
+            <div className="relative h-[600px] w-full">
               <Image
                 src="/placeholder.svg?height=1000&width=800"
                 alt="11Square founder"
@@ -102,11 +112,11 @@ export default function AboutPage() {
       </section>
 
       {/* Market Leadership */}
-      <section className="py-16 md:py-24 bg-gradient-to-br from-slate-50 to-slate-100">
+      <section className="py-16 md:py-24 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div className="order-2 lg:order-1">
-              <div className="relative h-[500px] rounded-2xl overflow-hidden shadow-2xl">
+              <div className="relative h-[600px] w-full">
                 <Image
                   src="/placeholder.svg?height=1000&width=800"
                   alt="Luxury property portfolio"
@@ -116,24 +126,21 @@ export default function AboutPage() {
               </div>
             </div>
             <div className="order-1 lg:order-2">
-              <div className="inline-block rounded-lg bg-gradient-to-r from-gold-100 to-gold-200 px-3 py-1 text-sm text-gold-800 mb-4">
-                Market Leadership
-              </div>
-              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-[#011337]">Leading the Luxury Market</h2>
-              <p className="text-slate-600 mb-6">
+              <h2 className="text-4xl md:text-4xl font-bold mb-6 text-black" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>Leading the Luxury Market</h2>
+              <p className="text-lg text-gray-500 mb-8 font-['Suisse_Intl',sans-serif]">
                 As Bangalore's premier luxury real estate platform, we've established ourselves as the trusted partner
                 for high-net-worth individuals, institutional investors, and discerning property buyers and sellers.
               </p>
-              <p className="text-slate-600 mb-6">
+              <p className="text-lg text-gray-500 mb-8 font-['Suisse_Intl',sans-serif]">
                 Our deep understanding of the local market dynamics, combined with international standards of service,
                 has positioned us as the go-to destination for premium property transactions in the city.
               </p>
-              <p className="text-slate-600 mb-8">
+              <p className="text-lg text-gray-500 mb-8 font-['Suisse_Intl',sans-serif]">
                 With over ₹500 crores in successful transactions and a portfolio spanning the city's most prestigious
                 locations, we continue to set new benchmarks in luxury real estate excellence.
               </p>
               <Link href="/properties">
-                <Button variant="premium">
+                <Button className="bg-red-500 hover:bg-red-600 text-white px-8 py-4 font-['Suisse_Intl',sans-serif] font-medium">
                   Explore Properties <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
@@ -145,31 +152,28 @@ export default function AboutPage() {
       {/* Technology & Innovation */}
       <section className="py-16 md:py-24 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
-              <div className="inline-block rounded-lg bg-gradient-to-r from-navy-100 to-navy-200 px-3 py-1 text-sm text-navy-800 mb-4">
-                Innovation
-              </div>
-              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-navy-900">Technology Meets Luxury</h2>
-              <p className="text-slate-600 mb-6">
+              <h2 className="text-4xl md:text-4xl font-bold mb-6 text-black" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>Technology Meets Luxury</h2>
+              <p className="text-lg text-gray-500 mb-8 font-['Suisse_Intl',sans-serif]">
                 We leverage cutting-edge technology to enhance the luxury real estate experience, from virtual property
                 tours to advanced market analytics and seamless transaction management.
               </p>
-              <p className="text-slate-600 mb-6">
+              <p className="text-lg text-gray-500 mb-8 font-['Suisse_Intl',sans-serif]">
                 Our proprietary platform combines AI-powered property matching, blockchain-secured transactions, and
                 immersive 3D property visualizations to deliver an unparalleled service experience.
               </p>
-              <p className="text-slate-600 mb-8">
+              <p className="text-lg text-gray-500 mb-8 font-['Suisse_Intl',sans-serif]">
                 By embracing innovation while maintaining the personal touch that luxury clients expect, we're
                 revolutionizing how premium properties are bought, sold, and managed in Bangalore.
               </p>
               <Link href="/contact">
-                <Button variant="premium">
+                <Button className="bg-red-500 hover:bg-red-600 text-white px-8 py-4 font-['Suisse_Intl',sans-serif] font-medium">
                   Experience Innovation <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
             </div>
-            <div className="relative h-[500px] rounded-2xl overflow-hidden shadow-2xl">
+            <div className="relative h-[600px] w-full">
               <Image
                 src="/placeholder.svg?height=1000&width=800"
                 alt="Technology and innovation in real estate"
@@ -227,59 +231,64 @@ export default function AboutPage() {
       <section className="py-16 md:py-24 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <div className="inline-block rounded-lg bg-gradient-to-r from-navy-100 to-navy-200 px-3 py-1 text-sm text-navy-800 mb-4">
-              Our Values
-            </div>
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-navy-900">What Drives Us</h2>
-            <p className="text-slate-600">
+            <h2 className="text-4xl md:text-4xl font-bold mb-6 text-black" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>What Drives Us</h2>
+            <p className="text-lg text-gray-500 font-['Suisse_Intl',sans-serif]">
               Our core values guide every decision we make, from the properties we showcase to the relationships we
               build with our clients.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="bg-white p-8 rounded-2xl shadow-lg border border-slate-200">
-                          <div className="bg-gradient-to-br from-[#011337]/20 to-[#011337]/30 p-3 rounded-2xl w-12 h-12 flex items-center justify-center mb-6">
-              <Shield className="h-6 w-6 text-[#011337]" />
-            </div>
-            <h3 className="text-xl font-bold mb-3 text-[#011337]">Trust & Integrity</h3>
-              <p className="text-slate-600">
-                We prioritize transparency and honesty in every transaction, ensuring our clients make informed
-                decisions with complete confidence.
-              </p>
-            </div>
-
-            <div className="bg-white p-8 rounded-2xl shadow-lg border border-slate-200">
-              <div className="bg-gradient-to-br from-gold-100 to-gold-200 p-3 rounded-2xl w-12 h-12 flex items-center justify-center mb-6">
-                <Award className="h-6 w-6 text-gold-600" />
+            <div className="bg-white p-8 rounded-lg shadow-lg border border-gray-100">
+              <div className="mb-6">
+                <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-4">
+                  <Shield className="h-8 w-8 text-red-600" />
+                </div>
+                <h3 className="text-xl font-bold mb-3 text-black font-['Suisse_Intl',sans-serif]">Trust & Integrity</h3>
+                <p className="text-gray-500 font-['Suisse_Intl',sans-serif]">
+                  We prioritize transparency and honesty in every transaction, ensuring our clients make informed
+                  decisions with complete confidence.
+                </p>
               </div>
-              <h3 className="text-xl font-bold mb-3 text-navy-900">Excellence</h3>
-              <p className="text-slate-600">
-                We never compromise on quality, ensuring that every property we represent meets the highest standards of
-                luxury and sophistication.
-              </p>
             </div>
 
-            <div className="bg-white p-8 rounded-2xl shadow-lg border border-slate-200">
-              <div className="bg-gradient-to-br from-slate-100 to-slate-200 p-3 rounded-2xl w-12 h-12 flex items-center justify-center mb-6">
-                <Users className="h-6 w-6 text-slate-600" />
+            <div className="bg-white p-8 rounded-lg shadow-lg border border-gray-100">
+              <div className="mb-6">
+                <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-4">
+                  <Award className="h-8 w-8 text-red-600" />
+                </div>
+                <h3 className="text-xl font-bold mb-3 text-black font-['Suisse_Intl',sans-serif]">Excellence</h3>
+                <p className="text-gray-500 font-['Suisse_Intl',sans-serif]">
+                  We never compromise on quality, ensuring that every property we represent meets the highest standards of
+                  luxury and sophistication.
+                </p>
               </div>
-              <h3 className="text-xl font-bold mb-3 text-navy-900">Client-Centric</h3>
-              <p className="text-slate-600">
-                We build lasting relationships by understanding our clients' unique needs and delivering personalized
-                solutions that exceed expectations.
-              </p>
             </div>
 
-            <div className="bg-white p-8 rounded-2xl shadow-lg border border-slate-200">
-                          <div className="bg-gradient-to-br from-[#011337]/20 to-[#011337]/30 p-3 rounded-2xl w-12 h-12 flex items-center justify-center mb-6">
-              <Target className="h-6 w-6 text-[#011337]" />
+            <div className="bg-white p-8 rounded-lg shadow-lg border border-gray-100">
+              <div className="mb-6">
+                <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-4">
+                  <Users className="h-8 w-8 text-red-600" />
+                </div>
+                <h3 className="text-xl font-bold mb-3 text-black font-['Suisse_Intl',sans-serif]">Client-Centric</h3>
+                <p className="text-gray-500 font-['Suisse_Intl',sans-serif]">
+                  We build lasting relationships by understanding our clients' unique needs and delivering personalized
+                  solutions that exceed expectations.
+                </p>
+              </div>
             </div>
-            <h3 className="text-xl font-bold mb-3 text-[#011337]">Innovation</h3>
-              <p className="text-slate-600">
-                We continuously embrace new technologies and approaches to enhance the property buying and selling
-                experience.
-              </p>
+
+            <div className="bg-white p-8 rounded-lg shadow-lg border border-gray-100">
+              <div className="mb-6">
+                <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-4">
+                  <Target className="h-8 w-8 text-red-600" />
+                </div>
+                <h3 className="text-xl font-bold mb-3 text-black font-['Suisse_Intl',sans-serif]">Innovation</h3>
+                <p className="text-gray-500 font-['Suisse_Intl',sans-serif]">
+                  We continuously embrace new technologies and approaches to enhance the property buying and selling
+                  experience.
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -355,11 +364,8 @@ export default function AboutPage() {
       <section className="py-16 md:py-24 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <div className="inline-block rounded-lg bg-gradient-to-r from-navy-100 to-navy-200 px-3 py-1 text-sm text-navy-800 mb-4">
-              Our Team
-            </div>
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-navy-900">Meet the Experts</h2>
-            <p className="text-slate-600">
+            <h2 className="text-4xl md:text-4xl font-bold mb-6 text-black" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>Meet the Experts</h2>
+            <p className="text-lg text-gray-500 font-['Suisse_Intl',sans-serif]">
               Our diverse team of professionals brings together expertise in luxury real estate, investment analysis,
               and client relations to deliver exceptional results.
             </p>
@@ -374,11 +380,11 @@ export default function AboutPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 md:py-24 bg-gradient-to-br from-[#011337] via-[#011337]/90 to-[#011337]/80 text-white">
+      <section className="py-16 md:py-24 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">Join Us in Building a Premium Future</h2>
-            <p className="text-lg text-slate-200 mb-8">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-black" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>Join Us in Building a Premium Future</h2>
+            <p className="text-lg text-gray-500 mb-8 font-['Suisse_Intl',sans-serif]">
               Whether you're seeking your dream luxury property or looking to maximize the value of your premium asset,
               we'd love to hear from you.
             </p>
@@ -386,7 +392,7 @@ export default function AboutPage() {
               <Link href="/properties">
                 <Button
                   size="lg"
-                  variant="outlineWhite"
+                  className="bg-red-500 hover:bg-red-600 text-white px-8 py-4 font-['Suisse_Intl',sans-serif] font-medium"
                 >
                   Explore Our Properties
                 </Button>
@@ -394,7 +400,8 @@ export default function AboutPage() {
               <Link href="/contact">
                 <Button
                   size="lg"
-                  variant="outlineWhite"
+                  variant="outline"
+                  className="border-red-500 text-red-500 hover:bg-red-500 hover:text-white px-8 py-4 font-['Suisse_Intl',sans-serif] font-medium"
                 >
                   Contact Us
                 </Button>
