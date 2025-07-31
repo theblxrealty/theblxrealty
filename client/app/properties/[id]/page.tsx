@@ -6,19 +6,21 @@ import PropertyGallery from "@/components/property-gallery"
 import PropertyContactForm from "@/components/property-contact-form"
 import PropertyMap from "@/components/property-map"
 import SimilarProperties from "@/components/similar-properties"
+import PropertyDetailPageClient from "./property-detail-client"
 
 // Sample property data
 const properties = [
   {
     id: 1,
-    title: "Cold Norton Farm, Ockham Lane, Cobham, KT11",
+    title: "Forton Road, Newport, Shropshire, TF10",
     description:
-      "A stunning luxury development nestled in the prestigious area of Cobham, Surrey. This exceptional property offers the perfect blend of modern luxury and countryside charm, providing an idyllic setting for discerning buyers seeking the finest in residential living.",
+      "A rare opportunity to acquire a building plot with planning permission, on one of Newport's premier roads.",
     longDescription:
       "Cold Norton Farm represents the pinnacle of luxury residential development in the sought-after Cobham area. This exclusive development features meticulously designed homes that combine contemporary architecture with traditional craftsmanship. Each property has been thoughtfully planned to maximize natural light and create seamless indoor-outdoor living spaces.\n\nThe development offers a range of property types from elegant townhouses to spacious family homes, all finished to the highest standards. The homes feature premium materials throughout, including bespoke kitchens with integrated appliances, luxury bathrooms with designer fixtures, and smart home technology for modern convenience.\n\nResidents benefit from extensive landscaped gardens, secure parking, and access to premium amenities. The development is perfectly positioned for easy access to excellent schools, transport links, and the vibrant local community of Cobham.",
-    location: "Cobham, Surrey, KT11",
-    price: "Price Range Of £750,000 - £1,395,000",
+    location: "Forton Road, Newport, Shropshire, TF10",
+    price: "£275,000",
     development: true,
+    propertyRef: "stl012507329",
     images: [
       "/placeholder.svg?height=600&width=800",
       "/placeholder.svg?height=600&width=800",
@@ -51,9 +53,9 @@ const properties = [
     isNew: true,
     featured: true,
     agent: {
-      name: "Sarah Johnson",
+      name: "Mitchell Glassey",
       phone: "+44 20 7123 4567",
-      email: "sarah@11square.com",
+      email: "mitchell@11square.com",
       image: "/placeholder.svg?height=200&width=200",
     },
   },
@@ -64,303 +66,6 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
   const property = properties.find((p) => p.id.toString() === id) || properties[0]
 
   return (
-    <div className="flex flex-col min-h-screen pt-16">
-      {/* Property Gallery */}
-      <PropertyGallery images={property.images} title={property.title} />
-
-      {/* Property Details */}
-      <section className="py-12 bg-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col lg:flex-row gap-12">
-            {/* Main Content */}
-            <div className="flex-1">
-              <div className="mb-6">
-                <Link href="/properties" className="text-red-500 hover:text-red-600 flex items-center mb-4 font-['Suisse_Intl',sans-serif]">
-                  <ArrowLeft className="h-4 w-4 mr-2" />
-                  Back to Properties
-                </Link>
-
-                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
-                  <h1 className="text-3xl md:text-4xl font-bold text-black" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>{property.title}</h1>
-                </div>
-
-                <div className="flex items-center text-gray-600 mb-6 font-['Suisse_Intl',sans-serif]">
-                  <MapPin className="h-5 w-5 mr-2 text-red-500" />
-                  {property.location}
-                </div>
-
-                {/* Price */}
-                <div className="mb-8">
-                  <p className="text-2xl font-bold text-black font-['Suisse_Intl',sans-serif]">{property.price}</p>
-                </div>
-
-                <div className="flex flex-wrap gap-6 mb-8">
-                  <div className="flex items-center">
-                    <Bed className="h-5 w-5 text-red-500 mr-2" />
-                    <div>
-                      <div className="font-bold text-black font-['Suisse_Intl',sans-serif]">{property.beds}</div>
-                      <div className="text-sm text-gray-500 font-['Suisse_Intl',sans-serif]">Bedrooms</div>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center">
-                    <Bath className="h-5 w-5 text-red-500 mr-2" />
-                    <div>
-                      <div className="font-bold text-black font-['Suisse_Intl',sans-serif]">{property.baths}</div>
-                      <div className="text-sm text-gray-500 font-['Suisse_Intl',sans-serif]">Bathrooms</div>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center">
-                    <Maximize className="h-5 w-5 text-red-500 mr-2" />
-                    <div>
-                      <div className="font-bold text-black font-['Suisse_Intl',sans-serif]">{property.sqft}</div>
-                      <div className="text-sm text-gray-500 font-['Suisse_Intl',sans-serif]">Square Feet</div>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center">
-                    <Calendar className="h-5 w-5 text-red-500 mr-2" />
-                    <div>
-                      <div className="font-bold text-black font-['Suisse_Intl',sans-serif]">{property.yearBuilt}</div>
-                      <div className="text-sm text-gray-500 font-['Suisse_Intl',sans-serif]">Year Built</div>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center">
-                    <Home className="h-5 w-5 text-red-500 mr-2" />
-                    <div>
-                      <div className="font-bold text-black font-['Suisse_Intl',sans-serif]">{property.lotSize}</div>
-                      <div className="text-sm text-gray-500 font-['Suisse_Intl',sans-serif]">Lot Size</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <Tabs defaultValue="overview">
-                <TabsList className="mb-6">
-                  <TabsTrigger value="overview">Overview</TabsTrigger>
-                  <TabsTrigger value="features">Features</TabsTrigger>
-                  <TabsTrigger value="sustainability">Sustainability</TabsTrigger>
-                  <TabsTrigger value="location">Location</TabsTrigger>
-                </TabsList>
-
-                <TabsContent value="overview" className="space-y-6">
-                  <div>
-                    <h2 className="text-2xl font-bold mb-4 text-black" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>Property Description</h2>
-                    <p className="text-gray-700 mb-4 font-['Suisse_Intl',sans-serif]">{property.description}</p>
-                    <p className="text-gray-700 whitespace-pre-line font-['Suisse_Intl',sans-serif]">{property.longDescription}</p>
-                  </div>
-                </TabsContent>
-
-                <TabsContent value="features" className="space-y-6">
-                  <div>
-                    <h2 className="text-2xl font-bold mb-4 text-black" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>Property Features</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
-                      {property.amenities.map((amenity, index) => (
-                        <div key={index} className="flex items-center font-['Suisse_Intl',sans-serif]">
-                          <div className="h-2 w-2 rounded-full bg-red-500 mr-3"></div>
-                          <span>{amenity}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </TabsContent>
-
-                <TabsContent value="sustainability" className="space-y-6">
-                  <div>
-                    <h2 className="text-2xl font-bold mb-4 text-black" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>Eco-Friendly Features</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                      {property.ecoFeatures.map((feature, index) => (
-                        <div key={index} className="bg-red-50 p-4 rounded-lg">
-                          <div className="flex items-center mb-2">
-                            <Leaf className="h-5 w-5 text-red-500 mr-2" />
-                            <h3 className="font-bold font-['Suisse_Intl',sans-serif]">{feature}</h3>
-                          </div>
-                          <p className="text-gray-600 text-sm font-['Suisse_Intl',sans-serif]">
-                            {feature === "Solar Panels" &&
-                              "High-efficiency solar panels that generate clean, renewable energy for the home, reducing electricity costs and carbon footprint."}
-                            {feature === "Rainwater Harvesting" &&
-                              "System that collects and filters rainwater for irrigation and non-potable water needs, conserving water resources."}
-                            {feature === "Green Roof" &&
-                              "Living roof system that provides natural insulation, reduces stormwater runoff, and creates habitat for local wildlife."}
-                            {feature === "Energy-Efficient Appliances" &&
-                              "ENERGY STAR certified appliances that use less energy than standard models, reducing utility bills and environmental impact."}
-                            {feature === "Smart Home System" &&
-                              "Integrated technology that optimizes energy usage, allowing remote monitoring and control of heating, cooling, and lighting."}
-                            {feature === "Sustainable Building Materials" &&
-                              "Eco-friendly materials sourced responsibly, with low environmental impact and reduced carbon footprint."}
-                          </p>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </TabsContent>
-
-                <TabsContent value="location" className="space-y-6">
-                  <div>
-                    <h2 className="text-2xl font-bold mb-4 text-black" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>Location</h2>
-                    <p className="text-gray-700 mb-6 font-['Suisse_Intl',sans-serif]">
-                      Located in the prestigious area of Cobham, Surrey, this property offers easy access to excellent schools, 
-                      transport links, and the vibrant local community. The neighborhood is known for its commitment to luxury living 
-                      and community-focused initiatives.
-                    </p>
-                    <div className="h-[400px] bg-gray-100 rounded-lg overflow-hidden">
-                      <PropertyMap location={property.location} />
-                    </div>
-
-                    <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
-                      <div className="bg-gray-50 p-4 rounded-lg">
-                        <h3 className="font-bold mb-2 font-['Suisse_Intl',sans-serif]">Transportation</h3>
-                        <ul className="text-sm text-gray-600 space-y-1 font-['Suisse_Intl',sans-serif]">
-                          <li>5 min to public transit</li>
-                          <li>15 min to downtown</li>
-                          <li>30 min to airport</li>
-                          <li>EV charging stations nearby</li>
-                        </ul>
-                      </div>
-
-                      <div className="bg-gray-50 p-4 rounded-lg">
-                        <h3 className="font-bold mb-2 font-['Suisse_Intl',sans-serif]">Education</h3>
-                        <ul className="text-sm text-gray-600 space-y-1 font-['Suisse_Intl',sans-serif]">
-                          <li>Reed's School (0.5 mi)</li>
-                          <li>Cobham Free School (1.2 mi)</li>
-                          <li>ACS International School (2.0 mi)</li>
-                          <li>University of Surrey (3.5 mi)</li>
-                        </ul>
-                      </div>
-
-                      <div className="bg-gray-50 p-4 rounded-lg">
-                        <h3 className="font-bold mb-2 font-['Suisse_Intl',sans-serif]">Amenities</h3>
-                        <ul className="text-sm text-gray-600 space-y-1 font-['Suisse_Intl',sans-serif]">
-                          <li>Waitrose supermarket (0.3 mi)</li>
-                          <li>Cobham Village (0.2 mi)</li>
-                          <li>Painshill Park (0.7 mi)</li>
-                          <li>Farmers market (weekends)</li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                </TabsContent>
-              </Tabs>
-            </div>
-
-            {/* Sidebar */}
-            <div className="w-full lg:w-[380px] mt-8 lg:mt-0">
-              <div className="bg-white rounded-xl shadow-md p-6 sticky top-24 border border-gray-200">
-                <div className="flex items-center mb-6">
-                  <div className="relative h-16 w-16 rounded-full overflow-hidden mr-4">
-                    <Image
-                      src={property.agent.image || "/placeholder.svg"}
-                      alt={property.agent.name}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                  <div>
-                    <h3 className="font-bold font-['Suisse_Intl',sans-serif]">{property.agent.name}</h3>
-                    <p className="text-gray-600 text-sm font-['Suisse_Intl',sans-serif]">Luxury Property Specialist</p>
-                    <div className="flex items-center text-sm text-red-500 mt-1 font-['Suisse_Intl',sans-serif]">
-                      <Phone className="h-3 w-3 mr-1" />
-                      {property.agent.phone}
-                    </div>
-                  </div>
-                </div>
-
-                <PropertyContactForm propertyTitle={property.title} />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Property Location Map */}
-      <section className="py-12 bg-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mb-8">
-            <h2 className="text-2xl md:text-3xl font-bold mb-4 text-black" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>Property Location</h2>
-            <p className="text-gray-600 mb-6 font-['Suisse_Intl',sans-serif]">
-              Located at {property.location}. Explore the neighborhood and nearby amenities.
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Map */}
-            <div className="lg:col-span-2">
-              <div className="h-[650px] bg-gray-100 rounded-xl overflow-hidden shadow-lg">
-                <PropertyMap location={property.location} />
-              </div>
-            </div>
-            
-            {/* Location Details */}
-            <div className="space-y-6">
-              <div className="bg-gray-50 p-6 rounded-xl">
-                <h3 className="text-xl font-bold mb-4 flex items-center font-['Suisse_Intl',sans-serif]">
-                  <MapPin className="h-5 w-5 text-red-500 mr-2" />
-                  Address
-                </h3>
-                <p className="text-gray-700 font-['Suisse_Intl',sans-serif]">{property.location}</p>
-              </div>
-              
-              <div className="bg-gray-50 p-6 rounded-xl">
-                <h3 className="text-xl font-bold mb-4 font-['Suisse_Intl',sans-serif]">Nearby Amenities</h3>
-                <div className="space-y-3 font-['Suisse_Intl',sans-serif]">
-                  <div className="flex items-center justify-between">
-                    <span className="text-gray-600">Shopping Centers</span>
-                    <span className="font-semibold">0.5 mi</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-gray-600">Schools</span>
-                    <span className="font-semibold">0.8 mi</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-gray-600">Public Transport</span>
-                    <span className="font-semibold">0.3 mi</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-gray-600">Parks</span>
-                    <span className="font-semibold">0.2 mi</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-gray-600">Hospitals</span>
-                    <span className="font-semibold">1.2 mi</span>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="bg-gray-50 p-6 rounded-xl">
-                <h3 className="text-xl font-bold mb-4 font-['Suisse_Intl',sans-serif]">Transportation</h3>
-                <div className="space-y-3 font-['Suisse_Intl',sans-serif]">
-                  <div className="flex items-center justify-between">
-                    <span className="text-gray-600">Bus Stop</span>
-                    <span className="font-semibold">5 min walk</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-gray-600">Metro Station</span>
-                    <span className="font-semibold">15 min walk</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-gray-600">Airport</span>
-                    <span className="font-semibold">30 min drive</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-gray-600">Highway Access</span>
-                    <span className="font-semibold">10 min drive</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Similar Properties */}
-      <section className="py-12 bg-gray-50">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl md:text-3xl font-bold mb-8 text-black" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>Similar Properties</h2>
-          <SimilarProperties currentPropertyId={property.id} />
-        </div>
-      </section>
-    </div>
+    <PropertyDetailPageClient property={property} />
   )
 }
