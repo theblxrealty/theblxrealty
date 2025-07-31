@@ -11,7 +11,7 @@ export default function ContactPage() {
         {/* Video Background */}
         <div className="absolute inset-0">
           <Image
-            src="/banner2.jpeg?height=1080&width=1920"
+            src="/contact-banner.jpg?height=1080&width=1920"
             alt="Contact our luxury property experts"
             fill
             className="object-cover"
@@ -27,7 +27,7 @@ export default function ContactPage() {
             <div className="max-w-4xl mx-auto text-center">
               <div className="text-white">
                 {/* Main Heading */}
-                <h1 className="font-bold mb-6 font-serif" style={{ fontFamily: 'Tiempos Headline, serif', fontSize: '50px', fontWeight: '400' }}>
+                <h1 className="font-bold mb-6 font-serif" style={{ fontFamily: 'Tiempos Headline, serif', fontSize: '60px', fontWeight: '400' }}>
                   Get in Touch
                 </h1>
 
@@ -53,7 +53,7 @@ export default function ContactPage() {
                 investment opportunities, our expert team is here to provide personalized guidance.
               </p>
 
-              <div className="space-y-6">
+              <div className="space-y-8">
                 <div className="flex items-start">
                   <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mr-4">
                     <MapPin className="h-6 w-6 text-red-600" />
@@ -112,11 +112,11 @@ export default function ContactPage() {
               </div>
 
               <div className="mt-12">
-                <h3 className="font-bold text-lg mb-4 text-navy-900">Connect With Us</h3>
+                <h3 className="font-bold text-lg mb-4 text-black font-['Suisse_Intl',sans-serif]">Connect With Us</h3>
                 <div className="flex space-x-4">
                   <a
                     href="#"
-                    className="bg-gradient-to-br from-navy-100 to-navy-200 p-3 rounded-2xl text-navy-600 hover:from-navy-200 hover:to-navy-300 transition-colors"
+                    className="bg-gradient-to-br from-red-100 to-red-200 p-3 rounded-2xl text-red-600 hover:from-red-200 hover:to-red-300 transition-colors"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -136,7 +136,7 @@ export default function ContactPage() {
                   </a>
                   <a
                     href="#"
-                    className="bg-gradient-to-br from-gold-100 to-gold-200 p-3 rounded-2xl text-gold-600 hover:from-gold-200 hover:to-gold-300 transition-colors"
+                    className="bg-gradient-to-br from-red-100 to-red-200 p-3 rounded-2xl text-red-600 hover:from-red-200 hover:to-red-300 transition-colors"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -156,7 +156,7 @@ export default function ContactPage() {
                   </a>
                   <a
                     href="#"
-                    className="bg-gradient-to-br from-slate-100 to-slate-200 p-3 rounded-2xl text-slate-600 hover:from-slate-200 hover:to-slate-300 transition-colors"
+                    className="bg-gradient-to-br from-red-100 to-red-200 p-3 rounded-2xl text-red-600 hover:from-red-200 hover:to-red-300 transition-colors"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -178,7 +178,7 @@ export default function ContactPage() {
                   </a>
                   <a
                     href="#"
-                    className="bg-gradient-to-br from-emerald-100 to-emerald-200 p-3 rounded-2xl text-emerald-600 hover:from-emerald-200 hover:to-emerald-300 transition-colors"
+                    className="bg-gradient-to-br from-red-100 to-red-200 p-3 rounded-2xl text-red-600 hover:from-red-200 hover:to-red-300 transition-colors"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
