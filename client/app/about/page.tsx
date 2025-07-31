@@ -40,7 +40,7 @@ export default function AboutPage() {
         {/* Video Background */}
         <div className="absolute inset-0">
           <Image
-            src="/banner1.jpeg?height=1080&width=1920"
+            src="/about-banner.jpg?height=1080&width=1920"
             alt="Luxury building with premium architecture"
             fill
             className="object-cover"
@@ -56,9 +56,8 @@ export default function AboutPage() {
             <div className="max-w-4xl mx-auto text-center">
               <div className="text-white">
                 {/* Main Heading */}
-                <h1 className="font-bold mb-6 font-serif" style={{ fontFamily: 'Tiempos Headline, serif', fontSize: '50px', fontWeight: '400' }}>
-                  Building a Premium Future
-                  One Property at a Time
+                <h1 className="font-bold mb-6 font-serif" style={{ fontFamily: 'Tiempos Headline, serif', fontSize: '60px', fontWeight: '400' }}>
+                  About Us
                 </h1>
 
                 {/* Description */}
