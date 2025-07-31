@@ -41,7 +41,7 @@ export default function PropertyCard({ property }: { property: Property }) {
         onMouseLeave={() => setIsHovered(false)}
       >
         {/* Image Section - Fixed Height */}
-        <div className="relative h-48 flex-shrink-0">
+        <div className="relative h-48 flex-shrink-0 overflow-hidden">
           <motion.div
             animate={{
               scale: isHovered ? 1.05 : 1,
