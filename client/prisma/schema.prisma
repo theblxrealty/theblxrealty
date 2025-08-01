@@ -12,3 +12,109 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+// User table for storing user information
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  phone     String   @unique
+  password  String
+  firstName String?
+  lastName  String?
+  title     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  propertyViewRequests PropertyViewRequest[]
+  contactRequests     ContactRequest[]
+
+  @@map("users")
+}
+
+// Admin user table
+model Admin {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  phone     String   @unique
+  password  String
+  firstName String?
+  lastName  String?
+  role      String   @default("admin") // admin, super_admin
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  properties Property[]
+
+  @@map("admins")
+}
+
+// Property table
+model Property {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  price       Float?
+  location    String?
+  latitude    Float?   // For future map integration
+  longitude   Float?   // For future map integration
+  propertyType String? // house, flat, farm, etc.
+  bedrooms    Int?
+  bathrooms   Int?
+  area        Float?   // in sq ft
+  images      String[] // Array of image URLs
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // Relations
+  adminId              String?
+  admin                Admin?               @relation(fields: [adminId], references: [id])
+  propertyViewRequests PropertyViewRequest[]
+
+  @@map("properties")
+}
+
+// Property view request table
+model PropertyViewRequest {
+  id            String   @id @default(cuid())
+  propertyId    String
+  userId        String?
+  firstName     String
+  lastName      String
+  email         String
+  phone         String
+  title         String?
+  preferredDate String?
+  preferredTime String?
+  additionalInfo String?
+  heardFrom     String?
+  status        String   @default("pending") // pending, confirmed, cancelled
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  property Property @relation(fields: [propertyId], references: [id])
+  user     User?   @relation(fields: [userId], references: [id])
+
+  @@map("property_view_requests")
+}
+
+// Contact request table
+model ContactRequest {
+  id        String   @id @default(cuid())
+  userId    String?
+  name      String
+  email     String
+  phone     String
+  message   String
+  status    String   @default("pending") // pending, responded, closed
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  user User? @relation(fields: [userId], references: [id])
+
+  @@map("contact_requests")
+}
