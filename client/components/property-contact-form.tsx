@@ -57,18 +57,48 @@ export default function PropertyContactForm({ propertyTitle, isOpen, onClose }: 
     }))
   }
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setFormState((prev) => ({ ...prev, loading: true }))
 
-    // Simulate form submission
-    setTimeout(() => {
-      setFormState((prev) => ({
-        ...prev,
-        submitted: true,
-        loading: false,
-      }))
-    }, 1500)
+    try {
+      const response = await fetch('/api/property-view-request', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          propertyId: propertyTitle, // Using propertyTitle as propertyId for now
+          firstName: formState.firstName,
+          lastName: formState.lastName,
+          email: formState.email,
+          phone: formState.phoneNumber,
+          title: formState.title,
+          preferredDate: formState.preferredDate,
+          preferredTime: formState.preferredTime,
+          additionalInfo: formState.additionalInfo,
+          heardFrom: formState.heardFrom,
+        }),
+      })
+
+      const data = await response.json()
+
+      if (response.ok) {
+        setFormState((prev) => ({
+          ...prev,
+          submitted: true,
+          loading: false,
+        }))
+      } else {
+        console.error('Form submission failed:', data.error)
+        setFormState((prev) => ({ ...prev, loading: false }))
+        // You can add error handling here
+      }
+    } catch (error) {
+      console.error('Form submission error:', error)
+      setFormState((prev) => ({ ...prev, loading: false }))
+      // You can add error handling here
+    }
   }
 
   // Calendar navigation functions

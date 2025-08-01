@@ -30,10 +30,34 @@ export default function ContactForm() {
     e.preventDefault()
     setFormState((prev) => ({ ...prev, loading: true }))
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 2000))
+    try {
+      const response = await fetch('/api/contact-request', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formState.name,
+          email: formState.email,
+          phone: formState.phone,
+          message: formState.message,
+        }),
+      })
 
-    setFormState((prev) => ({ ...prev, loading: false, submitted: true }))
+      const data = await response.json()
+
+      if (response.ok) {
+        setFormState((prev) => ({ ...prev, loading: false, submitted: true }))
+      } else {
+        console.error('Form submission failed:', data.error)
+        setFormState((prev) => ({ ...prev, loading: false }))
+        // You can add error handling here
+      }
+    } catch (error) {
+      console.error('Form submission error:', error)
+      setFormState((prev) => ({ ...prev, loading: false }))
+      // You can add error handling here
+    }
   }
 
   if (formState.submitted) {
