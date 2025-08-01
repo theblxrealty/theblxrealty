@@ -30,6 +30,17 @@ export interface ContactRequestEmail {
   message: string
 }
 
+export interface CareerApplicationEmail {
+  firstName: string
+  lastName: string
+  email: string
+  phone: string
+  position: string
+  experience: string
+  message: string
+  resume?: string
+}
+
 export const sendPropertyViewRequestEmail = async (data: PropertyViewRequestEmail) => {
   const mailOptions = {
     from: process.env.EMAIL_USER,
@@ -57,6 +68,48 @@ export const sendPropertyViewRequestEmail = async (data: PropertyViewRequestEmai
         <hr style="border: 1px solid #eee; margin: 20px 0;">
         <p style="color: #999; font-size: 12px;">
           This request was submitted on ${new Date().toLocaleString()}
+        </p>
+      </div>
+    `,
+  }
+
+  try {
+    await transporter.sendMail(mailOptions)
+    return { success: true }
+  } catch (error) {
+    console.error('Email sending failed:', error)
+    return { success: false, error }
+  }
+}
+
+export const sendCareerApplicationEmail = async (data: CareerApplicationEmail) => {
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to: 'spreethamkumar5@gmail.com',
+    subject: 'Career Application',
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+        <h2 style="color: #333;">Career Application</h2>
+        <hr style="border: 1px solid #eee; margin: 20px 0;">
+        
+        <h3 style="color: #666;">Applicant Details</h3>
+        <p><strong>Name:</strong> ${data.firstName} ${data.lastName}</p>
+        <p><strong>Email:</strong> ${data.email}</p>
+        <p><strong>Phone:</strong> ${data.phone}</p>
+        
+        <h3 style="color: #666;">Application Details</h3>
+        <p><strong>Position:</strong> ${data.position}</p>
+        <p><strong>Experience Level:</strong> ${data.experience}</p>
+        ${data.resume ? `<p><strong>Resume:</strong> ${data.resume}</p>` : ''}
+        
+        <h3 style="color: #666;">Message</h3>
+        <p style="background: #f9f9f9; padding: 15px; border-radius: 5px;">
+          ${data.message.replace(/\n/g, '<br>')}
+        </p>
+        
+        <hr style="border: 1px solid #eee; margin: 20px 0;">
+        <p style="color: #999; font-size: 12px;">
+          This application was submitted on ${new Date().toLocaleString()}
         </p>
       </div>
     `,

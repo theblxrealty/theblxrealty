@@ -21,6 +21,7 @@ export default function CareersPage() {
     resume: null as File | null,
     submitted: false,
     loading: false,
+    error: "",
   })
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -46,18 +47,53 @@ export default function CareersPage() {
     }))
   }
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setFormState((prev) => ({ ...prev, loading: true }))
+    setFormState((prev) => ({ ...prev, loading: true, error: "" }))
 
-    // Simulate form submission
-    setTimeout(() => {
-      setFormState((prev) => ({
-        ...prev,
-        submitted: true,
+    try {
+      const response = await fetch('/api/career-application', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          firstName: formState.firstName,
+          lastName: formState.lastName,
+          email: formState.email,
+          phone: formState.phone,
+          position: formState.position,
+          experience: formState.experience,
+          message: formState.message,
+          resume: formState.resume,
+        }),
+      })
+
+      const data = await response.json()
+
+      if (response.ok) {
+        setFormState((prev) => ({
+          ...prev,
+          submitted: true,
+          loading: false,
+          error: "",
+        }))
+      } else {
+        console.error('Form submission failed:', data.error)
+        setFormState((prev) => ({ 
+          ...prev, 
+          loading: false,
+          error: data.error || 'Form submission failed. Please try again.'
+        }))
+      }
+    } catch (error) {
+      console.error('Form submission error:', error)
+      setFormState((prev) => ({ 
+        ...prev, 
         loading: false,
+        error: 'Network error. Please check your connection and try again.'
       }))
-    }, 1500)
+    }
   }
 
   const positionOptions = [
@@ -160,6 +196,15 @@ export default function CareersPage() {
                       Tell us about yourself and the role you're interested in.
                     </p>
                   </div>
+
+              {/* Error Display */}
+              {formState.error && (
+                <div className="bg-red-50 border border-red-200 rounded-md p-3 mb-4">
+                  <p className="text-red-600 text-sm font-['Suisse_Intl',sans-serif]">
+                    {formState.error}
+                  </p>
+                </div>
+              )}
 
               <form onSubmit={handleSubmit} className="space-y-5">
                 {/* Personal Information */}

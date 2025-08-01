@@ -216,4 +216,101 @@ export const validateContactRequest = async (
     isValid: errors.length === 0,
     errors
   }
+}
+
+// Validate career application data
+export const validateCareerApplication = async (
+  data: {
+    firstName: string
+    lastName: string
+    email: string
+    phone: string
+    position: string
+    experience: string
+    message: string
+    resume?: string
+  },
+  request?: Request
+) => {
+  const errors: string[] = []
+
+  // Validate required fields
+  if (!data.firstName || !validateName(data.firstName)) {
+    errors.push('Valid first name is required')
+  }
+
+  if (!data.lastName || !validateName(data.lastName)) {
+    errors.push('Valid last name is required')
+  }
+
+  if (!data.email || !validateEmail(data.email)) {
+    errors.push('Valid email address is required')
+  }
+
+  if (!data.phone || !validatePhone(data.phone)) {
+    errors.push('Valid phone number is required')
+  }
+
+  if (!data.position || data.position.trim().length < 2) {
+    errors.push('Valid position is required')
+  }
+
+  if (!data.experience || data.experience.trim().length < 2) {
+    errors.push('Valid experience level is required')
+  }
+
+  if (!data.message || data.message.trim().length < 10) {
+    errors.push('Message must be at least 10 characters long')
+  }
+
+  if (data.message && data.message.length > 1000) {
+    errors.push('Message is too long (maximum 1000 characters)')
+  }
+
+  // Check for duplicate career application
+  const isDuplicate = await checkDuplicateCareerApplication(data.email)
+  if (isDuplicate) {
+    errors.push('You have already submitted a career application in the last 24 hours')
+  }
+
+  // Rate limiting checks
+  const rateLimitKey = `career_${data.email}`
+  if (!checkRateLimit(rateLimitKey, 1, 3600000)) { // 1 application per hour
+    errors.push('Too many career applications. Please wait before making another application.')
+  }
+
+  // IP-based rate limiting
+  if (request) {
+    const clientIP = getClientIP(request)
+    if (!checkIPRateLimit(clientIP, 5, 3600000)) { // 5 applications per hour per IP
+      errors.push('Too many applications from this IP address. Please wait before making another application.')
+    }
+  }
+
+  return {
+    isValid: errors.length === 0,
+    errors
+  }
+}
+
+// Check for duplicate career applications
+export const checkDuplicateCareerApplication = async (
+  email: string,
+  timeWindowHours: number = 24
+): Promise<boolean> => {
+  const timeWindow = new Date()
+  timeWindow.setHours(timeWindow.getHours() - timeWindowHours)
+
+  // For now, we'll just check if there's a recent contact request from this email
+  // In the future, we can add a career_applications table to the database
+  const existingRequest = await prisma.contactRequest.findFirst({
+    where: {
+      email,
+      createdAt: {
+        gte: timeWindow
+      }
+    }
+  })
+
+  return !!existingRequest
 } 
