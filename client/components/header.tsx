@@ -13,7 +13,7 @@ const navItems = [
   { name: "Home", path: "/" },
   { name: "Properties", path: "/properties" },
   { name: "About", path: "/about" },
-  { name: "Careers", path: "/careers" },
+  { name: "Careers", path: "/careers", newWindow: true },
   { name: "Contact", path: "/contact" },
 ]
 
@@ -62,6 +62,8 @@ export default function Header() {
               <Link
                 key={item.name}
                 href={item.path}
+                target={item.newWindow ? "_blank" : undefined}
+                rel={item.newWindow ? "noopener noreferrer" : undefined}
                 className={`text-base font-medium transition-colors relative font-['Suisse_Intl',sans-serif] ${
                   pathname === item.path
                     ? "text-red-400 font-bold"
@@ -91,7 +93,6 @@ export default function Header() {
 
           {/* Mobile Menu Button */}
           <div className="md:hidden flex items-center space-x-2">
-            <ThemeToggle />
             <button className="md:hidden" onClick={() => setMobileMenuOpen(!mobileMenuOpen)} aria-label="Toggle menu">
               {mobileMenuOpen ? (
                 <X className="h-6 w-6 text-white" />
@@ -116,10 +117,12 @@ export default function Header() {
                 <Link
                   key={item.name}
                   href={item.path}
-                                  className={`text-lg py-2 font-['Suisse_Intl',sans-serif] ${
-                  pathname === item.path ? "text-red-400 font-medium" : "text-slate-200 hover:text-red-400"
-                }`}
-                  onClick={() => setMobileMenuOpen(false)}
+                  target={item.newWindow ? "_blank" : undefined}
+                  rel={item.newWindow ? "noopener noreferrer" : undefined}
+                  className={`text-lg py-2 font-['Suisse_Intl',sans-serif] ${
+                    pathname === item.path ? "text-red-400 font-medium" : "text-slate-200 hover:text-red-400"
+                  }`}
+                  onClick={() => !item.newWindow && setMobileMenuOpen(false)}
                 >
                   {item.name}
                 </Link>

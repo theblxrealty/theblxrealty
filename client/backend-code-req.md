@@ -18,7 +18,7 @@ The following sections currently use static/mock data and require backend APIs:
 ## 1. Property Management System
 
 ### 1.1 Property Data Management
-**Current State**: All property data is hardcoded in components
+**Current State**: All property data is hardcoded in components (`properties/page.tsx`, `properties/[id]/page.tsx`)
 **Required APIs**:
 - `GET /api/properties` - List all properties with pagination, filtering, sorting
 - `GET /api/properties/[id]` - Get single property details
@@ -35,10 +35,11 @@ CREATE TABLE properties (
   description TEXT,
   long_description TEXT,
   location VARCHAR(255) NOT NULL,
-  property_type VARCHAR(50) NOT NULL, -- villa, apartment, commercial, etc.
+  property_type VARCHAR(50) NOT NULL, -- luxury-villas, flats, farm-house, commercial, etc.
   category VARCHAR(50) NOT NULL, -- residential, commercial, land, investment
   status VARCHAR(50) NOT NULL, -- for_sale, for_rent, sold, rented
   price DECIMAL(15,2),
+  price_range VARCHAR(100), -- for development properties
   beds INTEGER,
   baths INTEGER,
   sqft INTEGER,
@@ -49,14 +50,16 @@ CREATE TABLE properties (
   images JSONB,
   is_new BOOLEAN DEFAULT false,
   featured BOOLEAN DEFAULT false,
+  development BOOLEAN DEFAULT false,
   rating DECIMAL(3,2),
+  property_ref VARCHAR(50),
   created_at TIMESTAMP DEFAULT NOW(),
   updated_at TIMESTAMP DEFAULT NOW()
 );
 ```
 
 ### 1.2 Property Search & Filtering
-**Current State**: Static filtering in frontend
+**Current State**: Static filtering in `property-filters.tsx` component
 **Required APIs**:
 - `GET /api/properties/search` - Advanced search with filters
 - `GET /api/properties/filters` - Get available filter options
@@ -64,14 +67,15 @@ CREATE TABLE properties (
 
 **Filter Parameters**:
 - Location (area, city)
-- Property type (villa, apartment, commercial, etc.)
+- Property type (luxury-villas, flats, farm-house, commercial, etc.)
 - Price range
 - Bedrooms/Bathrooms
 - Square footage
-- Amenities
+- Amenities (parking, gym, pool, security, etc.)
 - Property status
 - Year built
 - Features (furnished, balcony, garden, etc.)
+- Development status
 
 ### 1.3 Property Images & Media
 **Current State**: Static placeholder images
@@ -89,8 +93,8 @@ CREATE TABLE properties (
 
 ## 2. Contact & Inquiry Management
 
-### 2.1 Contact Form Submissions
-**Current State**: Simulated form submission
+### 2.1 General Contact Form Submissions
+**Current State**: Simulated form submission in `contact-form.tsx`
 **Required APIs**:
 - `POST /api/contact` - Submit contact form
 - `GET /api/contact/inquiries` - List contact inquiries (admin)
@@ -105,7 +109,7 @@ CREATE TABLE contact_inquiries (
   email VARCHAR(255) NOT NULL,
   phone VARCHAR(50),
   message TEXT NOT NULL,
-  source VARCHAR(50), -- homepage, property_page, contact_page
+  source VARCHAR(50), -- homepage, contact_page
   status VARCHAR(50) DEFAULT 'new', -- new, contacted, closed
   created_at TIMESTAMP DEFAULT NOW(),
   updated_at TIMESTAMP DEFAULT NOW()
@@ -113,7 +117,7 @@ CREATE TABLE contact_inquiries (
 ```
 
 ### 2.2 Property-Specific Inquiries
-**Current State**: Simulated property contact form
+**Current State**: Simulated property contact form in `property-contact-form.tsx`
 **Required APIs**:
 - `POST /api/properties/[id]/inquiries` - Submit property-specific inquiry
 - `GET /api/properties/[id]/inquiries` - Get inquiries for specific property (admin)
@@ -124,13 +128,17 @@ CREATE TABLE contact_inquiries (
 CREATE TABLE property_inquiries (
   id SERIAL PRIMARY KEY,
   property_id INTEGER REFERENCES properties(id),
-  name VARCHAR(255) NOT NULL,
+  title VARCHAR(10), -- Mr, Mrs, etc.
+  first_name VARCHAR(255) NOT NULL,
+  last_name VARCHAR(255) NOT NULL,
   email VARCHAR(255) NOT NULL,
-  phone VARCHAR(50),
-  message TEXT NOT NULL,
-  contact_preference VARCHAR(20), -- email, phone
+  phone_country VARCHAR(10),
+  phone_number VARCHAR(50),
   preferred_date DATE,
-  preferred_time VARCHAR(20),
+  preferred_time VARCHAR(20), -- morning, afternoon, allday
+  additional_info TEXT,
+  heard_from VARCHAR(50),
+  contact_preference VARCHAR(20), -- email, phone
   status VARCHAR(50) DEFAULT 'new',
   created_at TIMESTAMP DEFAULT NOW(),
   updated_at TIMESTAMP DEFAULT NOW()
@@ -202,7 +210,7 @@ CREATE TABLE user_searches (
 ## 4. Agent & Team Management
 
 ### 4.1 Agent Profiles
-**Current State**: Static team member data
+**Current State**: Static team member data in `about/page.tsx`
 **Required APIs**:
 - `GET /api/agents` - List all agents
 - `GET /api/agents/[id]` - Get agent details
@@ -253,7 +261,7 @@ CREATE TABLE agent_properties (
 ## 5. Content Management System
 
 ### 5.1 Blog/News Management
-**Current State**: No blog functionality
+**Current State**: No blog functionality (mentioned in homepage)
 **Required APIs**:
 - `GET /api/blog` - List blog posts
 - `GET /api/blog/[id]` - Get blog post details
@@ -280,7 +288,7 @@ CREATE TABLE blog_posts (
 ```
 
 ### 5.2 Testimonials Management
-**Current State**: Static testimonial data
+**Current State**: Static testimonial data in homepage and about page
 **Required APIs**:
 - `GET /api/testimonials` - List testimonials
 - `POST /api/testimonials` - Create testimonial (admin)
@@ -305,9 +313,64 @@ CREATE TABLE testimonials (
 
 ---
 
-## 6. Analytics & Reporting
+## 6. Career Management System
 
-### 6.1 Property Analytics
+### 6.1 Job Applications
+**Current State**: Simulated form submission in `careers/page.tsx`
+**Required APIs**:
+- `POST /api/careers/applications` - Submit job application
+- `GET /api/careers/applications` - List job applications (admin)
+- `PUT /api/careers/applications/[id]` - Update application status (admin)
+
+**Database Schema**:
+```sql
+-- Job applications table
+CREATE TABLE job_applications (
+  id SERIAL PRIMARY KEY,
+  first_name VARCHAR(255) NOT NULL,
+  last_name VARCHAR(255) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  phone VARCHAR(50) NOT NULL,
+  position VARCHAR(100) NOT NULL,
+  experience_level VARCHAR(50) NOT NULL,
+  message TEXT,
+  resume_url VARCHAR(500),
+  status VARCHAR(50) DEFAULT 'new', -- new, reviewed, shortlisted, rejected, hired
+  created_at TIMESTAMP DEFAULT NOW(),
+  updated_at TIMESTAMP DEFAULT NOW()
+);
+```
+
+### 6.2 Job Postings
+**Current State**: No job posting functionality
+**Required APIs**:
+- `GET /api/careers/jobs` - List available job positions
+- `POST /api/careers/jobs` - Create job posting (admin)
+- `PUT /api/careers/jobs/[id]` - Update job posting (admin)
+- `DELETE /api/careers/jobs/[id]` - Delete job posting (admin)
+
+**Database Schema**:
+```sql
+-- Job postings table
+CREATE TABLE job_postings (
+  id SERIAL PRIMARY KEY,
+  title VARCHAR(255) NOT NULL,
+  description TEXT NOT NULL,
+  requirements TEXT,
+  location VARCHAR(255),
+  type VARCHAR(50), -- full-time, part-time, contract
+  experience_level VARCHAR(50),
+  is_active BOOLEAN DEFAULT true,
+  created_at TIMESTAMP DEFAULT NOW(),
+  updated_at TIMESTAMP DEFAULT NOW()
+);
+```
+
+---
+
+## 7. Analytics & Reporting
+
+### 7.1 Property Analytics
 **Current State**: No analytics
 **Required APIs**:
 - `GET /api/analytics/properties/views` - Property view analytics
@@ -338,7 +401,7 @@ CREATE TABLE search_analytics (
 );
 ```
 
-### 6.2 Lead Management
+### 7.2 Lead Management
 **Current State**: No lead tracking
 **Required APIs**:
 - `GET /api/leads` - List all leads (admin)
@@ -347,23 +410,25 @@ CREATE TABLE search_analytics (
 
 ---
 
-## 7. Notification System
+## 8. Notification System
 
-### 7.1 Email Notifications
+### 8.1 Email Notifications
 **Current State**: No email functionality
 **Required APIs**:
 - `POST /api/notifications/email` - Send email notification
 - `POST /api/notifications/inquiry-confirmation` - Send inquiry confirmation
 - `POST /api/notifications/property-update` - Notify about property updates
+- `POST /api/notifications/application-confirmation` - Send job application confirmation
 
 **Email Templates Needed**:
 - Inquiry confirmation emails
 - Property update notifications
+- Job application confirmations
 - Newsletter subscriptions
 - Password reset emails
 - Welcome emails
 
-### 7.2 SMS Notifications
+### 8.2 SMS Notifications
 **Current State**: No SMS functionality
 **Required APIs**:
 - `POST /api/notifications/sms` - Send SMS notification
@@ -371,37 +436,39 @@ CREATE TABLE search_analytics (
 
 ---
 
-## 8. Admin Dashboard
+## 9. Admin Dashboard
 
-### 8.1 Admin APIs
+### 9.1 Admin APIs
 **Current State**: No admin functionality
 **Required APIs**:
 - `GET /api/admin/dashboard` - Admin dashboard data
 - `GET /api/admin/users` - Manage users
 - `GET /api/admin/properties` - Manage properties
 - `GET /api/admin/inquiries` - Manage inquiries
+- `GET /api/admin/applications` - Manage job applications
 - `GET /api/admin/analytics` - View analytics
 
-### 8.2 Admin Dashboard Features
+### 9.2 Admin Dashboard Features
 - Property management interface
 - User management
 - Inquiry management
+- Job application management
 - Analytics dashboard
 - Content management
 - System settings
 
 ---
 
-## 9. External Integrations
+## 10. External Integrations
 
-### 9.1 Payment Gateway Integration
+### 10.1 Payment Gateway Integration
 **Current State**: No payment functionality
 **Required APIs**:
 - `POST /api/payments/create-intent` - Create payment intent
 - `POST /api/payments/confirm` - Confirm payment
 - `GET /api/payments/history` - Payment history
 
-### 9.2 Third-Party Services
+### 10.2 Third-Party Services
 **Current State**: No external integrations
 **Required Integrations**:
 - Email service (SendGrid, Mailgun)
@@ -409,20 +476,22 @@ CREATE TABLE search_analytics (
 - File storage (AWS S3, Cloudinary)
 - Payment processing (Stripe, Razorpay)
 - Analytics (Google Analytics, Mixpanel)
+- reCAPTCHA integration
 
 ---
 
-## 10. Security & Performance
+## 11. Security & Performance
 
-### 10.1 Security Requirements
+### 11.1 Security Requirements
 - JWT token authentication
 - Role-based access control (RBAC)
 - Input validation and sanitization
 - Rate limiting
 - CORS configuration
 - API key management for external services
+- reCAPTCHA integration for forms
 
-### 10.2 Performance Requirements
+### 11.2 Performance Requirements
 - Database indexing for search queries
 - Caching layer (Redis)
 - Image optimization and CDN
@@ -431,7 +500,7 @@ CREATE TABLE search_analytics (
 
 ---
 
-## 11. Database Schema Summary
+## 12. Database Schema Summary
 
 ### Core Tables Required:
 1. `users` - User accounts and authentication
@@ -444,36 +513,42 @@ CREATE TABLE search_analytics (
 8. `user_searches` - User saved searches
 9. `blog_posts` - Blog content
 10. `testimonials` - Customer testimonials
-11. `property_views` - Analytics tracking
-12. `search_analytics` - Search tracking
+11. `job_applications` - Career applications
+12. `job_postings` - Job listings
+13. `property_views` - Analytics tracking
+14. `search_analytics` - Search tracking
 
 ### Indexes Required:
-- Properties: location, property_type, price, status
+- Properties: location, property_type, price, status, development
 - Users: email
 - Inquiries: created_at, status
 - Views: property_id, viewed_at
+- Applications: position, status, created_at
 
 ---
 
-## 12. Implementation Priority
+## 13. Implementation Priority
 
 ### Phase 1 (Critical - MVP)
 1. Property management APIs
-2. Contact form submission
+2. Contact form submission (general and property-specific)
 3. Basic user authentication
 4. Property search and filtering
+5. Job application system
 
 ### Phase 2 (Important - Enhanced UX)
 1. User favorites and saved searches
 2. Agent management
 3. Blog/Content management
 4. Email notifications
+5. Testimonials management
 
 ### Phase 3 (Advanced Features)
 1. Analytics and reporting
 2. Admin dashboard
 3. Payment integration
 4. Advanced search features
+5. Career management system
 
 ### Phase 4 (Production Optimization)
 1. Performance optimization
@@ -483,7 +558,7 @@ CREATE TABLE search_analytics (
 
 ---
 
-## 13. Technology Stack Recommendations
+## 14. Technology Stack Recommendations
 
 ### Backend Framework
 - Next.js API routes (current)
@@ -497,6 +572,7 @@ CREATE TABLE search_analytics (
 - Twilio for SMS
 - Stripe for payments
 - Cloudinary for image optimization
+- reCAPTCHA for form protection
 
 ### Monitoring & Analytics
 - Sentry for error tracking
@@ -506,25 +582,28 @@ CREATE TABLE search_analytics (
 
 ---
 
-## 14. Estimated Development Time
+## 15. Estimated Development Time
 
 ### Phase 1: 4-6 weeks
 - Core property management
 - Basic user system
 - Contact forms
 - Search functionality
+- Job applications
 
 ### Phase 2: 3-4 weeks
 - User favorites
 - Agent system
 - Content management
 - Email notifications
+- Testimonials
 
 ### Phase 3: 4-5 weeks
 - Analytics dashboard
 - Admin interface
 - Payment integration
 - Advanced features
+- Career management
 
 ### Phase 4: 2-3 weeks
 - Performance optimization
@@ -535,7 +614,7 @@ CREATE TABLE search_analytics (
 
 ---
 
-## 15. Next Steps
+## 16. Next Steps
 
 1. **Database Schema Implementation**
    - Update Prisma schema with all required tables
@@ -546,15 +625,17 @@ CREATE TABLE search_analytics (
    - Start with Phase 1 APIs
    - Implement authentication system
    - Create property management endpoints
+   - Build contact form APIs
 
 3. **Frontend Integration**
    - Replace static data with API calls
    - Implement loading states
    - Add error handling
+   - Integrate form submissions
 
 4. **Testing & Deployment**
    - Unit and integration tests
    - API documentation
    - Production deployment setup
 
-This comprehensive backend implementation will transform the current static website into a fully functional, production-ready real estate platform. 
+This comprehensive backend implementation will transform the current static website into a fully functional, production-ready real estate platform with complete property management, user interaction, and business operations capabilities. 
