@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Label } from "@/components/ui/label"
+import Footer from "@/components/footer"
 
 export default function CareersPage() {
   const [formState, setFormState] = useState({
@@ -119,9 +120,9 @@ export default function CareersPage() {
   }
 
   return (
-    <div className="relative h-screen overflow-hidden pt-16">
-      {/* Background Image - Full Screen */}
-      <div className="absolute inset-0">
+    <div className="relative min-h-screen pt-16">
+      {/* Background Image - Full Height */}
+      <div className="fixed inset-0 z-0">
         <Image
           src="/carrer-banner.jpg"
           alt="Join our professional team"
@@ -134,8 +135,8 @@ export default function CareersPage() {
       </div>
 
       {/* Content Overlay */}
-      <div className="relative z-10 h-full flex items-center justify-center p-4">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl w-full h-full max-h-[calc(100vh-120px)]">
+      <div className="relative z-10 min-h-screen flex items-center justify-center p-4 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl w-full">
           {/* Left Side - Title and Description */}
           <div className="flex flex-col justify-center text-white lg:pr-8">
             <h1 className="font-bold mb-6 font-serif text-4xl lg:text-6xl" style={{ fontFamily: 'Tiempos Headline, serif', fontWeight: '400' }}>
@@ -148,8 +149,8 @@ export default function CareersPage() {
           </div>
 
           {/* Right Side - Application Form */}
-          <div className="flex items-center">
-            <div className="bg-white/95 backdrop-blur-sm rounded-xl p-6 lg:p-8 w-full max-h-full overflow-y-auto shadow-2xl">
+          <div className="flex items-start lg:items-center">
+            <div className="bg-white/95 backdrop-blur-sm rounded-xl p-6 lg:p-8 w-full shadow-2xl">
               <div className="mb-6">
                 <h2 className="text-2xl lg:text-3xl font-bold mb-2 text-black" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>
                   Apply Now
@@ -159,11 +160,11 @@ export default function CareersPage() {
                 </p>
               </div>
 
-              <form onSubmit={handleSubmit} className="space-y-4">
+              <form onSubmit={handleSubmit} className="space-y-5">
                 {/* Personal Information */}
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <Label htmlFor="firstName" className="text-xs font-['Suisse_Intl',sans-serif] font-medium">
+                    <Label htmlFor="firstName" className="text-sm font-['Suisse_Intl',sans-serif] font-medium">
                       First Name *
                     </Label>
                     <Input
@@ -171,14 +172,14 @@ export default function CareersPage() {
                       name="firstName"
                       value={formState.firstName}
                       onChange={handleChange}
-                      placeholder="First name"
-                      className="mt-1 font-['Suisse_Intl',sans-serif] text-sm"
+                      placeholder="Enter your first name"
+                      className="mt-1 font-['Suisse_Intl',sans-serif]"
                       required
                     />
                   </div>
 
                   <div>
-                    <Label htmlFor="lastName" className="text-xs font-['Suisse_Intl',sans-serif] font-medium">
+                    <Label htmlFor="lastName" className="text-sm font-['Suisse_Intl',sans-serif] font-medium">
                       Last Name *
                     </Label>
                     <Input
@@ -186,15 +187,15 @@ export default function CareersPage() {
                       name="lastName"
                       value={formState.lastName}
                       onChange={handleChange}
-                      placeholder="Last name"
-                      className="mt-1 font-['Suisse_Intl',sans-serif] text-sm"
+                      placeholder="Enter your last name"
+                      className="mt-1 font-['Suisse_Intl',sans-serif]"
                       required
                     />
                   </div>
                 </div>
 
                 <div>
-                  <Label htmlFor="email" className="text-xs font-['Suisse_Intl',sans-serif] font-medium">
+                  <Label htmlFor="email" className="text-sm font-['Suisse_Intl',sans-serif] font-medium">
                     Email Address *
                   </Label>
                   <Input
@@ -204,13 +205,13 @@ export default function CareersPage() {
                     value={formState.email}
                     onChange={handleChange}
                     placeholder="your.email@example.com"
-                    className="mt-1 font-['Suisse_Intl',sans-serif] text-sm"
+                    className="mt-1 font-['Suisse_Intl',sans-serif]"
                     required
                   />
                 </div>
 
                 <div>
-                  <Label htmlFor="phone" className="text-xs font-['Suisse_Intl',sans-serif] font-medium">
+                  <Label htmlFor="phone" className="text-sm font-['Suisse_Intl',sans-serif] font-medium">
                     Phone Number *
                   </Label>
                   <Input
@@ -220,23 +221,23 @@ export default function CareersPage() {
                     value={formState.phone}
                     onChange={handleChange}
                     placeholder="+44 123 456 7890"
-                    className="mt-1 font-['Suisse_Intl',sans-serif] text-sm"
+                    className="mt-1 font-['Suisse_Intl',sans-serif]"
                     required
                   />
                 </div>
 
                 {/* Position and Experience */}
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <Label className="text-xs font-['Suisse_Intl',sans-serif] font-medium">
-                      Position *
+                    <Label className="text-sm font-['Suisse_Intl',sans-serif] font-medium">
+                      Position of Interest *
                     </Label>
                     <Select
                       value={formState.position}
                       onValueChange={(value) => handleSelectChange('position', value)}
                     >
-                      <SelectTrigger className="mt-1 font-['Suisse_Intl',sans-serif] text-sm">
-                        <SelectValue placeholder="Select position" />
+                      <SelectTrigger className="mt-1 font-['Suisse_Intl',sans-serif]">
+                        <SelectValue placeholder="Select a position" />
                       </SelectTrigger>
                       <SelectContent>
                         {positionOptions.map((option) => (
@@ -249,15 +250,15 @@ export default function CareersPage() {
                   </div>
 
                   <div>
-                    <Label className="text-xs font-['Suisse_Intl',sans-serif] font-medium">
-                      Experience *
+                    <Label className="text-sm font-['Suisse_Intl',sans-serif] font-medium">
+                      Experience Level *
                     </Label>
                     <Select
                       value={formState.experience}
                       onValueChange={(value) => handleSelectChange('experience', value)}
                     >
-                      <SelectTrigger className="mt-1 font-['Suisse_Intl',sans-serif] text-sm">
-                        <SelectValue placeholder="Experience level" />
+                      <SelectTrigger className="mt-1 font-['Suisse_Intl',sans-serif]">
+                        <SelectValue placeholder="Select experience level" />
                       </SelectTrigger>
                       <SelectContent>
                         {experienceOptions.map((option) => (
@@ -272,7 +273,7 @@ export default function CareersPage() {
 
                 {/* Message */}
                 <div>
-                  <Label htmlFor="message" className="text-xs font-['Suisse_Intl',sans-serif] font-medium">
+                  <Label htmlFor="message" className="text-sm font-['Suisse_Intl',sans-serif] font-medium">
                     Tell us about your interests and qualifications *
                   </Label>
                   <Textarea
@@ -281,27 +282,35 @@ export default function CareersPage() {
                     value={formState.message}
                     onChange={handleChange}
                     placeholder="Share your relevant experience, skills, and why you're interested in joining our team..."
-                    rows={3}
-                    className="mt-1 font-['Suisse_Intl',sans-serif] resize-none text-sm"
+                    rows={4}
+                    className="mt-1 font-['Suisse_Intl',sans-serif] resize-none"
                     required
                   />
                 </div>
 
-                {/* Resume Upload - Compact */}
+                {/* Resume Upload */}
                 <div>
-                  <Label htmlFor="resume" className="text-xs font-['Suisse_Intl',sans-serif] font-medium">
+                  <Label htmlFor="resume" className="text-sm font-['Suisse_Intl',sans-serif] font-medium">
                     Resume/CV <span className="text-gray-400">(optional)</span>
                   </Label>
                   <div className="mt-1">
                     <label
                       htmlFor="resume"
-                      className="flex flex-col items-center justify-center w-full h-20 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors"
+                      className="flex flex-col items-center justify-center w-full h-24 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors"
                     >
-                      <div className="flex items-center justify-center">
-                        <Upload className="w-4 h-4 mr-2 text-gray-500" />
-                        <p className="text-xs text-gray-500 font-['Suisse_Intl',sans-serif]">
-                          {formState.resume ? formState.resume.name : 'Upload resume (PDF, DOC, DOCX)'}
+                      <div className="flex flex-col items-center justify-center pt-2 pb-2">
+                        <Upload className="w-6 h-6 mb-2 text-gray-500" />
+                        <p className="mb-1 text-sm text-gray-500 font-['Suisse_Intl',sans-serif]">
+                          <span className="font-semibold">Click to upload</span> or drag and drop
                         </p>
+                        <p className="text-xs text-gray-500 font-['Suisse_Intl',sans-serif]">
+                          PDF, DOC, or DOCX (MAX. 5MB)
+                        </p>
+                        {formState.resume && (
+                          <p className="mt-1 text-sm text-red-600 font-['Suisse_Intl',sans-serif]">
+                            Selected: {formState.resume.name}
+                          </p>
+                        )}
                       </div>
                       <input
                         id="resume"
@@ -319,16 +328,16 @@ export default function CareersPage() {
                   <Button
                     type="submit"
                     disabled={formState.loading}
-                    className="w-full bg-red-500 hover:bg-red-600 text-white py-2 font-['Suisse_Intl',sans-serif] font-medium transition-colors text-sm"
+                    className="w-full bg-red-500 hover:bg-red-600 text-white py-3 font-['Suisse_Intl',sans-serif] font-medium transition-colors"
                   >
                     {formState.loading ? (
                       <>
-                        <div className="animate-spin rounded-full h-3 w-3 border-b-2 border-white mr-2"></div>
-                        Submitting...
+                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                        Submitting Application...
                       </>
                     ) : (
                       <>
-                        <Send className="h-3 w-3 mr-2" />
+                        <Send className="h-4 w-4 mr-2" />
                         Submit Application
                       </>
                     )}
@@ -336,16 +345,22 @@ export default function CareersPage() {
                 </div>
 
                 {/* Privacy Notice */}
-                <div className="pt-2">
-                  <p className="text-xs text-gray-600 font-['Suisse_Intl',sans-serif] text-center">
-                    By submitting, you agree to our{" "}
-                    <a href="/privacy" className="font-bold text-black underline">Privacy Policy</a>.
+                <div className="pt-2 text-center">
+                  <p className="text-xs text-gray-600 font-['Suisse_Intl',sans-serif]">
+                    By submitting this application, you agree to our{" "}
+                    <a href="/privacy" className="font-bold text-black underline">Privacy Policy</a> and{" "}
+                    <a href="/terms" className="font-bold text-black underline">Terms of Service</a>.
                   </p>
                 </div>
               </form>
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Footer */}
+      <div className="relative z-10">
+        <Footer />
       </div>
     </div>
   )

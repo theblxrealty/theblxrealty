@@ -66,7 +66,11 @@ export default function Footer() {
                   About Us
                 </Link>
               </li>
-
+              <li>
+                <Link href="/careers" className="text-slate-300 hover:text-red-400 transition-colors font-['Suisse_Intl',sans-serif]">
+                  Careers
+                </Link>
+              </li>
               <li>
                 <Link href="/contact" className="text-slate-300 hover:text-red-400 transition-colors font-['Suisse_Intl',sans-serif]">
                   Contact
