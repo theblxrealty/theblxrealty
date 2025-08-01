@@ -59,7 +59,7 @@ export default function PropertyDetailPageClient({ property }: PropertyDetailPag
   return (
     <div className="flex flex-col min-h-screen pt-16 bg-white">
       {/* Back to results */}
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-12">
         <Link href="/properties" className="text-red-500 hover:text-red-600 flex items-center mb-6 font-['Suisse_Intl',sans-serif]">
           <ArrowLeft className="h-4 w-4 mr-2" />
           Back to results

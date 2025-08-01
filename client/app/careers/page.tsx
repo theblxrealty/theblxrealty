@@ -8,7 +8,6 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Label } from "@/components/ui/label"
-import Footer from "@/components/footer"
 
 export default function CareersPage() {
   const [formState, setFormState] = useState({
@@ -84,7 +83,7 @@ export default function CareersPage() {
 
   if (formState.submitted) {
     return (
-      <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 pt-16">
+      <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 pt-16 z-50">
         <div className="bg-white rounded-lg p-8 max-w-md w-full mx-4 text-center shadow-lg">
           <div className="mx-auto w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mb-4">
             <svg
@@ -120,9 +119,9 @@ export default function CareersPage() {
   }
 
   return (
-    <div className="relative overflow-x-hidden max-h-screen">
+    <div className="relative min-h-screen">
       {/* Background Image - Full Height */}
-      <div className="fixed inset-0 z-0">
+      <div className="absolute inset-0 z-0">
         <Image
           src="/carrer-banner.jpg"
           alt="Join our professional team"
@@ -135,9 +134,9 @@ export default function CareersPage() {
       </div>
 
       {/* Main Content */}
-      <div className="relative z-10 flex flex-col h-screen pt-16 overflow-y-auto">
+      <div className="relative z-10 pt-16">
         {/* Content Section */}
-        <div className="flex-1 flex items-center justify-center p-4 py-8">
+        <div className="flex items-center justify-center p-4 py-16 lg:py-24 min-h-[calc(100vh-200px)]">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl w-full">
             {/* Left Side - Title and Description */}
             <div className="flex flex-col justify-center text-white lg:pr-8">
@@ -358,11 +357,6 @@ export default function CareersPage() {
               </div>
             </div>
           </div>
-        </div>
-
-        {/* Footer */}
-        <div className="mt-auto">
-          <Footer />
         </div>
       </div>
     </div>
