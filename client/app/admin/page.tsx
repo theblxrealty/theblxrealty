@@ -250,6 +250,7 @@ export default function AdminDashboard() {
         <Tabs defaultValue="properties" className="space-y-6">
           <TabsList>
             <TabsTrigger value="properties">Properties</TabsTrigger>
+            <TabsTrigger value="blog">Blog Posts</TabsTrigger>
             <TabsTrigger value="requests">View Requests</TabsTrigger>
             <TabsTrigger value="contacts">Contact Requests</TabsTrigger>
           </TabsList>
@@ -417,6 +418,24 @@ export default function AdminDashboard() {
             <h2 className="text-2xl font-semibold mb-4">Property View Requests</h2>
             <p className="text-gray-600">View and manage property viewing requests.</p>
             {/* TODO: Implement property view requests table */}
+          </TabsContent>
+
+          <TabsContent value="blog">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-semibold">Blog Posts</h2>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button>Add Blog Post</Button>
+                </DialogTrigger>
+                <DialogContent className="max-w-4xl">
+                  <DialogHeader>
+                    <DialogTitle>Add New Blog Post</DialogTitle>
+                  </DialogHeader>
+                  <BlogPostForm onSuccess={() => fetchBlogPosts()} />
+                </DialogContent>
+              </Dialog>
+            </div>
+            <BlogPostsList />
           </TabsContent>
 
           <TabsContent value="contacts">
