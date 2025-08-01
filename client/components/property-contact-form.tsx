@@ -34,6 +34,7 @@ export default function PropertyContactForm({ propertyTitle, isOpen, onClose }: 
     heardFrom: "",
     submitted: false,
     loading: false,
+    error: "",
   })
 
   // Calendar navigation state
@@ -88,16 +89,23 @@ export default function PropertyContactForm({ propertyTitle, isOpen, onClose }: 
           ...prev,
           submitted: true,
           loading: false,
+          error: "",
         }))
       } else {
         console.error('Form submission failed:', data.error)
-        setFormState((prev) => ({ ...prev, loading: false }))
-        // You can add error handling here
+        setFormState((prev) => ({ 
+          ...prev, 
+          loading: false,
+          error: data.error || 'Form submission failed. Please try again.'
+        }))
       }
     } catch (error) {
       console.error('Form submission error:', error)
-      setFormState((prev) => ({ ...prev, loading: false }))
-      // You can add error handling here
+      setFormState((prev) => ({ 
+        ...prev, 
+        loading: false,
+        error: 'Network error. Please check your connection and try again.'
+      }))
     }
   }
 
@@ -234,6 +242,15 @@ export default function PropertyContactForm({ propertyTitle, isOpen, onClose }: 
           {/* Scrollable Content */}
           <div className="flex-1 overflow-y-auto">
             <div className="p-4 space-y-4">
+              {/* Error Display */}
+              {formState.error && (
+                <div className="bg-red-50 border border-red-200 rounded-md p-3 mb-4">
+                  <p className="text-red-600 text-sm font-['Suisse_Intl',sans-serif]">
+                    {formState.error}
+                  </p>
+                </div>
+              )}
+              
               {/* Description */}
               <p className="text-gray-600 text-sm font-['Suisse_Intl',sans-serif]">
                 Use this form to let us know roughly when you're free and we'll handle the rest. 

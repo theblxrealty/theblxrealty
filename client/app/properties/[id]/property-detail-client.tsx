@@ -337,7 +337,7 @@ export default function PropertyDetailPageClient({ property }: PropertyDetailPag
 
       {/* Slide-in Form */}
       <PropertyContactForm 
-        propertyTitle={property.title}
+        propertyTitle={property.id.toString()}
         isOpen={isFormOpen}
         onClose={handleCloseForm}
       />

@@ -14,6 +14,7 @@ interface FormState {
   message: string
   loading: boolean
   submitted: boolean
+  error: string
 }
 
 export default function ContactForm() {
@@ -24,6 +25,7 @@ export default function ContactForm() {
     message: "",
     loading: false,
     submitted: false,
+    error: "",
   })
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -47,16 +49,22 @@ export default function ContactForm() {
       const data = await response.json()
 
       if (response.ok) {
-        setFormState((prev) => ({ ...prev, loading: false, submitted: true }))
+        setFormState((prev) => ({ ...prev, loading: false, submitted: true, error: "" }))
       } else {
         console.error('Form submission failed:', data.error)
-        setFormState((prev) => ({ ...prev, loading: false }))
-        // You can add error handling here
+        setFormState((prev) => ({ 
+          ...prev, 
+          loading: false,
+          error: data.error || 'Form submission failed. Please try again.'
+        }))
       }
     } catch (error) {
       console.error('Form submission error:', error)
-      setFormState((prev) => ({ ...prev, loading: false }))
-      // You can add error handling here
+      setFormState((prev) => ({ 
+        ...prev, 
+        loading: false,
+        error: 'Network error. Please check your connection and try again.'
+      }))
     }
   }
 
@@ -90,6 +98,15 @@ export default function ContactForm() {
           Ready to start your luxury property journey? Let's discuss your requirements.
         </p>
       </div>
+
+      {/* Error Display */}
+      {formState.error && (
+        <div className="bg-red-50 border border-red-200 rounded-md p-3 mb-6">
+          <p className="text-red-600 text-sm">
+            {formState.error}
+          </p>
+        </div>
+      )}
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="relative">
