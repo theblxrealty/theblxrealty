@@ -8,9 +8,9 @@ export default function Footer() {
   return (
     <footer className="bg-gradient-to-br from-[#011337] via-[#011337]/95 to-[#011337]/90 text-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
-        <div className="flex flex-col lg:flex-row justify-between gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Section 1: Company Info & Social Links */}
-          <div className="lg:w-1/3">
+          <div className="lg:col-span-1">
             <Link href="/" className="flex items-center mb-6">
               <div className="relative w-12 h-12 overflow-hidden">
                 <Image
@@ -48,7 +48,7 @@ export default function Footer() {
           </div>
 
           {/* Section 2: Quick Links */}
-          <div className="lg:w-1/3 flex flex-col items-center text-center">
+          <div className="lg:col-span-1 flex flex-col items-center text-center">
             <h3 className="text-lg font-bold mb-6 text-red-400 font-['Suisse_Intl',sans-serif]">Quick Links</h3>
             <ul className="space-y-4">
               <li>
@@ -80,7 +80,7 @@ export default function Footer() {
           </div>
 
           {/* Section 3: Contact Us */}
-          <div className="lg:w-1/3">
+          <div className="lg:col-span-1">
             <h3 className="text-lg font-bold mb-6 text-red-400 font-['Suisse_Intl',sans-serif]">Contact Us</h3>
             <ul className="space-y-4">
               <li className="flex">
@@ -96,6 +96,27 @@ export default function Footer() {
                 <span className="text-slate-300 font-['Suisse_Intl',sans-serif]">info@11square.com</span>
               </li>
             </ul>
+          </div>
+
+          {/* Section 4: Newsletter Subscription */}
+          <div className="lg:col-span-1">
+            <h3 className="text-lg font-bold mb-6 text-red-400 font-['Suisse_Intl',sans-serif]">Newsletter</h3>
+            <p className="text-slate-300 mb-4 font-['Suisse_Intl',sans-serif]">
+              Stay updated with the latest property insights, market trends, and exclusive offers.
+            </p>
+            <div className="space-y-3">
+              <Input
+                type="email"
+                placeholder="Your email address"
+                className="bg-white/10 border-white/20 text-white placeholder:text-slate-300 focus:border-red-400 backdrop-blur-sm"
+              />
+              <Button className="w-full bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white">
+                Subscribe
+              </Button>
+            </div>
+            <p className="text-slate-400 text-xs mt-2 font-['Suisse_Intl',sans-serif]">
+              We respect your privacy. Unsubscribe at any time.
+            </p>
           </div>
         </div>
 
