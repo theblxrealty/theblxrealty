@@ -1,4 +1,5 @@
 import Image from "next/image"
+
 import { MapPin, Phone, Mail, Clock } from "lucide-react"
 import ContactForm from "@/components/contact-form"
 import ContactMap from "@/components/contact-map"
@@ -25,14 +26,19 @@ export default function ContactPage() {
         <div className="relative z-10 h-full flex items-end pb-20">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="max-w-4xl mx-auto text-center">
-              <div className="text-white">
+              <div className="text-white animate-fade-in">
                 {/* Main Heading */}
-                <h1 className="font-bold mb-6 font-serif" style={{ fontFamily: 'Tiempos Headline, serif', fontSize: '60px', fontWeight: '400' }}>
+                <h1 
+                  className="font-bold mb-6 font-serif animate-slide-up" 
+                  style={{ fontFamily: 'Tiempos Headline, serif', fontSize: '60px', fontWeight: '400' }}
+                >
                   Get in Touch
                 </h1>
 
                 {/* Description */}
-                <p className="text-lg text-white mb-8 font-['Suisse_Intl',sans-serif]">
+                <p 
+                  className="text-lg text-white mb-8 font-['Suisse_Intl',sans-serif] animate-slide-up-delay-1"
+                >
                   Connect with our luxury property experts for personalized guidance on buying, selling, or investing in
                   Bangalore's premium real estate market.
                 </p>

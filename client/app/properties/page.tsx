@@ -1,8 +1,9 @@
 "use client"
 
-import { useState, useEffect, useMemo } from "react"
+import { useState, useEffect, useMemo, Suspense } from "react"
 import { useSearchParams } from "next/navigation"
 import Image from "next/image"
+
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import PropertyFilters from "@/components/property-filters"
@@ -121,7 +122,7 @@ const typeDisplayNames: { [key: string]: string } = {
   "investment": "Investment Properties",
 }
 
-export default function PropertiesPage() {
+function PropertiesContent() {
   const searchParams = useSearchParams()
   const selectedType = searchParams.get('type')
   
@@ -163,19 +164,24 @@ export default function PropertiesPage() {
         <div className="relative z-10 h-full flex items-end pb-20">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="max-w-4xl mx-auto text-center">
-              <div className="text-white">
+              <div className="text-white animate-fade-in">
                 {/* Main Heading */}
-                <h1 className="font-bold mb-6 font-serif" style={{ fontFamily: 'Tiempos Headline, serif', fontSize: '50px', fontWeight: '400' }}>
+                <h1 
+                  className="font-bold mb-6 font-serif animate-slide-up" 
+                  style={{ fontFamily: 'Tiempos Headline, serif', fontSize: '50px', fontWeight: '400' }}
+                >
                   {pageTitle}
                 </h1>
 
                 {/* Description */}
-                <p className="text-lg text-white mb-8 font-['Suisse_Intl',sans-serif]">
+                <p 
+                  className="text-lg text-white mb-8 font-['Suisse_Intl',sans-serif] animate-slide-up-delay-1"
+                >
                   {pageDescription}
                 </p>
 
                 {selectedType && (
-                  <div className="mt-4">
+                  <div className="mt-4 animate-slide-up-delay-2">
                     <span className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-white/10 text-white border border-white/20 font-['Suisse_Intl',sans-serif]">
                       Showing {filteredProperties.length} {typeDisplayNames[selectedType].toLowerCase()}
                     </span>
@@ -334,5 +340,19 @@ export default function PropertiesPage() {
         </div>
       </section>
     </div>
+  )
+}
+
+export default function PropertiesPage() {
+  return (
+    <Suspense fallback={
+      <div className="flex flex-col min-h-screen pt-16">
+        <div className="flex items-center justify-center h-64">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-500"></div>
+        </div>
+      </div>
+    }>
+      <PropertiesContent />
+    </Suspense>
   )
 }

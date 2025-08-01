@@ -1,5 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
+
 import { ArrowRight, Users, Award, Shield, Target, CheckCircle2, Building, TrendingUp, MapPin } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import TeamMember from "@/components/team-member"
@@ -54,14 +55,19 @@ export default function AboutPage() {
         <div className="relative z-10 h-full flex items-end pb-20">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="max-w-4xl mx-auto text-center">
-              <div className="text-white">
+              <div className="text-white animate-fade-in">
                 {/* Main Heading */}
-                <h1 className="font-bold mb-6 font-serif" style={{ fontFamily: 'Tiempos Headline, serif', fontSize: '60px', fontWeight: '400' }}>
+                <h1 
+                  className="font-bold mb-6 font-serif animate-slide-up" 
+                  style={{ fontFamily: 'Tiempos Headline, serif', fontSize: '60px', fontWeight: '400' }}
+                >
                   About Us
                 </h1>
 
                 {/* Description */}
-                <p className="text-lg text-white mb-8 font-['Suisse_Intl',sans-serif]">
+                <p 
+                  className="text-lg text-white mb-8 font-['Suisse_Intl',sans-serif] animate-slide-up-delay-1"
+                >
                   At 11Square, we're committed to creating exceptional real estate experiences that connect discerning
                   clients with Bangalore's most prestigious properties.
                 </p>

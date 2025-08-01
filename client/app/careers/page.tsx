@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import Image from "next/image"
+
 import { Upload, Send } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -175,11 +176,18 @@ export default function CareersPage() {
         <div className="flex items-center justify-center p-4 py-16 lg:py-24 min-h-[calc(100vh-200px)]">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl w-full">
             {/* Left Side - Title and Description */}
-            <div className="flex flex-col justify-center text-white lg:pr-8">
-              <h1 className="font-bold mb-6 font-serif text-4xl lg:text-6xl" style={{ fontFamily: 'Tiempos Headline, serif', fontWeight: '400' }}>
+            <div 
+              className="flex flex-col justify-center text-white lg:pr-8 animate-fade-in"
+            >
+              <h1 
+                className="font-bold mb-6 font-serif text-4xl lg:text-6xl animate-slide-up" 
+                style={{ fontFamily: 'Tiempos Headline, serif', fontWeight: '400' }}
+              >
                 Join Our Team
               </h1>
-              <p className="text-lg mb-6 font-['Suisse_Intl',sans-serif] leading-relaxed">
+              <p 
+                className="text-lg mb-6 font-['Suisse_Intl',sans-serif] leading-relaxed animate-slide-up-delay-1"
+              >
                 Build your career with us in the dynamic world of luxury real estate. We're looking for passionate 
                 professionals to join our growing team.
               </p>
