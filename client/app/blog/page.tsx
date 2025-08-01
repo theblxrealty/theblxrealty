@@ -4,276 +4,304 @@ import { useState, useEffect } from "react"
 import { useSearchParams, useRouter } from "next/navigation"
 import Image from "next/image"
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Calendar, User, Tag, ArrowRight, ArrowLeft } from "lucide-react"
 
-interface BlogPost {
-  id: string
-  title: string
-  slug: string
-  excerpt?: string
-  featuredImage?: string
-  category?: string
-  tags: string[]
-  author?: {
-    firstName?: string
-    lastName?: string
-  }
-  publishedAt: string
-  createdAt: string
-}
+import { Button } from "@/components/ui/button"
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Calendar, User, ArrowRight, ArrowLeft, Search } from "lucide-react"
+import { Input } from "@/components/ui/input"
+import BlogCard from "@/components/blog-card"
+
+// Sample blog data with more posts
+const blogPosts = [
+  {
+    id: 1,
+    title: "Complete Guide to Buying Property in Bangalore",
+    excerpt: "Everything you need to know about purchasing residential and commercial properties in Bangalore - from legal checks to financing options.",
+    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl sit amet nisl.",
+    image: "/placeholder.svg?height=400&width=600",
+    date: "March 15, 2024",
+    author: "Arjun Mehta",
+    category: "Buying Guide",
+    featured: true,
+  },
+  {
+    id: 2,
+    title: "How to Sell Your Property at the Best Price",
+    excerpt: "Expert tips on property valuation, staging, marketing, and negotiation strategies to maximize your property's selling price in Bangalore.",
+    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl sit amet nisl.",
+    image: "/placeholder.svg?height=400&width=600",
+    date: "March 8, 2024",
+    author: "Sneha Patel",
+    category: "Selling Tips",
+    featured: true,
+  },
+  {
+    id: 3,
+    title: "Commercial Real Estate Investment Opportunities",
+    excerpt: "Explore lucrative commercial property investment options in Bangalore's growing business districts and IT corridors.",
+    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl sit amet nisl.",
+    image: "/placeholder.svg?height=400&width=600",
+    date: "February 28, 2024",
+    author: "Vikram Singh",
+    category: "Investment",
+    featured: true,
+  },
+  {
+    id: 4,
+    title: "Luxury Property Market Trends in Bangalore",
+    excerpt: "Analyze the latest trends in Bangalore's luxury real estate market and discover emerging investment hotspots.",
+    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl sit amet nisl.",
+    image: "/placeholder.svg?height=400&width=600",
+    date: "February 15, 2024",
+    author: "Emily Rodriguez",
+    category: "Market Analysis",
+    featured: false,
+  },
+  {
+    id: 5,
+    title: "Premium Locations: Where to Invest in 2024",
+    excerpt: "Discover Bangalore's most promising premium locations for property investment and understand the factors driving growth.",
+    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl sit amet nisl.",
+    image: "/placeholder.svg?height=400&width=600",
+    date: "February 5, 2024",
+    author: "David Wilson",
+    category: "Investment",
+    featured: false,
+  },
+  {
+    id: 6,
+    title: "Legal Guide to Property Transactions",
+    excerpt: "A comprehensive guide to legal aspects of property buying and selling, including documentation and compliance requirements.",
+    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl sit amet nisl.",
+    image: "/placeholder.svg?height=400&width=600",
+    date: "January 25, 2024",
+    author: "Sarah Johnson",
+    category: "Legal",
+    featured: false,
+  },
+  {
+    id: 7,
+    title: "Understanding Property Taxes in Bangalore",
+    excerpt: "A detailed breakdown of property taxes, stamp duty, and other charges you need to know when buying property in Bangalore.",
+    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl sit amet nisl.",
+    image: "/placeholder.svg?height=400&width=600",
+    date: "January 18, 2024",
+    author: "Rahul Kumar",
+    category: "Legal",
+    featured: false,
+  },
+  {
+    id: 8,
+    title: "Residential vs Commercial Property Investment",
+    excerpt: "Compare the pros and cons of investing in residential versus commercial properties in Bangalore's real estate market.",
+    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl sit amet nisl.",
+    image: "/placeholder.svg?height=400&width=600",
+    date: "January 10, 2024",
+    author: "Priya Sharma",
+    category: "Investment",
+    featured: false,
+  },
+  {
+    id: 9,
+    title: "Home Loan Guide for First-Time Buyers",
+    excerpt: "Everything first-time homebuyers need to know about securing a home loan, including eligibility, documents, and tips.",
+    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl sit amet nisl.",
+    image: "/placeholder.svg?height=400&width=600",
+    date: "January 5, 2024",
+    author: "Amit Patel",
+    category: "Buying Guide",
+    featured: false,
+  },
+]
+
+// Get featured posts
+const featuredPosts = blogPosts.filter((post) => post.featured)
+
+// Get categories
+const categories = [...new Set(blogPosts.map((post) => post.category))]
 
 interface BlogPageProps {
-  searchParams?: {
+  searchParams?: Promise<{
     category?: string
     page?: string
-  }
+  }>
 }
 
 export default function BlogPage({ searchParams }: BlogPageProps) {
   const router = useRouter()
-  const [posts, setPosts] = useState<BlogPost[]>([])
-  const [loading, setLoading] = useState(true)
-  const [pagination, setPagination] = useState({
-    page: 1,
-    total: 0,
-    totalPages: 0
-  })
-  const [selectedCategory, setSelectedCategory] = useState(searchParams?.category || '')
-
-  const categories = [
-    { value: '', label: 'All Categories' },
-    { value: 'real-estate', label: 'Real Estate' },
-    { value: 'market-updates', label: 'Market Updates' },
-    { value: 'tips', label: 'Tips & Advice' },
-    { value: 'news', label: 'News' }
-  ]
+  const [selectedCategory, setSelectedCategory] = useState('all')
+  const [searchQuery, setSearchQuery] = useState('')
 
   useEffect(() => {
-    fetchPosts()
-  }, [selectedCategory, pagination.page])
-
-  const fetchPosts = async () => {
-    setLoading(true)
-    try {
-      const params = new URLSearchParams({
-        page: pagination.page.toString(),
-        limit: '6'
-      })
-      
-      if (selectedCategory) {
-        params.append('category', selectedCategory)
+    const initializeFromSearchParams = async () => {
+      if (searchParams) {
+        const params = await searchParams
+        setSelectedCategory(params.category || 'all')
       }
-
-      const response = await fetch(`/api/blog/posts?${params}`)
-      const data = await response.json()
-
-      if (response.ok) {
-        setPosts(data.posts)
-        setPagination(data.pagination)
-      }
-    } catch (error) {
-      console.error('Error fetching blog posts:', error)
-    } finally {
-      setLoading(false)
     }
-  }
+    
+    initializeFromSearchParams()
+  }, [searchParams])
+
+  // Filter posts based on category and search
+  const filteredPosts = blogPosts.filter((post) => {
+    const matchesCategory = selectedCategory === 'all' || post.category === selectedCategory
+    const matchesSearch = post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                         post.excerpt.toLowerCase().includes(searchQuery.toLowerCase())
+    return matchesCategory && matchesSearch
+  })
 
   const handleCategoryChange = (category: string) => {
     setSelectedCategory(category)
-    setPagination(prev => ({ ...prev, page: 1 }))
     
     // Update URL
     const params = new URLSearchParams()
-    if (category) params.set('category', category)
+    if (category !== 'all') params.set('category', category)
     router.push(`/blog?${params.toString()}`)
-  }
-
-  const handlePageChange = (page: number) => {
-    setPagination(prev => ({ ...prev, page }))
-    
-    // Update URL
-    const params = new URLSearchParams()
-    if (selectedCategory) params.set('category', selectedCategory)
-    params.set('page', page.toString())
-    router.push(`/blog?${params.toString()}`)
-  }
-
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    })
-  }
-
-  const getAuthorName = (author?: { firstName?: string; lastName?: string }) => {
-    if (!author) return 'Anonymous'
-    const firstName = author.firstName || ''
-    const lastName = author.lastName || ''
-    return `${firstName} ${lastName}`.trim() || 'Anonymous'
-  }
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gray-50">
-        <div className="container mx-auto px-4 py-16">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-500 mx-auto"></div>
-            <p className="mt-4 text-gray-600">Loading blog posts...</p>
-          </div>
-        </div>
-      </div>
-    )
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white border-b">
-        <div className="container mx-auto px-4 py-16">
-          <div className="text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4 text-black" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>
-              Our Blog
-            </h1>
-            <p className="text-lg text-gray-600 mb-8 font-['Suisse_Intl',sans-serif] max-w-2xl mx-auto">
-              Stay updated with the latest insights, market trends, and expert advice from our real estate professionals.
-            </p>
-          </div>
+    <div className="flex flex-col min-h-screen pt-16">
+      {/* Hero Section */}
+      <section className="relative w-full h-[85vh] overflow-hidden">
+        {/* Video Background */}
+        <div className="absolute inset-0">
+          <Image
+            src="/contact-banner.jpg?height=1080&width=1920"
+            alt="Our real estate blog and insights"
+            fill
+            className="object-cover"
+          />
+          
+          {/* Overlay */}
+          <div className="absolute inset-0 bg-black/20" />
+        </div>
 
-          {/* Category Filter */}
-          <div className="flex justify-center mb-8">
-            <Select value={selectedCategory} onValueChange={handleCategoryChange}>
-              <SelectTrigger className="w-64">
-                <SelectValue placeholder="Filter by category" />
-              </SelectTrigger>
-              <SelectContent>
-                {categories.map((category) => (
-                  <SelectItem key={category.value} value={category.value}>
-                    {category.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+        {/* Content */}
+        <div className="relative z-10 h-full flex items-end pb-20">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-4xl mx-auto text-center">
+              <div className="text-white animate-fade-in">
+                {/* Main Heading */}
+                <h1 
+                  className="font-bold mb-6 font-serif animate-slide-up" 
+                  style={{ fontFamily: 'Tiempos Headline, serif', fontSize: '60px', fontWeight: '400' }}
+                >
+                  Market Insights & Analysis
+                </h1>
+
+                {/* Description */}
+                <p 
+                  className="text-lg text-white mb-8 font-['Suisse_Intl',sans-serif] animate-slide-up-delay-1"
+                >
+                  Stay informed with Bangalore's luxury real estate trends, investment opportunities, and expert market analysis
+                </p>
+
+                {/* Search Bar */}
+                <div 
+                  className="max-w-4xl mx-auto mb-8 animate-slide-up-delay-2"
+                >
+                  <div className="relative">
+                    <div className="flex items-center bg-white rounded-2xl shadow-2xl overflow-hidden">
+                      <div className="flex-1 flex items-center px-6 py-4">
+                        <Search className="h-5 w-5 text-red-500 mr-3 flex-shrink-0" />
+                        <input
+                          type="text"
+                          placeholder="Search articles..."
+                          value={searchQuery}
+                          onChange={(e) => setSearchQuery(e.target.value)}
+                          className="flex-1 bg-transparent text-gray-800 placeholder-gray-500 outline-none text-lg"
+                        />
+                      </div>
+                      <button
+                        type="button"
+                        className="bg-transparent hover:bg-gray-50 text-gray-800 px-8 py-4 transition-all duration-300 flex items-center gap-2"
+                      >
+                        <Search className="h-5 w-5" />
+                        <span className="font-medium">Search</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Blog Posts */}
-      <div className="container mx-auto px-4 py-16">
-        {posts.length === 0 ? (
-          <div className="text-center py-16">
-            <h3 className="text-xl font-semibold mb-2 text-gray-900">No blog posts found</h3>
-            <p className="text-gray-600">Check back later for new content.</p>
+      {/* Featured Posts */}
+      <section className="py-12 md:py-16 bg-white">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-2xl md:text-3xl font-bold mb-8 text-navy-900">Featured Articles</h2>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {featuredPosts.slice(0, 3).map((post, index) => (
+              <BlogCard key={post.id} post={post} priority={index === 0} />
+            ))}
           </div>
-        ) : (
-          <>
+        </div>
+      </section>
+
+      {/* All Posts */}
+      <section className="py-12 md:py-16 bg-gradient-to-br from-slate-50 to-slate-100">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
+            <h2 className="text-2xl md:text-3xl font-bold text-navy-900">All Articles</h2>
+
+            <Tabs value={selectedCategory} onValueChange={handleCategoryChange} className="w-full md:w-auto">
+              <TabsList className="bg-white border border-slate-200">
+                <TabsTrigger value="all" className="data-[state=active]:bg-navy-600 data-[state=active]:text-white">
+                  All
+                </TabsTrigger>
+                {categories.map((category) => (
+                  <TabsTrigger
+                    key={category}
+                    value={category}
+                    className="data-[state=active]:bg-navy-600 data-[state=active]:text-white"
+                  >
+                    {category}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+            </Tabs>
+          </div>
+
+          {filteredPosts.length === 0 ? (
+            <div className="text-center py-16">
+              <h3 className="text-xl font-semibold mb-2 text-gray-900">No articles found</h3>
+              <p className="text-gray-600">Try adjusting your search or category filter.</p>
+            </div>
+          ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {posts.map((post) => (
-                <article key={post.id} className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
-                  {post.featuredImage && (
-                    <div className="relative h-48">
-                      <Image
-                        src={post.featuredImage}
-                        alt={post.title}
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                  )}
-                  
-                  <div className="p-6">
-                    {post.category && (
-                      <div className="mb-3">
-                        <span className="inline-block bg-red-100 text-red-800 text-xs px-2 py-1 rounded-full font-medium">
-                          {post.category.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}
-                        </span>
-                      </div>
-                    )}
-                    
-                    <h2 className="text-xl font-bold mb-3 text-gray-900 line-clamp-2">
-                      <Link href={`/blog/${post.slug}`} className="hover:text-red-600 transition-colors">
-                        {post.title}
-                      </Link>
-                    </h2>
-                    
-                    {post.excerpt && (
-                      <p className="text-gray-600 mb-4 line-clamp-3 font-['Suisse_Intl',sans-serif]">
-                        {post.excerpt}
-                      </p>
-                    )}
-                    
-                    <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
-                      <div className="flex items-center">
-                        <Calendar className="h-4 w-4 mr-1" />
-                        {formatDate(post.publishedAt)}
-                      </div>
-                      <div className="flex items-center">
-                        <User className="h-4 w-4 mr-1" />
-                        {getAuthorName(post.author)}
-                      </div>
-                    </div>
-                    
-                    {post.tags.length > 0 && (
-                      <div className="flex flex-wrap gap-1 mb-4">
-                        {post.tags.slice(0, 3).map((tag) => (
-                          <span key={tag} className="inline-block bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded">
-                            #{tag}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-                    
-                    <Link href={`/blog/${post.slug}`}>
-                      <Button variant="outline" className="w-full">
-                        Read More
-                        <ArrowRight className="h-4 w-4 ml-2" />
-                      </Button>
-                    </Link>
-                  </div>
-                </article>
+              {filteredPosts.map((post) => (
+                <BlogCard key={post.id} post={post} />
               ))}
             </div>
+          )}
+        </div>
+      </section>
 
-            {/* Pagination */}
-            {pagination.totalPages > 1 && (
-              <div className="flex justify-center items-center space-x-2 mt-12">
-                <Button
-                  variant="outline"
-                  onClick={() => handlePageChange(pagination.page - 1)}
-                  disabled={pagination.page <= 1}
-                >
-                  <ArrowLeft className="h-4 w-4 mr-2" />
-                  Previous
-                </Button>
-                
-                <div className="flex items-center space-x-1">
-                  {Array.from({ length: pagination.totalPages }, (_, i) => i + 1).map((page) => (
-                    <Button
-                      key={page}
-                      variant={page === pagination.page ? "default" : "outline"}
-                      onClick={() => handlePageChange(page)}
-                      className="w-10 h-10 p-0"
-                    >
-                      {page}
-                    </Button>
-                  ))}
-                </div>
-                
-                <Button
-                  variant="outline"
-                  onClick={() => handlePageChange(pagination.page + 1)}
-                  disabled={pagination.page >= pagination.totalPages}
-                >
-                  Next
-                  <ArrowRight className="h-4 w-4 ml-2" />
-                </Button>
-              </div>
-            )}
-          </>
-        )}
-      </div>
+      {/* Newsletter */}
+      <section className="py-12 md:py-16 bg-gradient-to-br from-navy-900 via-navy-800 to-slate-900 text-white">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-3xl mx-auto text-center">
+            <h2 className="text-2xl md:text-3xl font-bold mb-4">Stay Updated</h2>
+            <p className="text-lg text-slate-200 mb-8">
+              Subscribe to our newsletter for exclusive market insights, luxury property updates, and investment opportunities
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+              <Input
+                type="email"
+                placeholder="Your email address"
+                className="bg-white/10 border-white/20 text-white placeholder:text-slate-300 focus:border-gold-400 backdrop-blur-sm"
+              />
+              <Button className="bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-600 hover:to-gold-700 text-white">
+                Subscribe
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   )
 } 

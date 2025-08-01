@@ -5,23 +5,121 @@ import { useParams } from "next/navigation"
 import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Calendar, User, Tag, ArrowLeft, Share2, Facebook, Twitter, LinkedIn } from "lucide-react"
+import { Calendar, User, Tag, ArrowLeft, Share2, Facebook, Twitter, Linkedin } from "lucide-react"
+
+// Import the same blog posts data
+const blogPosts = [
+  {
+    id: 1,
+    title: "Complete Guide to Buying Property in Bangalore",
+    excerpt: "Everything you need to know about purchasing residential and commercial properties in Bangalore - from legal checks to financing options.",
+    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl sit amet nisl. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl sit amet nisl.",
+    image: "/placeholder.svg?height=400&width=600",
+    date: "March 15, 2024",
+    author: "Arjun Mehta",
+    category: "Buying Guide",
+    featured: true,
+  },
+  {
+    id: 2,
+    title: "How to Sell Your Property at the Best Price",
+    excerpt: "Expert tips on property valuation, staging, marketing, and negotiation strategies to maximize your property's selling price in Bangalore.",
+    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl sit amet nisl. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl sit amet nisl.",
+    image: "/placeholder.svg?height=400&width=600",
+    date: "March 8, 2024",
+    author: "Sneha Patel",
+    category: "Selling Tips",
+    featured: true,
+  },
+  {
+    id: 3,
+    title: "Commercial Real Estate Investment Opportunities",
+    excerpt: "Explore lucrative commercial property investment options in Bangalore's growing business districts and IT corridors.",
+    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl sit amet nisl. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl sit amet nisl.",
+    image: "/placeholder.svg?height=400&width=600",
+    date: "February 28, 2024",
+    author: "Vikram Singh",
+    category: "Investment",
+    featured: true,
+  },
+  {
+    id: 4,
+    title: "Luxury Property Market Trends in Bangalore",
+    excerpt: "Analyze the latest trends in Bangalore's luxury real estate market and discover emerging investment hotspots.",
+    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl sit amet nisl. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl sit amet nisl.",
+    image: "/placeholder.svg?height=400&width=600",
+    date: "February 15, 2024",
+    author: "Emily Rodriguez",
+    category: "Market Analysis",
+    featured: false,
+  },
+  {
+    id: 5,
+    title: "Premium Locations: Where to Invest in 2024",
+    excerpt: "Discover Bangalore's most promising premium locations for property investment and understand the factors driving growth.",
+    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl sit amet nisl. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl sit amet nisl.",
+    image: "/placeholder.svg?height=400&width=600",
+    date: "February 5, 2024",
+    author: "David Wilson",
+    category: "Investment",
+    featured: false,
+  },
+  {
+    id: 6,
+    title: "Legal Guide to Property Transactions",
+    excerpt: "A comprehensive guide to legal aspects of property buying and selling, including documentation and compliance requirements.",
+    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl sit amet nisl. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl sit amet nisl.",
+    image: "/placeholder.svg?height=400&width=600",
+    date: "January 25, 2024",
+    author: "Sarah Johnson",
+    category: "Legal",
+    featured: false,
+  },
+  {
+    id: 7,
+    title: "Understanding Property Taxes in Bangalore",
+    excerpt: "A detailed breakdown of property taxes, stamp duty, and other charges you need to know when buying property in Bangalore.",
+    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl sit amet nisl. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl sit amet nisl.",
+    image: "/placeholder.svg?height=400&width=600",
+    date: "January 18, 2024",
+    author: "Rahul Kumar",
+    category: "Legal",
+    featured: false,
+  },
+  {
+    id: 8,
+    title: "Residential vs Commercial Property Investment",
+    excerpt: "Compare the pros and cons of investing in residential versus commercial properties in Bangalore's real estate market.",
+    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl sit amet nisl. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl sit amet nisl.",
+    image: "/placeholder.svg?height=400&width=600",
+    date: "January 10, 2024",
+    author: "Priya Sharma",
+    category: "Investment",
+    featured: false,
+  },
+  {
+    id: 9,
+    title: "Home Loan Guide for First-Time Buyers",
+    excerpt: "Everything first-time homebuyers need to know about securing a home loan, including eligibility, documents, and tips.",
+    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl sit amet nisl. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl sit amet nisl.",
+    image: "/placeholder.svg?height=400&width=600",
+    date: "January 5, 2024",
+    author: "Amit Patel",
+    category: "Buying Guide",
+    featured: false,
+  },
+]
 
 interface BlogPost {
-  id: string
+  id: number
   title: string
-  slug: string
-  excerpt?: string
+  excerpt: string
   content: string
-  featuredImage?: string
-  category?: string
-  tags: string[]
-  author?: {
-    firstName?: string
-    lastName?: string
-  }
-  publishedAt: string
-  createdAt: string
+  image: string
+  date: string
+  author: string
+  category: string
+  featured: boolean
 }
 
 export default function BlogPostPage() {
@@ -31,42 +129,16 @@ export default function BlogPostPage() {
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    fetchPost()
-  }, [params.slug])
-
-  const fetchPost = async () => {
-    setLoading(true)
-    try {
-      const response = await fetch(`/api/blog/posts/${params.slug}`)
-      const data = await response.json()
-
-      if (response.ok) {
-        setPost(data)
-      } else {
-        setError(data.error || 'Blog post not found')
-      }
-    } catch (error) {
-      console.error('Error fetching blog post:', error)
-      setError('Failed to load blog post')
-    } finally {
-      setLoading(false)
+    const postId = parseInt(params.slug as string)
+    const foundPost = blogPosts.find(p => p.id === postId)
+    
+    if (foundPost) {
+      setPost(foundPost)
+    } else {
+      setError('Blog post not found')
     }
-  }
-
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    })
-  }
-
-  const getAuthorName = (author?: { firstName?: string; lastName?: string }) => {
-    if (!author) return 'Anonymous'
-    const firstName = author.firstName || ''
-    const lastName = author.lastName || ''
-    return `${firstName} ${lastName}`.trim() || 'Anonymous'
-  }
+    setLoading(false)
+  }, [params.slug])
 
   const shareUrl = typeof window !== 'undefined' ? window.location.href : ''
   const shareTitle = post?.title || ''
@@ -85,7 +157,7 @@ export default function BlogPostPage() {
     {
       name: 'LinkedIn',
       url: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`,
-      icon: LinkedIn
+      icon: Linkedin
     }
   ]
 
@@ -125,7 +197,7 @@ export default function BlogPostPage() {
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <div className="bg-white border-b">
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <Link href="/blog">
             <Button variant="outline" className="mb-4">
               <ArrowLeft className="h-4 w-4 mr-2" />
@@ -136,13 +208,13 @@ export default function BlogPostPage() {
       </div>
 
       {/* Blog Post Content */}
-      <div className="container mx-auto px-4 py-16">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <article className="max-w-4xl mx-auto">
           {/* Featured Image */}
-          {post.featuredImage && (
+          {post.image && (
             <div className="relative h-96 mb-8 rounded-lg overflow-hidden">
               <Image
-                src={post.featuredImage}
+                src={post.image}
                 alt={post.title}
                 fill
                 className="object-cover"
@@ -152,13 +224,11 @@ export default function BlogPostPage() {
 
           {/* Post Header */}
           <header className="mb-8">
-            {post.category && (
-              <div className="mb-4">
-                <span className="inline-block bg-red-100 text-red-800 text-sm px-3 py-1 rounded-full font-medium">
-                  {post.category.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}
-                </span>
-              </div>
-            )}
+            <div className="mb-4">
+              <span className="inline-block bg-red-100 text-red-800 text-sm px-3 py-1 rounded-full font-medium">
+                {post.category}
+              </span>
+            </div>
 
             <h1 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>
               {post.title}
@@ -174,11 +244,11 @@ export default function BlogPostPage() {
               <div className="flex items-center space-x-4">
                 <div className="flex items-center">
                   <Calendar className="h-4 w-4 mr-1" />
-                  {formatDate(post.publishedAt)}
+                  {post.date}
                 </div>
                 <div className="flex items-center">
                   <User className="h-4 w-4 mr-1" />
-                  {getAuthorName(post.author)}
+                  {post.author}
                 </div>
               </div>
 
@@ -208,38 +278,22 @@ export default function BlogPostPage() {
             />
           </div>
 
-          {/* Tags */}
-          {post.tags.length > 0 && (
-            <div className="border-t pt-8 mb-8">
-              <h3 className="text-lg font-semibold mb-4 text-gray-900">Tags:</h3>
-              <div className="flex flex-wrap gap-2">
-                {post.tags.map((tag) => (
-                  <span key={tag} className="inline-block bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">
-                    #{tag}
-                  </span>
-                ))}
-              </div>
-            </div>
-          )}
-
           {/* Author Bio */}
-          {post.author && (
-            <div className="border-t pt-8">
-              <div className="flex items-center space-x-4">
-                <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center">
-                  <User className="h-8 w-8 text-red-600" />
-                </div>
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-900">
-                    {getAuthorName(post.author)}
-                  </h3>
-                  <p className="text-gray-600 text-sm">
-                    Real Estate Professional at 11Square
-                  </p>
-                </div>
+          <div className="border-t pt-8">
+            <div className="flex items-center space-x-4">
+              <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center">
+                <User className="h-8 w-8 text-red-600" />
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900">
+                  {post.author}
+                </h3>
+                <p className="text-gray-600 text-sm">
+                  Real Estate Professional at 11Square
+                </p>
               </div>
             </div>
-          )}
+          </div>
         </article>
       </div>
     </div>
