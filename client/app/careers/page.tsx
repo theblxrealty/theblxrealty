@@ -120,7 +120,7 @@ export default function CareersPage() {
   }
 
   return (
-    <div className="relative min-h-screen pt-16">
+    <div className="relative overflow-x-hidden max-h-screen">
       {/* Background Image - Full Height */}
       <div className="fixed inset-0 z-0">
         <Image
@@ -134,31 +134,33 @@ export default function CareersPage() {
         <div className="absolute inset-0 bg-black/40" />
       </div>
 
-      {/* Content Overlay */}
-      <div className="relative z-10 min-h-screen flex items-center justify-center p-4 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl w-full">
-          {/* Left Side - Title and Description */}
-          <div className="flex flex-col justify-center text-white lg:pr-8">
-            <h1 className="font-bold mb-6 font-serif text-4xl lg:text-6xl" style={{ fontFamily: 'Tiempos Headline, serif', fontWeight: '400' }}>
-              Join Our Team
-            </h1>
-            <p className="text-lg mb-6 font-['Suisse_Intl',sans-serif] leading-relaxed">
-              Build your career with us in the dynamic world of luxury real estate. We're looking for passionate 
-              professionals to join our growing team.
-            </p>
-          </div>
+      {/* Main Content */}
+      <div className="relative z-10 flex flex-col h-screen pt-16 overflow-y-auto">
+        {/* Content Section */}
+        <div className="flex-1 flex items-center justify-center p-4 py-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl w-full">
+            {/* Left Side - Title and Description */}
+            <div className="flex flex-col justify-center text-white lg:pr-8">
+              <h1 className="font-bold mb-6 font-serif text-4xl lg:text-6xl" style={{ fontFamily: 'Tiempos Headline, serif', fontWeight: '400' }}>
+                Join Our Team
+              </h1>
+              <p className="text-lg mb-6 font-['Suisse_Intl',sans-serif] leading-relaxed">
+                Build your career with us in the dynamic world of luxury real estate. We're looking for passionate 
+                professionals to join our growing team.
+              </p>
+            </div>
 
-          {/* Right Side - Application Form */}
-          <div className="flex items-start lg:items-center">
-            <div className="bg-white/95 backdrop-blur-sm rounded-xl p-6 lg:p-8 w-full shadow-2xl">
-              <div className="mb-6">
-                <h2 className="text-2xl lg:text-3xl font-bold mb-2 text-black" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>
-                  Apply Now
-                </h2>
-                <p className="text-gray-600 font-['Suisse_Intl',sans-serif] text-sm">
-                  Tell us about yourself and the role you're interested in.
-                </p>
-              </div>
+            {/* Right Side - Application Form */}
+            <div className="flex items-start lg:items-center">
+              <div className="bg-white/95 backdrop-blur-sm rounded-xl p-6 lg:p-8 w-full shadow-2xl">
+                  <div className="mb-6">
+                    <h2 className="text-2xl lg:text-3xl font-bold mb-2 text-black" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>
+                      Apply Now
+                    </h2>
+                    <p className="text-gray-600 font-['Suisse_Intl',sans-serif] text-sm">
+                      Tell us about yourself and the role you're interested in.
+                    </p>
+                  </div>
 
               <form onSubmit={handleSubmit} className="space-y-5">
                 {/* Personal Information */}
@@ -352,15 +354,16 @@ export default function CareersPage() {
                     <a href="/terms" className="font-bold text-black underline">Terms of Service</a>.
                   </p>
                 </div>
-              </form>
+                </form>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Footer */}
-      <div className="relative z-10">
-        <Footer />
+        {/* Footer */}
+        <div className="mt-auto">
+          <Footer />
+        </div>
       </div>
     </div>
   )
