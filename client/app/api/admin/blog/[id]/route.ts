@@ -22,7 +22,7 @@ const verifyAdminToken = (request: NextRequest) => {
 // PATCH - Update blog post
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const admin = verifyAdminToken(request)
@@ -33,6 +33,7 @@ export async function PATCH(
       )
     }
 
+    const { id } = await params
     const body = await request.json()
     const {
       title,
@@ -51,7 +52,7 @@ export async function PATCH(
       const existingPost = await prisma.blogPost.findFirst({
         where: {
           slug,
-          id: { not: params.id }
+          id: { not: id }
         }
       })
 
@@ -64,7 +65,7 @@ export async function PATCH(
     }
 
     const post = await prisma.blogPost.update({
-      where: { id: params.id },
+      where: { id: id },
       data: {
         title,
         slug,
@@ -95,7 +96,7 @@ export async function PATCH(
 // DELETE - Delete blog post
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const admin = verifyAdminToken(request)
@@ -106,8 +107,9 @@ export async function DELETE(
       )
     }
 
+    const { id } = await params
     await prisma.blogPost.delete({
-      where: { id: params.id }
+      where: { id: id }
     })
 
     return NextResponse.json({
