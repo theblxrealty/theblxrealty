@@ -164,12 +164,13 @@ export default function PropertyMap({
         const infoWindowInstances: google.maps.InfoWindow[] = []
 
         properties.forEach((property, index) => {
-          // Create custom marker icon - location pin design
+          // Create custom marker icon - simple location design
           const getMarkerIcon = () => {
             return {
               url: "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(`
                 <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M16 2C12.13 2 9 5.13 9 9C9 14.25 16 22 16 22C16 22 23 14.25 23 9C23 5.13 19.87 2 16 2ZM16 11.5C14.62 11.5 13.5 10.38 13.5 9C13.5 7.62 14.62 6.5 16 6.5C17.38 6.5 18.5 7.62 18.5 9C18.5 10.38 17.38 11.5 16 11.5Z" fill="#dc2626"/>
+                  <circle cx="16" cy="16" r="12.8" fill="#dc2626"/>
+                  <circle cx="16" cy="9.6" r="2.4" fill="white"/>
                 </svg>
               `),
               scaledSize: new google.maps.Size(32, 32),
@@ -236,7 +237,7 @@ export default function PropertyMap({
     } else {
       setIsLoading(false)
     }
-  }, [properties, center, zoom]) // Removed hoveredPropertyId from dependencies to prevent map refresh
+  }, [properties, center, zoom]) // Only re-initialize map when properties, center, or zoom change
 
   // Effect to handle marker size changes on hover
   useEffect(() => {
@@ -254,8 +255,7 @@ export default function PropertyMap({
         url: "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(`
           <svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" fill="none" xmlns="http://www.w3.org/2000/svg">
             <circle cx="${size/2}" cy="${size/2}" r="${size/2 * 0.8}" fill="${color}"/>
-            <circle cx="${size/2}" cy="${size/2}" r="${size/2 * 0.4}" fill="white"/>
-            <circle cx="${size/2}" cy="${size/2}" r="${size/2 * 0.2}" fill="${color}"/>
+            <circle cx="${size/2}" cy="${size/2 * 0.6}" r="${size/2 * 0.15}" fill="white"/>
           </svg>
         `),
         scaledSize: new google.maps.Size(size, size),
