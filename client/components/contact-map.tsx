@@ -34,8 +34,14 @@ export default function ContactMap({
         setIsLoading(true)
         setError(null)
 
+        // Check if Google Maps API key is available
+        const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API || process.env.GOOGLE_MAPS_API
+        if (!apiKey) {
+          throw new Error("Google Maps API key not found")
+        }
+
         const loader = new Loader({
-          apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API || process.env.GOOGLE_MAPS_API || "",
+          apiKey,
           version: "weekly",
           libraries: ["places"]
         })

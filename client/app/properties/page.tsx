@@ -132,6 +132,7 @@ const typeDisplayNames: { [key: string]: string } = {
 function PropertiesContent() {
   const searchParams = useSearchParams()
   const selectedType = searchParams.get('type')
+  const [hoveredPropertyId, setHoveredPropertyId] = useState<string | null>(null)
   
   // Filter properties based on selected type
   const filteredProperties = useMemo(() => {
@@ -149,6 +150,14 @@ function PropertiesContent() {
   const pageDescription = selectedType
     ? `Discover premium ${typeDisplayNames[selectedType].toLowerCase()} for sale across Bangalore's most prestigious locations`
     : "Discover your perfect luxury home from our exclusive collection of premium properties across Bangalore's most prestigious locations"
+
+  const handlePropertyHover = (propertyId: string) => {
+    setHoveredPropertyId(propertyId)
+  }
+
+  const handlePropertyLeave = () => {
+    setHoveredPropertyId(null)
+  }
 
   return (
     <div className="flex flex-col min-h-screen pt-16">
@@ -241,7 +250,13 @@ function PropertiesContent() {
             {filteredProperties.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {filteredProperties.map((property) => (
-                  <PropertyCard key={property.id} property={property} />
+                  <div
+                    key={property.id}
+                    onMouseEnter={() => handlePropertyHover(property.id.toString())}
+                    onMouseLeave={handlePropertyLeave}
+                  >
+                    <PropertyCard property={property} />
+                  </div>
                 ))}
               </div>
             ) : (
@@ -294,6 +309,8 @@ function PropertiesContent() {
               center={{ lat: 12.9716, lng: 77.5946 }}
               zoom={11}
               height="100%"
+              onPropertyHover={handlePropertyHover}
+              onPropertyLeave={handlePropertyLeave}
             />
           </div>
         </div>

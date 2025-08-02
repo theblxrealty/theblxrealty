@@ -18,13 +18,17 @@ interface PropertyMapProps {
   center?: { lat: number; lng: number }
   zoom?: number
   height?: string
+  onPropertyHover?: (propertyId: string) => void
+  onPropertyLeave?: () => void
 }
 
 export default function PropertyMap({
   properties,
   center = { lat: 12.9716, lng: 77.5946 }, // Bangalore coordinates
   zoom = 12,
-  height = "400px"
+  height = "400px",
+  onPropertyHover,
+  onPropertyLeave
 }: PropertyMapProps) {
   const mapRef = useRef<HTMLDivElement>(null)
   const [map, setMap] = useState<google.maps.Map | null>(null)
@@ -33,6 +37,7 @@ export default function PropertyMap({
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [selectedProperty, setSelectedProperty] = useState<Property | null>(null)
+  const [hoveredPropertyId, setHoveredPropertyId] = useState<string | null>(null)
 
   useEffect(() => {
     const initMap = async () => {
@@ -40,8 +45,14 @@ export default function PropertyMap({
         setIsLoading(true)
         setError(null)
 
+        // Check if Google Maps API key is available
+        const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API || process.env.GOOGLE_MAPS_API
+        if (!apiKey) {
+          throw new Error("Google Maps API key not found")
+        }
+
         const loader = new Loader({
-          apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API || process.env.GOOGLE_MAPS_API || "",
+          apiKey,
           version: "weekly",
           libraries: ["places"]
         })
@@ -222,8 +233,41 @@ export default function PropertyMap({
       }
     }
 
-    initMap()
+    // Only initialize map if we have properties
+    if (properties.length > 0) {
+      initMap()
+    } else {
+      setIsLoading(false)
+    }
   }, [properties, center, zoom])
+
+  // Effect to handle marker size changes on hover
+  useEffect(() => {
+    if (!map || markers.length === 0) return
+
+    markers.forEach((marker, index) => {
+      const property = properties[index]
+      if (!property) return
+
+      const isHovered = hoveredPropertyId === property.id
+      const size = isHovered ? 40 : 32
+      const color = property.type === "Residential" ? "#d97706" : "#1e40af"
+
+      const icon = {
+        url: "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(`
+          <svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="${size/2}" cy="${size/2}" r="${size/2}" fill="${color}"/>
+            <circle cx="${size/2}" cy="${size/2}" r="${size/2 * 0.625}" fill="#ffffff"/>
+            <circle cx="${size/2}" cy="${size/2}" r="${size/2 * 0.3125}" fill="${color}"/>
+          </svg>
+        `),
+        scaledSize: new google.maps.Size(size, size),
+        anchor: new google.maps.Point(size/2, size)
+      }
+
+      marker.setIcon(icon)
+    })
+  }, [hoveredPropertyId, markers, properties, map])
 
   const handlePropertySelect = (property: Property) => {
     if (map) {
@@ -243,6 +287,16 @@ export default function PropertyMap({
   const handleDirections = (property: Property) => {
     const url = `https://www.google.com/maps/dir/?api=1&destination=${property.coordinates.lat},${property.coordinates.lng}&travelmode=driving`
     window.open(url, "_blank")
+  }
+
+  const handlePropertyHover = (propertyId: string) => {
+    setHoveredPropertyId(propertyId)
+    onPropertyHover?.(propertyId)
+  }
+
+  const handlePropertyLeave = () => {
+    setHoveredPropertyId(null)
+    onPropertyLeave?.()
   }
 
   return (
@@ -287,6 +341,8 @@ export default function PropertyMap({
                     : "hover:bg-slate-50"
                 }`}
                 onClick={() => handlePropertySelect(property)}
+                onMouseEnter={() => handlePropertyHover(property.id)}
+                onMouseLeave={handlePropertyLeave}
               >
                 <div className="flex items-start justify-between">
                   <div className="flex-1 min-w-0">
