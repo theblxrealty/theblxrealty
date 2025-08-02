@@ -12,15 +12,16 @@ import PropertyDetailPageClient from "./property-detail-client"
 const properties = [
   {
     id: 1,
-    title: "Forton Road, Newport, Shropshire, TF10",
+    title: "Luxury Villa in Koramangala",
     description:
-      "A rare opportunity to acquire a building plot with planning permission, on one of Newport's premier roads.",
+      "A rare opportunity to acquire a premium luxury villa in one of Bangalore's most prestigious neighborhoods.",
     longDescription:
-      "Cold Norton Farm represents the pinnacle of luxury residential development in the sought-after Cobham area. This exclusive development features meticulously designed homes that combine contemporary architecture with traditional craftsmanship. Each property has been thoughtfully planned to maximize natural light and create seamless indoor-outdoor living spaces.\n\nThe development offers a range of property types from elegant townhouses to spacious family homes, all finished to the highest standards. The homes feature premium materials throughout, including bespoke kitchens with integrated appliances, luxury bathrooms with designer fixtures, and smart home technology for modern convenience.\n\nResidents benefit from extensive landscaped gardens, secure parking, and access to premium amenities. The development is perfectly positioned for easy access to excellent schools, transport links, and the vibrant local community of Cobham.",
-    location: "Forton Road, Newport, Shropshire, TF10",
-    price: "£275,000",
+      "This exclusive luxury villa represents the pinnacle of residential development in the sought-after Koramangala area. This exclusive property features meticulously designed architecture that combines contemporary style with traditional craftsmanship. The villa has been thoughtfully planned to maximize natural light and create seamless indoor-outdoor living spaces.\n\nThe property offers premium amenities throughout, including bespoke kitchens with integrated appliances, luxury bathrooms with designer fixtures, and smart home technology for modern convenience.\n\nResidents benefit from extensive landscaped gardens, secure parking, and access to premium amenities. The property is perfectly positioned for easy access to excellent schools, transport links, and the vibrant local community of Koramangala.",
+    location: "Koramangala, Bangalore, Karnataka, India",
+    price: "₹3.2 Cr",
     development: true,
-    propertyRef: "stl012507329",
+    propertyRef: "blr012507329",
+    coordinates: { lat: 12.9352, lng: 77.6245 },
     images: [
       "/placeholder.svg?height=600&width=800",
       "/placeholder.svg?height=600&width=800",
@@ -53,9 +54,9 @@ const properties = [
     isNew: true,
     featured: true,
     agent: {
-      name: "Mitchell Glassey",
-      phone: "+44 20 7123 4567",
-      email: "mitchell@11square.com",
+      name: "Arjun Mehta",
+      phone: "+91 98765 43210",
+      email: "arjun@11square.com",
       image: "/placeholder.svg?height=200&width=200",
     },
   },

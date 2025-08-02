@@ -9,14 +9,15 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import PropertyFilters from "@/components/property-filters"
 import PropertyCard from "@/components/property-card"
 import PropertyTypesSection from "@/components/property-types-section"
+import PropertyMap from "@/components/property-map"
 
 // Sample property data for Bangalore - diverse property types
 const properties = [
   // Luxury Villas
   {
     id: 1,
-    title: "Cold Norton Farm, Ockham Lane, Cobham, KT11",
-    location: "Cobham, Surrey",
+    title: "Luxury Villa in Koramangala",
+    location: "Koramangala, Bangalore",
     image: "/placeholder.svg?height=600&width=800",
     beds: 4,
     baths: 2,
@@ -27,12 +28,13 @@ const properties = [
     type: "luxury-villas",
     rating: 4.9,
     development: true,
-    priceRange: "Price Range Of £750,000 - £1,395,000"
+    priceRange: "₹2.5 Cr - ₹4.5 Cr",
+    coordinates: { lat: 12.9352, lng: 77.6245 }
   },
   {
     id: 2,
-    title: "Beverley Waterside, Priests Bridge, London, SW14",
-    location: "London, SW14",
+    title: "Premium Apartment in Indiranagar",
+    location: "Indiranagar, Bangalore",
     image: "/placeholder.svg?height=600&width=800",
     beds: 3,
     baths: 2,
@@ -43,12 +45,13 @@ const properties = [
     type: "luxury-villas",
     rating: 4.8,
     development: true,
-    priceRange: "Prices from £500,000"
+    priceRange: "₹1.8 Cr - ₹3.2 Cr",
+    coordinates: { lat: 12.9789, lng: 77.6408 }
   },
   {
     id: 3,
-    title: "Headley Chase, Headley, Surrey, KT18",
-    location: "Surrey, KT18",
+    title: "Luxury Villa in Whitefield",
+    location: "Whitefield, Bangalore",
     image: "/placeholder.svg?height=600&width=800",
     beds: 5,
     baths: 3,
@@ -59,12 +62,13 @@ const properties = [
     type: "luxury-villas",
     rating: 4.7,
     development: true,
-    price: "Price on Application"
+    price: "₹5.2 Cr",
+    coordinates: { lat: 12.9692, lng: 77.7499 }
   },
   {
     id: 4,
-    title: "Lot 2, 3 and 4, Lower Seagry, Chippenham, Wiltshire, SN15",
-    location: "Chippenham, Wiltshire",
+    title: "Commercial Space in MG Road",
+    location: "MG Road, Bangalore",
     image: "/placeholder.svg?height=600&width=800",
     beds: 2,
     baths: 1,
@@ -75,12 +79,13 @@ const properties = [
     type: "commercial",
     rating: 4.6,
     development: true,
-    price: "Price on Application"
+    price: "₹2.1 Cr",
+    coordinates: { lat: 12.9716, lng: 77.5946 }
   },
   {
     id: 5,
-    title: "Lot 1, Lower Seagry, Chippenham, Wiltshire, SN15",
-    location: "Chippenham, Wiltshire",
+    title: "Residential Plot in Electronic City",
+    location: "Electronic City, Bangalore",
     image: "/placeholder.svg?height=600&width=800",
     beds: 3,
     baths: 2,
@@ -91,12 +96,13 @@ const properties = [
     type: "residential",
     rating: 4.8,
     development: true,
-    price: "Price on Application"
+    price: "₹1.5 Cr",
+    coordinates: { lat: 12.8458, lng: 77.6655 }
   },
   {
     id: 6,
-    title: "Brimfield, Ludlow, Herefordshire, SY8",
-    location: "Ludlow, Herefordshire",
+    title: "Luxury Villa in Sarjapur Road",
+    location: "Sarjapur Road, Bangalore",
     image: "/placeholder.svg?height=600&width=800",
     beds: 4,
     baths: 3,
@@ -107,7 +113,8 @@ const properties = [
     type: "farm-house",
     rating: 4.5,
     development: true,
-    price: "Price on Application"
+    price: "₹4.8 Cr",
+    coordinates: { lat: 12.8997, lng: 77.6867 }
   },
 ]
 
@@ -274,40 +281,20 @@ function PropertiesContent() {
 
           {/* Right Section - Map */}
           <div className="w-1/3 bg-white border-l border-gray-200">
-            <div className="h-full relative">
-              {/* Map Placeholder */}
-              <div className="h-full bg-gray-100 flex items-center justify-center">
-                <div className="text-center">
-                  <div className="w-16 h-16 bg-gray-300 rounded-full flex items-center justify-center mb-4">
-                    <svg className="w-8 h-8 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                  </div>
-                  <h3 className="text-lg font-semibold text-gray-700 mb-2">Interactive Map</h3>
-                  <p className="text-sm text-gray-500 mb-4">Property locations will be displayed here</p>
-                  <div className="text-xs text-gray-400">
-                    <p>Zoom controls and property markers</p>
-                    <p>will be integrated with backend</p>
-                  </div>
-                </div>
-              </div>
-              
-              {/* Map Controls Placeholder */}
-              <div className="absolute top-4 right-4 flex flex-col gap-2">
-                <button className="w-8 h-8 bg-white rounded shadow-md flex items-center justify-center text-gray-600 hover:bg-gray-50">
-                  +
-                </button>
-                <button className="w-8 h-8 bg-white rounded shadow-md flex items-center justify-center text-gray-600 hover:bg-gray-50">
-                  -
-                </button>
-              </div>
-              
-              {/* Map Info */}
-              <div className="absolute bottom-4 left-4 right-4 bg-white/90 backdrop-blur-sm rounded-lg p-3 text-xs text-gray-600">
-                <p>Some properties cannot be displayed because we have no exact location information.</p>
-              </div>
-            </div>
+            <PropertyMap 
+              properties={filteredProperties.map(property => ({
+                id: property.id.toString(),
+                title: property.title,
+                address: property.location,
+                price: property.price || property.priceRange || "Price on Application",
+                type: property.type === "luxury-villas" ? "Residential" : 
+                      property.type === "commercial" ? "Commercial" : "Residential",
+                coordinates: property.coordinates || { lat: 12.9716, lng: 77.5946 }
+              }))}
+              center={{ lat: 12.9716, lng: 77.5946 }}
+              zoom={11}
+              height="100%"
+            />
           </div>
         </div>
       </section>

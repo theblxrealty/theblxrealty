@@ -18,6 +18,7 @@ interface Property {
   price: string
   development: boolean
   propertyRef: string
+  coordinates?: { lat: number; lng: number }
   images: string[]
   beds: number
   baths: number
@@ -260,9 +261,21 @@ export default function PropertyDetailPageClient({ property }: PropertyDetailPag
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Map */}
             <div className="lg:col-span-2">
-              <div className="h-[650px] bg-gray-100 rounded-xl overflow-hidden shadow-lg">
-                <PropertyMap location={property.location} />
-              </div>
+                          <div className="h-[650px] bg-gray-100 rounded-xl overflow-hidden shadow-lg">
+              <PropertyMap 
+                properties={[{
+                  id: property.id.toString(),
+                  title: property.title,
+                  address: property.location,
+                  price: property.price,
+                  type: "Residential",
+                  coordinates: property.coordinates || { lat: 12.9716, lng: 77.5946 }
+                }]}
+                center={property.coordinates || { lat: 12.9716, lng: 77.5946 }}
+                zoom={15}
+                height="100%"
+              />
+            </div>
             </div>
             
             {/* Location Details */}
