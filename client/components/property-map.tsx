@@ -164,15 +164,12 @@ export default function PropertyMap({
         const infoWindowInstances: google.maps.InfoWindow[] = []
 
         properties.forEach((property, index) => {
-          // Create custom marker icon based on property type
-          const getMarkerIcon = (type: string) => {
-            const color = type === "Residential" ? "#d97706" : "#1e40af"
+          // Create custom marker icon - location pin design
+          const getMarkerIcon = () => {
             return {
               url: "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(`
                 <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="16" cy="16" r="16" fill="${color}"/>
-                  <circle cx="16" cy="16" r="10" fill="#ffffff"/>
-                  <circle cx="16" cy="16" r="5" fill="${color}"/>
+                  <path d="M16 2C12.13 2 9 5.13 9 9C9 14.25 16 22 16 22C16 22 23 14.25 23 9C23 5.13 19.87 2 16 2ZM16 11.5C14.62 11.5 13.5 10.38 13.5 9C13.5 7.62 14.62 6.5 16 6.5C17.38 6.5 18.5 7.62 18.5 9C18.5 10.38 17.38 11.5 16 11.5Z" fill="#dc2626"/>
                 </svg>
               `),
               scaledSize: new google.maps.Size(32, 32),
@@ -185,7 +182,7 @@ export default function PropertyMap({
             position: property.coordinates,
             map: mapInstance,
             title: property.title,
-            icon: getMarkerIcon(property.type)
+            icon: getMarkerIcon()
           })
 
           // Create info window
@@ -239,7 +236,7 @@ export default function PropertyMap({
     } else {
       setIsLoading(false)
     }
-  }, [properties, center, zoom])
+  }, [properties, center, zoom]) // Removed hoveredPropertyId from dependencies to prevent map refresh
 
   // Effect to handle marker size changes on hover
   useEffect(() => {
@@ -251,14 +248,14 @@ export default function PropertyMap({
 
       const isHovered = hoveredPropertyId === property.id
       const size = isHovered ? 40 : 32
-      const color = property.type === "Residential" ? "#d97706" : "#1e40af"
+      const color = isHovered ? "#1e40af" : "#dc2626" // Blue on hover, red normally
 
       const icon = {
         url: "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(`
           <svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="${size/2}" cy="${size/2}" r="${size/2}" fill="${color}"/>
-            <circle cx="${size/2}" cy="${size/2}" r="${size/2 * 0.625}" fill="#ffffff"/>
-            <circle cx="${size/2}" cy="${size/2}" r="${size/2 * 0.3125}" fill="${color}"/>
+            <circle cx="${size/2}" cy="${size/2}" r="${size/2 * 0.8}" fill="${color}"/>
+            <circle cx="${size/2}" cy="${size/2}" r="${size/2 * 0.4}" fill="white"/>
+            <circle cx="${size/2}" cy="${size/2}" r="${size/2 * 0.2}" fill="${color}"/>
           </svg>
         `),
         scaledSize: new google.maps.Size(size, size),
@@ -370,11 +367,6 @@ export default function PropertyMap({
           </div>
         </div>
       )}
-
-      {/* Map Type Indicator */}
-      <div className="absolute bottom-4 right-4 bg-white py-2 px-3 rounded-lg shadow-lg border border-slate-200">
-        <span className="text-xs text-slate-500 font-medium">Google Maps</span>
-      </div>
     </div>
   )
 }
