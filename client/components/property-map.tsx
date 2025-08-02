@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react"
 import { MapPin, Navigation, Home, Building } from "lucide-react"
 import { Loader } from "@googlemaps/js-api-loader"
+import { FaMapMarkerAlt } from "react-icons/fa"
 
 interface Property {
   id: string
@@ -38,6 +39,19 @@ export default function PropertyMap({
   const [error, setError] = useState<string | null>(null)
   const [selectedProperty, setSelectedProperty] = useState<Property | null>(null)
   const [hoveredPropertyId, setHoveredPropertyId] = useState<string | null>(null)
+
+  // Function to create marker icon from React Icon
+  const createMarkerIcon = (color: string, size: number) => {
+    const iconSvg = `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="${color}"/>
+    </svg>`
+    
+    return {
+      url: "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(iconSvg),
+      scaledSize: new google.maps.Size(size, size),
+      anchor: new google.maps.Point(size/2, size)
+    }
+  }
 
   useEffect(() => {
     const initMap = async () => {
@@ -164,25 +178,12 @@ export default function PropertyMap({
         const infoWindowInstances: google.maps.InfoWindow[] = []
 
         properties.forEach((property, index) => {
-          // Create custom marker icon - classic location pin design
-          const getMarkerIcon = () => {
-            return {
-              url: "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(`
-                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M16 2C12.13 2 9 5.13 9 9C9 14.25 16 22 16 22C16 22 23 14.25 23 9C23 5.13 19.87 2 16 2ZM16 11.5C14.62 11.5 13.5 10.38 13.5 9C13.5 7.62 14.62 6.5 16 6.5C17.38 6.5 18.5 7.62 18.5 9C18.5 10.38 17.38 11.5 16 11.5Z" fill="#dc2626"/>
-                </svg>
-              `),
-              scaledSize: new google.maps.Size(32, 32),
-              anchor: new google.maps.Point(16, 32)
-            }
-          }
-
-          // Create marker
+          // Create marker with React Icon-based design
           const marker = new google.maps.Marker({
             position: property.coordinates,
             map: mapInstance,
             title: property.title,
-            icon: getMarkerIcon()
+            icon: createMarkerIcon("#dc2626", 32)
           })
 
           // Create info window
@@ -250,18 +251,7 @@ export default function PropertyMap({
       const size = isHovered ? 40 : 32
       const color = isHovered ? "#1e40af" : "#dc2626" // Blue on hover, red normally
 
-      const icon = {
-        url: "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(`
-          <svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="${size/2}" cy="${size/2}" r="${size/2 * 0.8}" fill="${color}"/>
-            <circle cx="${size/2}" cy="${size/2 * 0.6}" r="${size/2 * 0.15}" fill="white"/>
-          </svg>
-        `),
-        scaledSize: new google.maps.Size(size, size),
-        anchor: new google.maps.Point(size/2, size)
-      }
-
-      marker.setIcon(icon)
+      marker.setIcon(createMarkerIcon(color, size))
     })
   }, [hoveredPropertyId, markers, properties, map])
 
