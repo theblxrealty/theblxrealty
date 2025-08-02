@@ -1,105 +1,285 @@
 "use client"
 
-import { useEffect, useRef } from "react"
-import { MapPin } from "lucide-react"
+import { useEffect, useRef, useState } from "react"
+import { MapPin, Navigation, Phone, Mail } from "lucide-react"
+import { Loader } from "@googlemaps/js-api-loader"
 
-export default function ContactMap() {
-  const mapRef = useRef(null)
+interface ContactMapProps {
+  center?: { lat: number; lng: number }
+  zoom?: number
+  officeName?: string
+  address?: string
+  phone?: string
+  email?: string
+}
+
+export default function ContactMap({
+  center = { lat: 12.9716, lng: 77.5946 }, // Bangalore coordinates
+  zoom = 15,
+  officeName = "11Square Premium Office",
+  address = "MG Road, Bangalore, Karnataka, India",
+  phone = "+91 98765 43210",
+  email = "contact@11square.com"
+}: ContactMapProps) {
+  const mapRef = useRef<HTMLDivElement>(null)
+  const [map, setMap] = useState<google.maps.Map | null>(null)
+  const [marker, setMarker] = useState<google.maps.Marker | null>(null)
+  const [infoWindow, setInfoWindow] = useState<google.maps.InfoWindow | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    // This is a placeholder for an actual map implementation
-    // In a real application, you would use a library like Google Maps, Mapbox, or Leaflet
+    const initMap = async () => {
+      try {
+        setIsLoading(true)
+        setError(null)
 
-    if (mapRef.current) {
-      const canvas = mapRef.current
-      const ctx = canvas.getContext("2d")
+        const loader = new Loader({
+          apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API || process.env.GOOGLE_MAPS_API || "",
+          version: "weekly",
+          libraries: ["places"]
+        })
 
-      // Set canvas dimensions
-      canvas.width = canvas.offsetWidth
-      canvas.height = canvas.offsetHeight
+        const google = await loader.load()
+        
+        if (!mapRef.current) return
 
-      // Draw a simple placeholder map with premium styling
-      ctx.fillStyle = "#f1f5f9"
-      ctx.fillRect(0, 0, canvas.width, canvas.height)
+        // Create map instance
+        const mapInstance = new google.maps.Map(mapRef.current, {
+          center,
+          zoom,
+          styles: [
+            {
+              featureType: "all",
+              elementType: "geometry",
+              stylers: [{ color: "#f5f5f5" }]
+            },
+            {
+              featureType: "water",
+              elementType: "geometry",
+              stylers: [{ color: "#c9c9c9" }]
+            },
+            {
+              featureType: "water",
+              elementType: "labels.text.fill",
+              stylers: [{ color: "#9c9c9c" }]
+            },
+            {
+              featureType: "poi",
+              elementType: "labels.text.fill",
+              stylers: [{ color: "#757575" }]
+            },
+            {
+              featureType: "poi",
+              elementType: "labels.icon",
+              stylers: [{ visibility: "off" }]
+            },
+            {
+              featureType: "landscape",
+              elementType: "labels.icon",
+              stylers: [{ visibility: "off" }]
+            },
+            {
+              featureType: "landscape",
+              elementType: "labels.text.fill",
+              stylers: [{ color: "#9e9e9e" }]
+            },
+            {
+              featureType: "road",
+              elementType: "geometry",
+              stylers: [{ color: "#ffffff" }]
+            },
+            {
+              featureType: "road",
+              elementType: "geometry.stroke",
+              stylers: [{ color: "#c9c9c9" }]
+            },
+            {
+              featureType: "road",
+              elementType: "labels.text.fill",
+              stylers: [{ color: "#616161" }]
+            },
+            {
+              featureType: "road",
+              elementType: "labels.text.stroke",
+              stylers: [{ color: "#ffffff" }]
+            },
+            {
+              featureType: "transit",
+              elementType: "geometry",
+              stylers: [{ color: "#e5e5e5" }]
+            },
+            {
+              featureType: "transit",
+              elementType: "labels.text.fill",
+              stylers: [{ color: "#9e9e9e" }]
+            },
+            {
+              featureType: "administrative",
+              elementType: "labels.text.fill",
+              stylers: [{ color: "#bdbdbd" }]
+            },
+            {
+              featureType: "poi",
+              elementType: "geometry",
+              stylers: [{ color: "#eeeeee" }]
+            },
+            {
+              featureType: "poi.park",
+              elementType: "geometry",
+              stylers: [{ color: "#e5e5e5" }]
+            },
+            {
+              featureType: "poi.park",
+              elementType: "labels.text.fill",
+              stylers: [{ color: "#6b9a76" }]
+            }
+          ],
+          mapTypeControl: false,
+          streetViewControl: false,
+          fullscreenControl: false,
+          zoomControl: true,
+          gestureHandling: "cooperative"
+        })
 
-      // Draw some roads
-      ctx.strokeStyle = "#ffffff"
-      ctx.lineWidth = 8
-
-      // Horizontal roads
-      for (let i = 1; i < 5; i++) {
-        ctx.beginPath()
-        ctx.moveTo(0, canvas.height * (i / 5))
-        ctx.lineTo(canvas.width, canvas.height * (i / 5))
-        ctx.stroke()
-      }
-
-      // Vertical roads
-      for (let i = 1; i < 5; i++) {
-        ctx.beginPath()
-        ctx.moveTo(canvas.width * (i / 5), 0)
-        ctx.lineTo(canvas.width * (i / 5), canvas.height)
-        ctx.stroke()
-      }
-
-      // Draw blocks with premium colors
-      ctx.fillStyle = "#e2e8f0"
-      for (let i = 0; i < 4; i++) {
-        for (let j = 0; j < 4; j++) {
-          if ((i + j) % 2 === 0) {
-            ctx.fillRect(
-              canvas.width * (i / 5) + 8,
-              canvas.height * (j / 5) + 8,
-              canvas.width / 5 - 16,
-              canvas.height / 5 - 16,
-            )
+        // Create marker
+        const markerInstance = new google.maps.Marker({
+          position: center,
+          map: mapInstance,
+          title: officeName,
+          icon: {
+            url: "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(`
+              <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="20" cy="20" r="20" fill="#d97706"/>
+                <circle cx="20" cy="20" r="12" fill="#ffffff"/>
+                <circle cx="20" cy="20" r="6" fill="#d97706"/>
+              </svg>
+            `),
+            scaledSize: new google.maps.Size(40, 40),
+            anchor: new google.maps.Point(20, 40)
           }
-        }
+        })
+
+        // Create info window
+        const infoWindowInstance = new google.maps.InfoWindow({
+          content: `
+            <div style="padding: 16px; max-width: 300px; font-family: 'Suisse Intl', sans-serif;">
+              <div style="margin-bottom: 12px;">
+                <h3 style="margin: 0 0 8px 0; color: #1e293b; font-weight: 600; font-size: 16px;">${officeName}</h3>
+                <p style="margin: 0; color: #64748b; font-size: 14px; line-height: 1.4;">${address}</p>
+              </div>
+              <div style="border-top: 1px solid #e2e8f0; padding-top: 12px;">
+                <div style="display: flex; align-items: center; margin-bottom: 8px;">
+                  <span style="color: #d97706; margin-right: 8px;">📞</span>
+                  <span style="color: #475569; font-size: 14px;">${phone}</span>
+                </div>
+                <div style="display: flex; align-items: center;">
+                  <span style="color: #d97706; margin-right: 8px;">✉️</span>
+                  <span style="color: #475569; font-size: 14px;">${email}</span>
+                </div>
+              </div>
+            </div>
+          `
+        })
+
+        // Add click listener to marker
+        markerInstance.addListener("click", () => {
+          infoWindowInstance.open(mapInstance, markerInstance)
+        })
+
+        setMap(mapInstance)
+        setMarker(markerInstance)
+        setInfoWindow(infoWindowInstance)
+        setIsLoading(false)
+
+      } catch (err) {
+        console.error("Error loading Google Maps:", err)
+        setError("Failed to load map. Please try again later.")
+        setIsLoading(false)
       }
-
-      // Draw location marker with premium styling
-      const centerX = canvas.width / 2
-      const centerY = canvas.height / 2
-
-      // Draw pin shadow
-      ctx.beginPath()
-      ctx.arc(centerX, centerY + 5, 15, 0, Math.PI * 2)
-      ctx.fillStyle = "rgba(0, 0, 0, 0.2)"
-      ctx.fill()
-
-      // Draw pin with gold color
-      ctx.beginPath()
-      ctx.arc(centerX, centerY, 20, 0, Math.PI * 2)
-      ctx.fillStyle = "#d97706"
-      ctx.fill()
-
-      ctx.beginPath()
-      ctx.arc(centerX, centerY, 10, 0, Math.PI * 2)
-      ctx.fillStyle = "#ffffff"
-      ctx.fill()
-
-      // Add some building labels with premium styling
-      ctx.font = "14px Arial"
-      ctx.fillStyle = "#1e293b"
-      ctx.textAlign = "center"
-
-      ctx.fillText("Luxury Mall", canvas.width * 0.2, canvas.height * 0.2)
-      ctx.fillText("Business District", canvas.width * 0.8, canvas.height * 0.2)
-      ctx.fillText("11Square Office", centerX, centerY - 30)
-      ctx.fillText("Premium Residences", canvas.width * 0.2, canvas.height * 0.8)
-      ctx.fillText("Corporate Hub", canvas.width * 0.8, canvas.height * 0.8)
     }
-  }, [])
+
+    initMap()
+  }, [center, zoom, officeName, address, phone, email])
+
+  const handleDirections = () => {
+    if (map && marker) {
+      const position = marker.getPosition()
+      if (position) {
+        const url = `https://www.google.com/maps/dir/?api=1&destination=${position.lat()},${position.lng()}&travelmode=driving`
+        window.open(url, "_blank")
+      }
+    }
+  }
+
+  const handleCall = () => {
+    window.open(`tel:${phone}`, "_self")
+  }
+
+  const handleEmail = () => {
+    window.open(`mailto:${email}`, "_self")
+  }
 
   return (
-    <div className="relative h-full w-full">
-      <canvas ref={mapRef} className="w-full h-full"></canvas>
-      <div className="absolute top-4 left-4 bg-white py-2 px-4 rounded-xl shadow-lg flex items-center border border-slate-200">
-        <MapPin className="h-4 w-4 text-gold-600 mr-2" />
-        <span className="text-sm font-medium text-navy-900">11Square Premium Office</span>
+    <div className="relative h-full w-full bg-slate-100 rounded-2xl overflow-hidden">
+      {isLoading && (
+        <div className="absolute inset-0 flex items-center justify-center bg-slate-100 z-10">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gold-600 mx-auto mb-4"></div>
+            <p className="text-slate-600 font-medium">Loading map...</p>
+          </div>
+        </div>
+      )}
+
+      {error && (
+        <div className="absolute inset-0 flex items-center justify-center bg-slate-100 z-10">
+          <div className="text-center p-6">
+            <div className="text-red-500 mb-4">
+              <MapPin className="h-12 w-12 mx-auto" />
+            </div>
+            <p className="text-slate-600 font-medium mb-2">Map unavailable</p>
+            <p className="text-slate-500 text-sm">{error}</p>
+          </div>
+        </div>
+      )}
+
+      <div ref={mapRef} className="w-full h-full" />
+
+      {/* Map Controls */}
+      <div className="absolute top-4 left-4 bg-white rounded-xl shadow-lg border border-slate-200 p-3">
+        <div className="flex items-center mb-2">
+          <MapPin className="h-4 w-4 text-gold-600 mr-2" />
+          <span className="text-sm font-medium text-navy-900">{officeName}</span>
+        </div>
+        <p className="text-xs text-slate-600 mb-3">{address}</p>
+        <div className="space-y-2">
+          <button
+            onClick={handleDirections}
+            className="flex items-center w-full text-xs text-slate-700 hover:text-gold-600 transition-colors"
+          >
+            <Navigation className="h-3 w-3 mr-2" />
+            Get Directions
+          </button>
+          <button
+            onClick={handleCall}
+            className="flex items-center w-full text-xs text-slate-700 hover:text-gold-600 transition-colors"
+          >
+            <Phone className="h-3 w-3 mr-2" />
+            Call Office
+          </button>
+          <button
+            onClick={handleEmail}
+            className="flex items-center w-full text-xs text-slate-700 hover:text-gold-600 transition-colors"
+          >
+            <Mail className="h-3 w-3 mr-2" />
+            Send Email
+          </button>
+        </div>
       </div>
-      <div className="absolute bottom-4 right-4 bg-white py-1 px-2 rounded-md shadow-lg border border-slate-200">
-        <span className="text-xs text-slate-500">Map view (placeholder)</span>
+
+      {/* Map Type Indicator */}
+      <div className="absolute bottom-4 right-4 bg-white py-2 px-3 rounded-lg shadow-lg border border-slate-200">
+        <span className="text-xs text-slate-500 font-medium">Google Maps</span>
       </div>
     </div>
   )

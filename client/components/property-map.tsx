@@ -1,233 +1,323 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { MapPin, ZoomIn, ZoomOut, Navigation } from "lucide-react"
+import { MapPin, Navigation, Home, Building } from "lucide-react"
+import { Loader } from "@googlemaps/js-api-loader"
 
-interface PropertyMapProps {
-  location: string
+interface Property {
+  id: string
+  title: string
+  address: string
+  price: string
+  type: string
+  coordinates: { lat: number; lng: number }
 }
 
-export default function PropertyMap({ location }: PropertyMapProps) {
-  const mapRef = useRef<HTMLCanvasElement>(null)
-  const [zoom, setZoom] = useState(1)
-  const [isDragging, setIsDragging] = useState(false)
-  const [dragStart, setDragStart] = useState({ x: 0, y: 0 })
-  const [offset, setOffset] = useState({ x: 0, y: 0 })
+interface PropertyMapProps {
+  properties: Property[]
+  center?: { lat: number; lng: number }
+  zoom?: number
+  height?: string
+}
+
+export default function PropertyMap({
+  properties,
+  center = { lat: 12.9716, lng: 77.5946 }, // Bangalore coordinates
+  zoom = 12,
+  height = "400px"
+}: PropertyMapProps) {
+  const mapRef = useRef<HTMLDivElement>(null)
+  const [map, setMap] = useState<google.maps.Map | null>(null)
+  const [markers, setMarkers] = useState<google.maps.Marker[]>([])
+  const [infoWindows, setInfoWindows] = useState<google.maps.InfoWindow[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const [selectedProperty, setSelectedProperty] = useState<Property | null>(null)
 
   useEffect(() => {
-    if (mapRef.current) {
-      const canvas = mapRef.current
-      const ctx = canvas.getContext("2d")
+    const initMap = async () => {
+      try {
+        setIsLoading(true)
+        setError(null)
 
-      if (!ctx) return
+        const loader = new Loader({
+          apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API || process.env.GOOGLE_MAPS_API || "",
+          version: "weekly",
+          libraries: ["places"]
+        })
 
-      // Set canvas dimensions
-      canvas.width = canvas.offsetWidth
-      canvas.height = canvas.offsetHeight
-
-      // Clear canvas
-      ctx.clearRect(0, 0, canvas.width, canvas.height)
-
-      // Apply zoom and offset transformations
-      ctx.save()
-      ctx.translate(offset.x, offset.y)
-      ctx.scale(zoom, zoom)
-
-      // Draw background
-      const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height)
-      gradient.addColorStop(0, "#f3f4f6")
-      gradient.addColorStop(1, "#e5e7eb")
-      ctx.fillStyle = gradient
-      ctx.fillRect(0, 0, canvas.width, canvas.height)
-
-      // Draw grid pattern
-      ctx.strokeStyle = "#d1d5db"
-      ctx.lineWidth = 1
-      const gridSize = 50 * zoom
-
-      for (let x = 0; x < canvas.width; x += gridSize) {
-        ctx.beginPath()
-        ctx.moveTo(x, 0)
-        ctx.lineTo(x, canvas.height)
-        ctx.stroke()
-      }
-
-      for (let y = 0; y < canvas.height; y += gridSize) {
-        ctx.beginPath()
-        ctx.moveTo(0, y)
-        ctx.lineTo(canvas.width, y)
-        ctx.stroke()
-      }
-
-      // Draw roads
-      ctx.strokeStyle = "#ffffff"
-      ctx.lineWidth = 12 * zoom
-
-      // Main roads
-      const roads = [
-        { x1: 0, y1: canvas.height * 0.3, x2: canvas.width, y2: canvas.height * 0.3 },
-        { x1: 0, y1: canvas.height * 0.7, x2: canvas.width, y2: canvas.height * 0.7 },
-        { x1: canvas.width * 0.3, y1: 0, x2: canvas.width * 0.3, y2: canvas.height },
-        { x1: canvas.width * 0.7, y1: 0, x2: canvas.width * 0.7, y2: canvas.height },
-      ]
-
-      roads.forEach(road => {
-        ctx.beginPath()
-        ctx.moveTo(road.x1, road.y1)
-        ctx.lineTo(road.x2, road.y2)
-        ctx.stroke()
-      })
-
-      // Draw buildings
-      const buildings = [
-        { x: canvas.width * 0.2, y: canvas.height * 0.2, w: 60 * zoom, h: 40 * zoom },
-        { x: canvas.width * 0.8, y: canvas.height * 0.2, w: 50 * zoom, h: 35 * zoom },
-        { x: canvas.width * 0.1, y: canvas.height * 0.8, w: 70 * zoom, h: 45 * zoom },
-        { x: canvas.width * 0.7, y: canvas.height * 0.8, w: 55 * zoom, h: 38 * zoom },
-      ]
-
-      buildings.forEach(building => {
-        ctx.fillStyle = "#9ca3af"
-        ctx.fillRect(building.x, building.y, building.w, building.h)
+        const google = await loader.load()
         
-        // Add windows
-        ctx.fillStyle = "#fbbf24"
-        for (let i = 0; i < 3; i++) {
-          for (let j = 0; j < 2; j++) {
-            ctx.fillRect(
-              building.x + 10 * zoom + i * 15 * zoom,
-              building.y + 8 * zoom + j * 15 * zoom,
-              8 * zoom,
-              8 * zoom
-            )
+        if (!mapRef.current) return
+
+        // Create map instance
+        const mapInstance = new google.maps.Map(mapRef.current, {
+          center,
+          zoom,
+          styles: [
+            {
+              featureType: "all",
+              elementType: "geometry",
+              stylers: [{ color: "#f5f5f5" }]
+            },
+            {
+              featureType: "water",
+              elementType: "geometry",
+              stylers: [{ color: "#c9c9c9" }]
+            },
+            {
+              featureType: "water",
+              elementType: "labels.text.fill",
+              stylers: [{ color: "#9c9c9c" }]
+            },
+            {
+              featureType: "poi",
+              elementType: "labels.text.fill",
+              stylers: [{ color: "#757575" }]
+            },
+            {
+              featureType: "poi",
+              elementType: "labels.icon",
+              stylers: [{ visibility: "off" }]
+            },
+            {
+              featureType: "landscape",
+              elementType: "labels.icon",
+              stylers: [{ visibility: "off" }]
+            },
+            {
+              featureType: "landscape",
+              elementType: "labels.text.fill",
+              stylers: [{ color: "#9e9e9e" }]
+            },
+            {
+              featureType: "road",
+              elementType: "geometry",
+              stylers: [{ color: "#ffffff" }]
+            },
+            {
+              featureType: "road",
+              elementType: "geometry.stroke",
+              stylers: [{ color: "#c9c9c9" }]
+            },
+            {
+              featureType: "road",
+              elementType: "labels.text.fill",
+              stylers: [{ color: "#616161" }]
+            },
+            {
+              featureType: "road",
+              elementType: "labels.text.stroke",
+              stylers: [{ color: "#ffffff" }]
+            },
+            {
+              featureType: "transit",
+              elementType: "geometry",
+              stylers: [{ color: "#e5e5e5" }]
+            },
+            {
+              featureType: "transit",
+              elementType: "labels.text.fill",
+              stylers: [{ color: "#9e9e9e" }]
+            },
+            {
+              featureType: "administrative",
+              elementType: "labels.text.fill",
+              stylers: [{ color: "#bdbdbd" }]
+            },
+            {
+              featureType: "poi",
+              elementType: "geometry",
+              stylers: [{ color: "#eeeeee" }]
+            },
+            {
+              featureType: "poi.park",
+              elementType: "geometry",
+              stylers: [{ color: "#e5e5e5" }]
+            },
+            {
+              featureType: "poi.park",
+              elementType: "labels.text.fill",
+              stylers: [{ color: "#6b9a76" }]
+            }
+          ],
+          mapTypeControl: false,
+          streetViewControl: false,
+          fullscreenControl: false,
+          zoomControl: true,
+          gestureHandling: "cooperative"
+        })
+
+        // Create markers for each property
+        const markerInstances: google.maps.Marker[] = []
+        const infoWindowInstances: google.maps.InfoWindow[] = []
+
+        properties.forEach((property, index) => {
+          // Create custom marker icon based on property type
+          const getMarkerIcon = (type: string) => {
+            const color = type === "Residential" ? "#d97706" : "#1e40af"
+            return {
+              url: "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(`
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="16" cy="16" r="16" fill="${color}"/>
+                  <circle cx="16" cy="16" r="10" fill="#ffffff"/>
+                  <circle cx="16" cy="16" r="5" fill="${color}"/>
+                </svg>
+              `),
+              scaledSize: new google.maps.Size(32, 32),
+              anchor: new google.maps.Point(16, 32)
+            }
           }
-        }
-      })
 
-      // Draw parks
-      const parks = [
-        { x: canvas.width * 0.4, y: canvas.height * 0.1, r: 25 * zoom },
-        { x: canvas.width * 0.6, y: canvas.height * 0.9, r: 20 * zoom },
-      ]
+          // Create marker
+          const marker = new google.maps.Marker({
+            position: property.coordinates,
+            map: mapInstance,
+            title: property.title,
+            icon: getMarkerIcon(property.type)
+          })
 
-      parks.forEach(park => {
-        ctx.fillStyle = "#10b981"
-        ctx.beginPath()
-        ctx.arc(park.x, park.y, park.r, 0, Math.PI * 2)
-        ctx.fill()
-      })
+          // Create info window
+          const infoWindow = new google.maps.InfoWindow({
+            content: `
+              <div style="padding: 16px; max-width: 280px; font-family: 'Suisse Intl', sans-serif;">
+                <div style="margin-bottom: 12px;">
+                  <h3 style="margin: 0 0 8px 0; color: #1e293b; font-weight: 600; font-size: 14px;">${property.title}</h3>
+                  <p style="margin: 0 0 8px 0; color: #64748b; font-size: 12px; line-height: 1.4;">${property.address}</p>
+                  <div style="display: flex; align-items: center; justify-content: space-between;">
+                    <span style="color: #d97706; font-weight: 600; font-size: 14px;">${property.price}</span>
+                    <span style="color: #475569; font-size: 12px; background: #f1f5f9; padding: 2px 8px; border-radius: 4px;">${property.type}</span>
+                  </div>
+                </div>
+                <div style="border-top: 1px solid #e2e8f0; padding-top: 8px;">
+                  <button onclick="window.open('https://www.google.com/maps/dir/?api=1&destination=${property.coordinates.lat},${property.coordinates.lng}&travelmode=driving', '_blank')" style="background: #d97706; color: white; border: none; padding: 6px 12px; border-radius: 4px; font-size: 12px; cursor: pointer; width: 100%;">
+                    Get Directions
+                  </button>
+                </div>
+              </div>
+            `
+          })
 
-      // Draw location marker
-      const centerX = canvas.width / 2
-      const centerY = canvas.height / 2
+          // Add click listener to marker
+          marker.addListener("click", () => {
+            // Close all other info windows
+            infoWindowInstances.forEach(iw => iw.close())
+            infoWindow.open(mapInstance, marker)
+            setSelectedProperty(property)
+          })
 
-      // Draw pin shadow
-      ctx.beginPath()
-      ctx.arc(centerX, centerY + 8, 12 * zoom, 0, Math.PI * 2)
-      ctx.fillStyle = "rgba(0, 0, 0, 0.3)"
-      ctx.fill()
+          markerInstances.push(marker)
+          infoWindowInstances.push(infoWindow)
+        })
 
-      // Draw pin
-      ctx.beginPath()
-      ctx.arc(centerX, centerY, 18 * zoom, 0, Math.PI * 2)
-      ctx.fillStyle = "#ef4444"
-      ctx.fill()
+        setMap(mapInstance)
+        setMarkers(markerInstances)
+        setInfoWindows(infoWindowInstances)
+        setIsLoading(false)
 
-      ctx.beginPath()
-      ctx.arc(centerX, centerY, 10 * zoom, 0, Math.PI * 2)
-      ctx.fillStyle = "#ffffff"
-      ctx.fill()
-
-      // Draw pulse effect
-      ctx.beginPath()
-      ctx.arc(centerX, centerY, 25 * zoom, 0, Math.PI * 2)
-      ctx.strokeStyle = "#ef4444"
-      ctx.lineWidth = 2 * zoom
-      ctx.setLineDash([5 * zoom, 5 * zoom])
-      ctx.stroke()
-      ctx.setLineDash([])
-
-      ctx.restore()
+      } catch (err) {
+        console.error("Error loading Google Maps:", err)
+        setError("Failed to load map. Please try again later.")
+        setIsLoading(false)
+      }
     }
-  }, [location, zoom, offset])
 
-  const handleZoomIn = () => {
-    setZoom(prev => Math.min(prev + 0.2, 3))
-  }
+    initMap()
+  }, [properties, center, zoom])
 
-  const handleZoomOut = () => {
-    setZoom(prev => Math.max(prev - 0.2, 0.5))
-  }
-
-  const handleMouseDown = (e: React.MouseEvent<HTMLCanvasElement>) => {
-    setIsDragging(true)
-    setDragStart({ x: e.clientX - offset.x, y: e.clientY - offset.y })
-  }
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
-    if (isDragging) {
-      setOffset({
-        x: e.clientX - dragStart.x,
-        y: e.clientY - dragStart.y,
-      })
+  const handlePropertySelect = (property: Property) => {
+    if (map) {
+      map.setCenter(property.coordinates)
+      map.setZoom(16)
+      setSelectedProperty(property)
+      
+      // Find and open the corresponding info window
+      const markerIndex = properties.findIndex(p => p.id === property.id)
+      if (markerIndex >= 0 && infoWindows[markerIndex]) {
+        infoWindows.forEach(iw => iw.close())
+        infoWindows[markerIndex].open(map, markers[markerIndex])
+      }
     }
   }
 
-  const handleMouseUp = () => {
-    setIsDragging(false)
+  const handleDirections = (property: Property) => {
+    const url = `https://www.google.com/maps/dir/?api=1&destination=${property.coordinates.lat},${property.coordinates.lng}&travelmode=driving`
+    window.open(url, "_blank")
   }
 
   return (
-    <div className="relative h-full w-full">
-      <canvas 
-        ref={mapRef} 
-        className="w-full h-full rounded-lg cursor-grab active:cursor-grabbing"
-        onMouseDown={handleMouseDown}
-        onMouseMove={handleMouseMove}
-        onMouseUp={handleMouseUp}
-        onMouseLeave={handleMouseUp}
-      />
-      
-      {/* Map Controls */}
-      <div className="absolute top-4 right-4 flex flex-col gap-2">
-        <button
-          onClick={handleZoomIn}
-          className="bg-white p-2 rounded-md shadow-md hover:bg-gray-50 transition-colors"
-          title="Zoom In"
-        >
-          <ZoomIn className="h-4 w-4 text-gray-600" />
-        </button>
-        <button
-          onClick={handleZoomOut}
-          className="bg-white p-2 rounded-md shadow-md hover:bg-gray-50 transition-colors"
-          title="Zoom Out"
-        >
-          <ZoomOut className="h-4 w-4 text-gray-600" />
-        </button>
-      </div>
-
-      {/* Location Info */}
-      <div className="absolute top-4 left-4 bg-white py-2 px-4 rounded-md shadow-md flex items-center">
-        <MapPin className="h-4 w-4 text-red-500 mr-2" />
-        <span className="text-sm font-medium">{location}</span>
-      </div>
-
-      {/* Map Legend */}
-      <div className="absolute bottom-4 left-4 bg-white py-2 px-4 rounded-md shadow-md">
-        <div className="flex items-center gap-4 text-xs">
-          <div className="flex items-center gap-1">
-            <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-            <span>Property</span>
-          </div>
-          <div className="flex items-center gap-1">
-            <div className="w-3 h-3 bg-gray-400 rounded"></div>
-            <span>Buildings</span>
-          </div>
-          <div className="flex items-center gap-1">
-            <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-            <span>Parks</span>
+    <div className="relative w-full bg-slate-100 rounded-2xl overflow-hidden" style={{ height }}>
+      {isLoading && (
+        <div className="absolute inset-0 flex items-center justify-center bg-slate-100 z-10">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gold-600 mx-auto mb-4"></div>
+            <p className="text-slate-600 font-medium">Loading property map...</p>
           </div>
         </div>
+      )}
+
+      {error && (
+        <div className="absolute inset-0 flex items-center justify-center bg-slate-100 z-10">
+          <div className="text-center p-6">
+            <div className="text-red-500 mb-4">
+              <MapPin className="h-12 w-12 mx-auto" />
+            </div>
+            <p className="text-slate-600 font-medium mb-2">Map unavailable</p>
+            <p className="text-slate-500 text-sm">{error}</p>
+          </div>
+        </div>
+      )}
+
+      <div ref={mapRef} className="w-full h-full" />
+
+      {/* Property List Overlay */}
+      {properties.length > 0 && (
+        <div className="absolute top-4 left-4 bg-white rounded-xl shadow-lg border border-slate-200 p-3 max-w-xs">
+          <div className="flex items-center mb-3">
+            <Building className="h-4 w-4 text-gold-600 mr-2" />
+            <span className="text-sm font-medium text-navy-900">Properties ({properties.length})</span>
+          </div>
+          <div className="space-y-2 max-h-48 overflow-y-auto">
+            {properties.map((property) => (
+              <div
+                key={property.id}
+                className={`p-2 rounded-lg cursor-pointer transition-colors ${
+                  selectedProperty?.id === property.id
+                    ? "bg-gold-50 border border-gold-200"
+                    : "hover:bg-slate-50"
+                }`}
+                onClick={() => handlePropertySelect(property)}
+              >
+                <div className="flex items-start justify-between">
+                  <div className="flex-1 min-w-0">
+                    <h4 className="text-xs font-medium text-navy-900 truncate">{property.title}</h4>
+                    <p className="text-xs text-slate-600 truncate">{property.address}</p>
+                    <div className="flex items-center justify-between mt-1">
+                      <span className="text-xs font-semibold text-gold-600">{property.price}</span>
+                      <span className="text-xs text-slate-500 bg-slate-100 px-2 py-1 rounded">
+                        {property.type}
+                      </span>
+                    </div>
+                  </div>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      handleDirections(property)
+                    }}
+                    className="ml-2 p-1 text-slate-400 hover:text-gold-600 transition-colors"
+                  >
+                    <Navigation className="h-3 w-3" />
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Map Type Indicator */}
+      <div className="absolute bottom-4 right-4 bg-white py-2 px-3 rounded-lg shadow-lg border border-slate-200">
+        <span className="text-xs text-slate-500 font-medium">Google Maps</span>
       </div>
     </div>
   )
