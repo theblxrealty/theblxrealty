@@ -132,15 +132,57 @@ const typeDisplayNames: { [key: string]: string } = {
 function PropertiesContent() {
   const searchParams = useSearchParams()
   const selectedType = searchParams.get('type')
+  const searchQuery = searchParams.get('search')
+  const bedroomsFilter = searchParams.get('bedrooms')
+  const bathroomsFilter = searchParams.get('bathrooms')
+  const amenitiesFilter = searchParams.get('amenities')
   const [hoveredPropertyId, setHoveredPropertyId] = useState<string | null>(null)
   
-  // Filter properties based on selected type
+  // Filter properties based on all criteria
   const filteredProperties = useMemo(() => {
-    if (!selectedType) {
-      return properties
+    let filtered = properties
+
+    // Filter by type
+    if (selectedType && selectedType !== 'any') {
+      filtered = filtered.filter(property => property.type === selectedType)
     }
-    return properties.filter(property => property.type === selectedType)
-  }, [selectedType])
+
+    // Filter by search query
+    if (searchQuery) {
+      const query = searchQuery.toLowerCase()
+      filtered = filtered.filter(property => 
+        property.title.toLowerCase().includes(query) ||
+        property.location.toLowerCase().includes(query) ||
+        property.amenities.some(amenity => amenity.toLowerCase().includes(query))
+      )
+    }
+
+    // Filter by bedrooms
+    if (bedroomsFilter && bedroomsFilter !== 'any') {
+      const beds = parseInt(bedroomsFilter)
+      filtered = filtered.filter(property => property.beds >= beds)
+    }
+
+    // Filter by bathrooms
+    if (bathroomsFilter && bathroomsFilter !== 'any') {
+      const baths = parseInt(bathroomsFilter)
+      filtered = filtered.filter(property => property.baths >= baths)
+    }
+
+    // Filter by amenities
+    if (amenitiesFilter) {
+      const requiredAmenities = amenitiesFilter.split(',')
+      filtered = filtered.filter(property => 
+        requiredAmenities.every(amenity => 
+          property.amenities.some(propAmenity => 
+            propAmenity.toLowerCase().includes(amenity.toLowerCase())
+          )
+        )
+      )
+    }
+
+    return filtered
+  }, [selectedType, searchQuery, bedroomsFilter, bathroomsFilter, amenitiesFilter])
 
   // Get page title based on selected type
   const pageTitle = selectedType 
@@ -212,7 +254,7 @@ function PropertiesContent() {
       {/* Filters Section */}
       <section className="py-8 bg-white border-b border-slate-200">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <PropertyFilters />
+          <PropertyFilters onFiltersChange={() => {}} />
         </div>
       </section>
 
