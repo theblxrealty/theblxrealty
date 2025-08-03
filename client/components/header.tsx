@@ -3,9 +3,9 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
-import { Menu, X, Phone } from "lucide-react"
+import { Menu, X, Phone, Search } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import ThemeToggle from "@/components/theme-toggle"
 
@@ -21,7 +21,11 @@ const navItems = [
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [searchOpen, setSearchOpen] = useState(false)
+  const [searchQuery, setSearchQuery] = useState("")
+  const [searchType, setSearchType] = useState<"properties" | "blog">("properties")
   const pathname = usePathname()
+  const router = useRouter()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -35,6 +39,23 @@ export default function Header() {
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (searchQuery.trim()) {
+      const params = new URLSearchParams()
+      params.set('search', searchQuery.trim())
+      
+      if (searchType === "properties") {
+        router.push(`/properties?${params.toString()}`)
+      } else {
+        router.push(`/blog?${params.toString()}`)
+      }
+      
+      setSearchOpen(false)
+      setSearchQuery("")
+    }
+  }
 
   return (
     <header
@@ -82,8 +103,17 @@ export default function Header() {
             ))}
           </nav>
 
-          {/* Right Section - Register Button and Toggle */}
+          {/* Right Section - Search, Register Button and Toggle */}
           <div className="hidden md:flex items-center space-x-4">
+            {/* Search Button */}
+            <button
+              onClick={() => setSearchOpen(!searchOpen)}
+              className="text-white hover:text-red-400 transition-colors p-2"
+              aria-label="Search"
+            >
+              <Search className="h-5 w-5" />
+            </button>
+
             <Button className="bg-transparent text-white px-6 py-2 font-['Suisse_Intl',sans-serif] font-medium hover:bg-transparent hover:text-white transition-all duration-300 relative group text-base">
               <span className="relative flex items-center gap-2">
                 <span className="text-white">👤</span> Register
@@ -138,6 +168,57 @@ export default function Header() {
                 </Button>
               </div>
             </div>
+          </motion.div>
+        )}
+
+        {/* Search Overlay */}
+        {searchOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50"
+            onClick={() => setSearchOpen(false)}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: -20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: -20 }}
+              className="absolute top-20 left-1/2 transform -translate-x-1/2 w-full max-w-2xl mx-4"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <form onSubmit={handleSearch} className="bg-white rounded-2xl shadow-2xl overflow-hidden">
+                <div className="flex items-center p-4">
+                  <div className="flex-1 flex items-center">
+                    <Search className="h-5 w-5 text-red-500 mr-3 flex-shrink-0" />
+                    <input
+                      type="text"
+                      placeholder="Search properties or blog posts..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="flex-1 bg-transparent text-gray-800 placeholder-gray-500 outline-none text-lg"
+                      autoFocus
+                    />
+                  </div>
+                  <div className="flex items-center gap-2 ml-4">
+                    <select
+                      value={searchType}
+                      onChange={(e) => setSearchType(e.target.value as "properties" | "blog")}
+                      className="bg-transparent text-gray-800 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-red-500"
+                    >
+                      <option value="properties">Properties</option>
+                      <option value="blog">Blog</option>
+                    </select>
+                    <button
+                      type="submit"
+                      className="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-lg transition-colors"
+                    >
+                      Search
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>

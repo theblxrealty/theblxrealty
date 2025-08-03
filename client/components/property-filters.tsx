@@ -1,6 +1,7 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { useRouter, useSearchParams } from "next/navigation"
 import { Search, Filter } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -10,44 +11,108 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 
-export default function PropertyFilters() {
+interface PropertyFiltersProps {
+  onFiltersChange?: (filters: any) => void
+}
+
+export default function PropertyFilters({ onFiltersChange }: PropertyFiltersProps) {
+  const router = useRouter()
+  const searchParams = useSearchParams()
   const [isExpanded, setIsExpanded] = useState(false)
+  
+  // Filter states
+  const [searchQuery, setSearchQuery] = useState(searchParams.get('search') || '')
+  const [propertyType, setPropertyType] = useState(searchParams.get('type') || 'any')
+  const [bedrooms, setBedrooms] = useState(searchParams.get('bedrooms') || 'any')
+  const [bathrooms, setBathrooms] = useState(searchParams.get('bathrooms') || 'any')
+  const [priceRange, setPriceRange] = useState([0, 100])
+  const [amenities, setAmenities] = useState<string[]>([])
+
+  // Update URL when filters change
+  useEffect(() => {
+    const params = new URLSearchParams()
+    
+    if (searchQuery) params.set('search', searchQuery)
+    if (propertyType !== 'any') params.set('type', propertyType)
+    if (bedrooms !== 'any') params.set('bedrooms', bedrooms)
+    if (bathrooms !== 'any') params.set('bathrooms', bathrooms)
+    if (amenities.length > 0) params.set('amenities', amenities.join(','))
+    
+    const newUrl = `/properties?${params.toString()}`
+    router.replace(newUrl, { scroll: false })
+    
+    // Notify parent component of filter changes
+    if (onFiltersChange) {
+      onFiltersChange({
+        search: searchQuery,
+        type: propertyType,
+        bedrooms,
+        bathrooms,
+        priceRange,
+        amenities
+      })
+    }
+  }, [searchQuery, propertyType, bedrooms, bathrooms, priceRange, amenities, router, onFiltersChange])
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault()
+    // Search is already handled by useEffect above
+  }
+
+  const handleAmenityChange = (amenity: string, checked: boolean) => {
+    if (checked) {
+      setAmenities(prev => [...prev, amenity])
+    } else {
+      setAmenities(prev => prev.filter(a => a !== amenity))
+    }
+  }
+
+  const clearFilters = () => {
+    setSearchQuery('')
+    setPropertyType('any')
+    setBedrooms('any')
+    setBathrooms('any')
+    setPriceRange([0, 100])
+    setAmenities([])
+  }
 
 
   return (
     <div className="bg-white rounded-2xl shadow-lg border border-slate-200 p-6">
       {/* Basic Search */}
-      <div className="flex flex-col md:flex-row gap-4">
+      <form onSubmit={handleSearch} className="flex flex-col md:flex-row gap-4">
         <div className="flex-1">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400" />
             <Input
               placeholder="Search by location, property name..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-10 border-slate-300 focus:border-navy-500 focus:ring-navy-500"
             />
           </div>
         </div>
 
         <div className="flex gap-2">
-          <Select defaultValue="any">
+          <Select value={propertyType} onValueChange={setPropertyType}>
             <SelectTrigger className="w-[120px] border-slate-300 focus:border-navy-500">
               <SelectValue placeholder="Property Type" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="any">Any Type</SelectItem>
-              <SelectItem value="apartment">Apartment</SelectItem>
-              <SelectItem value="villa">Villa</SelectItem>
-              <SelectItem value="house">House</SelectItem>
-              <SelectItem value="studio">Studio</SelectItem>
-              <SelectItem value="penthouse">Penthouse</SelectItem>
+              <SelectItem value="luxury-villas">Luxury Villas</SelectItem>
+              <SelectItem value="residential">Residential</SelectItem>
+              <SelectItem value="commercial">Commercial</SelectItem>
+              <SelectItem value="apartments">Apartments</SelectItem>
             </SelectContent>
           </Select>
 
-          <Button className="bg-gradient-to-r from-navy-600 to-navy-700 hover:from-navy-700 hover:to-navy-800 text-white">
+          <Button type="submit" className="bg-gradient-to-r from-navy-600 to-navy-700 hover:from-navy-700 hover:to-navy-800 text-white">
             Search
           </Button>
 
           <Button
+            type="button"
             variant="outline"
             size="icon"
             onClick={() => setIsExpanded(!isExpanded)}
@@ -56,8 +121,19 @@ export default function PropertyFilters() {
           >
             <Filter className="h-4 w-4" />
           </Button>
+
+          {(searchQuery || propertyType !== 'any' || bedrooms !== 'any' || bathrooms !== 'any' || amenities.length > 0) && (
+            <Button
+              type="button"
+              variant="outline"
+              onClick={clearFilters}
+              className="border-slate-300 hover:bg-slate-50"
+            >
+              Clear
+            </Button>
+          )}
         </div>
-      </div>
+      </form>
 
       {/* Advanced Filters */}
       {isExpanded && (
@@ -68,7 +144,7 @@ export default function PropertyFilters() {
             <h3 className="font-medium text-navy-900">Bedrooms & Bathrooms</h3>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <Select defaultValue="any">
+                <Select value={bedrooms} onValueChange={setBedrooms}>
                   <SelectTrigger className="border-slate-300 focus:border-navy-500">
                     <SelectValue placeholder="BHK" />
                   </SelectTrigger>
@@ -82,7 +158,7 @@ export default function PropertyFilters() {
                 </Select>
               </div>
               <div>
-                <Select defaultValue="any">
+                <Select value={bathrooms} onValueChange={setBathrooms}>
                   <SelectTrigger className="border-slate-300 focus:border-navy-500">
                     <SelectValue placeholder="Baths" />
                   </SelectTrigger>
@@ -102,25 +178,45 @@ export default function PropertyFilters() {
             <h3 className="font-medium text-navy-900">Amenities</h3>
             <div className="space-y-2">
               <div className="flex items-center space-x-2">
-                <Checkbox id="parking" className="border-navy-600 text-navy-600" />
+                <Checkbox 
+                  id="parking" 
+                  className="border-navy-600 text-navy-600"
+                  checked={amenities.includes('Parking')}
+                  onCheckedChange={(checked) => handleAmenityChange('Parking', checked as boolean)}
+                />
                 <Label htmlFor="parking" className="text-slate-700">
                   Parking
                 </Label>
               </div>
               <div className="flex items-center space-x-2">
-                <Checkbox id="gym" className="border-navy-600 text-navy-600" />
+                <Checkbox 
+                  id="gym" 
+                  className="border-navy-600 text-navy-600"
+                  checked={amenities.includes('Gym')}
+                  onCheckedChange={(checked) => handleAmenityChange('Gym', checked as boolean)}
+                />
                 <Label htmlFor="gym" className="text-slate-700">
                   Gym
                 </Label>
               </div>
               <div className="flex items-center space-x-2">
-                <Checkbox id="pool" className="border-navy-600 text-navy-600" />
+                <Checkbox 
+                  id="pool" 
+                  className="border-navy-600 text-navy-600"
+                  checked={amenities.includes('Swimming Pool')}
+                  onCheckedChange={(checked) => handleAmenityChange('Swimming Pool', checked as boolean)}
+                />
                 <Label htmlFor="pool" className="text-slate-700">
                   Swimming Pool
                 </Label>
               </div>
               <div className="flex items-center space-x-2">
-                <Checkbox id="security" className="border-navy-600 text-navy-600" />
+                <Checkbox 
+                  id="security" 
+                  className="border-navy-600 text-navy-600"
+                  checked={amenities.includes('Security')}
+                  onCheckedChange={(checked) => handleAmenityChange('Security', checked as boolean)}
+                />
                 <Label htmlFor="security" className="text-slate-700">
                   24/7 Security
                 </Label>

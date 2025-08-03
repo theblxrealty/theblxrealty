@@ -2,17 +2,23 @@
 
 import { useState } from "react"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { motion } from "framer-motion"
 import { Search, MapPin, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 export default function HeroSection() {
   const [searchQuery, setSearchQuery] = useState("")
+  const router = useRouter()
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
-    // Handle search functionality
-    console.log("Searching for:", searchQuery)
+    if (searchQuery.trim()) {
+      // Navigate to properties page with search query
+      const params = new URLSearchParams()
+      params.set('search', searchQuery.trim())
+      router.push(`/properties?${params.toString()}`)
+    }
   }
 
   return (

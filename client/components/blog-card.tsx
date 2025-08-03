@@ -53,7 +53,7 @@ export default function BlogCard({ post, priority = false }: BlogCardProps) {
 
   return (
     <div
-      className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-slate-200"
+      className="bg-white overflow-hidden transition-all duration-300 border border-slate-200"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
