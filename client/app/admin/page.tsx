@@ -43,11 +43,31 @@ export default function AdminDashboard() {
   const [properties, setProperties] = useState<Property[]>([])
   const [loading, setLoading] = useState(false)
   const [showAddProperty, setShowAddProperty] = useState(false)
+  const [showRegisterModal, setShowRegisterModal] = useState(false)
+
+  // Debug: Log modal state changes
+  useEffect(() => {
+    console.log('Modal state changed:', showRegisterModal)
+  }, [showRegisterModal])
+
+  // Debug: Log component render
+  console.log('AdminDashboard render - showRegisterModal:', showRegisterModal)
 
   // Login form state
   const [loginForm, setLoginForm] = useState({
     email: '',
     password: ''
+  })
+
+  // Registration form state
+  const [registerForm, setRegisterForm] = useState({
+    email: '',
+    phone: '',
+    password: '',
+    confirmPassword: '',
+    firstName: '',
+    lastName: '',
+    role: 'admin'
   })
 
   // Property form state
@@ -139,6 +159,57 @@ export default function AdminDashboard() {
     }
   }
 
+  const handleRegister = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setLoading(true)
+
+    // Validate password confirmation
+    if (registerForm.password !== registerForm.confirmPassword) {
+      toast.error('Passwords do not match')
+      setLoading(false)
+      return
+    }
+
+    try {
+      const response = await fetch('/api/auth/admin/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          email: registerForm.email,
+          phone: registerForm.phone,
+          password: registerForm.password,
+          firstName: registerForm.firstName,
+          lastName: registerForm.lastName,
+          role: registerForm.role
+        })
+      })
+
+      const data = await response.json()
+
+      if (response.ok) {
+        toast.success('Admin registered successfully! Please login.')
+        setShowRegisterModal(false)
+        setRegisterForm({
+          email: '',
+          phone: '',
+          password: '',
+          confirmPassword: '',
+          firstName: '',
+          lastName: '',
+          role: 'admin'
+        })
+      } else {
+        toast.error(data.error || 'Registration failed')
+      }
+    } catch (error) {
+      toast.error('Registration failed')
+    } finally {
+      setLoading(false)
+    }
+  }
+
   const handleLogout = () => {
     localStorage.removeItem('adminToken')
     setToken(null)
@@ -193,39 +264,194 @@ export default function AdminDashboard() {
 
   if (!isLoggedIn) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <Card className="w-full max-w-md">
-          <CardHeader>
-            <CardTitle className="text-center">Admin Login</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={handleLogin} className="space-y-4">
-              <div>
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  value={loginForm.email}
-                  onChange={(e) => setLoginForm(prev => ({ ...prev, email: e.target.value }))}
-                  required
-                />
+      <div className="min-h-screen bg-gray-50">
+        {/* Header */}
+        <div className="bg-white shadow-sm border-b">
+          <div className="container mx-auto px-4 py-4">
+            <div className="flex justify-between items-center">
+              <h1 className="text-2xl font-bold text-gray-900">Admin Dashboard</h1>
+              <div className="flex gap-2">
+                <button 
+                  className="px-4 py-2 border border-gray-300 rounded-md bg-white text-gray-700 hover:bg-gray-50"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    e.stopPropagation()
+                    console.log('Register button clicked - event:', e)
+                    console.log('Current modal state:', showRegisterModal)
+                    setShowRegisterModal(true)
+                    console.log('Modal state set to true')
+                  }}
+                  type="button"
+                >
+                  Register Admin Account
+                </button>
+                <Button 
+                  variant="outline"
+                  onClick={() => {
+                    console.log('Test button clicked')
+                    alert('Test button works!')
+                  }}
+                  type="button"
+                >
+                  Test Button
+                </Button>
               </div>
-              <div>
-                <Label htmlFor="password">Password</Label>
-                <Input
-                  id="password"
-                  type="password"
-                  value={loginForm.password}
-                  onChange={(e) => setLoginForm(prev => ({ ...prev, password: e.target.value }))}
-                  required
-                />
-              </div>
-              <Button type="submit" className="w-full" disabled={loading}>
-                {loading ? 'Logging in...' : 'Login'}
-              </Button>
-            </form>
-          </CardContent>
-        </Card>
+              
+              {/* Registration Modal */}
+              {showRegisterModal && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                  <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+                    <div className="flex justify-between items-center mb-4">
+                      <h2 className="text-xl font-semibold">Register Admin Account</h2>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => setShowRegisterModal(false)}
+                      >
+                        ✕
+                      </Button>
+                    </div>
+                    <form onSubmit={handleRegister} className="space-y-4">
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <Label htmlFor="firstName">First Name</Label>
+                          <Input
+                            id="firstName"
+                            value={registerForm.firstName}
+                            onChange={(e) => setRegisterForm(prev => ({ ...prev, firstName: e.target.value }))}
+                          />
+                        </div>
+                        <div>
+                          <Label htmlFor="lastName">Last Name</Label>
+                          <Input
+                            id="lastName"
+                            value={registerForm.lastName}
+                            onChange={(e) => setRegisterForm(prev => ({ ...prev, lastName: e.target.value }))}
+                          />
+                        </div>
+                      </div>
+                      
+                      <div>
+                        <Label htmlFor="registerEmail">Email *</Label>
+                        <Input
+                          id="registerEmail"
+                          type="email"
+                          value={registerForm.email}
+                          onChange={(e) => setRegisterForm(prev => ({ ...prev, email: e.target.value }))}
+                          required
+                        />
+                      </div>
+                      
+                      <div>
+                        <Label htmlFor="phone">Phone *</Label>
+                        <Input
+                          id="phone"
+                          type="tel"
+                          value={registerForm.phone}
+                          onChange={(e) => setRegisterForm(prev => ({ ...prev, phone: e.target.value }))}
+                          required
+                        />
+                      </div>
+                      
+                      <div>
+                        <Label htmlFor="registerPassword">Password *</Label>
+                        <Input
+                          id="registerPassword"
+                          type="password"
+                          value={registerForm.password}
+                          onChange={(e) => setRegisterForm(prev => ({ ...prev, password: e.target.value }))}
+                          required
+                        />
+                      </div>
+                      
+                      <div>
+                        <Label htmlFor="confirmPassword">Confirm Password *</Label>
+                        <Input
+                          id="confirmPassword"
+                          type="password"
+                          value={registerForm.confirmPassword}
+                          onChange={(e) => setRegisterForm(prev => ({ ...prev, confirmPassword: e.target.value }))}
+                          required
+                        />
+                      </div>
+                      
+                      <div>
+                        <Label htmlFor="role">Role</Label>
+                        <Select
+                          value={registerForm.role}
+                          onValueChange={(value) => setRegisterForm(prev => ({ ...prev, role: value }))}
+                        >
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select role" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="admin">Admin</SelectItem>
+                            <SelectItem value="super_admin">Super Admin</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      
+                      <div className="flex justify-end space-x-2">
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={() => setShowRegisterModal(false)}
+                        >
+                          Cancel
+                        </Button>
+                        <Button type="submit" disabled={loading}>
+                          {loading ? 'Registering...' : 'Register'}
+                        </Button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Login Form */}
+        <div className="flex items-center justify-center min-h-[calc(100vh-80px)]">
+          <Card className="w-full max-w-md">
+            <CardHeader>
+              <CardTitle className="text-center">Admin Login</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <form onSubmit={handleLogin} className="space-y-4">
+                <div>
+                  <Label htmlFor="email">Email</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    value={loginForm.email}
+                    onChange={(e) => setLoginForm(prev => ({ ...prev, email: e.target.value }))}
+                    required
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="password">Password</Label>
+                  <Input
+                    id="password"
+                    type="password"
+                    value={loginForm.password}
+                    onChange={(e) => setLoginForm(prev => ({ ...prev, password: e.target.value }))}
+                    required
+                  />
+                </div>
+                <Button type="submit" className="w-full" disabled={loading}>
+                  {loading ? 'Logging in...' : 'Login'}
+                </Button>
+                
+                <div className="text-center">
+                  <p className="text-sm text-gray-600">
+                    Don't have an admin account? Click "Register Admin Account" in the header above.
+                  </p>
+                </div>
+              </form>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     )
   }
@@ -423,19 +649,9 @@ export default function AdminDashboard() {
           <TabsContent value="blog">
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-2xl font-semibold">Blog Posts</h2>
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button>Add Blog Post</Button>
-                </DialogTrigger>
-                <DialogContent className="max-w-4xl">
-                  <DialogHeader>
-                    <DialogTitle>Add New Blog Post</DialogTitle>
-                  </DialogHeader>
-                  <BlogPostForm onSuccess={() => fetchBlogPosts()} />
-                </DialogContent>
-              </Dialog>
+              <Button disabled>Add Blog Post</Button>
             </div>
-            <BlogPostsList />
+            <p className="text-gray-600">Blog post management coming soon.</p>
           </TabsContent>
 
           <TabsContent value="contacts">
