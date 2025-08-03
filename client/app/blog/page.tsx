@@ -198,8 +198,12 @@ export default function BlogPage({ searchParams }: BlogPageProps) {
                 </p>
 
                 {/* Search Bar */}
-                <div 
+                <form 
                   className="max-w-4xl mx-auto mb-8 animate-slide-up-delay-2"
+                  onSubmit={(e) => {
+                    e.preventDefault()
+                    // Search is handled by the onChange of searchQuery
+                  }}
                 >
                   <div className="relative">
                     <div className="flex items-center bg-white rounded-2xl shadow-2xl overflow-hidden">
@@ -214,7 +218,7 @@ export default function BlogPage({ searchParams }: BlogPageProps) {
                         />
                       </div>
                       <button
-                        type="button"
+                        type="submit"
                         className="bg-transparent hover:bg-gray-50 text-gray-800 px-8 py-4 transition-all duration-300 flex items-center gap-2"
                       >
                         <Search className="h-5 w-5" />
@@ -222,7 +226,7 @@ export default function BlogPage({ searchParams }: BlogPageProps) {
                       </button>
                     </div>
                   </div>
-                </div>
+                </form>
               </div>
             </div>
           </div>
@@ -282,7 +286,7 @@ export default function BlogPage({ searchParams }: BlogPageProps) {
       </section>
 
       {/* Newsletter */}
-      <section className="py-12 md:py-16 bg-gradient-to-br from-navy-900 via-navy-800 to-slate-900 text-white">
+      {/* <section className="py-12 md:py-16 bg-gradient-to-br from-navy-900 via-navy-800 to-slate-900 text-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-2xl md:text-3xl font-bold mb-4">Stay Updated</h2>
@@ -301,7 +305,7 @@ export default function BlogPage({ searchParams }: BlogPageProps) {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
     </div>
   )
 } 
