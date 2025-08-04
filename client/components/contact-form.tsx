@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { CheckCircle, Send, User, Mail, Phone, MessageSquare } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -27,6 +27,34 @@ export default function ContactForm() {
     submitted: false,
     error: "",
   })
+
+  const [user, setUser] = useState<any>(null)
+  const [isAutoFilled, setIsAutoFilled] = useState(false)
+
+  // Check for logged in user and auto-fill form
+  useEffect(() => {
+    const userData = localStorage.getItem('user')
+    if (userData) {
+      try {
+        const userInfo = JSON.parse(userData)
+        setUser(userInfo)
+        
+        // Auto-fill form with user data
+        setFormState(prev => ({
+          ...prev,
+          name: `${userInfo.firstName || ''} ${userInfo.lastName || ''}`.trim(),
+          email: userInfo.email || "",
+          phone: userInfo.phone || "",
+        }))
+        setIsAutoFilled(true)
+      } catch (error) {
+        console.error('Error parsing user data:', error)
+      }
+    } else {
+      setUser(null)
+      setIsAutoFilled(false)
+    }
+  }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -99,6 +127,18 @@ export default function ContactForm() {
         </p>
       </div>
 
+      {/* Auto-fill notification */}
+      {isAutoFilled && user && (
+        <div className="bg-green-50 border border-green-200 rounded-md p-3 mb-6">
+          <div className="flex items-center">
+            <User className="h-4 w-4 text-green-600 mr-2" />
+            <p className="text-green-800 text-sm">
+              Welcome back, {user.firstName || user.email}! Your details have been auto-filled.
+            </p>
+          </div>
+        </div>
+      )}
+
       {/* Error Display */}
       {formState.error && (
         <div className="bg-red-50 border border-red-200 rounded-md p-3 mb-6">
@@ -117,7 +157,8 @@ export default function ContactForm() {
             value={formState.name}
             onChange={(e) => setFormState((prev) => ({ ...prev, name: e.target.value }))}
             required
-            className="pl-10 bg-white dark:bg-slate-700 border-slate-200 dark:border-slate-600 text-slate-900 dark:text-white placeholder:text-slate-500 dark:placeholder:text-slate-400"
+            className={`pl-10 bg-white dark:bg-slate-700 border-slate-200 dark:border-slate-600 text-slate-900 dark:text-white placeholder:text-slate-500 dark:placeholder:text-slate-400 ${isAutoFilled ? 'bg-green-50 border-green-300' : ''}`}
+            readOnly={isAutoFilled}
           />
         </div>
 
@@ -129,7 +170,8 @@ export default function ContactForm() {
             value={formState.email}
             onChange={(e) => setFormState((prev) => ({ ...prev, email: e.target.value }))}
             required
-            className="pl-10 bg-white dark:bg-slate-700 border-slate-200 dark:border-slate-600 text-slate-900 dark:text-white placeholder:text-slate-500 dark:placeholder:text-slate-400"
+            className={`pl-10 bg-white dark:bg-slate-700 border-slate-200 dark:border-slate-600 text-slate-900 dark:text-white placeholder:text-slate-500 dark:placeholder:text-slate-400 ${isAutoFilled ? 'bg-green-50 border-green-300' : ''}`}
+            readOnly={isAutoFilled}
           />
         </div>
 
@@ -141,7 +183,8 @@ export default function ContactForm() {
             value={formState.phone}
             onChange={(e) => setFormState((prev) => ({ ...prev, phone: e.target.value }))}
             required
-            className="pl-10 bg-white dark:bg-slate-700 border-slate-200 dark:border-slate-600 text-slate-900 dark:text-white placeholder:text-slate-500 dark:placeholder:text-slate-400"
+            className={`pl-10 bg-white dark:bg-slate-700 border-slate-200 dark:border-slate-600 text-slate-900 dark:text-white placeholder:text-slate-500 dark:placeholder:text-slate-400 ${isAutoFilled ? 'bg-green-50 border-green-300' : ''}`}
+            readOnly={isAutoFilled}
           />
         </div>
 
