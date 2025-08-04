@@ -1,7 +1,7 @@
 "use client"
 
-import { useState } from "react"
-import { X, ChevronDown, ChevronLeft, ChevronRight } from "lucide-react"
+import { useState, useEffect } from "react"
+import { X, ChevronDown, ChevronLeft, ChevronRight, User } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -37,6 +37,9 @@ export default function PropertyContactForm({ propertyTitle, isOpen, onClose }: 
     error: "",
   })
 
+  const [user, setUser] = useState<any>(null)
+  const [isAutoFilled, setIsAutoFilled] = useState(false)
+
   // Calendar navigation state
   const [calendarView, setCalendarView] = useState({
     month: currentMonth,
@@ -57,6 +60,35 @@ export default function PropertyContactForm({ propertyTitle, isOpen, onClose }: 
       [name]: value,
     }))
   }
+
+  // Check for logged in user and auto-fill form
+  useEffect(() => {
+    if (isOpen) {
+      const userData = localStorage.getItem('user')
+      if (userData) {
+        try {
+          const userInfo = JSON.parse(userData)
+          setUser(userInfo)
+          
+          // Auto-fill form with user data
+          setFormState(prev => ({
+            ...prev,
+            title: userInfo.title || "",
+            firstName: userInfo.firstName || "",
+            lastName: userInfo.lastName || "",
+            email: userInfo.email || "",
+            phoneNumber: userInfo.phone || "",
+          }))
+          setIsAutoFilled(true)
+        } catch (error) {
+          console.error('Error parsing user data:', error)
+        }
+      } else {
+        setUser(null)
+        setIsAutoFilled(false)
+      }
+    }
+  }, [isOpen])
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -251,6 +283,18 @@ export default function PropertyContactForm({ propertyTitle, isOpen, onClose }: 
                 </div>
               )}
               
+              {/* Auto-fill notification */}
+              {isAutoFilled && user && (
+                <div className="bg-green-50 border border-green-200 rounded-md p-3 mb-4">
+                  <div className="flex items-center">
+                    <User className="h-4 w-4 text-green-600 mr-2" />
+                    <p className="text-green-800 text-sm font-['Suisse_Intl',sans-serif]">
+                      Welcome back, {user.firstName || user.email}! Your details have been auto-filled.
+                    </p>
+                  </div>
+                </div>
+              )}
+
               {/* Description */}
               <p className="text-gray-600 text-sm font-['Suisse_Intl',sans-serif]">
                 Use this form to let us know roughly when you're free and we'll handle the rest. 
@@ -275,7 +319,8 @@ export default function PropertyContactForm({ propertyTitle, isOpen, onClose }: 
                         value={formState.title} 
                         onChange={handleChange} 
                         placeholder="e.g. Mr/Mrs" 
-                        className="mt-1 font-['Suisse_Intl',sans-serif]"
+                        className={`mt-1 font-['Suisse_Intl',sans-serif] ${isAutoFilled ? 'bg-green-50 border-green-300' : ''}`}
+                        readOnly={isAutoFilled}
                       />
                     </div>
 
@@ -287,7 +332,8 @@ export default function PropertyContactForm({ propertyTitle, isOpen, onClose }: 
                         value={formState.firstName} 
                         onChange={handleChange} 
                         placeholder="Please enter your name" 
-                        className="mt-1 font-['Suisse_Intl',sans-serif]"
+                        className={`mt-1 font-['Suisse_Intl',sans-serif] ${isAutoFilled ? 'bg-green-50 border-green-300' : ''}`}
+                        readOnly={isAutoFilled}
                       />
                     </div>
 
@@ -299,7 +345,8 @@ export default function PropertyContactForm({ propertyTitle, isOpen, onClose }: 
                         value={formState.lastName} 
                         onChange={handleChange} 
                         placeholder="Please enter your last name" 
-                        className="mt-1 font-['Suisse_Intl',sans-serif]"
+                        className={`mt-1 font-['Suisse_Intl',sans-serif] ${isAutoFilled ? 'bg-green-50 border-green-300' : ''}`}
+                        readOnly={isAutoFilled}
                       />
                     </div>
 
@@ -312,7 +359,8 @@ export default function PropertyContactForm({ propertyTitle, isOpen, onClose }: 
                         value={formState.email} 
                         onChange={handleChange} 
                         placeholder="e.g. name@mail.com" 
-                        className="mt-1 font-['Suisse_Intl',sans-serif]"
+                        className={`mt-1 font-['Suisse_Intl',sans-serif] ${isAutoFilled ? 'bg-green-50 border-green-300' : ''}`}
+                        readOnly={isAutoFilled}
                       />
                     </div>
 
@@ -329,7 +377,8 @@ export default function PropertyContactForm({ propertyTitle, isOpen, onClose }: 
                           value={formState.phoneNumber} 
                           onChange={handleChange} 
                           placeholder="(+44) Phone number" 
-                          className="rounded-l-none font-['Suisse_Intl',sans-serif]"
+                          className={`rounded-l-none font-['Suisse_Intl',sans-serif] ${isAutoFilled ? 'bg-green-50 border-green-300' : ''}`}
+                          readOnly={isAutoFilled}
                         />
                       </div>
                     </div>
