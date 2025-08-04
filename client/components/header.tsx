@@ -5,9 +5,10 @@ import Link from "next/link"
 import Image from "next/image"
 import { usePathname, useRouter } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
-import { Menu, X, Phone, Search } from "lucide-react"
+import { Menu, X, Phone, Search, User, LogOut, Shield } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import ThemeToggle from "@/components/theme-toggle"
+import AuthModal from "@/components/auth-modal"
 
 const navItems = [
   { name: "Home", path: "/" },
@@ -24,6 +25,9 @@ export default function Header() {
   const [searchOpen, setSearchOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState("")
   const [searchType, setSearchType] = useState<"properties" | "blog">("properties")
+  const [user, setUser] = useState<any>(null)
+  const [isAdmin, setIsAdmin] = useState(false)
+  const [authModalOpen, setAuthModalOpen] = useState(false)
   const pathname = usePathname()
   const router = useRouter()
 
@@ -38,6 +42,24 @@ export default function Header() {
 
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+
+  useEffect(() => {
+    // Check for user data in localStorage
+    const userData = localStorage.getItem('user')
+    const adminFlag = localStorage.getItem('isAdmin')
+    
+    if (userData) {
+      try {
+        setUser(JSON.parse(userData))
+        setIsAdmin(adminFlag === 'true')
+      } catch (error) {
+        console.error('Error parsing user data:', error)
+        localStorage.removeItem('user')
+        localStorage.removeItem('token')
+        localStorage.removeItem('isAdmin')
+      }
+    }
   }, [])
 
   const handleSearch = (e: React.FormEvent) => {
@@ -55,6 +77,31 @@ export default function Header() {
       setSearchOpen(false)
       setSearchQuery("")
     }
+  }
+
+  const handleLogout = async () => {
+    try {
+      await fetch('/api/auth/logout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+    } catch (error) {
+      console.error('Logout error:', error)
+    } finally {
+      localStorage.removeItem('user')
+      localStorage.removeItem('token')
+      localStorage.removeItem('isAdmin')
+      setUser(null)
+      setIsAdmin(false)
+      router.push('/')
+    }
+  }
+
+  const handleLoginSuccess = (userData: any, adminStatus: boolean) => {
+    setUser(userData)
+    setIsAdmin(adminStatus)
   }
 
   return (
@@ -103,7 +150,7 @@ export default function Header() {
             ))}
           </nav>
 
-          {/* Right Section - Search, Register Button and Toggle */}
+          {/* Right Section - Search, Auth Button and Toggle */}
           <div className="hidden md:flex items-center space-x-4">
             {/* Search Button */}
             <button
@@ -114,12 +161,40 @@ export default function Header() {
               <Search className="h-5 w-5" />
             </button>
 
-            <Button className="bg-transparent text-white px-6 py-2 font-['Suisse_Intl',sans-serif] font-medium hover:bg-transparent hover:text-white transition-all duration-300 relative group text-base">
-              <span className="relative flex items-center gap-2">
-                <span className="text-white">👤</span> Register
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-red-500 transition-all duration-300 group-hover:w-full"></span>
-              </span>
-            </Button>
+            {user ? (
+              <div className="flex items-center space-x-2">
+                <span className="text-white text-sm">
+                  Welcome, {user.firstName || user.email}
+                  {isAdmin && <span className="ml-2 text-red-400">(Admin)</span>}
+                </span>
+                {isAdmin && (
+                  <Link href="/admin">
+                    <Button className="bg-transparent text-white px-3 py-2 font-['Suisse_Intl',sans-serif] font-medium hover:bg-transparent hover:text-white transition-all duration-300 relative group text-sm">
+                      <Shield className="h-4 w-4 mr-1" />
+                      Admin
+                    </Button>
+                  </Link>
+                )}
+                <Button
+                  onClick={handleLogout}
+                  className="bg-transparent text-white px-4 py-2 font-['Suisse_Intl',sans-serif] font-medium hover:bg-transparent hover:text-white transition-all duration-300 relative group text-sm"
+                >
+                  <LogOut className="h-4 w-4 mr-1" />
+                  Logout
+                </Button>
+              </div>
+            ) : (
+              <Button 
+                onClick={() => setAuthModalOpen(true)}
+                className="bg-transparent text-white px-6 py-2 font-['Suisse_Intl',sans-serif] font-medium hover:bg-transparent hover:text-white transition-all duration-300 relative group text-base"
+              >
+                <span className="relative flex items-center gap-2">
+                  <User className="h-4 w-4" />
+                  Sign in
+                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-red-500 transition-all duration-300 group-hover:w-full"></span>
+                </span>
+              </Button>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -160,12 +235,40 @@ export default function Header() {
               ))}
 
               <div className="pt-4 border-t border-slate-700">
-                <Button className="w-full bg-transparent text-white font-['Suisse_Intl',sans-serif] font-medium hover:bg-transparent hover:text-white transition-all duration-300 relative group text-lg">
-                  <span className="relative flex items-center gap-2">
-                    <span className="text-white">👤</span> Register
-                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-red-500 transition-all duration-300 group-hover:w-full"></span>
-                  </span>
-                </Button>
+                {user ? (
+                  <div className="space-y-2">
+                    <div className="text-white text-sm">
+                      Welcome, {user.firstName || user.email}
+                      {isAdmin && <span className="ml-2 text-red-400">(Admin)</span>}
+                    </div>
+                    {isAdmin && (
+                      <Link href="/admin">
+                        <Button className="w-full bg-transparent text-white font-['Suisse_Intl',sans-serif] font-medium hover:bg-transparent hover:text-white transition-all duration-300 relative group text-lg">
+                          <Shield className="h-4 w-4 mr-2" />
+                          Admin Dashboard
+                        </Button>
+                      </Link>
+                    )}
+                    <Button
+                      onClick={handleLogout}
+                      className="w-full bg-transparent text-white font-['Suisse_Intl',sans-serif] font-medium hover:bg-transparent hover:text-white transition-all duration-300 relative group text-lg"
+                    >
+                      <LogOut className="h-4 w-4 mr-2" />
+                      Logout
+                    </Button>
+                  </div>
+                ) : (
+                  <Button 
+                    onClick={() => setAuthModalOpen(true)}
+                    className="w-full bg-transparent text-white font-['Suisse_Intl',sans-serif] font-medium hover:bg-transparent hover:text-white transition-all duration-300 relative group text-lg"
+                  >
+                    <span className="relative flex items-center gap-2">
+                      <User className="h-4 w-4" />
+                      Login
+                      <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-red-500 transition-all duration-300 group-hover:w-full"></span>
+                    </span>
+                  </Button>
+                )}
               </div>
             </div>
           </motion.div>
@@ -222,6 +325,13 @@ export default function Header() {
           </motion.div>
         )}
       </AnimatePresence>
+      
+      {/* Auth Modal */}
+      <AuthModal
+        isOpen={authModalOpen}
+        onClose={() => setAuthModalOpen(false)}
+        onLoginSuccess={handleLoginSuccess}
+      />
     </header>
   )
 }
