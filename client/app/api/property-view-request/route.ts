@@ -6,6 +6,8 @@ import { validatePropertyViewRequest } from '@/lib/validation'
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
+    console.log('Received property view request:', body)
+    
     const {
       propertyId,
       firstName,
@@ -20,6 +22,7 @@ export async function POST(request: NextRequest) {
     } = body
 
     // Validate all data including spam prevention
+    console.log('Starting validation...')
     const validation = await validatePropertyViewRequest({
       propertyId,
       firstName,
@@ -33,7 +36,10 @@ export async function POST(request: NextRequest) {
       heardFrom
     }, request)
 
+    console.log('Validation result:', validation)
+
     if (!validation.isValid) {
+      console.log('Validation failed:', validation.errors)
       return NextResponse.json(
         { 
           error: 'Validation failed',
@@ -44,34 +50,132 @@ export async function POST(request: NextRequest) {
     }
 
     // Get property details for email
-    const property = await prisma.property.findUnique({
-      where: { id: propertyId }
-    })
+    let property = null
+    try {
+      property = await prisma.property.findUnique({
+        where: { id: propertyId }
+      })
+    } catch (error) {
+      console.log('Property not found in database, using propertyId as title')
+    }
 
-    // Check if user exists, if not create one
-    let user = await prisma.user.findUnique({
-      where: { email }
-    })
+    // If property not found in database, create a mock property object
+    if (!property) {
+      property = {
+        id: propertyId,
+        title: propertyId, // Use propertyId as title
+        description: 'Property details not available',
+        price: null,
+        location: 'Location not specified',
+        propertyType: 'Unknown',
+        bedrooms: null,
+        bathrooms: null,
+        area: null,
+        images: [],
+        isActive: true,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      }
+    }
+
+    // Check if user exists by phone number, if not create one
+    console.log('Checking for existing user with phone:', phone)
+    let user = null
+    try {
+      user = await prisma.user.findUnique({
+        where: { phone }
+      })
+    } catch (error) {
+      console.error('Error finding user:', error)
+    }
 
     if (!user) {
-      // Create new user
-      user = await prisma.user.create({
-        data: {
-          email,
-          phone,
-          firstName,
-          lastName,
-          title,
-          password: 'temp-password-' + Math.random().toString(36).substring(7) // Temporary password
-        }
-      })
+      console.log('Creating new user...')
+      try {
+        // Create new user with all form details
+        user = await prisma.user.create({
+          data: {
+            email,
+            phone,
+            firstName,
+            lastName,
+            title,
+            password: 'temp-password-' + Math.random().toString(36).substring(7) // Temporary password for non-registered users
+          }
+        })
+        console.log('Created new user for property view request:', user.id)
+      } catch (error) {
+        console.error('Error creating user:', error)
+        throw new Error('Failed to create user: ' + (error instanceof Error ? error.message : 'Unknown error'))
+      }
+    } else {
+      console.log('Found existing user for property view request:', user.id)
     }
 
     // Create property view request
-    const propertyViewRequest = await prisma.propertyViewRequest.create({
-      data: {
+    console.log('Creating property view request...')
+    let propertyViewRequest = null
+    try {
+      // First, create a property if it doesn't exist
+      let property = null
+      try {
+        property = await prisma.property.findUnique({
+          where: { id: propertyId }
+        })
+      } catch (error) {
+        console.log('Property lookup error:', error)
+      }
+
+      if (!property) {
+        console.log('Creating property in database...')
+        property = await prisma.property.create({
+          data: {
+            id: propertyId,
+            title: `Luxury Property ${propertyId}`,
+            description: 'Premium property available for viewing',
+            price: null,
+            location: 'Bangalore, Karnataka',
+            propertyType: 'Residential',
+            bedrooms: null,
+            bathrooms: null,
+            area: null,
+            images: [],
+            isActive: true
+          }
+        })
+        console.log('Created property:', property.id)
+      }
+
+      propertyViewRequest = await prisma.propertyViewRequest.create({
+        data: {
+          propertyId,
+          userId: user.id,
+          firstName,
+          lastName,
+          email,
+          phone,
+          title,
+          preferredDate,
+          preferredTime,
+          additionalInfo,
+          heardFrom,
+          status: 'pending'
+        }
+      })
+      console.log('Created property view request:', propertyViewRequest.id)
+    } catch (error) {
+      console.error('Error creating property view request:', error)
+      throw new Error('Failed to create property view request: ' + (error instanceof Error ? error.message : 'Unknown error'))
+    }
+
+    // Send email notification
+    console.log('Sending email notification...')
+    let emailResult = null
+    try {
+      emailResult = await sendPropertyViewRequestEmail({
         propertyId,
-        userId: user.id,
+        propertyTitle: property?.title || `Luxury Property ${propertyId}`,
+        propertyLocation: property?.location || 'Bangalore, Karnataka',
         firstName,
         lastName,
         email,
@@ -80,28 +184,17 @@ export async function POST(request: NextRequest) {
         preferredDate,
         preferredTime,
         additionalInfo,
-        heardFrom,
-        status: 'pending'
+        heardFrom
+      })
+
+      if (!emailResult.success) {
+        console.error('Email sending failed:', emailResult.error)
+        // Continue with the request even if email fails
+      } else {
+        console.log('Email sent successfully')
       }
-    })
-
-    // Send email notification
-    const emailResult = await sendPropertyViewRequestEmail({
-      propertyId,
-      propertyTitle: property.title,
-      firstName,
-      lastName,
-      email,
-      phone,
-      title,
-      preferredDate,
-      preferredTime,
-      additionalInfo,
-      heardFrom
-    })
-
-    if (!emailResult.success) {
-      console.error('Email sending failed:', emailResult.error)
+    } catch (error) {
+      console.error('Error sending email:', error)
       // Continue with the request even if email fails
     }
 
@@ -113,8 +206,12 @@ export async function POST(request: NextRequest) {
 
   } catch (error) {
     console.error('Property view request error:', error)
+    console.error('Error details:', {
+      message: error instanceof Error ? error.message : 'Unknown error',
+      stack: error instanceof Error ? error.stack : undefined
+    })
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: 'Internal server error', details: error instanceof Error ? error.message : 'Unknown error' },
       { status: 500 }
     )
   }

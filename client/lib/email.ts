@@ -12,6 +12,7 @@ const transporter = nodemailer.createTransport({
 export interface PropertyViewRequestEmail {
   propertyId: string
   propertyTitle: string
+  propertyLocation?: string
   firstName: string
   lastName: string
   email: string
@@ -54,6 +55,7 @@ export const sendPropertyViewRequestEmail = async (data: PropertyViewRequestEmai
         <h3 style="color: #666;">Property Details</h3>
         <p><strong>Property ID:</strong> ${data.propertyId}</p>
         <p><strong>Property Title:</strong> ${data.propertyTitle}</p>
+        ${data.propertyLocation ? `<p><strong>Location:</strong> ${data.propertyLocation}</p>` : ''}
         
         <h3 style="color: #666;">Customer Details</h3>
         <p><strong>Name:</strong> ${data.title ? data.title + ' ' : ''}${data.firstName} ${data.lastName}</p>
