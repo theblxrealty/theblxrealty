@@ -333,7 +333,7 @@ export default function ContactPage() {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-12 md:py-16 bg-white">
+      <section className="py-12 md:py-16 bg-gradient-to-br from-white via-red-50 to-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-12">
             <h2 className="text-2xl md:text-4xl font-bold mb-4 text-black" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>Frequently Asked Questions</h2>
@@ -341,38 +341,92 @@ export default function ContactPage() {
           </div>
 
           <div className="max-w-3xl mx-auto">
-            <div className="space-y-6">
-              <div className="bg-white p-6 rounded-lg shadow-lg border border-gray-100">
-                <h3 className="font-bold text-lg mb-2 text-black" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>What makes your properties premium?</h3>
-                <p className="text-gray-500 font-['Suisse_Intl',sans-serif]">
+            <div className="space-y-4">
+              <div className="group bg-white p-6 rounded-xl shadow-lg border border-gray-100 hover:shadow-2xl hover:border-red-200 transition-all duration-300 cursor-pointer transform hover:-translate-y-1">
+                <div className="flex items-start justify-between">
+                  <h3 className="font-bold text-lg mb-3 text-black group-hover:text-red-600 transition-colors duration-300" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>What makes your properties premium?</h3>
+                  <div className="ml-4 flex-shrink-0">
+                    <div className="w-6 h-6 rounded-full bg-red-100 group-hover:bg-red-200 transition-colors duration-300 flex items-center justify-center">
+                      <svg className="w-4 h-4 text-red-600 group-hover:rotate-180 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+                <p className="text-gray-500 font-['Suisse_Intl',sans-serif] group-hover:text-gray-700 transition-colors duration-300">
                   Our properties are carefully curated based on location, architecture, amenities, and investment
                   potential. We focus on luxury residences, prime commercial spaces, and high-growth investment
                   opportunities in Bangalore's most prestigious areas.
                 </p>
               </div>
 
-              <div className="bg-white p-6 rounded-lg shadow-lg border border-gray-100">
-                <h3 className="font-bold text-lg mb-2 text-black" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>Do luxury properties cost more to maintain?</h3>
-                <p className="text-gray-500 font-['Suisse_Intl',sans-serif]">
+              <div className="group bg-white p-6 rounded-xl shadow-lg border border-gray-100 hover:shadow-2xl hover:border-red-200 transition-all duration-300 cursor-pointer transform hover:-translate-y-1">
+                <div className="flex items-start justify-between">
+                  <h3 className="font-bold text-lg mb-3 text-black group-hover:text-red-600 transition-colors duration-300" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>Do luxury properties cost more to maintain?</h3>
+                  <div className="ml-4 flex-shrink-0">
+                    <div className="w-6 h-6 rounded-full bg-red-100 group-hover:bg-red-200 transition-colors duration-300 flex items-center justify-center">
+                      <svg className="w-4 h-4 text-red-600 group-hover:rotate-180 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+                <p className="text-gray-500 font-['Suisse_Intl',sans-serif] group-hover:text-gray-700 transition-colors duration-300">
                   While premium properties may have higher maintenance costs, they typically offer superior amenities,
                   better appreciation potential, and enhanced lifestyle benefits. Our team provides detailed cost
                   analysis to help you make informed decisions.
                 </p>
               </div>
 
-              <div className="bg-white p-6 rounded-lg shadow-lg border border-gray-100">
-                <h3 className="font-bold text-lg mb-2 text-black" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>Can I customize my property search?</h3>
-                <p className="text-gray-500 font-['Suisse_Intl',sans-serif]">
+              <div className="group bg-white p-6 rounded-xl shadow-lg border border-gray-100 hover:shadow-2xl hover:border-red-200 transition-all duration-300 cursor-pointer transform hover:-translate-y-1">
+                <div className="flex items-start justify-between">
+                  <h3 className="font-bold text-lg mb-3 text-black group-hover:text-red-600 transition-colors duration-300" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>Can I customize my property search?</h3>
+                  <div className="ml-4 flex-shrink-0">
+                    <div className="w-6 h-6 rounded-full bg-red-100 group-hover:bg-red-200 transition-colors duration-300 flex items-center justify-center">
+                      <svg className="w-4 h-4 text-red-600 group-hover:rotate-180 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+                <p className="text-gray-500 font-['Suisse_Intl',sans-serif] group-hover:text-gray-700 transition-colors duration-300">
                   We provide personalized property search services based on your specific requirements, budget, and
                   lifestyle preferences. Our experts will curate options that match your exact needs.
                 </p>
               </div>
 
-              <div className="bg-white p-6 rounded-lg shadow-lg border border-gray-100">
-                <h3 className="font-bold text-lg mb-2 text-black" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>Do you offer virtual property tours?</h3>
-                <p className="text-gray-500 font-['Suisse_Intl',sans-serif]">
+              <div className="group bg-white p-6 rounded-xl shadow-lg border border-gray-100 hover:shadow-2xl hover:border-red-200 transition-all duration-300 cursor-pointer transform hover:-translate-y-1">
+                <div className="flex items-start justify-between">
+                  <h3 className="font-bold text-lg mb-3 text-black group-hover:text-red-600 transition-colors duration-300" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>Do you offer virtual property tours?</h3>
+                  <div className="ml-4 flex-shrink-0">
+                    <div className="w-6 h-6 rounded-full bg-red-100 group-hover:bg-red-200 transition-colors duration-300 flex items-center justify-center">
+                      <svg className="w-4 h-4 text-red-600 group-hover:rotate-180 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+                <p className="text-gray-500 font-['Suisse_Intl',sans-serif] group-hover:text-gray-700 transition-colors duration-300">
                   Yes, we offer comprehensive virtual tours, 3D walkthroughs, and video consultations for all our
                   properties. Schedule a virtual tour to explore properties from the comfort of your home.
+                </p>
+              </div>
+
+              <div className="group bg-white p-6 rounded-xl shadow-lg border border-gray-100 hover:shadow-2xl hover:border-red-200 transition-all duration-300 cursor-pointer transform hover:-translate-y-1">
+                <div className="flex items-start justify-between">
+                  <h3 className="font-bold text-lg mb-3 text-black group-hover:text-red-600 transition-colors duration-300" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>What financing options do you offer?</h3>
+                  <div className="ml-4 flex-shrink-0">
+                    <div className="w-6 h-6 rounded-full bg-red-100 group-hover:bg-red-200 transition-colors duration-300 flex items-center justify-center">
+                      <svg className="w-4 h-4 text-red-600 group-hover:rotate-180 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+                <p className="text-gray-500 font-['Suisse_Intl',sans-serif] group-hover:text-gray-700 transition-colors duration-300">
+                  We partner with leading banks and financial institutions to offer competitive home loan options, 
+                  including special rates for luxury properties. Our team provides end-to-end assistance with 
+                  loan applications, documentation, and approval processes.
                 </p>
               </div>
             </div>
