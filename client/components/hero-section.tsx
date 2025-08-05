@@ -6,20 +6,9 @@ import { useRouter } from "next/navigation"
 import { motion } from "framer-motion"
 import { Search, MapPin, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import PropertySearch from "@/components/property-search"
 
 export default function HeroSection() {
-  const [searchQuery, setSearchQuery] = useState("")
-  const router = useRouter()
-
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (searchQuery.trim()) {
-      // Navigate to properties page with search query
-      const params = new URLSearchParams()
-      params.set('search', searchQuery.trim())
-      router.push(`/properties?${params.toString()}`)
-    }
-  }
 
   return (
     <section className="relative w-full h-[85vh] overflow-hidden">
@@ -56,35 +45,17 @@ export default function HeroSection() {
               </h1>
 
               {/* Search Form */}
-              <motion.form 
-                onSubmit={handleSearch}
+              <motion.div 
                 className="max-w-4xl mx-auto mb-8"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
               >
-                <div className="relative">
-                  <div className="flex items-center bg-white rounded-2xl shadow-2xl overflow-hidden">
-                    <div className="flex-1 flex items-center px-6 py-4">
-                      <MapPin className="h-5 w-5 text-red-500 mr-3 flex-shrink-0" />
-                      <input
-                        type="text"
-                        placeholder="Search by county, town or city"
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        className="flex-1 bg-transparent text-gray-800 placeholder-gray-500 outline-none text-lg"
-                      />
-                    </div>
-                    <button
-                      type="submit"
-                      className="bg-transparent hover:bg-gray-50 text-gray-800 px-8 py-4 transition-all duration-300 flex items-center gap-2"
-                    >
-                      <Search className="h-5 w-5" />
-                      <span className="font-medium">Search</span>
-                    </button>
-                  </div>
-                </div>
-              </motion.form>
+                <PropertySearch 
+                  placeholder="Search by location, property type, or bedrooms..."
+                  className="max-w-5xl mx-auto"
+                />
+              </motion.div>
 
               {/* CTA Buttons */}
               <motion.div
