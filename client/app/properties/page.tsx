@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useMemo, Suspense } from "react"
-import { useSearchParams } from "next/navigation"
+import { useSearchParams, useRouter } from "next/navigation"
 import Image from "next/image"
 
 import { Button } from "@/components/ui/button"
@@ -10,113 +10,7 @@ import PropertyFilters from "@/components/property-filters"
 import PropertyCard from "@/components/property-card"
 import PropertyTypesSection from "@/components/property-types-section"
 import PropertyMap from "@/components/property-map"
-
-// Sample property data for Bangalore - diverse property types
-const properties = [
-  // Luxury Villas
-  {
-    id: 1,
-    title: "Luxury Villa in Koramangala",
-    location: "Koramangala, Bangalore",
-    image: "/placeholder.svg?height=600&width=800",
-    beds: 4,
-    baths: 2,
-    sqft: 2800,
-    amenities: ["Swimming Pool", "Garden", "Security", "Parking"],
-    isNew: true,
-    featured: true,
-    type: "luxury-villas",
-    rating: 4.9,
-    development: true,
-    priceRange: "₹2.5 Cr - ₹4.5 Cr",
-    coordinates: { lat: 12.9352, lng: 77.6245 }
-  },
-  {
-    id: 2,
-    title: "Premium Apartment in Indiranagar",
-    location: "Indiranagar, Bangalore",
-    image: "/placeholder.svg?height=600&width=800",
-    beds: 3,
-    baths: 2,
-    sqft: 1850,
-    amenities: ["IT Ready", "Parking", "Power Backup", "Lift"],
-    isNew: false,
-    featured: true,
-    type: "luxury-villas",
-    rating: 4.8,
-    development: true,
-    priceRange: "₹1.8 Cr - ₹3.2 Cr",
-    coordinates: { lat: 12.9789, lng: 77.6408 }
-  },
-  {
-    id: 3,
-    title: "Luxury Villa in Whitefield",
-    location: "Whitefield, Bangalore",
-    image: "/placeholder.svg?height=600&width=800",
-    beds: 5,
-    baths: 3,
-    sqft: 4500,
-    amenities: ["BMRDA Approved", "Corner Plot", "Clear Title", "Gated Layout"],
-    isNew: true,
-    featured: true,
-    type: "luxury-villas",
-    rating: 4.7,
-    development: true,
-    price: "₹5.2 Cr",
-    coordinates: { lat: 12.9692, lng: 77.7499 }
-  },
-  {
-    id: 4,
-    title: "Commercial Space in MG Road",
-    location: "MG Road, Bangalore",
-    image: "/placeholder.svg?height=600&width=800",
-    beds: 2,
-    baths: 1,
-    sqft: 1200,
-    amenities: ["High Footfall", "Prime Location", "Parking", "Security"],
-    isNew: false,
-    featured: false,
-    type: "commercial",
-    rating: 4.6,
-    development: true,
-    price: "₹2.1 Cr",
-    coordinates: { lat: 12.9716, lng: 77.5946 }
-  },
-  {
-    id: 5,
-    title: "Residential Plot in Electronic City",
-    location: "Electronic City, Bangalore",
-    image: "/placeholder.svg?height=600&width=800",
-    beds: 3,
-    baths: 2,
-    sqft: 1850,
-    amenities: ["Club House", "Gym", "Swimming Pool", "Children's Play Area"],
-    isNew: false,
-    featured: false,
-    type: "residential",
-    rating: 4.8,
-    development: true,
-    price: "₹1.5 Cr",
-    coordinates: { lat: 12.8458, lng: 77.6655 }
-  },
-  {
-    id: 6,
-    title: "Luxury Villa in Sarjapur Road",
-    location: "Sarjapur Road, Bangalore",
-    image: "/placeholder.svg?height=600&width=800",
-    beds: 4,
-    baths: 3,
-    sqft: 3200,
-    amenities: ["Loading Dock", "High Ceiling", "Power Supply", "Security"],
-    isNew: true,
-    featured: true,
-    type: "farm-house",
-    rating: 4.5,
-    development: true,
-    price: "₹4.8 Cr",
-    coordinates: { lat: 12.8997, lng: 77.6867 }
-  },
-]
+import PropertySearch from "@/components/property-search"
 
 // Property type display names mapping
 const typeDisplayNames: { [key: string]: string } = {
@@ -127,62 +21,66 @@ const typeDisplayNames: { [key: string]: string } = {
   "sites": "Sites",
   "commercial": "Commercial Properties",
   "investment": "Investment Properties",
+  "apartments": "Apartments",
+  "residential": "Residential Properties",
 }
 
 function PropertiesContent() {
+  const router = useRouter()
   const searchParams = useSearchParams()
   const selectedType = searchParams.get('type')
   const searchQuery = searchParams.get('search')
   const bedroomsFilter = searchParams.get('bedrooms')
   const bathroomsFilter = searchParams.get('bathrooms')
   const amenitiesFilter = searchParams.get('amenities')
-  const [hoveredPropertyId, setHoveredPropertyId] = useState<string | null>(null)
-  
-  // Filter properties based on all criteria
-  const filteredProperties = useMemo(() => {
-    let filtered = properties
+  const currentPage = parseInt(searchParams.get('page') || '1')
 
-    // Filter by type
-    if (selectedType && selectedType !== 'any') {
-      filtered = filtered.filter(property => property.type === selectedType)
+  // State for properties and pagination
+  const [properties, setProperties] = useState<any[]>([])
+  const [pagination, setPagination] = useState({
+    page: 1,
+    limit: 6,
+    total: 0,
+    totalPages: 0
+  })
+  const [loading, setLoading] = useState(true)
+
+  // Fetch properties from API
+  useEffect(() => {
+    const fetchProperties = async () => {
+      setLoading(true)
+      try {
+        const params = new URLSearchParams()
+        if (searchQuery) params.append('search', searchQuery)
+        if (selectedType && selectedType !== 'any') params.append('type', selectedType)
+        if (bedroomsFilter && bedroomsFilter !== 'any') params.append('bedrooms', bedroomsFilter)
+        params.append('page', currentPage.toString())
+        params.append('limit', '6')
+
+        const response = await fetch(`/api/properties?${params.toString()}`)
+        const data = await response.json()
+
+        if (data.properties) {
+          setProperties(data.properties)
+          setPagination(data.pagination)
+        }
+      } catch (error) {
+        console.error('Error fetching properties:', error)
+      } finally {
+        setLoading(false)
+      }
     }
 
-    // Filter by search query
-    if (searchQuery) {
-      const query = searchQuery.toLowerCase()
-      filtered = filtered.filter(property => 
-        property.title.toLowerCase().includes(query) ||
-        property.location.toLowerCase().includes(query) ||
-        property.amenities.some(amenity => amenity.toLowerCase().includes(query))
-      )
-    }
+    fetchProperties()
+  }, [searchQuery, selectedType, bedroomsFilter, bathroomsFilter, amenitiesFilter, currentPage])
 
-    // Filter by bedrooms
-    if (bedroomsFilter && bedroomsFilter !== 'any') {
-      const beds = parseInt(bedroomsFilter)
-      filtered = filtered.filter(property => property.beds >= beds)
+  // Scroll to top of properties section when page changes
+  useEffect(() => {
+    const propertiesSection = document.querySelector('[data-properties-section]')
+    if (propertiesSection && !loading) {
+      propertiesSection.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
-
-    // Filter by bathrooms
-    if (bathroomsFilter && bathroomsFilter !== 'any') {
-      const baths = parseInt(bathroomsFilter)
-      filtered = filtered.filter(property => property.baths >= baths)
-    }
-
-    // Filter by amenities
-    if (amenitiesFilter) {
-      const requiredAmenities = amenitiesFilter.split(',')
-      filtered = filtered.filter(property => 
-        requiredAmenities.every(amenity => 
-          property.amenities.some(propAmenity => 
-            propAmenity.toLowerCase().includes(amenity.toLowerCase())
-          )
-        )
-      )
-    }
-
-    return filtered
-  }, [selectedType, searchQuery, bedroomsFilter, bathroomsFilter, amenitiesFilter])
+  }, [currentPage, loading])
 
   // Get page title based on selected type
   const pageTitle = selectedType 
@@ -193,13 +91,22 @@ function PropertiesContent() {
     ? `Discover premium ${typeDisplayNames[selectedType].toLowerCase()} for sale across Bangalore's most prestigious locations`
     : "Discover your perfect luxury home from our exclusive collection of premium properties across Bangalore's most prestigious locations"
 
-  const handlePropertyHover = (propertyId: string) => {
-    setHoveredPropertyId(propertyId)
-  }
+  // Memoize the mapped properties for the map component to prevent infinite re-renders
+  const mappedProperties = useMemo(() => {
+    return properties.map((property: any) => ({
+      id: property.id.toString(),
+      title: property.title,
+      address: property.location,
+      price: property.price ? `₹${(property.price / 10000000).toFixed(1)} Cr` : "Price on Application",
+      type: property.propertyType === "luxury-villas" ? "Residential" : 
+            property.propertyType === "commercial" ? "Commercial" : "Residential",
+      coordinates: { lat: property.latitude || 12.9716, lng: property.longitude || 77.5946 }
+    }))
+  }, [properties])
 
-  const handlePropertyLeave = () => {
-    setHoveredPropertyId(null)
-  }
+  // Memoize map configuration to prevent object recreation
+  const mapCenter = useMemo(() => ({ lat: 12.9716, lng: 77.5946 }), [])
+  const mapZoom = useMemo(() => 11, [])
 
   return (
     <div className="flex flex-col min-h-screen pt-16">
@@ -223,25 +130,25 @@ function PropertiesContent() {
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="max-w-4xl mx-auto text-center">
               <div className="text-white animate-fade-in">
-                {/* Main Heading */}
-                <h1 
-                  className="font-bold mb-6 font-serif animate-slide-up" 
-                  style={{ fontFamily: 'Tiempos Headline, serif', fontSize: '50px', fontWeight: '400' }}
-                >
-                  {pageTitle}
-                </h1>
+                              {/* Main Heading */}
+              <h1 
+                className="font-bold mb-6 font-serif animate-slide-up" 
+                style={{ fontFamily: 'Tiempos Headline, serif', fontSize: '50px', fontWeight: '400' }}
+              >
+                Find your dream property
+              </h1>
 
                 {/* Description */}
                 <p 
                   className="text-lg text-white mb-8 font-['Suisse_Intl',sans-serif] animate-slide-up-delay-1"
                 >
-                  {pageDescription}
+                  Discover your perfect luxury home from our exclusive collection of premium properties across Bangalore's most prestigious locations
                 </p>
 
                 {selectedType && (
                   <div className="mt-4 animate-slide-up-delay-2">
                     <span className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-white/10 text-white border border-white/20 font-['Suisse_Intl',sans-serif]">
-                      Showing {filteredProperties.length} {typeDisplayNames[selectedType].toLowerCase()}
+                      Showing {pagination.total} {typeDisplayNames[selectedType].toLowerCase()}
                     </span>
                   </div>
                 )}
@@ -251,10 +158,15 @@ function PropertiesContent() {
         </div>
       </section>
 
-      {/* Filters Section */}
+      {/* Search Section */}
       <section className="py-8 bg-white border-b border-slate-200">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <PropertyFilters onFiltersChange={() => {}} />
+          <div className="max-w-4xl mx-auto">
+            <PropertySearch 
+              placeholder="Search by location, property type, or bedrooms..."
+              className="max-w-4xl mx-auto"
+            />
+          </div>
         </div>
       </section>
 
@@ -262,7 +174,7 @@ function PropertiesContent() {
       <PropertyTypesSection />
 
       {/* Main Content - Properties Grid and Map */}
-      <section className="flex-1 bg-gray-50">
+      <section className="flex-1 bg-gray-50" data-properties-section>
         <div className="flex h-full">
           {/* Left Section - Properties Grid */}
           <div className="flex-1 p-6">
@@ -272,7 +184,7 @@ function PropertiesContent() {
                   {selectedType ? typeDisplayNames[selectedType] : "Available Properties"}
                 </h2>
                 <p className="text-gray-500 mt-2 font-['Suisse_Intl',sans-serif]">
-                  {filteredProperties.length} properties found{selectedType ? ` in ${typeDisplayNames[selectedType].toLowerCase()}` : ""}
+                  {pagination.total} properties found{selectedType ? ` in ${typeDisplayNames[selectedType].toLowerCase()}` : ""}
                 </p>
               </div>
               <div className="flex items-center gap-2">
@@ -289,15 +201,31 @@ function PropertiesContent() {
               </div>
             </div>
 
-            {filteredProperties.length > 0 ? (
+            {loading ? (
+              <div className="text-center py-16">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-500 mx-auto mb-4"></div>
+                <p className="text-slate-500">Loading properties...</p>
+              </div>
+            ) : properties.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredProperties.map((property) => (
-                  <div
-                    key={property.id}
-                    onMouseEnter={() => handlePropertyHover(property.id.toString())}
-                    onMouseLeave={handlePropertyLeave}
-                  >
-                    <PropertyCard property={property} />
+                {properties.map((property: any) => (
+                  <div key={property.id} className="animate-fade-in">
+                    <PropertyCard property={{
+                      id: property.id,
+                      title: property.title,
+                      location: property.location,
+                      image: property.images?.[0] || "/placeholder.svg?height=600&width=800",
+                      beds: property.bedrooms,
+                      baths: property.bathrooms,
+                      sqft: property.area,
+                      amenities: ["Security", "Parking", "Power Backup"],
+                      isNew: true,
+                      featured: true,
+                      type: property.propertyType,
+                      rating: 4.8,
+                      development: true,
+                      price: property.price ? `₹${(property.price / 10000000).toFixed(1)} Cr` : "Price on Application"
+                    }} />
                   </div>
                 ))}
               </div>
@@ -310,50 +238,82 @@ function PropertiesContent() {
                     : "No properties match your current filters."
                   }
                 </p>
-                <Button variant="outline" onClick={() => window.location.href = '/properties'}>
+                <Button variant="outline" onClick={() => router.push('/properties')}>
                   View All Properties
                 </Button>
               </div>
             )}
 
             {/* Pagination */}
-            <div className="mt-8 flex justify-center">
-              <div className="flex items-center gap-2">
-                <Button variant="outline" size="icon" className="h-8 w-8 bg-white border-slate-300 hover:bg-slate-50">
-                  1
-                </Button>
-                <Button variant="outline" size="icon" className="h-8 w-8 bg-white border-slate-300 hover:bg-slate-50">
-                  2
-                </Button>
-                <Button variant="outline" size="icon" className="h-8 w-8 bg-white border-slate-300 hover:bg-slate-50">
-                  3
-                </Button>
-                <span className="mx-2 text-slate-600">...</span>
-                <Button variant="outline" size="icon" className="h-8 w-8 bg-white border-slate-300 hover:bg-slate-50">
-                  8
-                </Button>
+            {pagination.totalPages > 1 && (
+              <div className="mt-8 flex justify-center">
+                <div className="flex items-center gap-2">
+                  {/* Previous button */}
+                  {pagination.page > 1 && (
+                    <Button 
+                      variant="outline" 
+                      size="icon" 
+                      className="h-8 w-8 bg-white border-slate-300 hover:bg-slate-50"
+                      onClick={() => {
+                        const params = new URLSearchParams(searchParams.toString())
+                        params.set('page', (pagination.page - 1).toString())
+                        router.push(`/properties?${params.toString()}`, { scroll: false })
+                      }}
+                    >
+                      ←
+                    </Button>
+                  )}
+                  
+                  {/* Page numbers */}
+                  {Array.from({ length: Math.min(5, pagination.totalPages) }, (_, i) => {
+                    const pageNum = i + 1
+                    return (
+                      <Button 
+                        key={pageNum}
+                        variant={pagination.page === pageNum ? "default" : "outline"}
+                        size="icon" 
+                        className={`h-8 w-8 ${pagination.page === pageNum ? 'bg-red-500 text-white' : 'bg-white border-slate-300 hover:bg-slate-50'}`}
+                        onClick={() => {
+                          const params = new URLSearchParams(searchParams.toString())
+                          params.set('page', pageNum.toString())
+                          router.push(`/properties?${params.toString()}`, { scroll: false })
+                        }}
+                      >
+                        {pageNum}
+                      </Button>
+                    )
+                  })}
+                  
+                  {/* Next button */}
+                  {pagination.page < pagination.totalPages && (
+                    <Button 
+                      variant="outline" 
+                      size="icon" 
+                      className="h-8 w-8 bg-white border-slate-300 hover:bg-slate-50"
+                      onClick={() => {
+                        const params = new URLSearchParams(searchParams.toString())
+                        params.set('page', (pagination.page + 1).toString())
+                        router.push(`/properties?${params.toString()}`, { scroll: false })
+                      }}
+                    >
+                      →
+                    </Button>
+                  )}
+                </div>
               </div>
-            </div>
+            )}
           </div>
 
           {/* Right Section - Map */}
           <div className="w-1/3 bg-white border-l border-gray-200">
-            <PropertyMap 
-              properties={filteredProperties.map(property => ({
-                id: property.id.toString(),
-                title: property.title,
-                address: property.location,
-                price: property.price || property.priceRange || "Price on Application",
-                type: property.type === "luxury-villas" ? "Residential" : 
-                      property.type === "commercial" ? "Commercial" : "Residential",
-                coordinates: property.coordinates || { lat: 12.9716, lng: 77.5946 }
-              }))}
-              center={{ lat: 12.9716, lng: 77.5946 }}
-              zoom={11}
-              height="100%"
-              onPropertyHover={handlePropertyHover}
-              onPropertyLeave={handlePropertyLeave}
-            />
+            <div className="h-full bg-gray-100 overflow-hidden">
+              <PropertyMap 
+                properties={mappedProperties}
+                center={mapCenter}
+                zoom={mapZoom}
+                height="100%"
+              />
+            </div>
           </div>
         </div>
       </section>
