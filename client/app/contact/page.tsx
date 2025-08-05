@@ -60,42 +60,95 @@ export default function ContactPage() {
               </p>
 
               <div className="space-y-8">
-                <div className="flex items-start">
-                  <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mr-4">
-                    <MapPin className="h-6 w-6 text-red-600" />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-black text-lg font-['Suisse_Intl',sans-serif]">Visit Our Premium Office</h3>
-                    <p className="text-gray-500 font-['Suisse_Intl',sans-serif]">Brigade Road, Bangalore, Karnataka 560001</p>
-                    <p className="text-gray-500 mt-1 font-['Suisse_Intl',sans-serif]">
-                      Our luxury showroom is open for walk-ins and scheduled appointments.
-                    </p>
+                {/* Bangalore Office */}
+                <div className="border-l-4 border-red-500 pl-6">
+                  <h3 className="font-bold text-black text-xl mb-4 font-['Suisse_Intl',sans-serif]">Bangalore Office</h3>
+                  
+                  <div className="space-y-6">
+                    <div className="flex items-start">
+                      <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mr-4">
+                        <MapPin className="h-6 w-6 text-red-600" />
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-black text-lg font-['Suisse_Intl',sans-serif]">Visit Our Premium Office</h4>
+                        <p className="text-gray-500 font-['Suisse_Intl',sans-serif]">Brigade Road, Bangalore, Karnataka 560001</p>
+                        <p className="text-gray-500 mt-1 font-['Suisse_Intl',sans-serif]">
+                          Our luxury showroom is open for walk-ins and scheduled appointments.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start">
+                      <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mr-4">
+                        <Phone className="h-6 w-6 text-red-600" />
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-black text-lg font-['Suisse_Intl',sans-serif]">Call Our Experts</h4>
+                        <p className="text-gray-500 font-['Suisse_Intl',sans-serif]">+91 98765 43210</p>
+                        <p className="text-gray-500 mt-1 font-['Suisse_Intl',sans-serif]">
+                          Our luxury property specialists are available Monday through Friday, 9am to 6pm.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start">
+                      <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mr-4">
+                        <Mail className="h-6 w-6 text-red-600" />
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-black text-lg font-['Suisse_Intl',sans-serif]">Email Us</h4>
+                        <p className="text-gray-500 font-['Suisse_Intl',sans-serif]">bangalore@11square.com</p>
+                        <p className="text-gray-500 mt-1 font-['Suisse_Intl',sans-serif]">
+                          We aim to respond to all inquiries within 24 hours during business days.
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
-                <div className="flex items-start">
-                  <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mr-4">
-                    <Phone className="h-6 w-6 text-red-600" />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-black text-lg font-['Suisse_Intl',sans-serif]">Call Our Experts</h3>
-                    <p className="text-gray-500 font-['Suisse_Intl',sans-serif]">+91 98765 43210</p>
-                    <p className="text-gray-500 mt-1 font-['Suisse_Intl',sans-serif]">
-                      Our luxury property specialists are available Monday through Friday, 9am to 6pm.
-                    </p>
-                  </div>
-                </div>
+                {/* London Office */}
+                <div className="border-l-4 border-blue-500 pl-6">
+                  <h3 className="font-bold text-black text-xl mb-4 font-['Suisse_Intl',sans-serif]">London Office</h3>
+                  
+                  <div className="space-y-6">
+                    <div className="flex items-start">
+                      <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                        <MapPin className="h-6 w-6 text-blue-600" />
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-black text-lg font-['Suisse_Intl',sans-serif]">Visit Our Premium Office</h4>
+                        <p className="text-gray-500 font-['Suisse_Intl',sans-serif]">Mayfair, London, W1K 1AP, United Kingdom</p>
+                        <p className="text-gray-500 mt-1 font-['Suisse_Intl',sans-serif]">
+                          Our luxury showroom is open for walk-ins and scheduled appointments.
+                        </p>
+                      </div>
+                    </div>
 
-                <div className="flex items-start">
-                  <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mr-4">
-                    <Mail className="h-6 w-6 text-red-600" />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-black text-lg font-['Suisse_Intl',sans-serif]">Email Us</h3>
-                    <p className="text-gray-500 font-['Suisse_Intl',sans-serif]">info@11square.com</p>
-                    <p className="text-gray-500 mt-1 font-['Suisse_Intl',sans-serif]">
-                      We aim to respond to all inquiries within 24 hours during business days.
-                    </p>
+                    <div className="flex items-start">
+                      <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                        <Phone className="h-6 w-6 text-blue-600" />
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-black text-lg font-['Suisse_Intl',sans-serif]">Call Our Experts</h4>
+                        <p className="text-gray-500 font-['Suisse_Intl',sans-serif]">+44 20 7123 4567</p>
+                        <p className="text-gray-500 mt-1 font-['Suisse_Intl',sans-serif]">
+                          Our luxury property specialists are available Monday through Friday, 9am to 6pm GMT.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start">
+                      <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                        <Mail className="h-6 w-6 text-blue-600" />
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-black text-lg font-['Suisse_Intl',sans-serif]">Email Us</h4>
+                        <p className="text-gray-500 font-['Suisse_Intl',sans-serif]">london@11square.com</p>
+                        <p className="text-gray-500 mt-1 font-['Suisse_Intl',sans-serif]">
+                          We aim to respond to all inquiries within 24 hours during business days.
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
@@ -220,21 +273,61 @@ export default function ContactPage() {
       <section className="py-12 md:py-16 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-12">
-            <h2 className="text-2xl md:text-4xl font-bold mb-4 text-black" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>Find Us</h2>
+            <h2 className="text-2xl md:text-4xl font-bold mb-4 text-black" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>Our Global Offices</h2>
             <p className="text-gray-500 font-['Suisse_Intl',sans-serif]">
-              Visit our premium office to explore our luxury property portfolio and speak with our expert team in
+              Visit our premium offices to explore our luxury property portfolio and speak with our expert team in
               person.
             </p>
           </div>
 
-          <div className="h-[500px] rounded-lg overflow-hidden shadow-lg border border-gray-100">
-            <ContactMap />
-          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* Bangalore Office */}
+            <div className="space-y-4">
+              <div className="text-center">
+                <h3 className="text-xl font-bold mb-2 text-black font-['Suisse_Intl',sans-serif]">Bangalore Office</h3>
+                <p className="text-gray-500 font-['Suisse_Intl',sans-serif] text-sm">
+                  Brigade Road, Bangalore, Karnataka 560001
+                </p>
+              </div>
+              <div className="h-[400px] rounded-lg overflow-hidden shadow-lg border border-gray-100">
+                <ContactMap 
+                  center={{ lat: 12.9716, lng: 77.5946 }}
+                  officeName="11Square Bangalore"
+                  address="Brigade Road, Bangalore, Karnataka 560001"
+                  phone="+91 98765 43210"
+                  email="bangalore@11square.com"
+                />
+              </div>
+              <div className="text-center">
+                <p className="text-gray-500 font-['Suisse_Intl',sans-serif] text-sm">
+                  Premium parking available on-site
+                </p>
+              </div>
+            </div>
 
-          <div className="mt-8 text-center">
-            <p className="text-gray-500 font-['Suisse_Intl',sans-serif]">
-              Brigade Road, Bangalore, Karnataka 560001 | Premium parking available on-site
-            </p>
+            {/* London Office */}
+            <div className="space-y-4">
+              <div className="text-center">
+                <h3 className="text-xl font-bold mb-2 text-black font-['Suisse_Intl',sans-serif]">London Office</h3>
+                <p className="text-gray-500 font-['Suisse_Intl',sans-serif] text-sm">
+                  Mayfair, London, W1K 1AP, United Kingdom
+                </p>
+              </div>
+              <div className="h-[400px] rounded-lg overflow-hidden shadow-lg border border-gray-100">
+                <ContactMap 
+                  center={{ lat: 51.5074, lng: -0.1278 }}
+                  officeName="11Square London"
+                  address="Mayfair, London, W1K 1AP, United Kingdom"
+                  phone="+44 20 7123 4567"
+                  email="london@11square.com"
+                />
+              </div>
+              <div className="text-center">
+                <p className="text-gray-500 font-['Suisse_Intl',sans-serif] text-sm">
+                  Underground parking available nearby
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
