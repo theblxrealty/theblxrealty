@@ -301,9 +301,7 @@ export const checkDuplicateCareerApplication = async (
   const timeWindow = new Date()
   timeWindow.setHours(timeWindow.getHours() - timeWindowHours)
 
-  // For now, we'll just check if there's a recent contact request from this email
-  // In the future, we can add a career_applications table to the database
-  const existingRequest = await prisma.contactRequest.findFirst({
+  const existingApplication = await prisma.careerApplication.findFirst({
     where: {
       email,
       createdAt: {
@@ -312,5 +310,5 @@ export const checkDuplicateCareerApplication = async (
     }
   })
 
-  return !!existingRequest
+  return !!existingApplication
 } 

@@ -57,9 +57,24 @@ export async function POST(request: NextRequest) {
       })
     }
 
-    // Create career application (we'll need to add this to the schema)
-    // For now, we'll just send the email notification
-    const applicationData = {
+    // Create career application in database
+    const careerApplication = await prisma.careerApplication.create({
+      data: {
+        userId: user.id,
+        firstName,
+        lastName,
+        email,
+        phone,
+        position,
+        experience,
+        message,
+        resume: resume || null, // For now, we'll store the filename if provided
+        status: 'pending'
+      }
+    })
+
+    // Send email notification
+    const emailResult = await sendCareerApplicationEmail({
       firstName,
       lastName,
       email,
@@ -68,10 +83,7 @@ export async function POST(request: NextRequest) {
       experience,
       message,
       resume
-    }
-
-    // Send email notification
-    const emailResult = await sendCareerApplicationEmail(applicationData)
+    })
 
     if (!emailResult.success) {
       console.error('Email sending failed:', emailResult.error)
@@ -80,6 +92,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({
       message: 'Career application submitted successfully',
+      applicationId: careerApplication.id,
       emailSent: emailResult.success
     }, { status: 201 })
 

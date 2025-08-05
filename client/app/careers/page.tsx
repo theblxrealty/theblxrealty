@@ -81,10 +81,17 @@ export default function CareersPage() {
         }))
       } else {
         console.error('Form submission failed:', data.error)
+        // Handle validation errors specifically
+        let errorMessage = data.error || 'Form submission failed. Please try again.'
+        
+        if (data.details && Array.isArray(data.details)) {
+          errorMessage = data.details.join(', ')
+        }
+        
         setFormState((prev) => ({ 
           ...prev, 
           loading: false,
-          error: data.error || 'Form submission failed. Please try again.'
+          error: errorMessage
         }))
       }
     } catch (error) {
