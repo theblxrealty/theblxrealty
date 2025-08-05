@@ -66,7 +66,7 @@ export async function POST(request: NextRequest) {
           
           if (!user) {
             return NextResponse.json(
-              { error: 'User with this email or phone already exists' },
+              { error: 'Unable to create or find user account. Please try again.' },
               { status: 400 }
             )
           }
@@ -75,24 +75,12 @@ export async function POST(request: NextRequest) {
         }
       }
     } else {
-      // Update existing user's information if needed
-      try {
-        await prisma.user.update({
-          where: { id: user.id },
-          data: {
-            email,
-            phone,
-            firstName: name.split(' ')[0] || user.firstName,
-            lastName: name.split(' ').slice(1).join(' ') || user.lastName
-          }
-        })
-      } catch (updateError: any) {
-        // If update fails due to unique constraint, just continue with existing user
-        console.log('Could not update user info:', updateError.message)
-      }
+      // User exists, use their existing record without updating
+      console.log('Using existing user:', user.id)
     }
 
     // Create contact request
+    console.log('Creating contact request for user:', user.id)
     const contactRequest = await prisma.contactRequest.create({
       data: {
         userId: user.id,
@@ -103,6 +91,7 @@ export async function POST(request: NextRequest) {
         status: 'pending'
       }
     })
+    console.log('Contact request created:', contactRequest.id)
 
     // Send email notification
     const emailResult = await sendContactRequestEmail({
