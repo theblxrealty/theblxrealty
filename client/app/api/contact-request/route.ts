@@ -26,9 +26,14 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Check if user exists, if not create one
-    let user = await prisma.user.findUnique({
-      where: { email }
+    // Check if user exists by email or phone
+    let user = await prisma.user.findFirst({
+      where: {
+        OR: [
+          { email },
+          { phone }
+        ]
+      }
     })
 
     if (!user) {
@@ -36,15 +41,55 @@ export async function POST(request: NextRequest) {
       const [firstName, ...lastNameParts] = name.split(' ')
       const lastName = lastNameParts.join(' ') || ''
       
-      user = await prisma.user.create({
-        data: {
-          email,
-          phone,
-          firstName,
-          lastName,
-          password: 'temp-password-' + Math.random().toString(36).substring(7) // Temporary password
+      try {
+        user = await prisma.user.create({
+          data: {
+            email,
+            phone,
+            firstName,
+            lastName,
+            password: 'temp-password-' + Math.random().toString(36).substring(7) // Temporary password
+          }
+        })
+      } catch (createError: any) {
+        // Handle unique constraint violations
+        if (createError.code === 'P2002') {
+          // If creation fails due to unique constraint, try to find the existing user again
+          user = await prisma.user.findFirst({
+            where: {
+              OR: [
+                { email },
+                { phone }
+              ]
+            }
+          })
+          
+          if (!user) {
+            return NextResponse.json(
+              { error: 'User with this email or phone already exists' },
+              { status: 400 }
+            )
+          }
+        } else {
+          throw createError
         }
-      })
+      }
+    } else {
+      // Update existing user's information if needed
+      try {
+        await prisma.user.update({
+          where: { id: user.id },
+          data: {
+            email,
+            phone,
+            firstName: name.split(' ')[0] || user.firstName,
+            lastName: name.split(' ').slice(1).join(' ') || user.lastName
+          }
+        })
+      } catch (updateError: any) {
+        // If update fails due to unique constraint, just continue with existing user
+        console.log('Could not update user info:', updateError.message)
+      }
     }
 
     // Create contact request
