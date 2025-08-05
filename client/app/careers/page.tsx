@@ -281,7 +281,7 @@ export default function CareersPage() {
                     type="tel"
                     value={formState.phone}
                     onChange={handleChange}
-                    placeholder="+44 123 456 7890"
+                    placeholder="+91 98765 43210"
                     className="mt-1 font-['Suisse_Intl',sans-serif]"
                     required
                   />

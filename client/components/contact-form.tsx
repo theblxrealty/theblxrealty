@@ -217,7 +217,7 @@ export default function ContactForm() {
           <Phone className="absolute left-3 top-3 h-5 w-5 text-slate-400" />
           <Input
             type="tel"
-            placeholder="Phone Number (10 digits)"
+            placeholder="+91 98765 43210"
             value={formState.phone}
             onChange={(e) => setFormState((prev) => ({ ...prev, phone: e.target.value }))}
             required

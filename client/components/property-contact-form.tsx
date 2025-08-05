@@ -26,7 +26,7 @@ export default function PropertyContactForm({ propertyTitle, isOpen, onClose }: 
     firstName: "",
     lastName: "",
     email: "",
-    phoneCountry: "GB",
+    phoneCountry: "IN",
     phoneNumber: "",
     preferredDate: "",
     preferredTime: "afternoon",
@@ -368,7 +368,7 @@ export default function PropertyContactForm({ propertyTitle, isOpen, onClose }: 
                       <Label htmlFor="phone" className="text-sm font-['Suisse_Intl',sans-serif]">Phone number</Label>
                       <div className="flex mt-1">
                         <div className="flex items-center border border-r-0 rounded-l-md px-3 bg-gray-50">
-                          <span className="text-sm">🇬🇧</span>
+                          <span className="text-sm">🇮🇳</span>
                           <ChevronDown className="h-4 w-4 ml-1" />
                         </div>
                         <Input 
@@ -376,7 +376,7 @@ export default function PropertyContactForm({ propertyTitle, isOpen, onClose }: 
                           name="phoneNumber" 
                           value={formState.phoneNumber} 
                           onChange={handleChange} 
-                          placeholder="(+44) Phone number" 
+                          placeholder="(+91) 98765 43210" 
                           className={`rounded-l-none font-['Suisse_Intl',sans-serif] ${isAutoFilled ? 'bg-green-50 border-green-300' : ''}`}
                           readOnly={isAutoFilled}
                         />
