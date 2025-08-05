@@ -26,15 +26,17 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Check if user exists by email or phone
-    let user = await prisma.user.findFirst({
-      where: {
-        OR: [
-          { email },
-          { phone }
-        ]
-      }
+    // Check if user exists by email first (priority)
+    let user = await prisma.user.findUnique({
+      where: { email }
     })
+
+    // If no user found by email, check by phone
+    if (!user) {
+      user = await prisma.user.findUnique({
+        where: { phone }
+      })
+    }
 
     if (!user) {
       // Create new user
@@ -51,29 +53,26 @@ export async function POST(request: NextRequest) {
             password: 'temp-password-' + Math.random().toString(36).substring(7) // Temporary password
           }
         })
-      } catch (createError: any) {
-        // Handle unique constraint violations
-        if (createError.code === 'P2002') {
-          // If creation fails due to unique constraint, try to find the existing user again
-          user = await prisma.user.findFirst({
-            where: {
-              OR: [
-                { email },
-                { phone }
-              ]
+              } catch (createError: any) {
+          // Handle unique constraint violations
+          if (createError.code === 'P2002') {
+            // If creation fails due to unique constraint, check if user exists
+            const existingUser = await prisma.user.findUnique({
+              where: { email }
+            })
+            
+            if (existingUser) {
+              user = existingUser
+            } else {
+              return NextResponse.json(
+                { error: 'Phone number already exists with different email. Please use a different phone number.' },
+                { status: 400 }
+              )
             }
-          })
-          
-          if (!user) {
-            return NextResponse.json(
-              { error: 'Unable to create or find user account. Please try again.' },
-              { status: 400 }
-            )
+          } else {
+            throw createError
           }
-        } else {
-          throw createError
         }
-      }
     } else {
       // User exists, use their existing record without updating
       console.log('Using existing user:', user.id)
