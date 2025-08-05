@@ -4,8 +4,8 @@ import { useEffect, useRef, useState } from "react"
 import { MapPin, Navigation, Phone, Mail } from "lucide-react"
 import { Loader } from "@googlemaps/js-api-loader"
 
-// Declare google namespace for TypeScript
-declare const google: any
+// TypeScript declarations for Google Maps
+declare const google: any;
 
 interface ContactMapProps {
   center?: { lat: number; lng: number }
@@ -14,23 +14,39 @@ interface ContactMapProps {
   address?: string
   phone?: string
   email?: string
+  height?: string
 }
 
 export default function ContactMap({
   center = { lat: 12.9716, lng: 77.5946 }, // Bangalore coordinates
   zoom = 15,
   officeName = "11Square Premium Office",
-  address = "MG Road, Bangalore, Karnataka, India",
+  address = "Brigade Road, Bangalore, Karnataka, India",
   phone = "+91 98765 43210",
-  email = "contact@11square.com"
+  email = "contact@11square.com",
+  height = "500px"
 }: ContactMapProps) {
   const mapRef = useRef<HTMLDivElement>(null)
-  const [map, setMap] = useState<any>(null)
-  const [marker, setMarker] = useState<any>(null)
-  const [infoWindow, setInfoWindow] = useState<any>(null)
+  const [map, setMap] = useState<any | null>(null)
+  const [marker, setMarker] = useState<any | null>(null)
+  const [infoWindow, setInfoWindow] = useState<any | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
+  // Function to create marker icon
+  const createMarkerIcon = (color: string, size: number) => {
+    const iconSvg = `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="${color}"/>
+    </svg>`
+    
+    return {
+      url: "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(iconSvg),
+      scaledSize: new (google as any).maps.Size(size, size),
+      anchor: new (google as any).maps.Point(size/2, size)
+    }
+  }
+
+  // Initialize map only once
   useEffect(() => {
     const initMap = async () => {
       try {
@@ -54,7 +70,7 @@ export default function ContactMap({
         if (!mapRef.current) return
 
         // Create map instance
-        const mapInstance = new google.maps.Map(mapRef.current, {
+        const mapInstance = new (google as any).maps.Map(mapRef.current, {
           center,
           zoom,
           styles: [
@@ -152,25 +168,15 @@ export default function ContactMap({
         })
 
         // Create marker
-        const markerInstance = new google.maps.Marker({
+        const markerInstance = new (google as any).maps.Marker({
           position: center,
           map: mapInstance,
           title: officeName,
-          icon: {
-            url: "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(`
-              <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="20" cy="20" r="20" fill="#d97706"/>
-                <circle cx="20" cy="20" r="12" fill="#ffffff"/>
-                <circle cx="20" cy="20" r="6" fill="#d97706"/>
-              </svg>
-            `),
-            scaledSize: new google.maps.Size(40, 40),
-            anchor: new google.maps.Point(20, 40)
-          }
+          icon: createMarkerIcon("#dc2626", 48)
         })
 
         // Create info window
-        const infoWindowInstance = new google.maps.InfoWindow({
+        const infoWindowInstance = new (google as any).maps.InfoWindow({
           content: `
             <div style="padding: 16px; max-width: 300px; font-family: 'Suisse Intl', sans-serif;">
               <div style="margin-bottom: 12px;">
@@ -208,8 +214,11 @@ export default function ContactMap({
       }
     }
 
-    initMap()
-  }, [center, zoom]) // Removed string dependencies that cause infinite loops
+    // Only initialize map once if mapRef is available and map is not already initialized
+    if (mapRef.current && !map) {
+      initMap()
+    }
+  }, [center, zoom]) // Only re-initialize map when center or zoom change
 
   const handleDirections = () => {
     if (map && marker) {
@@ -230,11 +239,11 @@ export default function ContactMap({
   }
 
   return (
-    <div className="relative h-full w-full bg-slate-100 rounded-2xl overflow-hidden">
+    <div className="relative w-full bg-slate-100 rounded-2xl overflow-hidden" style={{ height }}>
       {isLoading && (
         <div className="absolute inset-0 flex items-center justify-center bg-slate-100 z-10">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gold-600 mx-auto mb-4"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-500 mx-auto mb-4"></div>
             <p className="text-slate-600 font-medium">Loading map...</p>
           </div>
         </div>
@@ -257,28 +266,28 @@ export default function ContactMap({
       {/* Map Controls */}
       <div className="absolute top-4 left-4 bg-white rounded-xl shadow-lg border border-slate-200 p-3">
         <div className="flex items-center mb-2">
-          <MapPin className="h-4 w-4 text-gold-600 mr-2" />
-          <span className="text-sm font-medium text-navy-900">{officeName}</span>
+          <MapPin className="h-4 w-4 text-red-600 mr-2" />
+          <span className="text-sm font-medium text-slate-900">{officeName}</span>
         </div>
         <p className="text-xs text-slate-600 mb-3">{address}</p>
         <div className="space-y-2">
           <button
             onClick={handleDirections}
-            className="flex items-center w-full text-xs text-slate-700 hover:text-gold-600 transition-colors"
+            className="flex items-center w-full text-xs text-slate-700 hover:text-red-600 transition-colors"
           >
             <Navigation className="h-3 w-3 mr-2" />
             Get Directions
           </button>
           <button
             onClick={handleCall}
-            className="flex items-center w-full text-xs text-slate-700 hover:text-gold-600 transition-colors"
+            className="flex items-center w-full text-xs text-slate-700 hover:text-red-600 transition-colors"
           >
             <Phone className="h-3 w-3 mr-2" />
             Call Office
           </button>
           <button
             onClick={handleEmail}
-            className="flex items-center w-full text-xs text-slate-700 hover:text-gold-600 transition-colors"
+            className="flex items-center w-full text-xs text-slate-700 hover:text-red-600 transition-colors"
           >
             <Mail className="h-3 w-3 mr-2" />
             Send Email
