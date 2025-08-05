@@ -92,7 +92,40 @@ export default function PropertyContactForm({ propertyTitle, isOpen, onClose }: 
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setFormState((prev) => ({ ...prev, loading: true }))
+    
+    // Client-side validation
+    const errors: string[] = []
+    
+    if (!formState.firstName.trim()) {
+      errors.push('First name is required')
+    }
+    
+    if (!formState.lastName.trim()) {
+      errors.push('Last name is required')
+    }
+    
+    if (!formState.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formState.email)) {
+      errors.push('Valid email address is required')
+    }
+    
+    if (!formState.phoneNumber || !/^\d{10,15}$/.test(formState.phoneNumber.replace(/\D/g, ''))) {
+      errors.push('Valid phone number is required')
+    }
+    
+    if (!formState.preferredDate) {
+      errors.push('Please select a preferred date')
+    }
+    
+    if (errors.length > 0) {
+      setFormState((prev) => ({ 
+        ...prev, 
+        error: errors.join(', '),
+        loading: false 
+      }))
+      return
+    }
+    
+    setFormState((prev) => ({ ...prev, loading: true, error: "" }))
 
     try {
       const response = await fetch('/api/property-view-request', {
@@ -125,10 +158,17 @@ export default function PropertyContactForm({ propertyTitle, isOpen, onClose }: 
         }))
       } else {
         console.error('Form submission failed:', data.error)
+        // Handle validation errors specifically
+        let errorMessage = data.error || 'Form submission failed. Please try again.'
+        
+        if (data.details && Array.isArray(data.details)) {
+          errorMessage = data.details.join(', ')
+        }
+        
         setFormState((prev) => ({ 
           ...prev, 
           loading: false,
-          error: data.error || 'Form submission failed. Please try again.'
+          error: errorMessage
         }))
       }
     } catch (error) {
@@ -301,7 +341,7 @@ export default function PropertyContactForm({ propertyTitle, isOpen, onClose }: 
                 One of the team will accompany you to the appointment.
               </p>
 
-              <form onSubmit={handleSubmit} className="space-y-4">
+              <form id="viewing-form" onSubmit={handleSubmit} className="space-y-4">
                 {/* Your details Section */}
                 <div>
                   <div className="border-t border-gray-200 pt-3 mb-3">

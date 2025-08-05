@@ -3,35 +3,6 @@ import Link from "next/link"
 
 import { ArrowRight, Users, Award, Shield, Target, CheckCircle2, Building, TrendingUp, MapPin } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import TeamMember from "@/components/team-member"
-
-// Sample team data
-const teamMembers = [
-  {
-    name: "Sarah Johnson",
-    role: "Founder & CEO",
-    image: "/placeholder.svg?height=400&width=400",
-    bio: "With over 15 years of experience in luxury real estate and property development, Sarah founded 11Square to transform premium property transactions in Bangalore.",
-  },
-  {
-    name: "Michael Chen",
-    role: "Chief Investment Officer",
-    image: "/placeholder.svg?height=400&width=400",
-    bio: "Michael specializes in commercial real estate investments and has successfully managed property portfolios worth over ₹500 crores across Bangalore.",
-  },
-  {
-    name: "Emily Rodriguez",
-    role: "Head of Luxury Sales",
-    image: "/placeholder.svg?height=400&width=400",
-    bio: "Emily leads our luxury property division and has facilitated transactions for some of Bangalore's most prestigious residential and commercial properties.",
-  },
-  {
-    name: "David Wilson",
-    role: "Director of Client Relations",
-    image: "/placeholder.svg?height=400&width=400",
-    bio: "David ensures exceptional client experiences and has built lasting relationships with high-net-worth individuals and institutional investors.",
-  },
-]
 
 export default function AboutPage() {
   return (
@@ -365,24 +336,7 @@ export default function AboutPage() {
         </div>
       </section> */}
 
-      {/* Our Team */}
-      <section className="py-16 md:py-24 bg-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-4xl md:text-4xl font-bold mb-6 text-black" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>Meet the Experts</h2>
-            <p className="text-lg text-gray-500 font-['Suisse_Intl',sans-serif]">
-              Our diverse team of professionals brings together expertise in luxury real estate, investment analysis,
-              and client relations to deliver exceptional results.
-            </p>
-          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {teamMembers.map((member, index) => (
-              <TeamMember key={index} member={member} />
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* CTA Section */}
       <section className="py-16 md:py-24 bg-white">
