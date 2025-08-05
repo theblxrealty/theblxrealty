@@ -31,6 +31,8 @@ export default function ContactForm() {
   const [user, setUser] = useState<any>(null)
   const [isAutoFilled, setIsAutoFilled] = useState(false)
 
+
+
   // Check for logged in user and auto-fill form
   useEffect(() => {
     const userData = localStorage.getItem('user')
@@ -58,7 +60,36 @@ export default function ContactForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setFormState((prev) => ({ ...prev, loading: true }))
+    
+    // Client-side validation
+    const errors = []
+    
+    if (!formState.name.trim() || formState.name.trim().length < 2) {
+      errors.push('Name must be at least 2 characters long')
+    }
+    
+    if (!formState.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formState.email)) {
+      errors.push('Please enter a valid email address')
+    }
+    
+    if (!formState.phone || !/^\d{10,15}$/.test(formState.phone.replace(/\D/g, ''))) {
+      errors.push('Please enter a valid 10-digit phone number')
+    }
+    
+    if (!formState.message.trim() || formState.message.trim().length < 10) {
+      errors.push('Message must be at least 10 characters long')
+    }
+    
+    if (errors.length > 0) {
+      setFormState((prev) => ({ 
+        ...prev, 
+        error: errors.join(', '),
+        loading: false 
+      }))
+      return
+    }
+    
+    setFormState((prev) => ({ ...prev, loading: true, error: "" }))
 
     try {
       const response = await fetch('/api/contact-request', {
@@ -80,10 +111,17 @@ export default function ContactForm() {
         setFormState((prev) => ({ ...prev, loading: false, submitted: true, error: "" }))
       } else {
         console.error('Form submission failed:', data.error)
+        // Handle validation errors specifically
+        let errorMessage = data.error || 'Form submission failed. Please try again.'
+        
+        if (data.details && Array.isArray(data.details)) {
+          errorMessage = data.details.join(', ')
+        }
+        
         setFormState((prev) => ({ 
           ...prev, 
           loading: false,
-          error: data.error || 'Form submission failed. Please try again.'
+          error: errorMessage
         }))
       }
     } catch (error) {
@@ -179,7 +217,7 @@ export default function ContactForm() {
           <Phone className="absolute left-3 top-3 h-5 w-5 text-slate-400" />
           <Input
             type="tel"
-            placeholder="Phone Number"
+            placeholder="Phone Number (10 digits)"
             value={formState.phone}
             onChange={(e) => setFormState((prev) => ({ ...prev, phone: e.target.value }))}
             required
@@ -191,7 +229,7 @@ export default function ContactForm() {
         <div className="relative">
           <MessageSquare className="absolute left-3 top-3 h-5 w-5 text-slate-400" />
           <Textarea
-            placeholder="Tell us about your property requirements..."
+            placeholder="Tell us about your property requirements... (minimum 10 characters)"
             value={formState.message}
             onChange={(e) => setFormState((prev) => ({ ...prev, message: e.target.value }))}
             required

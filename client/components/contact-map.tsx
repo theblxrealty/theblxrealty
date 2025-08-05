@@ -4,6 +4,9 @@ import { useEffect, useRef, useState } from "react"
 import { MapPin, Navigation, Phone, Mail } from "lucide-react"
 import { Loader } from "@googlemaps/js-api-loader"
 
+// Declare google namespace for TypeScript
+declare const google: any
+
 interface ContactMapProps {
   center?: { lat: number; lng: number }
   zoom?: number
@@ -22,9 +25,9 @@ export default function ContactMap({
   email = "contact@11square.com"
 }: ContactMapProps) {
   const mapRef = useRef<HTMLDivElement>(null)
-  const [map, setMap] = useState<google.maps.Map | null>(null)
-  const [marker, setMarker] = useState<google.maps.Marker | null>(null)
-  const [infoWindow, setInfoWindow] = useState<google.maps.InfoWindow | null>(null)
+  const [map, setMap] = useState<any>(null)
+  const [marker, setMarker] = useState<any>(null)
+  const [infoWindow, setInfoWindow] = useState<any>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
@@ -206,7 +209,7 @@ export default function ContactMap({
     }
 
     initMap()
-  }, [center, zoom, officeName, address, phone, email])
+  }, [center, zoom]) // Removed string dependencies that cause infinite loops
 
   const handleDirections = () => {
     if (map && marker) {
