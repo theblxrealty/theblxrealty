@@ -5,6 +5,9 @@ import { MapPin, Navigation, Home, Building } from "lucide-react"
 import { Loader } from "@googlemaps/js-api-loader"
 import { FaMapMarkerAlt } from "react-icons/fa"
 
+// TypeScript declarations for Google Maps
+declare const google: any;
+
 interface Property {
   id: string
   title: string
@@ -19,26 +22,21 @@ interface PropertyMapProps {
   center?: { lat: number; lng: number }
   zoom?: number
   height?: string
-  onPropertyHover?: (propertyId: string) => void
-  onPropertyLeave?: () => void
 }
 
 export default function PropertyMap({
   properties,
   center = { lat: 12.9716, lng: 77.5946 }, // Bangalore coordinates
   zoom = 12,
-  height = "400px",
-  onPropertyHover,
-  onPropertyLeave
+  height = "400px"
 }: PropertyMapProps) {
   const mapRef = useRef<HTMLDivElement>(null)
-  const [map, setMap] = useState<google.maps.Map | null>(null)
-  const [markers, setMarkers] = useState<google.maps.Marker[]>([])
-  const [infoWindows, setInfoWindows] = useState<google.maps.InfoWindow[]>([])
+  const [map, setMap] = useState<any | null>(null)
+  const [markers, setMarkers] = useState<any[]>([])
+  const [infoWindows, setInfoWindows] = useState<any[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [selectedProperty, setSelectedProperty] = useState<Property | null>(null)
-  const [hoveredPropertyId, setHoveredPropertyId] = useState<string | null>(null)
 
   // Function to create marker icon from React Icon
   const createMarkerIcon = (color: string, size: number) => {
@@ -48,11 +46,12 @@ export default function PropertyMap({
     
     return {
       url: "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(iconSvg),
-      scaledSize: new google.maps.Size(size, size),
-      anchor: new google.maps.Point(size/2, size)
+      scaledSize: new (google as any).maps.Size(size, size),
+      anchor: new (google as any).maps.Point(size/2, size)
     }
   }
 
+  // Initialize map only once
   useEffect(() => {
     const initMap = async () => {
       try {
@@ -76,7 +75,7 @@ export default function PropertyMap({
         if (!mapRef.current) return
 
         // Create map instance
-        const mapInstance = new google.maps.Map(mapRef.current, {
+        const mapInstance = new (google as any).maps.Map(mapRef.current, {
           center,
           zoom,
           styles: [
@@ -173,55 +172,7 @@ export default function PropertyMap({
           gestureHandling: "cooperative"
         })
 
-        // Create markers for each property
-        const markerInstances: google.maps.Marker[] = []
-        const infoWindowInstances: google.maps.InfoWindow[] = []
-
-        properties.forEach((property, index) => {
-          // Create marker with React Icon-based design
-          const marker = new google.maps.Marker({
-            position: property.coordinates,
-            map: mapInstance,
-            title: property.title,
-            icon: createMarkerIcon("#dc2626", 32)
-          })
-
-          // Create info window
-          const infoWindow = new google.maps.InfoWindow({
-            content: `
-              <div style="padding: 16px; max-width: 280px; font-family: 'Suisse Intl', sans-serif;">
-                <div style="margin-bottom: 12px;">
-                  <h3 style="margin: 0 0 8px 0; color: #1e293b; font-weight: 600; font-size: 14px;">${property.title}</h3>
-                  <p style="margin: 0 0 8px 0; color: #64748b; font-size: 12px; line-height: 1.4;">${property.address}</p>
-                  <div style="display: flex; align-items: center; justify-content: space-between;">
-                    <span style="color: #d97706; font-weight: 600; font-size: 14px;">${property.price}</span>
-                    <span style="color: #475569; font-size: 12px; background: #f1f5f9; padding: 2px 8px; border-radius: 4px;">${property.type}</span>
-                  </div>
-                </div>
-                <div style="border-top: 1px solid #e2e8f0; padding-top: 8px;">
-                  <button onclick="window.open('https://www.google.com/maps/dir/?api=1&destination=${property.coordinates.lat},${property.coordinates.lng}&travelmode=driving', '_blank')" style="background: #d97706; color: white; border: none; padding: 6px 12px; border-radius: 4px; font-size: 12px; cursor: pointer; width: 100%;">
-                    Get Directions
-                  </button>
-                </div>
-              </div>
-            `
-          })
-
-          // Add click listener to marker
-          marker.addListener("click", () => {
-            // Close all other info windows
-            infoWindowInstances.forEach(iw => iw.close())
-            infoWindow.open(mapInstance, marker)
-            setSelectedProperty(property)
-          })
-
-          markerInstances.push(marker)
-          infoWindowInstances.push(infoWindow)
-        })
-
         setMap(mapInstance)
-        setMarkers(markerInstances)
-        setInfoWindows(infoWindowInstances)
         setIsLoading(false)
 
       } catch (err) {
@@ -231,29 +182,71 @@ export default function PropertyMap({
       }
     }
 
-    // Only initialize map if we have properties
-    if (properties.length > 0) {
+    // Only initialize map once if mapRef is available and map is not already initialized
+    if (mapRef.current && !map) {
       initMap()
-    } else {
-      setIsLoading(false)
     }
-  }, [properties, center, zoom]) // Only re-initialize map when properties, center, or zoom change
+  }, [center, zoom]) // Only re-initialize map when center or zoom change, not properties
 
-  // Effect to handle marker size changes on hover
+  // Update markers when properties change
   useEffect(() => {
-    if (!map || markers.length === 0) return
+    if (!map || properties.length === 0) return
 
-    markers.forEach((marker, index) => {
-      const property = properties[index]
-      if (!property) return
+    // Clear existing markers
+    markers.forEach(marker => marker.setMap(null))
+    infoWindows.forEach(infoWindow => infoWindow.close())
 
-      const isHovered = hoveredPropertyId === property.id
-      const size = isHovered ? 40 : 32
-      const color = isHovered ? "#1e40af" : "#dc2626" // Blue on hover, red normally
+    // Create new markers for each property
+    const markerInstances: any[] = []
+    const infoWindowInstances: any[] = []
 
-      marker.setIcon(createMarkerIcon(color, size))
+    properties.forEach((property, index) => {
+      // Create marker with React Icon-based design
+      const marker = new (google as any).maps.Marker({
+        position: property.coordinates,
+        map: map,
+        title: property.title,
+        icon: createMarkerIcon("#dc2626", 48)
+      })
+
+      // Create info window
+      const infoWindow = new (google as any).maps.InfoWindow({
+        content: `
+          <div style="padding: 16px; max-width: 280px; font-family: 'Suisse Intl', sans-serif;">
+            <div style="margin-bottom: 12px;">
+              <h3 style="margin: 0 0 8px 0; color: #1e293b; font-weight: 600; font-size: 14px;">${property.title}</h3>
+              <p style="margin: 0 0 8px 0; color: #64748b; font-size: 12px; line-height: 1.4;">${property.address}</p>
+              <div style="display: flex; align-items: center; justify-content: space-between;">
+                <span style="color: #d97706; font-weight: 600; font-size: 14px;">${property.price}</span>
+                <span style="color: #475569; font-size: 12px; background: #f1f5f9; padding: 2px 8px; border-radius: 4px;">${property.type}</span>
+              </div>
+            </div>
+            <div style="border-top: 1px solid #e2e8f0; padding-top: 8px;">
+              <button onclick="window.open('https://www.google.com/maps/dir/?api=1&destination=${property.coordinates.lat},${property.coordinates.lng}&travelmode=driving', '_blank')" style="background: #d97706; color: white; border: none; padding: 6px 12px; border-radius: 4px; font-size: 12px; cursor: pointer; width: 100%;">
+                Get Directions
+              </button>
+            </div>
+          </div>
+        `
+      })
+
+      // Add click listener to marker
+      marker.addListener("click", () => {
+        // Close all other info windows
+        infoWindowInstances.forEach(iw => iw.close())
+        infoWindow.open(map, marker)
+        setSelectedProperty(property)
+      })
+
+      markerInstances.push(marker)
+      infoWindowInstances.push(infoWindow)
     })
-  }, [hoveredPropertyId, markers, properties, map])
+
+    setMarkers(markerInstances)
+    setInfoWindows(infoWindowInstances)
+  }, [map, properties]) // Update markers when map is ready or properties change
+
+
 
   const handlePropertySelect = (property: Property) => {
     if (map) {
@@ -275,15 +268,7 @@ export default function PropertyMap({
     window.open(url, "_blank")
   }
 
-  const handlePropertyHover = (propertyId: string) => {
-    setHoveredPropertyId(propertyId)
-    onPropertyHover?.(propertyId)
-  }
 
-  const handlePropertyLeave = () => {
-    setHoveredPropertyId(null)
-    onPropertyLeave?.()
-  }
 
   return (
     <div className="relative w-full bg-slate-100 rounded-2xl overflow-hidden" style={{ height }}>
@@ -327,8 +312,6 @@ export default function PropertyMap({
                     : "hover:bg-slate-50"
                 }`}
                 onClick={() => handlePropertySelect(property)}
-                onMouseEnter={() => handlePropertyHover(property.id)}
-                onMouseLeave={handlePropertyLeave}
               >
                 <div className="flex items-start justify-between">
                   <div className="flex-1 min-w-0">

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { Search, Filter } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -20,11 +20,17 @@ export default function PropertyFilters({ onFiltersChange }: PropertyFiltersProp
   const searchParams = useSearchParams()
   const [isExpanded, setIsExpanded] = useState(false)
   
+  // Get initial values from URL params
+  const initialSearchQuery = useMemo(() => searchParams.get('search') || '', [searchParams])
+  const initialPropertyType = useMemo(() => searchParams.get('type') || 'any', [searchParams])
+  const initialBedrooms = useMemo(() => searchParams.get('bedrooms') || 'any', [searchParams])
+  const initialBathrooms = useMemo(() => searchParams.get('bathrooms') || 'any', [searchParams])
+  
   // Filter states
-  const [searchQuery, setSearchQuery] = useState(searchParams.get('search') || '')
-  const [propertyType, setPropertyType] = useState(searchParams.get('type') || 'any')
-  const [bedrooms, setBedrooms] = useState(searchParams.get('bedrooms') || 'any')
-  const [bathrooms, setBathrooms] = useState(searchParams.get('bathrooms') || 'any')
+  const [searchQuery, setSearchQuery] = useState(initialSearchQuery)
+  const [propertyType, setPropertyType] = useState(initialPropertyType)
+  const [bedrooms, setBedrooms] = useState(initialBedrooms)
+  const [bathrooms, setBathrooms] = useState(initialBathrooms)
   const [priceRange, setPriceRange] = useState([0, 100])
   const [amenities, setAmenities] = useState<string[]>([])
 
@@ -52,7 +58,7 @@ export default function PropertyFilters({ onFiltersChange }: PropertyFiltersProp
         amenities
       })
     }
-  }, [searchQuery, propertyType, bedrooms, bathrooms, priceRange, amenities, router, onFiltersChange])
+  }, [searchQuery, propertyType, bedrooms, bathrooms, priceRange, amenities])
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
