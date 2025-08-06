@@ -51,9 +51,11 @@ export default function HomePage() {
               <p className="text-lg text-gray-500 mb-8 font-['Suisse_Intl',sans-serif]">
                 We will provide a reliable estimate of your property's value, based on the latest market insights.
               </p>
-              <Button className="bg-red-500 hover:bg-red-600 text-white px-8 py-4 font-['Suisse_Intl',sans-serif] font-medium">
-                Book your free valuation
-              </Button>
+              <Link href="/contact">
+                <Button className="bg-red-500 hover:bg-red-600 text-white px-8 py-4 font-['Suisse_Intl',sans-serif] font-medium">
+                  Book your free valuation
+                </Button>
+              </Link>
             </div>
             <div className="relative h-[250px] w-full bg-gray-50 overflow-hidden">
               <Image
@@ -213,39 +215,60 @@ export default function HomePage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white p-8 rounded-lg shadow-lg border border-gray-100">
-              <div className="mb-6">
-                <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-4">
-                  <Building className="h-8 w-8 text-red-600" />
-                </div>
-                <h3 className="text-xl font-bold mb-3 text-black font-['Suisse_Intl',sans-serif]">Premium Property Portfolio</h3>
-                <p className="text-gray-500 font-['Suisse_Intl',sans-serif]">
+            {/* Card 1 - Premium Property Portfolio */}
+            <div className="relative h-80 rounded-lg shadow-lg overflow-hidden group">
+              <Image
+                src="/wcu_1.webp"
+                alt="Premium Property Portfolio"
+                fill
+                className="object-cover transition-transform duration-300 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#011337]/90 via-[#011337]/50 to-transparent transition-opacity duration-300 group-hover:from-[#011337]/95 group-hover:via-[#011337]/60"></div>
+              <div className="absolute inset-0 p-8 flex flex-col justify-end">
+                <h3 className="text-2xl font-bold mb-3 text-white font-['Suisse_Intl',sans-serif]">
+                  Premium Property Portfolio
+                </h3>
+                <p className="text-white/90 font-['Suisse_Intl',sans-serif] leading-relaxed">
                   Curated collection of luxury apartments, villas, commercial spaces, and investment properties in
                   Bangalore's most prestigious locations.
                 </p>
               </div>
             </div>
 
-            <div className="bg-white p-8 rounded-lg shadow-lg border border-gray-100">
-              <div className="mb-6">
-                <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-4">
-                  <Award className="h-8 w-8 text-red-600" />
-                </div>
-                <h3 className="text-xl font-bold mb-3 text-black font-['Suisse_Intl',sans-serif]">Expert Market Insights</h3>
-                <p className="text-gray-500 font-['Suisse_Intl',sans-serif]">
+            {/* Card 2 - Expert Market Insights */}
+            <div className="relative h-80 rounded-lg shadow-lg overflow-hidden group">
+              <Image
+                src="/wcu_2.webp"
+                alt="Expert Market Insights"
+                fill
+                className="object-cover transition-transform duration-300 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#011337]/90 via-[#011337]/50 to-transparent transition-opacity duration-300 group-hover:from-[#011337]/95 group-hover:via-[#011337]/60"></div>
+              <div className="absolute inset-0 p-8 flex flex-col justify-end">
+                <h3 className="text-2xl font-bold mb-3 text-white font-['Suisse_Intl',sans-serif]">
+                  Expert Market Insights
+                </h3>
+                <p className="text-white/90 font-['Suisse_Intl',sans-serif] leading-relaxed">
                   Professional property valuations, market analysis, and investment guidance from certified real estate
                   experts and market specialists.
                 </p>
               </div>
             </div>
 
-            <div className="bg-white p-8 rounded-lg shadow-lg border border-gray-100">
-              <div className="mb-6">
-                <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-4">
-                  <Shield className="h-8 w-8 text-red-600" />
-                </div>
-                <h3 className="text-xl font-bold mb-3 text-black font-['Suisse_Intl',sans-serif]">Complete Transaction Security</h3>
-                <p className="text-gray-500 font-['Suisse_Intl',sans-serif]">
+            {/* Card 3 - Complete Transaction Security */}
+            <div className="relative h-80 rounded-lg shadow-lg overflow-hidden group">
+              <Image
+                src="/wcu_3.webp"
+                alt="Complete Transaction Security"
+                fill
+                className="object-cover transition-transform duration-300 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#011337]/90 via-[#011337]/50 to-transparent transition-opacity duration-300 group-hover:from-[#011337]/95 group-hover:via-[#011337]/60"></div>
+              <div className="absolute inset-0 p-8 flex flex-col justify-end">
+                <h3 className="text-2xl font-bold mb-3 text-white font-['Suisse_Intl',sans-serif]">
+                  Complete Transaction Security
+                </h3>
+                <p className="text-white/90 font-['Suisse_Intl',sans-serif] leading-relaxed">
                   End-to-end support with legal verification, documentation, financing assistance, and secure transaction
                   management.
                 </p>
