@@ -152,19 +152,21 @@ export default function ContactPage() {
                   </div>
                 </div>
 
-                <div className="flex items-start">
-                  <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mr-4">
-                    <Clock className="h-6 w-6 text-red-600" />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-black text-lg font-['Suisse_Intl',sans-serif]">Business Hours</h3>
-                    <div className="text-gray-500 grid grid-cols-2 gap-x-4 gap-y-1 mt-1 font-['Suisse_Intl',sans-serif]">
-                      <span>Monday - Friday:</span>
-                      <span>9:00 AM - 6:00 PM</span>
-                      <span>Saturday:</span>
-                      <span>10:00 AM - 4:00 PM</span>
-                      <span>Sunday:</span>
-                      <span>Closed</span>
+                <div className="border-l-4 border-blue-500 pl-6">
+                  <div className="flex items-start">
+                    <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                      <Clock className="h-6 w-6 text-blue-600" />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-black text-lg font-['Suisse_Intl',sans-serif]">Business Hours</h3>
+                      <div className="text-gray-500 grid grid-cols-2 gap-x-4 gap-y-1 mt-1 font-['Suisse_Intl',sans-serif]">
+                        <span>Monday - Friday:</span>
+                        <span>9:00 AM - 6:00 PM</span>
+                        <span>Saturday:</span>
+                        <span>10:00 AM - 4:00 PM</span>
+                        <span>Sunday:</span>
+                        <span>Closed</span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -344,7 +346,7 @@ export default function ContactPage() {
             <div className="space-y-4">
               <div className="group bg-white p-6 rounded-xl shadow-lg border border-gray-100 hover:shadow-2xl hover:border-red-200 transition-all duration-300 cursor-pointer transform hover:-translate-y-1">
                 <div className="flex items-start justify-between">
-                  <h3 className="font-bold text-lg mb-3 text-black group-hover:text-red-600 transition-colors duration-300" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>What makes your properties premium?</h3>
+                  <h3 className="font-bold text-lg text-black group-hover:text-red-600 transition-colors duration-300" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>What makes your properties premium?</h3>
                   <div className="ml-4 flex-shrink-0">
                     <div className="w-6 h-6 rounded-full bg-red-100 group-hover:bg-red-200 transition-colors duration-300 flex items-center justify-center">
                       <svg className="w-4 h-4 text-red-600 group-hover:rotate-180 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -353,16 +355,18 @@ export default function ContactPage() {
                     </div>
                   </div>
                 </div>
-                <p className="text-gray-500 font-['Suisse_Intl',sans-serif] group-hover:text-gray-700 transition-colors duration-300">
-                  Our properties are carefully curated based on location, architecture, amenities, and investment
-                  potential. We focus on luxury residences, prime commercial spaces, and high-growth investment
-                  opportunities in Bangalore's most prestigious areas.
-                </p>
+                <div className="overflow-hidden transition-all duration-300 max-h-0 group-hover:max-h-32">
+                  <p className="text-gray-500 font-['Suisse_Intl',sans-serif] group-hover:text-gray-700 transition-colors duration-300 pt-3">
+                    Our properties are carefully curated based on location, architecture, amenities, and investment
+                    potential. We focus on luxury residences, prime commercial spaces, and high-growth investment
+                    opportunities in Bangalore's most prestigious areas.
+                  </p>
+                </div>
               </div>
 
               <div className="group bg-white p-6 rounded-xl shadow-lg border border-gray-100 hover:shadow-2xl hover:border-red-200 transition-all duration-300 cursor-pointer transform hover:-translate-y-1">
                 <div className="flex items-start justify-between">
-                  <h3 className="font-bold text-lg mb-3 text-black group-hover:text-red-600 transition-colors duration-300" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>Do luxury properties cost more to maintain?</h3>
+                  <h3 className="font-bold text-lg text-black group-hover:text-red-600 transition-colors duration-300" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>Do luxury properties cost more to maintain?</h3>
                   <div className="ml-4 flex-shrink-0">
                     <div className="w-6 h-6 rounded-full bg-red-100 group-hover:bg-red-200 transition-colors duration-300 flex items-center justify-center">
                       <svg className="w-4 h-4 text-red-600 group-hover:rotate-180 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -371,16 +375,18 @@ export default function ContactPage() {
                     </div>
                   </div>
                 </div>
-                <p className="text-gray-500 font-['Suisse_Intl',sans-serif] group-hover:text-gray-700 transition-colors duration-300">
-                  While premium properties may have higher maintenance costs, they typically offer superior amenities,
-                  better appreciation potential, and enhanced lifestyle benefits. Our team provides detailed cost
-                  analysis to help you make informed decisions.
-                </p>
+                <div className="overflow-hidden transition-all duration-300 max-h-0 group-hover:max-h-32">
+                  <p className="text-gray-500 font-['Suisse_Intl',sans-serif] group-hover:text-gray-700 transition-colors duration-300 pt-3">
+                    While premium properties may have higher maintenance costs, they typically offer superior amenities,
+                    better appreciation potential, and enhanced lifestyle benefits. Our team provides detailed cost
+                    analysis to help you make informed decisions.
+                  </p>
+                </div>
               </div>
 
               <div className="group bg-white p-6 rounded-xl shadow-lg border border-gray-100 hover:shadow-2xl hover:border-red-200 transition-all duration-300 cursor-pointer transform hover:-translate-y-1">
                 <div className="flex items-start justify-between">
-                  <h3 className="font-bold text-lg mb-3 text-black group-hover:text-red-600 transition-colors duration-300" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>Can I customize my property search?</h3>
+                  <h3 className="font-bold text-lg text-black group-hover:text-red-600 transition-colors duration-300" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>Can I customize my property search?</h3>
                   <div className="ml-4 flex-shrink-0">
                     <div className="w-6 h-6 rounded-full bg-red-100 group-hover:bg-red-200 transition-colors duration-300 flex items-center justify-center">
                       <svg className="w-4 h-4 text-red-600 group-hover:rotate-180 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -389,15 +395,17 @@ export default function ContactPage() {
                     </div>
                   </div>
                 </div>
-                <p className="text-gray-500 font-['Suisse_Intl',sans-serif] group-hover:text-gray-700 transition-colors duration-300">
-                  We provide personalized property search services based on your specific requirements, budget, and
-                  lifestyle preferences. Our experts will curate options that match your exact needs.
-                </p>
+                <div className="overflow-hidden transition-all duration-300 max-h-0 group-hover:max-h-32">
+                  <p className="text-gray-500 font-['Suisse_Intl',sans-serif] group-hover:text-gray-700 transition-colors duration-300 pt-3">
+                    We provide personalized property search services based on your specific requirements, budget, and
+                    lifestyle preferences. Our experts will curate options that match your exact needs.
+                  </p>
+                </div>
               </div>
 
               <div className="group bg-white p-6 rounded-xl shadow-lg border border-gray-100 hover:shadow-2xl hover:border-red-200 transition-all duration-300 cursor-pointer transform hover:-translate-y-1">
                 <div className="flex items-start justify-between">
-                  <h3 className="font-bold text-lg mb-3 text-black group-hover:text-red-600 transition-colors duration-300" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>Do you offer virtual property tours?</h3>
+                  <h3 className="font-bold text-lg text-black group-hover:text-red-600 transition-colors duration-300" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>Do you offer virtual property tours?</h3>
                   <div className="ml-4 flex-shrink-0">
                     <div className="w-6 h-6 rounded-full bg-red-100 group-hover:bg-red-200 transition-colors duration-300 flex items-center justify-center">
                       <svg className="w-4 h-4 text-red-600 group-hover:rotate-180 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -406,15 +414,17 @@ export default function ContactPage() {
                     </div>
                   </div>
                 </div>
-                <p className="text-gray-500 font-['Suisse_Intl',sans-serif] group-hover:text-gray-700 transition-colors duration-300">
-                  Yes, we offer comprehensive virtual tours, 3D walkthroughs, and video consultations for all our
-                  properties. Schedule a virtual tour to explore properties from the comfort of your home.
-                </p>
+                <div className="overflow-hidden transition-all duration-300 max-h-0 group-hover:max-h-32">
+                  <p className="text-gray-500 font-['Suisse_Intl',sans-serif] group-hover:text-gray-700 transition-colors duration-300 pt-3">
+                    Yes, we offer comprehensive virtual tours, 3D walkthroughs, and video consultations for all our
+                    properties. Schedule a virtual tour to explore properties from the comfort of your home.
+                  </p>
+                </div>
               </div>
 
               <div className="group bg-white p-6 rounded-xl shadow-lg border border-gray-100 hover:shadow-2xl hover:border-red-200 transition-all duration-300 cursor-pointer transform hover:-translate-y-1">
                 <div className="flex items-start justify-between">
-                  <h3 className="font-bold text-lg mb-3 text-black group-hover:text-red-600 transition-colors duration-300" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>What financing options do you offer?</h3>
+                  <h3 className="font-bold text-lg text-black group-hover:text-red-600 transition-colors duration-300" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>What financing options do you offer?</h3>
                   <div className="ml-4 flex-shrink-0">
                     <div className="w-6 h-6 rounded-full bg-red-100 group-hover:bg-red-200 transition-colors duration-300 flex items-center justify-center">
                       <svg className="w-4 h-4 text-red-600 group-hover:rotate-180 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -423,11 +433,13 @@ export default function ContactPage() {
                     </div>
                   </div>
                 </div>
-                <p className="text-gray-500 font-['Suisse_Intl',sans-serif] group-hover:text-gray-700 transition-colors duration-300">
-                  We partner with leading banks and financial institutions to offer competitive home loan options, 
-                  including special rates for luxury properties. Our team provides end-to-end assistance with 
-                  loan applications, documentation, and approval processes.
-                </p>
+                <div className="overflow-hidden transition-all duration-300 max-h-0 group-hover:max-h-40">
+                  <p className="text-gray-500 font-['Suisse_Intl',sans-serif] group-hover:text-gray-700 transition-colors duration-300 pt-3">
+                    We partner with leading banks and financial institutions to offer competitive home loan options, 
+                    including special rates for luxury properties. Our team provides end-to-end assistance with 
+                    loan applications, documentation, and approval processes.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
