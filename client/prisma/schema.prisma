@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -15,97 +9,84 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// User table for storing user information
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  phone     String   @unique
-  password  String
-  firstName String?
-  lastName  String?
-  title     String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  // Relations
+  id                   String                @id @default(cuid())
+  email                String                @unique
+  phone                String                @unique
+  password             String
+  firstName            String?
+  lastName             String?
+  title                String?
+  createdAt            DateTime              @default(now())
+  updatedAt            DateTime              @updatedAt
+  careerApplications   CareerApplication[]
+  contactRequests      ContactRequest[]
   propertyViewRequests PropertyViewRequest[]
-  contactRequests     ContactRequest[]
-  careerApplications  CareerApplication[]
 
   @@map("users")
 }
 
-// Admin user table
 model Admin {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  phone     String   @unique
-  password  String
-  firstName String?
-  lastName  String?
-  role      String   @default("admin") // admin, super_admin
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  // Relations
-  properties Property[]
+  id         String     @id @default(cuid())
+  email      String     @unique
+  phone      String     @unique
+  password   String
+  firstName  String?
+  lastName   String?
+  role       String     @default("admin")
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
   blogPosts  BlogPost[]
+  properties Property[]
 
   @@map("admins")
 }
 
-// Property table
 model Property {
-  id          String   @id @default(cuid())
-  title       String
-  description String?
-  price       Float?
-  location    String?
-  latitude    Float?   // For future map integration
-  longitude   Float?   // For future map integration
-  propertyType String? // house, flat, farm, etc.
-  bedrooms    Int?
-  bathrooms   Int?
-  area        Float?   // in sq ft
-  images      String[] // Array of image URLs
-  isActive    Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  
-  // Relations
+  id                   String                @id @default(cuid())
+  title                String
+  description          String?
+  price                Float?
+  location             String?
+  latitude             Float?
+  longitude            Float?
+  propertyType         String?
+  bedrooms             Int?
+  bathrooms            Int?
+  area                 Float?
+  images               String[]
+  isActive             Boolean               @default(true)
+  createdAt            DateTime              @default(now())
+  updatedAt            DateTime              @updatedAt
   adminId              String?
-  admin                Admin?               @relation(fields: [adminId], references: [id])
+  admin                Admin?                @relation(fields: [adminId], references: [id])
   propertyViewRequests PropertyViewRequest[]
 
   @@map("properties")
 }
 
-// Property view request table
 model PropertyViewRequest {
-  id            String   @id @default(cuid())
-  propertyId    String
-  userId        String?
-  firstName     String
-  lastName      String
-  email         String
-  phone         String
-  title         String?
-  preferredDate String?
-  preferredTime String?
+  id             String   @id @default(cuid())
+  propertyId     String
+  userId         String?
+  firstName      String
+  lastName       String
+  email          String
+  phone          String
+  title          String?
+  preferredDate  String?
+  preferredTime  String?
   additionalInfo String?
-  heardFrom     String?
-  status        String   @default("pending") // pending, confirmed, cancelled
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-
-  // Relations
-  property Property @relation(fields: [propertyId], references: [id])
-  user     User?   @relation(fields: [userId], references: [id])
+  heardFrom      String?
+  status         String   @default("pending")
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  property       Property @relation(fields: [propertyId], references: [id])
+  user           User?    @relation(fields: [userId], references: [id])
 
   @@map("property_view_requests")
 }
 
-// Contact request table
 model ContactRequest {
   id        String   @id @default(cuid())
   userId    String?
@@ -113,54 +94,48 @@ model ContactRequest {
   email     String
   phone     String
   message   String
-  status    String   @default("pending") // pending, responded, closed
+  status    String   @default("pending")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  // Relations
-  user User? @relation(fields: [userId], references: [id])
+  user      User?    @relation(fields: [userId], references: [id])
 
   @@map("contact_requests")
 }
 
-// Career application table
 model CareerApplication {
-  id          String   @id @default(cuid())
-  userId      String?
-  firstName   String
-  lastName    String
-  email       String
-  phone       String
-  position    String
-  experience  String
-  message     String
-  resume      String?  // File path or URL
-  status      String   @default("pending") // pending, reviewed, shortlisted, rejected, hired
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  // Relations
-  user User? @relation(fields: [userId], references: [id])
+  id         String   @id @default(cuid())
+  userId     String?
+  firstName  String
+  lastName   String
+  email      String
+  phone      String
+  position   String
+  experience String
+  message    String
+  resume     String?
+  status     String   @default("pending")
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  user       User?    @relation(fields: [userId], references: [id])
 
   @@map("career_applications")
 }
 
-// Blog posts table
 model BlogPost {
-  id          String   @id @default(cuid())
-  title       String
-  slug        String   @unique
-  excerpt     String?
-  content     String
+  id            String    @id @default(cuid())
+  title         String
+  slug          String    @unique
+  excerpt       String?
+  content       String
   featuredImage String?
-  authorId    String?
-  author      Admin?   @relation(fields: [authorId], references: [id])
-  category    String?  // real-estate, market-updates, tips, news
-  tags        String[] // Array of tags
-  isPublished Boolean  @default(false)
-  publishedAt DateTime?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  authorId      String?
+  category      String?
+  tags          String[]
+  isPublished   Boolean   @default(false)
+  publishedAt   DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  author        Admin?    @relation(fields: [authorId], references: [id])
 
   @@map("blog_posts")
 }
