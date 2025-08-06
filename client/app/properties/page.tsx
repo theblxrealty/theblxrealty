@@ -9,7 +9,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import PropertyFilters from "@/components/property-filters"
 import PropertyCard from "@/components/property-card"
 import PropertyTypesSection from "@/components/property-types-section"
-import PropertyMap from "@/components/property-map"
 import PropertySearch from "@/components/property-search"
 
 // Property type display names mapping
@@ -91,22 +90,7 @@ function PropertiesContent() {
     ? `Discover premium ${typeDisplayNames[selectedType].toLowerCase()} for sale across Bangalore's most prestigious locations`
     : "Discover your perfect luxury home from our exclusive collection of premium properties across Bangalore's most prestigious locations"
 
-  // Memoize the mapped properties for the map component to prevent infinite re-renders
-  const mappedProperties = useMemo(() => {
-    return properties.map((property: any) => ({
-      id: property.id.toString(),
-      title: property.title,
-      address: property.location,
-      price: property.price ? `₹${(property.price / 10000000).toFixed(1)} Cr` : "Price on Application",
-      type: property.propertyType === "luxury-villas" ? "Residential" : 
-            property.propertyType === "commercial" ? "Commercial" : "Residential",
-      coordinates: { lat: property.latitude || 12.9716, lng: property.longitude || 77.5946 }
-    }))
-  }, [properties])
 
-  // Memoize map configuration to prevent object recreation
-  const mapCenter = useMemo(() => ({ lat: 12.9716, lng: 77.5946 }), [])
-  const mapZoom = useMemo(() => 11, [])
 
   return (
     <div className="flex flex-col min-h-screen pt-16">
@@ -173,148 +157,133 @@ function PropertiesContent() {
       {/* Property Types Section */}
       <PropertyTypesSection />
 
-      {/* Main Content - Properties Grid and Map */}
+      {/* Main Content - Properties Grid */}
       <section className="flex-1 bg-gray-50" data-properties-section>
-        <div className="flex h-full">
-          {/* Left Section - Properties Grid */}
-          <div className="flex-1 p-6">
-            <div className="flex justify-between items-center mb-6">
-              <div>
-                <h2 className="text-2xl md:text-3xl font-bold text-black" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>
-                  {selectedType ? typeDisplayNames[selectedType] : "Available Properties"}
-                </h2>
-                <p className="text-gray-500 mt-2 font-['Suisse_Intl',sans-serif]">
-                  {pagination.total} properties found{selectedType ? ` in ${typeDisplayNames[selectedType].toLowerCase()}` : ""}
-                </p>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="text-gray-500 font-['Suisse_Intl',sans-serif]">Sort by:</span>
-                <Select defaultValue="newest">
-                  <SelectTrigger className="w-[180px] border-gray-300 focus:border-red-500">
-                    <SelectValue placeholder="Sort by" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="newest">Newest</SelectItem>
-                    <SelectItem value="size">Size</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="flex justify-between items-center mb-6">
+            <div>
+              <h2 className="text-2xl md:text-3xl font-bold text-black" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>
+                {selectedType ? typeDisplayNames[selectedType] : "Available Properties"}
+              </h2>
+              <p className="text-gray-500 mt-2 font-['Suisse_Intl',sans-serif]">
+                {pagination.total} properties found{selectedType ? ` in ${typeDisplayNames[selectedType].toLowerCase()}` : ""}
+              </p>
             </div>
+            <div className="flex items-center gap-2">
+              <span className="text-gray-500 font-['Suisse_Intl',sans-serif]">Sort by:</span>
+              <Select defaultValue="newest">
+                <SelectTrigger className="w-[180px] border-gray-300 focus:border-red-500">
+                  <SelectValue placeholder="Sort by" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="newest">Newest</SelectItem>
+                  <SelectItem value="size">Size</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
 
-            {loading ? (
-              <div className="text-center py-16">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-500 mx-auto mb-4"></div>
-                <p className="text-slate-500">Loading properties...</p>
-              </div>
-            ) : properties.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {properties.map((property: any) => (
-                  <div key={property.id} className="animate-fade-in">
-                    <PropertyCard property={{
-                      id: property.id,
-                      title: property.title,
-                      location: property.location,
-                      image: property.images?.[0] || "/placeholder.svg?height=600&width=800",
-                      beds: property.bedrooms,
-                      baths: property.bathrooms,
-                      sqft: property.area,
-                      amenities: ["Security", "Parking", "Power Backup"],
-                      isNew: true,
-                      featured: true,
-                      type: property.propertyType,
-                      rating: 4.8,
-                      development: true,
-                      price: property.price ? `₹${(property.price / 10000000).toFixed(1)} Cr` : "Price on Application"
-                    }} />
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="text-center py-16">
-                <h3 className="text-xl font-semibold text-slate-700 mb-2">No properties found</h3>
-                <p className="text-slate-500 mb-4">
-                  {selectedType 
-                    ? `No ${typeDisplayNames[selectedType].toLowerCase()} are currently available.`
-                    : "No properties match your current filters."
-                  }
-                </p>
-                <Button variant="outline" onClick={() => router.push('/properties')}>
-                  View All Properties
-                </Button>
-              </div>
-            )}
-
-            {/* Pagination */}
-            {pagination.totalPages > 1 && (
-              <div className="mt-8 flex justify-center">
-                <div className="flex items-center gap-2">
-                  {/* Previous button */}
-                  {pagination.page > 1 && (
-                    <Button 
-                      variant="outline" 
-                      size="icon" 
-                      className="h-8 w-8 bg-white border-slate-300 hover:bg-slate-50"
-                      onClick={() => {
-                        const params = new URLSearchParams(searchParams.toString())
-                        params.set('page', (pagination.page - 1).toString())
-                        router.push(`/properties?${params.toString()}`, { scroll: false })
-                      }}
-                    >
-                      ←
-                    </Button>
-                  )}
-                  
-                  {/* Page numbers */}
-                  {Array.from({ length: Math.min(5, pagination.totalPages) }, (_, i) => {
-                    const pageNum = i + 1
-                    return (
-                      <Button 
-                        key={pageNum}
-                        variant={pagination.page === pageNum ? "default" : "outline"}
-                        size="icon" 
-                        className={`h-8 w-8 ${pagination.page === pageNum ? 'bg-red-500 text-white' : 'bg-white border-slate-300 hover:bg-slate-50'}`}
-                        onClick={() => {
-                          const params = new URLSearchParams(searchParams.toString())
-                          params.set('page', pageNum.toString())
-                          router.push(`/properties?${params.toString()}`, { scroll: false })
-                        }}
-                      >
-                        {pageNum}
-                      </Button>
-                    )
-                  })}
-                  
-                  {/* Next button */}
-                  {pagination.page < pagination.totalPages && (
-                    <Button 
-                      variant="outline" 
-                      size="icon" 
-                      className="h-8 w-8 bg-white border-slate-300 hover:bg-slate-50"
-                      onClick={() => {
-                        const params = new URLSearchParams(searchParams.toString())
-                        params.set('page', (pagination.page + 1).toString())
-                        router.push(`/properties?${params.toString()}`, { scroll: false })
-                      }}
-                    >
-                      →
-                    </Button>
-                  )}
+          {loading ? (
+            <div className="text-center py-16">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-500 mx-auto mb-4"></div>
+              <p className="text-slate-500">Loading properties...</p>
+            </div>
+          ) : properties.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {properties.map((property: any) => (
+                <div key={property.id} className="animate-fade-in">
+                  <PropertyCard property={{
+                    id: property.id,
+                    title: property.title,
+                    location: property.location,
+                    image: property.images?.[0] || "/placeholder.svg?height=600&width=800",
+                    beds: property.bedrooms,
+                    baths: property.bathrooms,
+                    sqft: property.area,
+                    amenities: ["Security", "Parking", "Power Backup"],
+                    isNew: true,
+                    featured: true,
+                    type: property.propertyType,
+                    rating: 4.8,
+                    development: true,
+                    price: property.price ? `₹${(property.price / 10000000).toFixed(1)} Cr` : "Price on Application"
+                  }} />
                 </div>
-              </div>
-            )}
-          </div>
-
-          {/* Right Section - Map */}
-          <div className="w-1/3 bg-white border-l border-gray-200">
-            <div className="h-full bg-gray-100 overflow-hidden">
-              <PropertyMap 
-                properties={mappedProperties}
-                center={mapCenter}
-                zoom={mapZoom}
-                height="100%"
-              />
+              ))}
             </div>
-          </div>
+          ) : (
+            <div className="text-center py-16">
+              <h3 className="text-xl font-semibold text-slate-700 mb-2">No properties found</h3>
+              <p className="text-slate-500 mb-4">
+                {selectedType 
+                  ? `No ${typeDisplayNames[selectedType].toLowerCase()} are currently available.`
+                  : "No properties match your current filters."
+                }
+              </p>
+              <Button variant="outline" onClick={() => router.push('/properties')}>
+                View All Properties
+              </Button>
+            </div>
+          )}
+
+          {/* Pagination */}
+          {pagination.totalPages > 1 && (
+            <div className="mt-8 flex justify-center">
+              <div className="flex items-center gap-2">
+                {/* Previous button */}
+                {pagination.page > 1 && (
+                  <Button 
+                    variant="outline" 
+                    size="icon" 
+                    className="h-8 w-8 bg-white border-slate-300 hover:bg-slate-50"
+                    onClick={() => {
+                      const params = new URLSearchParams(searchParams.toString())
+                      params.set('page', (pagination.page - 1).toString())
+                      router.push(`/properties?${params.toString()}`, { scroll: false })
+                    }}
+                  >
+                    ←
+                  </Button>
+                )}
+                
+                {/* Page numbers */}
+                {Array.from({ length: Math.min(5, pagination.totalPages) }, (_, i) => {
+                  const pageNum = i + 1
+                  return (
+                    <Button 
+                      key={pageNum}
+                      variant={pagination.page === pageNum ? "default" : "outline"}
+                      size="icon" 
+                      className={`h-8 w-8 ${pagination.page === pageNum ? 'bg-red-500 text-white' : 'bg-white border-slate-300 hover:bg-slate-50'}`}
+                      onClick={() => {
+                        const params = new URLSearchParams(searchParams.toString())
+                        params.set('page', pageNum.toString())
+                        router.push(`/properties?${params.toString()}`, { scroll: false })
+                      }}
+                    >
+                      {pageNum}
+                    </Button>
+                  )
+                })}
+                
+                {/* Next button */}
+                {pagination.page < pagination.totalPages && (
+                  <Button 
+                    variant="outline" 
+                    size="icon" 
+                    className="h-8 w-8 bg-white border-slate-300 hover:bg-slate-50"
+                    onClick={() => {
+                      const params = new URLSearchParams(searchParams.toString())
+                      params.set('page', (pagination.page + 1).toString())
+                      router.push(`/properties?${params.toString()}`, { scroll: false })
+                    }}
+                  >
+                    →
+                  </Button>
+                )}
+              </div>
+            </div>
+          )}
         </div>
       </section>
 
