@@ -1,16 +1,16 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowLeft, Heart, Share2, MapPin, Phone, ChevronDown } from "lucide-react"
+import { ArrowLeft, Heart, Share2, MapPin, Phone, ChevronDown, X, ChevronLeft, ChevronRight } from "lucide-react"
 import PropertyContactForm from "@/components/property-contact-form"
 import PropertyMap from "@/components/property-map"
 import SimilarProperties from "@/components/similar-properties"
 
 // Property type definition
 interface Property {
-  id: number
+  id: string
   title: string
   description: string
   longDescription: string
@@ -27,6 +27,7 @@ interface Property {
   lotSize: string
   ecoFeatures: string[]
   amenities: string[]
+  type: string
   isNew: boolean
   featured: boolean
   agent: {
@@ -44,6 +45,8 @@ interface PropertyDetailPageClientProps {
 export default function PropertyDetailPageClient({ property }: PropertyDetailPageClientProps) {
   const [isFormOpen, setIsFormOpen] = useState(false)
   const [showFullDescription, setShowFullDescription] = useState(false)
+  const [isPhotoModalOpen, setIsPhotoModalOpen] = useState(false)
+  const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0)
 
   const handleOpenForm = () => {
     setIsFormOpen(true)
@@ -56,6 +59,57 @@ export default function PropertyDetailPageClient({ property }: PropertyDetailPag
   const toggleDescription = () => {
     setShowFullDescription(!showFullDescription)
   }
+
+  const openPhotoModal = () => {
+    setIsPhotoModalOpen(true)
+    setCurrentPhotoIndex(0)
+  }
+
+  const closePhotoModal = () => {
+    setIsPhotoModalOpen(false)
+  }
+
+  const goToPreviousPhoto = () => {
+    setCurrentPhotoIndex((prev) => 
+      prev === 0 ? property.images.length - 1 : prev - 1
+    )
+  }
+
+  const goToNextPhoto = () => {
+    setCurrentPhotoIndex((prev) => 
+      prev === property.images.length - 1 ? 0 : prev + 1
+    )
+  }
+
+  const goToPhoto = (index: number) => {
+    setCurrentPhotoIndex(index)
+  }
+
+  // Keyboard navigation for photo modal
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (!isPhotoModalOpen) return
+      
+      switch (event.key) {
+        case 'Escape':
+          closePhotoModal()
+          break
+        case 'ArrowLeft':
+          goToPreviousPhoto()
+          break
+        case 'ArrowRight':
+          goToNextPhoto()
+          break
+      }
+    }
+
+    document.addEventListener('keydown', handleKeyDown)
+    return () => document.removeEventListener('keydown', handleKeyDown)
+  }, [isPhotoModalOpen])
+
+  // Get available images (filter out empty strings and ensure we have at least placeholder)
+  const availableImages = property.images.filter(img => img && img.trim() !== "")
+  const displayImages = availableImages.length > 0 ? availableImages : ["/placeholder.svg"]
 
   return (
     <div className="flex flex-col min-h-screen pt-16 bg-white">
@@ -73,28 +127,46 @@ export default function PropertyDetailPageClient({ property }: PropertyDetailPag
           {/* Left side - Images */}
           <div className="lg:col-span-2">
             {/* Main Image */}
-            <div className="relative h-[500px] mb-4 rounded-lg overflow-hidden">
+            <div className="relative h-[500px] mb-4 rounded-lg overflow-hidden group shadow-lg">
               <Image
-                src={property.images[0] || "/placeholder.svg"}
+                src={displayImages[0]}
                 alt={property.title}
                 fill
-                className="object-cover"
+                className="object-cover group-hover:scale-105 transition-transform duration-500"
+                priority
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
+              <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300" />
             </div>
             
-            {/* Thumbnail Images */}
-            <div className="grid grid-cols-4 gap-4">
-              {property.images.slice(1, 5).map((image, index) => (
-                <div key={index} className="relative h-36 rounded-lg overflow-hidden">
-                  <Image
-                    src={image}
-                    alt={`${property.title} - Image ${index + 2}`}
-                    fill
-                    className="object-cover hover:opacity-80 cursor-pointer transition-opacity"
-                  />
-                </div>
-              ))}
-            </div>
+            {/* Thumbnail Images Row */}
+            {displayImages.length > 1 && (
+              <div className="grid grid-cols-2 gap-4 mb-4">
+                {displayImages.slice(1, 3).map((image, index) => (
+                  <div key={index} className="relative h-48 rounded-lg overflow-hidden group shadow-md">
+                    <Image
+                      src={image}
+                      alt={`${property.title} - Image ${index + 2}`}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-300"
+                      sizes="(max-width: 768px) 50vw, 25vw"
+                    />
+                    <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300" />
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Show More Photos Button */}
+            {displayImages.length > 3 && (
+              <button
+                onClick={openPhotoModal}
+                className="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 py-3 px-4 rounded-lg font-['Suisse_Intl',sans-serif] font-medium transition-all duration-200 flex items-center justify-center gap-2 hover:bg-gray-300 hover:shadow-md active:scale-95"
+              >
+                <span>Show all {displayImages.length} photos</span>
+                <span className="text-sm text-gray-500">({displayImages.length - 3} more)</span>
+              </button>
+            )}
           </div>
 
           {/* Right side - Property Details */}
@@ -344,7 +416,11 @@ export default function PropertyDetailPageClient({ property }: PropertyDetailPag
       <section className="py-12 bg-gray-50">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl md:text-3xl font-bold mb-8 text-black" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>Similar Properties</h2>
-          <SimilarProperties currentPropertyId={property.id} />
+          <SimilarProperties 
+            currentPropertyId={property.id} 
+            currentPropertyType={property.type}
+            currentPropertyLocation={property.location}
+          />
         </div>
       </section>
 
@@ -354,6 +430,94 @@ export default function PropertyDetailPageClient({ property }: PropertyDetailPag
         isOpen={isFormOpen}
         onClose={handleCloseForm}
       />
+
+      {/* Photo Modal */}
+      {isPhotoModalOpen && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-2 sm:p-4"
+          onClick={closePhotoModal}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="photo-modal-title"
+        >
+          <div 
+            className="relative w-full max-w-6xl max-h-full bg-white rounded-lg overflow-hidden shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Modal Header */}
+            <div className="absolute top-4 left-4 z-10 text-white">
+              <div id="photo-modal-title" className="sr-only">
+                {property.title} - Photo Gallery
+              </div>
+              <div className="text-sm font-medium font-['Suisse_Intl',sans-serif]">
+                {currentPhotoIndex + 1} of {displayImages.length}
+              </div>
+            </div>
+            
+            {/* Close Button */}
+            <button 
+              onClick={closePhotoModal} 
+              className="absolute top-4 right-4 text-white z-10 hover:bg-white hover:bg-opacity-20 rounded-full p-2 transition-colors"
+              aria-label="Close photo gallery"
+            >
+              <X className="h-6 w-6" />
+            </button>
+            
+            {/* Navigation Buttons */}
+            <button 
+              onClick={goToPreviousPhoto} 
+              className="absolute left-4 top-1/2 -translate-y-1/2 text-white z-10 hover:bg-white hover:bg-opacity-20 rounded-full p-2 transition-colors"
+              aria-label="Previous photo"
+            >
+              <ChevronLeft className="h-8 w-8" />
+            </button>
+            <button 
+              onClick={goToNextPhoto} 
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-white z-10 hover:bg-white hover:bg-opacity-20 rounded-full p-2 transition-colors"
+              aria-label="Next photo"
+            >
+              <ChevronRight className="h-8 w-8" />
+            </button>
+            
+            {/* Main Image */}
+            <div className="relative w-full h-[60vh] sm:h-[80vh] bg-black">
+              <Image
+                src={displayImages[currentPhotoIndex]}
+                alt={`${property.title} - Photo ${currentPhotoIndex + 1}`}
+                fill
+                className="object-contain"
+                priority
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 60vw"
+              />
+            </div>
+            
+            {/* Thumbnail Strip */}
+            <div className="bg-gray-100 p-2 sm:p-4">
+              <div className="flex gap-2 overflow-x-auto pb-2">
+                {displayImages.map((image, index) => (
+                  <button
+                    key={index}
+                    onClick={() => goToPhoto(index)}
+                    className={`relative w-16 h-16 sm:w-20 sm:h-20 rounded-lg overflow-hidden flex-shrink-0 border-2 transition-all ${
+                      index === currentPhotoIndex 
+                        ? 'border-red-500' 
+                        : 'border-transparent hover:border-gray-300'
+                    }`}
+                  >
+                    <Image
+                      src={image}
+                      alt={`${property.title} - Thumbnail ${index + 1}`}
+                      fill
+                      className="object-cover"
+                      sizes="80px"
+                    />
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 } 
