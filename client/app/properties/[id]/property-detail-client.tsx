@@ -96,7 +96,6 @@ export default function PropertyDetailPageClient({ property }: PropertyDetailPag
   const closeShareModal = () => {
     setIsShareModalOpen(false)
   }
-
   // Keyboard navigation for photo modal
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -481,7 +480,6 @@ export default function PropertyDetailPageClient({ property }: PropertyDetailPag
         propertyTitle={property.title}
         propertyUrl={`${window.location.origin}/properties/${property.id}`}
       />
-
       {/* Photo Modal */}
       {isPhotoModalOpen && (
         <div 
