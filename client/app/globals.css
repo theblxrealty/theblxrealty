@@ -59,6 +59,16 @@
 }
 
 @layer components {
+  /* Font classes */
+  .font-tiempos {
+    font-family: 'Tiempos Headline', serif;
+    font-weight: 400;
+  }
+  
+  .font-suisse {
+    font-family: 'Suisse Intl', sans-serif;
+  }
+  
   /* Animation classes */
   .animate-fade-in {
     animation: fadeIn 0.8s ease-out forwards;

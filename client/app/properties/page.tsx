@@ -38,7 +38,7 @@ function PropertiesContent() {
   const [properties, setProperties] = useState<any[]>([])
   const [pagination, setPagination] = useState({
     page: 1,
-    limit: 6,
+    limit: 9,
     total: 0,
     totalPages: 0
   })
@@ -54,7 +54,7 @@ function PropertiesContent() {
         if (selectedType && selectedType !== 'any') params.append('type', selectedType)
         if (bedroomsFilter && bedroomsFilter !== 'any') params.append('bedrooms', bedroomsFilter)
         params.append('page', currentPage.toString())
-        params.append('limit', '6')
+        params.append('limit', '9')
 
         const response = await fetch(`/api/properties?${params.toString()}`)
         const data = await response.json()
@@ -189,7 +189,7 @@ function PropertiesContent() {
               <p className="text-slate-500">Loading properties...</p>
             </div>
           ) : properties.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {properties.map((property: any) => (
                 <div key={property.id} className="animate-fade-in">
                   <PropertyCard property={{
