@@ -8,7 +8,7 @@ import { Bed, Bath, Maximize, MapPin, ChevronLeft, ChevronRight } from "lucide-r
 import { Badge } from "@/components/ui/badge"
 
 interface Property {
-  id: number
+  id: string
   title: string
   location: string
   image: string
