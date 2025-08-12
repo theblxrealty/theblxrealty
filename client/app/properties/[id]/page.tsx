@@ -5,15 +5,28 @@ import PropertyDetailPageClient from "./property-detail-client"
 export default async function PropertyDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
   
+  console.log('Fetching property with ID:', id)
+  
   try {
+    console.log('Executing Prisma query for ID:', id)
+    
     const property = await prisma.property.findUnique({
       where: { id }
     })
 
+    console.log('Property found:', property ? 'Yes' : 'No')
+    if (property) {
+      console.log('Property title:', property.title)
+      console.log('Property images count:', property.images?.length || 0)
+    }
+    
     if (!property) {
+      console.log('Property not found, calling notFound()')
       notFound()
     }
 
+    console.log('Starting property transformation...')
+    
     // Transform the database property to match the expected format
     const transformedProperty = {
       id: property.id,
@@ -27,7 +40,7 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
       coordinates: property.latitude && property.longitude 
         ? { lat: property.latitude, lng: property.longitude }
         : { lat: 12.9716, lng: 77.5946 },
-      images: property.images.length > 0 ? property.images : ["/placeholder.svg?height=600&width=800"],
+      images: property.images && property.images.length > 0 ? property.images : ["/placeholder.svg?height=600&width=800"],
       beds: property.bedrooms || 0,
       baths: property.bathrooms || 0,
       sqft: property.area || 0,
@@ -50,6 +63,7 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
         "Central Air Conditioning",
         "Fireplace",
       ],
+      type: property.propertyType || "residential",
       isNew: true,
       featured: true,
       agent: {
@@ -60,6 +74,8 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
       },
     }
 
+    console.log('Property transformation completed, returning component')
+    
     return (
       <PropertyDetailPageClient property={transformedProperty} />
     )
