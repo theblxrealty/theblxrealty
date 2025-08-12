@@ -8,6 +8,7 @@ export async function GET(request: NextRequest) {
     const search = searchParams.get('search')
     const type = searchParams.get('type')
     const bedrooms = searchParams.get('bedrooms')
+    const exclude = searchParams.get('exclude')
     const limit = parseInt(searchParams.get('limit') || '10')
     const page = parseInt(searchParams.get('page') || '1')
     const skip = (page - 1) * limit
@@ -56,6 +57,13 @@ export async function GET(request: NextRequest) {
     if (bedrooms && bedrooms !== 'any') {
       whereClause.bedrooms = {
         gte: parseInt(bedrooms)
+      }
+    }
+
+    // Add exclude filter
+    if (exclude) {
+      whereClause.NOT = {
+        id: exclude
       }
     }
 
