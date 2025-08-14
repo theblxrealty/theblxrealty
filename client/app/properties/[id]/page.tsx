@@ -41,8 +41,8 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
         ? { lat: property.latitude, lng: property.longitude }
         : { lat: 12.9716, lng: 77.5946 },
       images: property.images && property.images.length > 0 ? property.images : ["/placeholder.svg?height=600&width=800"],
-      beds: property.bedrooms || 0,
-      baths: property.bathrooms || 0,
+      beds: property.bedrooms || undefined, // Only set if bedrooms exist
+      baths: property.bathrooms || undefined, // Only set if bathrooms exist
       sqft: property.area || 0,
       yearBuilt: 2024,
       lotSize: "0.25 acres",
@@ -75,6 +75,8 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
     }
 
     console.log('Property transformation completed, returning component')
+    console.log('Property type being passed:', transformedProperty.type)
+    console.log('Property location being passed:', transformedProperty.location)
     
     return (
       <PropertyDetailPageClient property={transformedProperty} />
