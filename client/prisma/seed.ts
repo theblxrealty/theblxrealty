@@ -86,8 +86,8 @@ async function main() {
       latitude: 12.9785,
       longitude: 77.6405,
       propertyType: "commercial",
-      bedrooms: 2,
-      bathrooms: 1,
+      bedrooms: null, // Commercial properties don't have bedrooms
+      bathrooms: 1, // Commercial properties have bathrooms
       area: 1500,
       images: ["/placeholder.svg?height=600&width=800"],
       isActive: true
@@ -123,15 +123,15 @@ async function main() {
       isActive: true
     },
     {
-      title: "Farm House in Whitefield",
-      description: "Spacious farm house with extensive land in Whitefield area.",
+      title: "Farm Land in Whitefield",
+      description: "Spacious agricultural land with development potential in Whitefield area.",
       price: 65000000, // 6.5 Cr
       location: "Whitefield, Bangalore",
       latitude: 12.9688,
       longitude: 77.7495,
-      propertyType: "farm-house",
-      bedrooms: 6,
-      bathrooms: 5,
+      propertyType: "farm-land",
+      bedrooms: null, // Farm lands don't have bedrooms
+      bathrooms: null, // Farm lands don't have bathrooms
       area: 5500,
       images: ["/placeholder.svg?height=600&width=800"],
       isActive: true
@@ -139,15 +139,15 @@ async function main() {
 
     // Sarjapur Road Properties
     {
-      title: "Farm House in Sarjapur Road",
-      description: "Beautiful farm house with extensive land and modern amenities.",
+      title: "Farm Land in Sarjapur Road",
+      description: "Beautiful agricultural land with development potential and modern access.",
       price: 48000000, // 4.8 Cr
       location: "Sarjapur Road, Bangalore",
       latitude: 12.8997,
       longitude: 77.6867,
-      propertyType: "farm-house",
-      bedrooms: 4,
-      bathrooms: 3,
+      propertyType: "farm-land",
+      bedrooms: null, // Farm lands don't have bedrooms
+      bathrooms: null, // Farm lands don't have bathrooms
       area: 3200,
       images: ["/placeholder.svg?height=600&width=800"],
       isActive: true
@@ -190,8 +190,8 @@ async function main() {
       latitude: 12.9716,
       longitude: 77.5946,
       propertyType: "commercial",
-      bedrooms: 2,
-      bathrooms: 1,
+      bedrooms: null, // Commercial properties don't have bedrooms
+      bathrooms: 2, // Commercial properties have bathrooms
       area: 1200,
       images: ["/placeholder.svg?height=600&width=800"],
       isActive: true
@@ -218,8 +218,8 @@ async function main() {
       latitude: 12.9713,
       longitude: 77.5943,
       propertyType: "commercial",
-      bedrooms: 3,
-      bathrooms: 2,
+      bedrooms: null, // Commercial properties don't have bedrooms
+      bathrooms: 1, // Commercial properties have bathrooms
       area: 2000,
       images: ["/placeholder.svg?height=600&width=800"],
       isActive: true
@@ -234,8 +234,8 @@ async function main() {
       latitude: 12.8458,
       longitude: 77.6655,
       propertyType: "residential",
-      bedrooms: 3,
-      bathrooms: 2,
+      bedrooms: null, // Plots don't have bedrooms
+      bathrooms: null, // Plots don't have bathrooms
       area: 1850,
       images: ["/placeholder.svg?height=600&width=800"],
       isActive: true
@@ -262,8 +262,8 @@ async function main() {
       latitude: 12.8455,
       longitude: 77.6652,
       propertyType: "commercial",
-      bedrooms: 2,
-      bathrooms: 1,
+      bedrooms: null, // Commercial properties don't have bedrooms
+      bathrooms: 1, // Commercial properties have bathrooms
       area: 1400,
       images: ["/placeholder.svg?height=600&width=800"],
       isActive: true
@@ -315,15 +315,15 @@ async function main() {
 
     // Bannerghatta Properties
     {
-      title: "Farm House in Bannerghatta",
-      description: "Spacious farm house with agricultural land and modern facilities.",
+      title: "Farm Land in Bannerghatta",
+      description: "Spacious agricultural land with development potential and modern access.",
       price: 35000000, // 3.5 Cr
       location: "Bannerghatta, Bangalore",
       latitude: 12.8000,
       longitude: 77.5800,
-      propertyType: "farm-house",
-      bedrooms: 3,
-      bathrooms: 2,
+      propertyType: "farm-land",
+      bedrooms: null, // Farm lands don't have bedrooms
+      bathrooms: null, // Farm lands don't have bathrooms
       area: 2500,
       images: ["/placeholder.svg?height=600&width=800"],
       isActive: true
@@ -350,8 +350,8 @@ async function main() {
       latitude: 12.7997,
       longitude: 77.5797,
       propertyType: "residential",
-      bedrooms: 3,
-      bathrooms: 2,
+      bedrooms: null, // Plots don't have bedrooms
+      bathrooms: null, // Plots don't have bathrooms
       area: 2000,
       images: ["/placeholder.svg?height=600&width=800"],
       isActive: true
@@ -387,15 +387,15 @@ async function main() {
       isActive: true
     },
     {
-      title: "Farm House in Bellandur",
-      description: "Spacious farm house with lake views in Bellandur.",
+      title: "Farm Land in Bellandur",
+      description: "Spacious agricultural land with lake views and development potential.",
       price: 55000000, // 5.5 Cr
       location: "Bellandur, Bangalore",
       latitude: 12.9347,
       longitude: 77.6777,
-      propertyType: "farm-house",
-      bedrooms: 5,
-      bathrooms: 4,
+      propertyType: "farm-land",
+      bedrooms: null, // Farm lands don't have bedrooms
+      bathrooms: null, // Farm lands don't have bathrooms
       area: 4000,
       images: ["/placeholder.svg?height=600&width=800"],
       isActive: true
