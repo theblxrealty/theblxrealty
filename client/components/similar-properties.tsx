@@ -47,20 +47,42 @@ export default function SimilarProperties({
       try {
         // Build query parameters to find similar properties
         const params = new URLSearchParams()
+        
+        // Use the correct property type for filtering
         if (currentPropertyType && currentPropertyType !== 'any') {
-          params.append('type', currentPropertyType)
+          // For residential properties, include both residential and apartments
+          if (currentPropertyType === 'residential') {
+            params.append('type', 'residential')
+          } else {
+            params.append('type', currentPropertyType)
+          }
         }
+        
+        // Add location-based search for better similarity
         if (currentPropertyLocation) {
-          params.append('search', currentPropertyLocation.split(',')[0]) // Get city/area name
+          // Extract city/area name from location (e.g., "Mumbai, Maharashtra" -> "Mumbai")
+          const cityName = currentPropertyLocation.split(',')[0].trim()
+          if (cityName) {
+            params.append('search', cityName)
+          }
         }
-        params.append('limit', '12') // Get more properties to choose from
+        
+        params.append('limit', '15') // Get more properties to choose from
         params.append('exclude', currentPropertyId) // Exclude current property
+
+        console.log('Fetching similar properties with params:', params.toString())
+        console.log('Current property type:', currentPropertyType)
+        console.log('Current property location:', currentPropertyLocation)
+        console.log('Current property ID:', currentPropertyId)
+        console.log('API URL:', `/api/properties?${params.toString()}`)
 
         const response = await fetch(`/api/properties?${params.toString()}`)
         const data = await response.json()
 
         console.log('Similar properties API response:', data)
-        console.log('Query params:', params.toString())
+        console.log('Response status:', response.status)
+        console.log('Response headers:', Object.fromEntries(response.headers.entries()))
+        console.log('Properties count in response:', data.properties?.length || 0)
 
         if (data.properties && Array.isArray(data.properties)) {
           // Transform the properties to match our interface
@@ -71,8 +93,8 @@ export default function SimilarProperties({
               title: property.title || "Property",
               location: property.location || "Location not specified",
               image: property.images?.[0] || "/placeholder.svg?height=600&width=800",
-              beds: property.bedrooms || 0,
-              baths: property.bathrooms || 0,
+              beds: property.bedrooms || undefined, // Only set if bedrooms exist
+              baths: property.bathrooms || undefined, // Only set if bathrooms exist
               sqft: property.area || 0,
               amenities: ["Security", "Parking", "Power Backup"], // Default amenities
               isNew: true,
@@ -82,9 +104,58 @@ export default function SimilarProperties({
               price: property.price ? `₹${(property.price / 10000000).toFixed(1)} Cr` : "Price on Application",
               development: true
             }))
-            .slice(0, 9) // Limit to 9 properties max
+            .slice(0, 12) // Limit to 12 properties max
 
-          setProperties(transformedProperties)
+          console.log('Transformed similar properties:', transformedProperties)
+          
+          // If we found similar properties, use them
+          if (transformedProperties.length > 0) {
+            setProperties(transformedProperties)
+          } else {
+            // Fallback: try to get any properties (excluding current one)
+            console.log('No similar properties found, trying fallback...')
+            const fallbackParams = new URLSearchParams()
+            fallbackParams.append('limit', '12')
+            fallbackParams.append('exclude', currentPropertyId)
+            
+            try {
+              const fallbackResponse = await fetch(`/api/properties?${fallbackParams.toString()}`)
+              const fallbackData = await fallbackResponse.json()
+              
+              if (fallbackData.properties && Array.isArray(fallbackData.properties)) {
+                const fallbackProperties = fallbackData.properties
+                  .filter((p: any) => p.id && p.id !== currentPropertyId)
+                  .map((property: any) => ({
+                    id: property.id,
+                    title: property.title || "Property",
+                    location: property.location || "Location not specified",
+                    image: property.images?.[0] || "/placeholder.svg?height=600&width=800",
+                    beds: property.bedrooms || undefined, // Only set if bedrooms exist
+                    baths: property.bathrooms || undefined, // Only set if bathrooms exist
+                    sqft: property.area || 0,
+                    amenities: ["Security", "Parking", "Power Backup"],
+                    isNew: true,
+                    featured: true,
+                    type: property.propertyType || "residential",
+                    rating: 4.8,
+                    price: property.price ? `₹${(property.price / 10000000).toFixed(1)} Cr` : "Price on Application",
+                    development: true
+                  }))
+                  .slice(0, 12)
+                
+                console.log('Fallback properties found:', fallbackProperties.length)
+                setProperties(fallbackProperties)
+              } else {
+                setProperties([])
+              }
+            } catch (fallbackError) {
+              console.error('Fallback fetch error:', fallbackError)
+              setProperties([])
+            }
+          }
+        } else {
+          console.log('No properties found in API response')
+          setProperties([])
         }
       } catch (error) {
         console.error('Error fetching similar properties:', error)
