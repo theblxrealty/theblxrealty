@@ -20,8 +20,8 @@ interface Property {
   propertyRef: string
   coordinates?: { lat: number; lng: number }
   images: string[]
-  beds: number
-  baths: number
+  beds?: number
+  baths?: number
   sqft: number
   yearBuilt: number
   lotSize: string
