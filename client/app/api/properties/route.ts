@@ -48,9 +48,88 @@ export async function GET(request: NextRequest) {
       ]
     }
 
-    // Add type filter
+    // Add type filter with improved logic for similar properties
     if (type && type !== 'any') {
-      whereClause.propertyType = type
+      // Normalize property types for better matching
+      const normalizedType = type.toLowerCase().trim()
+      
+      // Create type-based OR conditions - simplified approach
+      const typeConditions = []
+      
+      // Add the exact type match first
+      typeConditions.push({
+        propertyType: {
+          contains: normalizedType,
+          mode: 'insensitive'
+        }
+      })
+      
+      // Add related types based on the current type
+      if (normalizedType.includes('villa') || normalizedType.includes('luxury')) {
+        typeConditions.push({
+          propertyType: {
+            contains: 'luxury-villas',
+            mode: 'insensitive'
+          }
+        })
+      } else if (normalizedType.includes('apartment') || normalizedType.includes('flat')) {
+        typeConditions.push({
+          propertyType: {
+            contains: 'apartments',
+            mode: 'insensitive'
+          }
+        })
+      } else if (normalizedType.includes('house') || normalizedType.includes('residential')) {
+        typeConditions.push({
+          propertyType: {
+            contains: 'residential',
+            mode: 'insensitive'
+          }
+        })
+        typeConditions.push({
+          propertyType: {
+            contains: 'apartments',
+            mode: 'insensitive'
+          }
+        })
+      } else if (normalizedType.includes('farm')) {
+        typeConditions.push({
+          propertyType: {
+            contains: 'farm-land',
+            mode: 'insensitive'
+          }
+        })
+        typeConditions.push({
+          propertyType: {
+            contains: 'farm',
+            mode: 'insensitive'
+          }
+        })
+      } else if (normalizedType.includes('commercial')) {
+        typeConditions.push({
+          propertyType: {
+            contains: 'commercial',
+            mode: 'insensitive'
+          }
+        })
+      }
+      
+      // If we have search conditions, combine them with type conditions
+      if (whereClause.OR) {
+        // Create AND condition to combine search and type filters
+        whereClause.AND = [
+          {
+            OR: whereClause.OR // Search conditions
+          },
+          {
+            OR: typeConditions // Type conditions
+          }
+        ]
+        delete whereClause.OR // Remove the top-level OR
+      } else {
+        // No search conditions, just use type conditions
+        whereClause.OR = typeConditions
+      }
     }
 
     // Add bedrooms filter
@@ -80,9 +159,16 @@ export async function GET(request: NextRequest) {
             }
           }
         },
-        orderBy: {
-          createdAt: 'desc'
-        },
+        orderBy: [
+          // Prioritize exact type matches first
+          {
+            propertyType: 'asc'
+          },
+          // Then by creation date
+          {
+            createdAt: 'desc'
+          }
+        ],
         skip,
         take: limit
       }),
@@ -90,6 +176,11 @@ export async function GET(request: NextRequest) {
         where: whereClause
       })
     ])
+
+    console.log('Properties API - Query params:', { search, type, bedrooms, exclude, limit, page })
+    console.log('Properties API - Where clause:', JSON.stringify(whereClause, null, 2))
+    console.log('Properties API - Found properties:', properties.length)
+    console.log('Properties API - Property types found:', properties.map(p => p.propertyType))
 
     return NextResponse.json({
       properties,
