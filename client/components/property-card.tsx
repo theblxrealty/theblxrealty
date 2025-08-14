@@ -90,21 +90,24 @@ export default function PropertyCard({ property }: { property: Property }) {
         {/* Property Details Icons - At the bottom */}
         <div className="p-4 pt-2">
           <div className="flex items-center justify-between text-sm text-gray-600">
-            {property.beds !== undefined && (
+            {/* Only show beds if the property has bedrooms (residential properties) */}
+            {property.beds !== undefined && property.beds > 0 && (
               <div className="flex items-center">
                 <Bed className="h-4 w-4 mr-2 text-gray-500" />
                 <span>{property.beds} Bed</span>
               </div>
             )}
-            {property.baths && (
+            {/* Only show baths if the property has bathrooms */}
+            {property.baths !== undefined && property.baths > 0 && (
               <div className="flex items-center">
                 <Bath className="h-4 w-4 mr-2 text-gray-500" />
                 <span>{property.baths} Bath</span>
               </div>
             )}
+            {/* Always show square feet for all properties */}
             <div className="flex items-center">
               <Maximize className="h-4 w-4 mr-2 text-gray-500" />
-              <span>{property.sqft} SQ. FT</span>
+              <span>{property.sqft} sq ft</span>
             </div>
           </div>
         </div>
