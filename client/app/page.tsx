@@ -70,7 +70,7 @@ export default function HomePage() {
       </section>
 
       {/* Dream Properties Section */}
-      <section className="py-4 md:py-8increase  bg-white">
+      <section className="py-4 md:py-8 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div className="order-2 lg:order-1">
