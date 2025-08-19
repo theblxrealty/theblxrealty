@@ -324,7 +324,7 @@ export default function BlogPage({ searchParams }: BlogPageProps) {
       </section>
 
       {/* Newsletter */}
-      <section className="py-12 md:py-16 bg-gradient-to-br from-navy-900 via-navy-800 to-slate-900 text-white">
+      {/* <section className="py-12 md:py-16 bg-gradient-to-br from-navy-900 via-navy-800 to-slate-900 text-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-2xl md:text-3xl font-bold mb-4">Stay Updated</h2>
@@ -343,7 +343,7 @@ export default function BlogPage({ searchParams }: BlogPageProps) {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
     </div>
   )
 } 
