@@ -76,8 +76,10 @@ export default function BlogPage({ searchParams }: BlogPageProps) {
           setFeaturedPosts(data.posts.slice(0, 3))
           
           // Extract unique categories
-          const uniqueCategories = [...new Set(data.posts.map((post: BlogPost) => post.category).filter(Boolean))]
-          setCategories(uniqueCategories)
+          const uniqueCategories = data.posts
+            .map((post: BlogPost) => post.category)
+            .filter(Boolean) as string[]
+          setCategories([...new Set(uniqueCategories)])
         }
       } catch (error) {
         console.error('Error fetching blog posts:', error)
@@ -104,10 +106,10 @@ export default function BlogPage({ searchParams }: BlogPageProps) {
     setSelectedCategory(category)
     setPagination(prev => ({ ...prev, page: 1 }))
     
-    // Update URL
+    // Update URL without causing page refresh or scroll
     const params = new URLSearchParams()
     if (category !== 'all') params.set('category', category)
-    router.push(`/blog?${params.toString()}`)
+    router.replace(`/blog?${params.toString()}`, { scroll: false })
   }
 
   const handlePageChange = (page: number) => {
