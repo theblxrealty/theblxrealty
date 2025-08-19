@@ -77,100 +77,100 @@ export default function BlogCard({ post, priority = false }: BlogCardProps) {
   }
 
   return (
-    <Link href={`/blog/${post.slug}`}>
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        whileHover={{ y: -8 }}
-        transition={{ duration: 0 }}
-        viewport={{ once: true }}
-        className="bg-gray-50 transition-all duration-300 cursor-pointer flex flex-col"
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-      >
-        {/* Title and Category - ABOVE the image */}
-        <div className="p-4 pb-2">
-          <h3 className="text-2xl font-bold text-gray-900 mb-2 line-clamp-2 leading-tight" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>
-            {post.title}
-          </h3>
-          {post.category && (
-            <p className="text-sm text-amber-700 font-medium">
-              {post.category}
-            </p>
-          )}
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      whileHover={{ y: -8 }}
+      transition={{ duration: 0 }}
+      viewport={{ once: true }}
+      className="bg-gray-50 transition-all duration-300 flex flex-col"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {/* Title and Category - ABOVE the image */}
+      <div className="p-4 pb-2">
+        <h3 className="text-2xl font-bold text-gray-900 mb-2 line-clamp-2 leading-tight" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>
+          {post.title}
+        </h3>
+        {post.category && (
+          <p className="text-sm text-amber-700 font-medium">
+            {post.category}
+          </p>
+        )}
+      </div>
+
+      {/* Image Section - BELOW the title */}
+      <div className="relative h-64 flex-shrink-0 overflow-hidden">
+        <motion.div
+          animate={{
+            scale: isHovered ? 1.05 : 1,
+          }}
+          transition={{ duration: 0.4 }}
+          className="w-full h-full"
+        >
+          <Image 
+            src={post.featuredImage || "/placeholder.svg"} 
+            alt={post.title} 
+            fill 
+            priority={priority}
+            className="object-cover" 
+          />
+        </motion.div>
+
+        {/* Published Date Overlay - Top Right */}
+        <div className="absolute top-4 right-4 bg-white/95 rounded-full px-4 py-2">
+          <p className="text-xs text-gray-600 font-medium">PUBLISHED</p>
+          <p className="text-sm font-bold text-amber-700">
+            {formatDate(post.publishedAt)}
+          </p>
         </div>
 
-        {/* Image Section - BELOW the title */}
-        <div className="relative h-64 flex-shrink-0 overflow-hidden">
-          <motion.div
-            animate={{
-              scale: isHovered ? 1.05 : 1,
-            }}
-            transition={{ duration: 0.4 }}
-            className="w-full h-full"
-          >
-            <Image 
-              src={post.featuredImage || "/placeholder.svg"} 
-              alt={post.title} 
-              fill 
-              priority={priority}
-              className="object-cover" 
-            />
-          </motion.div>
-
-          {/* Published Date Overlay - Top Right */}
-          <div className="absolute top-4 right-4 bg-white/95 rounded-full px-4 py-2">
-            <p className="text-xs text-gray-600 font-medium">PUBLISHED</p>
-            <p className="text-sm font-bold text-amber-700">
-              {formatDate(post.publishedAt)}
-            </p>
-          </div>
-
-          {/* Image Navigation Arrows */}
-          <div className="absolute inset-0 flex items-center justify-between p-2 opacity-0 hover:opacity-100 transition-opacity">
-            <button className="w-8 h-8 bg-white/90 rounded-full flex items-center justify-center">
-              <ChevronLeft className="w-4 h-4 text-gray-700" />
-            </button>
-            <button className="w-8 h-8 bg-white/90 rounded-full flex items-center justify-center">
-              <ChevronRight className="w-4 h-4 text-gray-700" />
-            </button>
-          </div>
-
-          {/* Featured Badge */}
-          {post.publishedAt && (
-            <Badge className="absolute top-4 left-4 bg-red-500 text-white border-0 text-xs">
-              Published
-            </Badge>
-          )}
+        {/* Image Navigation Arrows */}
+        <div className="absolute inset-0 flex items-center justify-between p-2 opacity-0 hover:opacity-100 transition-opacity">
+          <button className="w-8 h-8 bg-white/90 rounded-full flex items-center justify-center">
+            <ChevronLeft className="w-4 h-4 text-gray-700" />
+          </button>
+          <button className="w-8 h-8 bg-white/90 rounded-full flex items-center justify-center">
+            <ChevronRight className="w-4 h-4 text-gray-700" />
+          </button>
         </div>
 
-        {/* Blog Details - At the bottom */}
-        <div className="p-4 pt-2">
-          <div className="flex items-center justify-between text-sm text-gray-600 mb-3">
-            <div className="flex items-center">
-              <Calendar className="h-4 w-4 mr-2 text-gray-500" />
-              <span>{formatDate(post.publishedAt)}</span>
-            </div>
-            <div className="flex items-center">
-              <User className="h-4 w-4 mr-2 text-gray-500" />
-              <span>{getAuthorName()}</span>
-            </div>
-          </div>
-          
-          {/* Excerpt */}
-          {post.excerpt && (
-            <p className="text-gray-600 text-sm line-clamp-2 mb-3">
-              {post.excerpt}
-            </p>
-          )}
+        {/* Featured Badge */}
+        {post.publishedAt && (
+          <Badge className="absolute top-4 left-4 bg-red-500 text-white border-0 text-xs">
+            Published
+          </Badge>
+        )}
+      </div>
 
-          {/* Read More Link */}
-          <div className="flex items-center text-amber-700 hover:text-amber-800 transition-colors">
+      {/* Blog Details - At the bottom */}
+      <div className="p-4 pt-2">
+        <div className="flex items-center justify-between text-sm text-gray-600 mb-3">
+          <div className="flex items-center">
+            <Calendar className="h-4 w-4 mr-2 text-gray-500" />
+            <span>{formatDate(post.publishedAt)}</span>
+          </div>
+          <div className="flex items-center">
+            <User className="h-4 w-4 mr-2 text-gray-500" />
+            <span>{getAuthorName()}</span>
+          </div>
+        </div>
+        
+        {/* Excerpt */}
+        {post.excerpt && (
+          <p className="text-gray-600 text-sm line-clamp-2 mb-3">
+            {post.excerpt}
+          </p>
+        )}
+
+        {/* Read More Link - Only clickable element */}
+        <Link href={`/blog/${post.slug}`}>
+          <div className="flex items-center text-amber-700 hover:text-amber-800 transition-colors cursor-pointer">
             <span className="text-sm font-medium">Read More</span>
             <ArrowRight className="ml-1 h-4 w-4" />
           </div>
-        </div>
-      </motion.div>
-    </Link>
+        </Link>
+      </div>
+    </motion.div>
   )
 } 

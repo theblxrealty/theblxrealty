@@ -7,7 +7,7 @@ import Link from "next/link"
 
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Calendar, User, ArrowRight, ArrowLeft, Search } from "lucide-react"
+import { Calendar, User, ArrowRight, ArrowLeft } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import BlogCard from "@/components/blog-card"
 
@@ -42,7 +42,6 @@ interface BlogPageProps {
 export default function BlogPage({ searchParams }: BlogPageProps) {
   const router = useRouter()
   const [selectedCategory, setSelectedCategory] = useState('all')
-  const [searchQuery, setSearchQuery] = useState('')
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([])
   const [featuredPosts, setFeaturedPosts] = useState<BlogPost[]>([])
   const [categories, setCategories] = useState<string[]>([])
@@ -60,7 +59,6 @@ export default function BlogPage({ searchParams }: BlogPageProps) {
       setLoading(true)
       try {
         const params = new URLSearchParams()
-        if (searchQuery) params.append('search', searchQuery)
         if (selectedCategory && selectedCategory !== 'all') params.append('category', selectedCategory)
         params.append('page', pagination.page.toString())
         params.append('limit', pagination.limit.toString())
@@ -89,7 +87,7 @@ export default function BlogPage({ searchParams }: BlogPageProps) {
     }
 
     fetchBlogPosts()
-  }, [searchQuery, selectedCategory, pagination.page])
+  }, [selectedCategory, pagination.page])
 
   useEffect(() => {
     const initializeFromSearchParams = async () => {
@@ -114,6 +112,16 @@ export default function BlogPage({ searchParams }: BlogPageProps) {
 
   const handlePageChange = (page: number) => {
     setPagination(prev => ({ ...prev, page }))
+  }
+
+  const handleQuickFilter = (filterType: string, value: string) => {
+    const params = new URLSearchParams()
+    if (filterType === 'category') {
+      params.set('category', value)
+    } else if (filterType === 'search') {
+      params.set('search', value)
+    }
+    router.push(`/blog?${params.toString()}`)
   }
 
   return (
@@ -153,36 +161,46 @@ export default function BlogPage({ searchParams }: BlogPageProps) {
                   Stay informed with Bangalore's luxury real estate trends, investment opportunities, and expert market analysis
                 </p>
 
-                {/* Search Bar */}
-                <form 
-                  className="max-w-4xl mx-auto mb-8 animate-slide-up-delay-2"
-                  onSubmit={(e) => {
-                    e.preventDefault()
-                    // Search is handled by the onChange of searchQuery
-                  }}
-                >
-                  <div className="relative">
-                    <div className="flex items-center bg-white rounded-2xl shadow-2xl overflow-hidden">
-                      <div className="flex-1 flex items-center px-6 py-4">
-                        <Search className="h-5 w-5 text-red-500 mr-3 flex-shrink-0" />
-                        <input
-                          type="text"
-                          placeholder="Search articles..."
-                          value={searchQuery}
-                          onChange={(e) => setSearchQuery(e.target.value)}
-                          className="flex-1 bg-transparent text-gray-800 placeholder-gray-500 outline-none text-lg"
-                        />
-                      </div>
-                      <button
-                        type="submit"
-                        className="bg-transparent hover:bg-gray-50 text-gray-800 px-8 py-4 transition-all duration-300 flex items-center gap-2"
-                      >
-                        <Search className="h-5 w-5" />
-                        <span className="font-medium">Search</span>
-                      </button>
-                    </div>
+                {/* Quick Filter Buttons */}
+                <div className="max-w-4xl mx-auto mb-8 animate-slide-up-delay-2">
+                  <div className="flex flex-wrap justify-center gap-3">
+                    <button
+                      type="button"
+                      onClick={() => handleQuickFilter('category', 'Buying Guide')}
+                      className="px-4 py-2 text-sm font-medium rounded-full border border-white/30 text-white hover:bg-white/10 transition-all duration-200"
+                    >
+                      Buying Guide
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleQuickFilter('category', 'Investment')}
+                      className="px-4 py-2 text-sm font-medium rounded-full border border-white/30 text-white hover:bg-white/10 transition-all duration-200"
+                    >
+                      Investment
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleQuickFilter('category', 'Legal')}
+                      className="px-4 py-2 text-sm font-medium rounded-full border border-white/30 text-white hover:bg-white/10 transition-all duration-200"
+                    >
+                      Legal
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleQuickFilter('search', 'bangalore')}
+                      className="px-4 py-2 text-sm font-medium rounded-full border border-white/30 text-white hover:bg-white/10 transition-all duration-200"
+                    >
+                      Bangalore
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleQuickFilter('search', 'luxury')}
+                      className="px-4 py-2 text-sm font-medium rounded-full border border-white/30 text-white hover:bg-white/10 transition-all duration-200"
+                    >
+                      Luxury
+                    </button>
                   </div>
-                </form>
+                </div>
               </div>
             </div>
           </div>
