@@ -79,6 +79,24 @@ export async function PATCH(
       }
     })
 
+    // If the post is being published, send newsletter emails
+    if (isPublished && publishedAt) {
+      try {
+        // Send newsletter emails asynchronously (don't wait for completion)
+        fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/newsletter/send`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ blogId: id }),
+        }).catch(error => {
+          console.error('Failed to send newsletter emails:', error)
+        })
+      } catch (error) {
+        console.error('Error triggering newsletter send:', error)
+      }
+    }
+
     return NextResponse.json({
       message: 'Blog post updated successfully',
       post

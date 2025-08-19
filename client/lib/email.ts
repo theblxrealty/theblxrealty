@@ -161,4 +161,82 @@ export const sendContactRequestEmail = async (data: ContactRequestEmail) => {
     console.error('Email sending failed:', error)
     return { success: false, error }
   }
+}
+
+export interface NewsletterEmail {
+  subscriberEmail: string
+  blogTitle: string
+  blogExcerpt: string
+  blogUrl: string
+  category: string
+  publishedDate: string
+}
+
+export const sendNewsletterEmail = async (data: NewsletterEmail) => {
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to: data.subscriberEmail,
+    subject: `New Blog Post: ${data.blogTitle}`,
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #f8f9fa; padding: 20px;">
+        <div style="background-color: white; border-radius: 10px; padding: 30px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+          <!-- Header -->
+          <div style="text-align: center; margin-bottom: 30px;">
+            <h1 style="color: #011337; margin: 0; font-size: 24px;">11Square Newsletter</h1>
+            <p style="color: #666; margin: 10px 0 0 0;">Latest Property Insights & Market Updates</p>
+          </div>
+          
+          <hr style="border: 1px solid #eee; margin: 20px 0;">
+          
+          <!-- Blog Post -->
+          <div style="margin-bottom: 30px;">
+            <h2 style="color: #333; margin: 0 0 15px 0; font-size: 20px;">${data.blogTitle}</h2>
+            <p style="color: #666; margin: 0 0 15px 0; line-height: 1.6;">${data.blogExcerpt}</p>
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+              <span style="background-color: #e74c3c; color: white; padding: 5px 12px; border-radius: 15px; font-size: 12px; font-weight: bold;">
+                ${data.category}
+              </span>
+              <span style="color: #999; font-size: 12px;">${data.publishedDate}</span>
+            </div>
+            
+            <a href="${data.blogUrl}" style="display: inline-block; background-color: #e74c3c; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-weight: bold; transition: background-color 0.3s;">
+              Read Full Article →
+            </a>
+          </div>
+          
+          <hr style="border: 1px solid #eee; margin: 20px 0;">
+          
+          <!-- Footer -->
+          <div style="text-align: center; color: #999; font-size: 12px;">
+            <p>You're receiving this email because you subscribed to our newsletter.</p>
+            <p>© ${new Date().getFullYear()} 11Square. All rights reserved.</p>
+            <p>Brigade Road, Bangalore, Karnataka 560001</p>
+          </div>
+        </div>
+      </div>
+    `,
+  }
+
+  try {
+    await transporter.sendMail(mailOptions)
+    return { success: true }
+  } catch (error) {
+    console.error('Newsletter email sending failed:', error)
+    return { success: false, error }
+  }
+}
+
+export const sendBulkNewsletterEmail = async (subscriberEmails: string[], blogData: Omit<NewsletterEmail, 'subscriberEmail'>) => {
+  const results = []
+  
+  for (const email of subscriberEmails) {
+    const result = await sendNewsletterEmail({
+      ...blogData,
+      subscriberEmail: email
+    })
+    results.push({ email, success: result.success })
+  }
+  
+  return results
 } 

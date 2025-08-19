@@ -115,6 +115,22 @@ async function main() {
     console.log(`Created blog post: ${blogPost.title} (${blogPost.category})`)
   }
 
+  // Create sample newsletter subscribers
+  const newsletterSubscribers = [
+    { email: "test1@example.com" },
+    { email: "test2@example.com" },
+    { email: "test3@example.com" },
+  ]
+
+  console.log('Creating newsletter subscribers...')
+  
+  for (const subscriberData of newsletterSubscribers) {
+    const subscriber = await prisma.newsletterSubscription.create({
+      data: subscriberData
+    })
+    console.log(`Created newsletter subscriber: ${subscriber.email}`)
+  }
+
   // Create sample properties for each category
   
   // 1. LUXURY VILLAS (5 properties)
