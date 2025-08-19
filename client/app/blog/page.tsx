@@ -11,114 +11,26 @@ import { Calendar, User, ArrowRight, ArrowLeft, Search } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import BlogCard from "@/components/blog-card"
 
-// Sample blog data with more posts
-const blogPosts = [
-  {
-    id: 1,
-    title: "Complete Guide to Buying Property in Bangalore",
-    excerpt: "Everything you need to know about purchasing residential and commercial properties in Bangalore - from legal checks to financing options.",
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl sit amet nisl.",
-    image: "/placeholder.svg?height=400&width=600",
-    date: "March 15, 2024",
-    author: "Arjun Mehta",
-    category: "Buying Guide",
-    featured: true,
-  },
-  {
-    id: 2,
-    title: "How to Sell Your Property at the Best Price",
-    excerpt: "Expert tips on property valuation, staging, marketing, and negotiation strategies to maximize your property's selling price in Bangalore.",
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl sit amet nisl.",
-    image: "/placeholder.svg?height=400&width=600",
-    date: "March 8, 2024",
-    author: "Sneha Patel",
-    category: "Selling Tips",
-    featured: true,
-  },
-  {
-    id: 3,
-    title: "Commercial Real Estate Investment Opportunities",
-    excerpt: "Explore lucrative commercial property investment options in Bangalore's growing business districts and IT corridors.",
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl sit amet nisl.",
-    image: "/placeholder.svg?height=400&width=600",
-    date: "February 28, 2024",
-    author: "Vikram Singh",
-    category: "Investment",
-    featured: true,
-  },
-  {
-    id: 4,
-    title: "Luxury Property Market Trends in Bangalore",
-    excerpt: "Analyze the latest trends in Bangalore's luxury real estate market and discover emerging investment hotspots.",
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl sit amet nisl.",
-    image: "/placeholder.svg?height=400&width=600",
-    date: "February 15, 2024",
-    author: "Emily Rodriguez",
-    category: "Market Analysis",
-    featured: false,
-  },
-  {
-    id: 5,
-    title: "Premium Locations: Where to Invest in 2024",
-    excerpt: "Discover Bangalore's most promising premium locations for property investment and understand the factors driving growth.",
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl sit amet nisl.",
-    image: "/placeholder.svg?height=400&width=600",
-    date: "February 5, 2024",
-    author: "David Wilson",
-    category: "Investment",
-    featured: false,
-  },
-  {
-    id: 6,
-    title: "Legal Guide to Property Transactions",
-    excerpt: "A comprehensive guide to legal aspects of property buying and selling, including documentation and compliance requirements.",
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl sit amet nisl.",
-    image: "/placeholder.svg?height=400&width=600",
-    date: "January 25, 2024",
-    author: "Sarah Johnson",
-    category: "Legal",
-    featured: false,
-  },
-  {
-    id: 7,
-    title: "Understanding Property Taxes in Bangalore",
-    excerpt: "A detailed breakdown of property taxes, stamp duty, and other charges you need to know when buying property in Bangalore.",
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl sit amet nisl.",
-    image: "/placeholder.svg?height=400&width=600",
-    date: "January 18, 2024",
-    author: "Rahul Kumar",
-    category: "Legal",
-    featured: false,
-  },
-  {
-    id: 8,
-    title: "Residential vs Commercial Property Investment",
-    excerpt: "Compare the pros and cons of investing in residential versus commercial properties in Bangalore's real estate market.",
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl sit amet nisl.",
-    image: "/placeholder.svg?height=400&width=600",
-    date: "January 10, 2024",
-    author: "Priya Sharma",
-    category: "Investment",
-    featured: false,
-  },
-  {
-    id: 9,
-    title: "Home Loan Guide for First-Time Buyers",
-    excerpt: "Everything first-time homebuyers need to know about securing a home loan, including eligibility, documents, and tips.",
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl sit amet nisl.",
-    image: "/placeholder.svg?height=400&width=600",
-    date: "January 5, 2024",
-    author: "Amit Patel",
-    category: "Buying Guide",
-    featured: false,
-  },
-]
-
-// Get featured posts
-const featuredPosts = blogPosts.filter((post) => post.featured)
-
-// Get categories
-const categories = [...new Set(blogPosts.map((post) => post.category))]
+interface BlogPost {
+  id: string
+  title: string
+  slug: string
+  excerpt: string | null
+  content: string
+  featuredImage: string | null
+  category: string | null
+  tags: string[]
+  isPublished: boolean
+  publishedAt: string | null
+  createdAt: string
+  updatedAt: string
+  author: {
+    id: string
+    firstName: string
+    lastName: string
+    email: string
+  } | null
+}
 
 interface BlogPageProps {
   searchParams?: Promise<{
@@ -131,6 +43,51 @@ export default function BlogPage({ searchParams }: BlogPageProps) {
   const router = useRouter()
   const [selectedCategory, setSelectedCategory] = useState('all')
   const [searchQuery, setSearchQuery] = useState('')
+  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([])
+  const [featuredPosts, setFeaturedPosts] = useState<BlogPost[]>([])
+  const [categories, setCategories] = useState<string[]>([])
+  const [loading, setLoading] = useState(true)
+  const [pagination, setPagination] = useState({
+    page: 1,
+    limit: 10,
+    total: 0,
+    totalPages: 0
+  })
+
+  // Fetch blog posts from API
+  useEffect(() => {
+    const fetchBlogPosts = async () => {
+      setLoading(true)
+      try {
+        const params = new URLSearchParams()
+        if (searchQuery) params.append('search', searchQuery)
+        if (selectedCategory && selectedCategory !== 'all') params.append('category', selectedCategory)
+        params.append('page', pagination.page.toString())
+        params.append('limit', pagination.limit.toString())
+
+        const response = await fetch(`/api/blog/posts?${params.toString()}`)
+        const data = await response.json()
+
+        if (data.posts) {
+          setBlogPosts(data.posts)
+          setPagination(data.pagination)
+          
+          // Set featured posts (first 3 posts)
+          setFeaturedPosts(data.posts.slice(0, 3))
+          
+          // Extract unique categories
+          const uniqueCategories = [...new Set(data.posts.map((post: BlogPost) => post.category).filter(Boolean))]
+          setCategories(uniqueCategories)
+        }
+      } catch (error) {
+        console.error('Error fetching blog posts:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchBlogPosts()
+  }, [searchQuery, selectedCategory, pagination.page])
 
   useEffect(() => {
     const initializeFromSearchParams = async () => {
@@ -143,21 +100,18 @@ export default function BlogPage({ searchParams }: BlogPageProps) {
     initializeFromSearchParams()
   }, [searchParams])
 
-  // Filter posts based on category and search
-  const filteredPosts = blogPosts.filter((post) => {
-    const matchesCategory = selectedCategory === 'all' || post.category === selectedCategory
-    const matchesSearch = post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         post.excerpt.toLowerCase().includes(searchQuery.toLowerCase())
-    return matchesCategory && matchesSearch
-  })
-
   const handleCategoryChange = (category: string) => {
     setSelectedCategory(category)
+    setPagination(prev => ({ ...prev, page: 1 }))
     
     // Update URL
     const params = new URLSearchParams()
     if (category !== 'all') params.set('category', category)
     router.push(`/blog?${params.toString()}`)
+  }
+
+  const handlePageChange = (page: number) => {
+    setPagination(prev => ({ ...prev, page }))
   }
 
   return (
@@ -238,11 +192,23 @@ export default function BlogPage({ searchParams }: BlogPageProps) {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl md:text-3xl font-bold mb-8 text-navy-900">Featured Articles</h2>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {featuredPosts.slice(0, 3).map((post, index) => (
-              <BlogCard key={post.id} post={post} priority={index === 0} />
-            ))}
-          </div>
+          {loading ? (
+            <div className="text-center py-16">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-500 mx-auto mb-4"></div>
+              <p className="text-slate-500">Loading featured articles...</p>
+            </div>
+          ) : featuredPosts.length > 0 ? (
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              {featuredPosts.map((post, index) => (
+                <BlogCard key={post.id} post={post} priority={index === 0} />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-16">
+              <h3 className="text-xl font-semibold text-slate-700 mb-2">No featured articles</h3>
+              <p className="text-slate-500">Check back later for featured content.</p>
+            </div>
+          )}
         </div>
       </section>
 
@@ -270,23 +236,75 @@ export default function BlogPage({ searchParams }: BlogPageProps) {
             </Tabs>
           </div>
 
-          {filteredPosts.length === 0 ? (
+          {loading ? (
+            <div className="text-center py-16">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-500 mx-auto mb-4"></div>
+              <p className="text-slate-500">Loading articles...</p>
+            </div>
+          ) : blogPosts.length === 0 ? (
             <div className="text-center py-16">
               <h3 className="text-xl font-semibold mb-2 text-gray-900">No articles found</h3>
               <p className="text-gray-600">Try adjusting your search or category filter.</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {filteredPosts.map((post) => (
+              {blogPosts.map((post) => (
                 <BlogCard key={post.id} post={post} />
               ))}
+            </div>
+          )}
+
+          {/* Pagination */}
+          {pagination.totalPages > 1 && (
+            <div className="mt-8 flex justify-center">
+              <div className="flex items-center gap-2">
+                {/* Previous button */}
+                {pagination.page > 1 && (
+                  <Button 
+                    variant="outline" 
+                    size="icon" 
+                    className="h-8 w-8 bg-white border-slate-300 hover:bg-slate-50"
+                    onClick={() => handlePageChange(pagination.page - 1)}
+                  >
+                    ←
+                  </Button>
+                )}
+                
+                {/* Page numbers */}
+                {Array.from({ length: Math.min(5, pagination.totalPages) }, (_, i) => {
+                  const pageNum = i + 1
+                  return (
+                    <Button 
+                      key={pageNum}
+                      variant={pagination.page === pageNum ? "default" : "outline"}
+                      size="icon" 
+                      className={`h-8 w-8 ${pagination.page === pageNum ? 'bg-red-500 text-white' : 'bg-white border-slate-300 hover:bg-slate-50'}`}
+                      onClick={() => handlePageChange(pageNum)}
+                    >
+                      {pageNum}
+                    </Button>
+                  )
+                })}
+                
+                {/* Next button */}
+                {pagination.page < pagination.totalPages && (
+                  <Button 
+                    variant="outline" 
+                    size="icon" 
+                    className="h-8 w-8 bg-white border-slate-300 hover:bg-slate-50"
+                    onClick={() => handlePageChange(pagination.page + 1)}
+                  >
+                    →
+                  </Button>
+                )}
+              </div>
             </div>
           )}
         </div>
       </section>
 
       {/* Newsletter */}
-      {/* <section className="py-12 md:py-16 bg-gradient-to-br from-navy-900 via-navy-800 to-slate-900 text-white">
+      <section className="py-12 md:py-16 bg-gradient-to-br from-navy-900 via-navy-800 to-slate-900 text-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-2xl md:text-3xl font-bold mb-4">Stay Updated</h2>
@@ -305,7 +323,7 @@ export default function BlogPage({ searchParams }: BlogPageProps) {
             </div>
           </div>
         </div>
-      </section> */}
+      </section>
     </div>
   )
 } 

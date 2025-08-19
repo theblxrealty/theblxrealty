@@ -300,6 +300,7 @@ function PropertiesContent() {
               <Button 
                 size="lg" 
                 className="bg-red-500 hover:bg-red-600 text-white px-8 py-4 font-['Suisse_Intl',sans-serif] font-medium"
+                onClick={() => router.push('/contact')}
               >
                 Schedule a Consultation
               </Button>
@@ -307,6 +308,7 @@ function PropertiesContent() {
                 size="lg" 
                 variant="outline"
                 className="border-red-500 text-red-500 hover:bg-red-500 hover:text-white px-8 py-4 font-['Suisse_Intl',sans-serif] font-medium"
+                onClick={() => router.push('/contact')}
               >
                 Contact Our Team
               </Button>

@@ -6,6 +6,7 @@ export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)
     const category = searchParams.get('category')
+    const search = searchParams.get('search')
     const page = parseInt(searchParams.get('page') || '1')
     const limit = parseInt(searchParams.get('limit') || '10')
     const skip = (page - 1) * limit
@@ -19,6 +20,29 @@ export async function GET(request: NextRequest) {
 
     if (category) {
       whereClause.category = category
+    }
+
+    if (search) {
+      whereClause.OR = [
+        {
+          title: {
+            contains: search,
+            mode: 'insensitive'
+          }
+        },
+        {
+          excerpt: {
+            contains: search,
+            mode: 'insensitive'
+          }
+        },
+        {
+          content: {
+            contains: search,
+            mode: 'insensitive'
+          }
+        }
+      ]
     }
 
     const [posts, total] = await Promise.all([
