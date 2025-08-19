@@ -44,71 +44,58 @@ export async function GET(request: NextRequest) {
             contains: search,
             mode: 'insensitive'
           }
+        },
+        {
+          propertyCategory: {
+            contains: search,
+            mode: 'insensitive'
+          }
         }
       ]
     }
 
-    // Add type filter with improved logic for similar properties
+    // Add type filter using the new propertyCategory field
     if (type && type !== 'any') {
       // Normalize property types for better matching
       const normalizedType = type.toLowerCase().trim()
       
-      // Create type-based OR conditions - simplified approach
+      // Create type-based OR conditions using propertyCategory
       const typeConditions = []
       
-      // Add the exact type match first
-      typeConditions.push({
-        propertyType: {
-          contains: normalizedType,
-          mode: 'insensitive'
-        }
-      })
-      
-      // Add related types based on the current type
-      if (normalizedType.includes('villa') || normalizedType.includes('luxury')) {
+      // Map the URL type parameters to our new propertyCategory values
+      if (normalizedType === 'luxury-villas' || normalizedType === 'luxury villas') {
         typeConditions.push({
-          propertyType: {
-            contains: 'luxury-villas',
-            mode: 'insensitive'
-          }
+          propertyCategory: 'luxury villas'
         })
-      } else if (normalizedType.includes('apartment') || normalizedType.includes('flat')) {
+      } else if (normalizedType === 'flats' || normalizedType === 'apartments') {
         typeConditions.push({
-          propertyType: {
-            contains: 'apartments',
-            mode: 'insensitive'
-          }
+          propertyCategory: 'flats'
         })
-      } else if (normalizedType.includes('house') || normalizedType.includes('residential')) {
+      } else if (normalizedType === 'new buildings' || normalizedType === 'new-buildings') {
         typeConditions.push({
-          propertyType: {
-            contains: 'residential',
-            mode: 'insensitive'
-          }
+          propertyCategory: 'new buildings'
         })
+      } else if (normalizedType === 'farm house' || normalizedType === 'farm-house' || normalizedType === 'farm') {
         typeConditions.push({
-          propertyType: {
-            contains: 'apartments',
-            mode: 'insensitive'
-          }
+          propertyCategory: 'farm house'
         })
-      } else if (normalizedType.includes('farm')) {
+      } else if (normalizedType === 'sites' || normalizedType === 'plots' || normalizedType === 'development') {
         typeConditions.push({
-          propertyType: {
-            contains: 'farm-land',
-            mode: 'insensitive'
-          }
+          propertyCategory: 'sites'
         })
+      } else if (normalizedType === 'commercial') {
         typeConditions.push({
-          propertyType: {
-            contains: 'farm',
-            mode: 'insensitive'
-          }
+          propertyCategory: 'commercial'
         })
-      } else if (normalizedType.includes('commercial')) {
+      } else if (normalizedType === 'investment') {
         typeConditions.push({
-          propertyType: {
-            contains: 'commercial',
+          propertyCategory: 'investment'
+        })
+      } else {
+        // Fallback: try to match any propertyCategory that contains the type
+        typeConditions.push({
+          propertyCategory: {
+            contains: normalizedType,
             mode: 'insensitive'
           }
         })
@@ -160,9 +147,9 @@ export async function GET(request: NextRequest) {
           }
         },
         orderBy: [
-          // Prioritize exact type matches first
+          // Prioritize exact category matches first
           {
-            propertyType: 'asc'
+            propertyType: 'asc' // Temporarily using propertyType until Prisma client is updated
           },
           // Then by creation date
           {

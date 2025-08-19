@@ -28,6 +28,7 @@ interface Property {
   ecoFeatures: string[]
   amenities: string[]
   type: string
+  propertyCategory: string
   isNew: boolean
   featured: boolean
   agent: {
@@ -185,11 +186,18 @@ export default function PropertyDetailPageClient({ property }: PropertyDetailPag
               {/* Property Type */}
               <div>
                 <h3 className="text-lg font-semibold mb-2 font-['Suisse_Intl',sans-serif]">
-                  {property.development ? "Development Plot" : "Property"} for sale in {property.location}
+                  {property.propertyCategory === 'luxury villas' ? 'Luxury Villa' : 
+                   property.propertyCategory === 'flats' ? 'Apartment' : 
+                   property.propertyCategory === 'new buildings' ? 'New Building' : 
+                   property.propertyCategory === 'farm house' ? 'Farm House' : 
+                   property.propertyCategory === 'sites' ? 'Development Plot' : 
+                   property.propertyCategory === 'commercial' ? 'Commercial Property' : 
+                   property.propertyCategory === 'investment' ? 'Investment Property' : 
+                   property.development ? "Development Plot" : "Property"} for sale in {property.location}
                 </h3>
                 <p className="text-gray-600 font-['Suisse_Intl',sans-serif] flex items-center">
                   <MapPin className="h-4 w-4 mr-1" />
-                  United Kingdom
+                  {property.location}
                 </p>
               </div>
 
@@ -213,9 +221,9 @@ export default function PropertyDetailPageClient({ property }: PropertyDetailPag
               </div>
 
               {/* Property Reference */}
-              <div className="text-sm text-gray-500 font-['Suisse_Intl',sans-serif]">
+              {/* <div className="text-sm text-gray-500 font-['Suisse_Intl',sans-serif]">
                 Property Ref: {property.propertyRef}
-              </div>
+              </div> */}
 
               {/* Guide Price Section */}
               <div className="border-t pt-6">
@@ -225,7 +233,7 @@ export default function PropertyDetailPageClient({ property }: PropertyDetailPag
                     {property.price}
                   </div>
                   <div className="flex items-center gap-1 text-gray-600 font-['Suisse_Intl',sans-serif]">
-                    GBP
+                    ₹
                     <ChevronDown className="h-4 w-4" />
                   </div>
                 </div>
@@ -271,10 +279,17 @@ export default function PropertyDetailPageClient({ property }: PropertyDetailPag
             
             <div>
               <p className="text-gray-500 font-['Suisse_Intl',sans-serif] leading-relaxed mb-4">
-                Positioned at the end of Forton Road, yet just over 1 mile from the town centre, the plot adj. to 115 
-                Forton Road represents an extremely rare opportunity to acquire a building plot within the very 
-                popular town of Newport. The plot is located at the end of Forton Road, with just one adjacent 
-                neighbour and open playing fields to two sides. There are outstanding westerly views.
+                {property.description || `This ${property.propertyCategory === 'farm house' ? 'farm house' : 
+                  property.propertyCategory === 'commercial' ? 'commercial property' : 
+                  property.propertyCategory === 'luxury villas' ? 'luxury villa' : 
+                  property.propertyCategory === 'flats' ? 'apartment' : 
+                  property.propertyCategory === 'new buildings' ? 'new building' : 
+                  property.propertyCategory === 'sites' ? 'development plot' : 
+                  property.propertyCategory === 'investment' ? 'investment property' : 'property'} is located in ${property.location}, 
+                  offering an excellent opportunity for ${property.propertyCategory === 'farm house' ? 'agricultural development' : 
+                  property.propertyCategory === 'commercial' ? 'business expansion' : 
+                  property.propertyCategory === 'sites' ? 'development and construction' : 'residential living'}. 
+                  The location provides easy access to major amenities and transportation networks.`}
               </p>
               
               {!showFullDescription && (
@@ -286,22 +301,33 @@ export default function PropertyDetailPageClient({ property }: PropertyDetailPag
               {showFullDescription && (
                 <div className="text-gray-500 font-['Suisse_Intl',sans-serif] leading-relaxed mb-6 space-y-4">
                   <p>
-                    The plot benefits from planning permission for a substantial detached family home, granted under 
-                    application TWC/2019/0123. The approved plans show a 4-bedroom property with double garage and 
-                    landscaped gardens, maximizing the stunning views across the countryside.
+                    {property.longDescription || `This ${property.propertyCategory === 'farm house' ? 'farm house' : 
+                      property.propertyCategory === 'commercial' ? 'commercial property' : 
+                      property.propertyCategory === 'luxury villas' ? 'luxury villa' : 
+                      property.propertyCategory === 'flats' ? 'apartment' : 
+                      property.propertyCategory === 'new buildings' ? 'new building' : 
+                      property.propertyCategory === 'sites' ? 'development plot' : 
+                      property.propertyCategory === 'investment' ? 'investment property' : 'property'} offers excellent potential for development and investment. 
+                      The location in ${property.location} provides strategic advantages for ${property.propertyCategory === 'farm house' ? 'agricultural and residential development' : 
+                      property.propertyCategory === 'commercial' ? 'business operations and expansion' : 
+                      property.propertyCategory === 'sites' ? 'construction and development' : 
+                      property.propertyCategory === 'investment' ? 'investment returns and appreciation' : 'comfortable family living and lifestyle enhancement'}.`}
                   </p>
                   
                   <p>
-                    Newport is a thriving market town in East Shropshire, offering excellent amenities including 
-                    schools, shops, restaurants, and recreational facilities. The town provides easy access to the 
-                    M54 motorway, making it an ideal location for commuters to Birmingham, Wolverhampton, and 
-                    Telford.
+                    {property.location} is a thriving area with excellent amenities including schools, shopping centers, 
+                    restaurants, and recreational facilities. The location provides easy access to major transportation 
+                    networks, making it convenient for daily commutes and business operations.
                   </p>
                   
                   <p>
-                    This represents a unique opportunity to create a bespoke family home in one of Newport's most 
-                    sought-after locations, with the added benefit of existing planning permission to expedite the 
-                    development process.
+                    This represents a unique opportunity to acquire a ${property.propertyCategory === 'sites' ? 'development plot' : 
+                      property.propertyCategory === 'commercial' ? 'commercial space' : 
+                      property.propertyCategory === 'investment' ? 'investment property' : 'residential property'} in one of ${property.location.split(',')[1]?.trim() || 'the area'}'s most 
+                      sought-after locations, with excellent potential for ${property.propertyCategory === 'farm house' ? 'agricultural and residential development' : 
+                      property.propertyCategory === 'commercial' ? 'business expansion' : 
+                      property.propertyCategory === 'sites' ? 'construction and development' : 
+                      property.propertyCategory === 'investment' ? 'investment returns and appreciation' : 'family living and investment'}.
                   </p>
                 </div>
               )}
@@ -340,7 +366,13 @@ export default function PropertyDetailPageClient({ property }: PropertyDetailPag
                   title: property.title,
                   address: property.location,
                   price: property.price,
-                  type: "Residential",
+                  type: property.propertyCategory === 'farm house' ? 'Farm House' : 
+                        property.propertyCategory === 'commercial' ? 'Commercial' : 
+                        property.propertyCategory === 'luxury villas' ? 'Luxury Villa' : 
+                        property.propertyCategory === 'flats' ? 'Apartment' : 
+                        property.propertyCategory === 'new buildings' ? 'New Building' : 
+                        property.propertyCategory === 'sites' ? 'Development Plot' : 
+                        property.propertyCategory === 'investment' ? 'Investment Property' : 'Residential',
                   coordinates: property.coordinates || { lat: 12.9716, lng: 77.5946 }
                 }]}
                 center={property.coordinates || { lat: 12.9716, lng: 77.5946 }}
@@ -365,23 +397,23 @@ export default function PropertyDetailPageClient({ property }: PropertyDetailPag
                 <div className="space-y-3 font-['Suisse_Intl',sans-serif]">
                   <div className="flex items-center justify-between">
                     <span className="text-gray-600">Shopping Centers</span>
-                    <span className="font-semibold">0.5 mi</span>
+                    <span className="font-semibold">0.8 km</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-gray-600">Schools</span>
-                    <span className="font-semibold">0.8 mi</span>
+                    <span className="font-semibold">1.3 km</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-gray-600">Public Transport</span>
-                    <span className="font-semibold">0.3 mi</span>
+                    <span className="font-semibold">0.5 km</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-gray-600">Parks</span>
-                    <span className="font-semibold">0.2 mi</span>
+                    <span className="font-semibold">0.3 km</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-gray-600">Hospitals</span>
-                    <span className="font-semibold">1.2 mi</span>
+                    <span className="font-semibold">2.0 km</span>
                   </div>
                 </div>
               </div>
@@ -399,11 +431,11 @@ export default function PropertyDetailPageClient({ property }: PropertyDetailPag
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-gray-600">Airport</span>
-                    <span className="font-semibold">30 min drive</span>
+                    <span className="font-semibold">45 min drive</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-gray-600">Highway Access</span>
-                    <span className="font-semibold">10 min drive</span>
+                    <span className="font-semibold">15 min drive</span>
                   </div>
                 </div>
               </div>

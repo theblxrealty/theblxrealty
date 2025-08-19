@@ -54,8 +54,9 @@ model Property {
   latitude             Float?
   longitude            Float?
   propertyType         String?
-  bedrooms             Int?
-  bathrooms            Int?
+  propertyCategory     String                // New field for the 7 main categories
+  bedrooms             Int?                  // Optional for farm land and sites
+  bathrooms            Int?                  // Optional for farm land and sites
   area                 Float?
   images               String[]
   isActive             Boolean               @default(true)

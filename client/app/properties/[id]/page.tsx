@@ -64,6 +64,7 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
         "Fireplace",
       ],
       type: property.propertyType || "residential",
+      propertyCategory: property.propertyCategory || "flats",
       isNew: true,
       featured: true,
       agent: {
