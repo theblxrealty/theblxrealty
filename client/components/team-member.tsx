@@ -5,7 +5,16 @@ import Image from "next/image"
 import { motion } from "framer-motion"
 import { Linkedin, Twitter, Mail } from "lucide-react"
 
-export default function TeamMember({ member }) {
+interface TeamMemberProps {
+  member: {
+    name: string
+    role: string
+    image: string
+    bio: string
+  }
+}
+
+export default function TeamMember({ member }: TeamMemberProps) {
   const [isHovered, setIsHovered] = useState(false)
 
   return (
