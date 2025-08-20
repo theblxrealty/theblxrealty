@@ -130,12 +130,13 @@ export default function AuthModal({ isOpen, onClose, onLoginSuccess }: AuthModal
         
         // If admin, store admin flag
         if (data.isAdmin) {
-          localStorage.setItem('isAdmin', 'true')
+          localStorage.setItem('adminUser', JSON.stringify(data.user))
+          localStorage.setItem('adminToken', data.token)
           setSuccess('Admin login successful!')
           onLoginSuccess(data.user, true)
           setTimeout(() => {
             onClose()
-            router.push('/admin')
+            // Don't redirect - let admin stay on main page to see "Add Property" button
           }, 1000)
         } else {
           setSuccess('Login successful!')

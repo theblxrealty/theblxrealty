@@ -5,11 +5,12 @@ import Link from "next/link"
 import Image from "next/image"
 import { usePathname, useRouter } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
-import { Menu, X, Phone, Search, User, LogOut, Shield } from "lucide-react"
+import { Menu, X, Phone, Search, User, LogOut, Shield, Plus } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import ThemeToggle from "@/components/theme-toggle"
 import AuthModal from "@/components/auth-modal"
 import { useSession, signOut } from "next-auth/react"
+import { useAdmin } from "@/hooks/use-admin"
 
 const navItems = [
   { name: "Home", path: "/" },
@@ -30,6 +31,7 @@ export default function Header() {
   const pathname = usePathname()
   const router = useRouter()
   const { data: session, status } = useSession()
+  const { isAdmin, adminUser, loading: adminLoading, logout } = useAdmin()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -72,7 +74,11 @@ export default function Header() {
   }
 
   const handleLoginSuccess = (userData: any, adminStatus: boolean) => {
-    // This is now handled by NextAuth automatically
+    // Handle admin login success
+    if (adminStatus) {
+      // Force refresh to update admin state
+      window.location.reload()
+    }
     setAuthModalOpen(false)
   }
 
@@ -122,7 +128,7 @@ export default function Header() {
             ))}
           </nav>
 
-          {/* Right Section - Search, Auth Button and Toggle */}
+          {/* Right Section - Search, Admin Actions, Auth Button and Toggle */}
           <div className="hidden md:flex items-center space-x-4">
             {/* Search Button */}
             <button
@@ -133,14 +139,42 @@ export default function Header() {
               <Search className="h-5 w-5" />
             </button>
 
+            {/* Admin Add Property Button */}
+            {isAdmin && !adminLoading && (
+              <Link
+                href="/addprop"
+                className="flex items-center space-x-1 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-['Suisse_Intl',sans-serif] font-medium transition-all duration-300 text-sm"
+              >
+                <Plus className="h-4 w-4" />
+                <span>Add Property</span>
+              </Link>
+            )}
+
             {session ? (
               <div className="flex items-center space-x-2">
                 <span className="text-white text-sm">
                   Welcome, {session.user?.name || session.user?.email}
-                  {/* TODO: Add admin check logic */}
                 </span>
                 <Button
                   onClick={handleLogout}
+                  className="bg-transparent text-white px-4 py-2 font-['Suisse_Intl',sans-serif] font-medium hover:bg-transparent hover:text-white transition-all duration-300 relative group text-sm"
+                >
+                  <LogOut className="h-4 w-4 mr-1" />
+                  Logout
+                </Button>
+              </div>
+            ) : isAdmin && !adminLoading ? (
+              <div className="flex items-center space-x-2">
+                <div className="flex items-center space-x-1 text-white text-sm">
+                  <Shield className="h-4 w-4 text-red-400" />
+                  <span>Admin: {adminUser?.firstName || adminUser?.email}</span>
+                </div>
+                <Button
+                  onClick={() => {
+                    // Use the logout function from useAdmin hook
+                    logout()
+                    window.location.reload() // Refresh to show login modal
+                  }}
                   className="bg-transparent text-white px-4 py-2 font-['Suisse_Intl',sans-serif] font-medium hover:bg-transparent hover:text-white transition-all duration-300 relative group text-sm"
                 >
                   <LogOut className="h-4 w-4 mr-1" />
@@ -198,15 +232,45 @@ export default function Header() {
                 </Link>
               ))}
 
+              {/* Admin Add Property Button - Mobile */}
+              {isAdmin && !adminLoading && (
+                <Link
+                  href="/addprop"
+                  className="flex items-center space-x-2 bg-red-500 hover:bg-red-600 text-white px-4 py-3 rounded-lg font-['Suisse_Intl',sans-serif] font-medium transition-all duration-300 text-lg"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <Plus className="h-5 w-5" />
+                  <span>Add Property</span>
+                </Link>
+              )}
+
               <div className="pt-4 border-t border-slate-700">
                 {session ? (
                   <div className="space-y-2">
                     <div className="text-white text-sm">
                       Welcome, {session.user?.name || session.user?.email}
-                      {/* TODO: Add admin check logic */}
                     </div>
                     <Button
                       onClick={handleLogout}
+                      className="w-full bg-transparent text-white font-['Suisse_Intl',sans-serif] font-medium hover:bg-transparent hover:text-white transition-all duration-300 relative group text-lg"
+                    >
+                      <LogOut className="h-4 w-4 mr-2" />
+                      Logout
+                    </Button>
+                  </div>
+                ) : isAdmin && !adminLoading ? (
+                  <div className="space-y-2">
+                    <div className="flex items-center space-x-2 text-white text-sm">
+                      <Shield className="h-4 w-4 text-red-400" />
+                      <span>Admin: {adminUser?.firstName || adminUser?.email}</span>
+                    </div>
+                    <Button
+                      onClick={() => {
+                        // Clear admin token
+                        document.cookie = 'token=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT'
+                        setMobileMenuOpen(false)
+                        window.location.reload() // Refresh to show login modal
+                      }}
                       className="w-full bg-transparent text-white font-['Suisse_Intl',sans-serif] font-medium hover:bg-transparent hover:text-white transition-all duration-300 relative group text-lg"
                     >
                       <LogOut className="h-4 w-4 mr-2" />
