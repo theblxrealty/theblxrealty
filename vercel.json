@@ -3,7 +3,7 @@
   "installCommand": "cd client && pnpm install",
   "framework": "nextjs",
   "functions": {
-    "client/app/api/**/*.ts": {
+    "app/api/**/*.ts": {
       "maxDuration": 30
     }
   },
