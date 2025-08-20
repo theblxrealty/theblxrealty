@@ -2,6 +2,7 @@
   "buildCommand": "cd client && pnpm build",
   "installCommand": "cd client && pnpm install",
   "framework": "nextjs",
+  "outputDirectory": "client/.next",
   "functions": {
     "app/api/**/*.ts": {
       "maxDuration": 30
