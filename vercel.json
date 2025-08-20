@@ -1,0 +1,17 @@
+{
+  "buildCommand": "cd client && pnpm build",
+  "installCommand": "cd client && pnpm install",
+  "framework": "nextjs",
+  "rootDirectory": "client",
+  "functions": {
+    "app/api/**/*.ts": {
+      "maxDuration": 30
+    }
+  },
+  "regions": ["bom1"],
+  "build": {
+    "env": {
+      "PRISMA_GENERATE_DATAPROXY": "true"
+    }
+  }
+} 
