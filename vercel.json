@@ -1,10 +1,10 @@
 {
-  "buildCommand": "cd client && pnpm build",
-  "installCommand": "cd client && pnpm install",
+  "buildCommand": "pnpm --prefix client build",
+  "installCommand": "pnpm --prefix client install",
   "framework": "nextjs",
   "outputDirectory": "client/.next",
   "functions": {
-    "app/api/**/*.ts": {
+    "client/app/api/**/*.ts": {
       "maxDuration": 30
     }
   },
