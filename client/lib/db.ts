@@ -1,18 +1,16 @@
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from '@prisma/client/edge'
+import { withAccelerate } from '@prisma/extension-accelerate'
+
+const prismaClientSingleton = () => {
+  return new PrismaClient().$extends(withAccelerate())
+}
 
 declare global {
-  var __db: PrismaClient | undefined
+  var __db: undefined | ReturnType<typeof prismaClientSingleton>
 }
 
-let db: PrismaClient
+const db = globalThis.__db ?? prismaClientSingleton()
 
-if (process.env.NODE_ENV === 'production') {
-  db = new PrismaClient()
-} else {
-  if (!global.__db) {
-    global.__db = new PrismaClient()
-  }
-  db = global.__db
-}
+if (process.env.NODE_ENV !== 'production') globalThis.__db = db
 
 export { db } 

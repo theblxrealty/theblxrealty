@@ -2,6 +2,20 @@ import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
+// Helper function to generate image structure
+function generatePropertyImages() {
+  return {
+    propertyBanner1: "/placeholder.svg?height=600&width=800",
+    propertyBanner2: "/placeholder.svg?height=600&width=800",
+    additionalImages: [
+      "/placeholder.svg?height=600&width=800",
+      "/placeholder.svg?height=600&width=800",
+      "/placeholder.svg?height=600&width=800",
+      "/placeholder.svg?height=600&width=800"
+    ]
+  }
+}
+
 async function main() {
   // Create sample blog posts
   const blogPosts = [
@@ -147,7 +161,14 @@ async function main() {
       bedrooms: 4,
       bathrooms: 3,
       area: 2800,
-      images: ["/placeholder.svg?height=600&width=800"],
+      propertyBanner1: "/placeholder.svg?height=600&width=800",
+      propertyBanner2: "/placeholder.svg?height=600&width=800",
+      additionalImages: [
+        "/placeholder.svg?height=600&width=800",
+        "/placeholder.svg?height=600&width=800",
+        "/placeholder.svg?height=600&width=800",
+        "/placeholder.svg?height=600&width=800"
+      ],
       isActive: true
     },
     {
@@ -162,7 +183,14 @@ async function main() {
       bedrooms: 5,
       bathrooms: 4,
       area: 3200,
-      images: ["/placeholder.svg?height=600&width=800"],
+      propertyBanner1: "/placeholder.svg?height=600&width=800",
+      propertyBanner2: "/placeholder.svg?height=600&width=800",
+      additionalImages: [
+        "/placeholder.svg?height=600&width=800",
+        "/placeholder.svg?height=600&width=800",
+        "/placeholder.svg?height=600&width=800",
+        "/placeholder.svg?height=600&width=800"
+      ],
       isActive: true
     },
     {
@@ -177,7 +205,14 @@ async function main() {
       bedrooms: 4,
       bathrooms: 3,
       area: 4500,
-      images: ["/placeholder.svg?height=600&width=800"],
+      propertyBanner1: "/placeholder.svg?height=600&width=800",
+      propertyBanner2: "/placeholder.svg?height=600&width=800",
+      additionalImages: [
+        "/placeholder.svg?height=600&width=800",
+        "/placeholder.svg?height=600&width=800",
+        "/placeholder.svg?height=600&width=800",
+        "/placeholder.svg?height=600&width=800"
+      ],
       isActive: true
     },
     {
@@ -192,7 +227,14 @@ async function main() {
       bedrooms: 4,
       bathrooms: 3,
       area: 2800,
-      images: ["/placeholder.svg?height=600&width=800"],
+      propertyBanner1: "/placeholder.svg?height=600&width=800",
+      propertyBanner2: "/placeholder.svg?height=600&width=800",
+      additionalImages: [
+        "/placeholder.svg?height=600&width=800",
+        "/placeholder.svg?height=600&width=800",
+        "/placeholder.svg?height=600&width=800",
+        "/placeholder.svg?height=600&width=800"
+      ],
       isActive: true
     },
     {
@@ -207,7 +249,14 @@ async function main() {
       bedrooms: 3,
       bathrooms: 3,
       area: 2200,
-      images: ["/placeholder.svg?height=600&width=800"],
+      propertyBanner1: "/placeholder.svg?height=600&width=800",
+      propertyBanner2: "/placeholder.svg?height=600&width=800",
+      additionalImages: [
+        "/placeholder.svg?height=600&width=800",
+        "/placeholder.svg?height=600&width=800",
+        "/placeholder.svg?height=600&width=800",
+        "/placeholder.svg?height=600&width=800"
+      ],
       isActive: true
     }
   ]
@@ -226,7 +275,7 @@ async function main() {
       bedrooms: 3,
       bathrooms: 2,
       area: 1650,
-      images: ["/placeholder.svg?height=600&width=800"],
+      ...generatePropertyImages(),
       isActive: true
     },
     {
@@ -241,7 +290,7 @@ async function main() {
       bedrooms: 2,
       bathrooms: 2,
       area: 1200,
-      images: ["/placeholder.svg?height=600&width=800"],
+      ...generatePropertyImages(),
       isActive: true
     },
     {
@@ -256,7 +305,7 @@ async function main() {
       bedrooms: 4,
       bathrooms: 3,
       area: 2200,
-      images: ["/placeholder.svg?height=600&width=800"],
+      ...generatePropertyImages(),
       isActive: true
     },
     {
@@ -271,7 +320,7 @@ async function main() {
       bedrooms: 3,
       bathrooms: 2,
       area: 1800,
-      images: ["/placeholder.svg?height=600&width=800"],
+      ...generatePropertyImages(),
       isActive: true
     },
     {
@@ -286,7 +335,7 @@ async function main() {
       bedrooms: 2,
       bathrooms: 2,
       area: 1100,
-      images: ["/placeholder.svg?height=600&width=800"],
+      ...generatePropertyImages(),
       isActive: true
     }
   ]
@@ -381,8 +430,8 @@ async function main() {
       longitude: 77.7490,
       propertyType: "farm-house",
       propertyCategory: "farm house",
-      bedrooms: 3,
-      bathrooms: 2,
+      bedrooms: null,
+      bathrooms: null,
       area: 5500,
       images: ["/placeholder.svg?height=600&width=800"],
       isActive: true
@@ -396,8 +445,8 @@ async function main() {
       longitude: 77.6860,
       propertyType: "farm-house",
       propertyCategory: "farm house",
-      bedrooms: 2,
-      bathrooms: 2,
+      bedrooms: null,
+      bathrooms: null,
       area: 3200,
       images: ["/placeholder.svg?height=600&width=800"],
       isActive: true
@@ -411,8 +460,8 @@ async function main() {
       longitude: 77.6650,
       propertyType: "farm-house",
       propertyCategory: "farm house",
-      bedrooms: 3,
-      bathrooms: 2,
+      bedrooms: null,
+      bathrooms: null,
       area: 3800,
       images: ["/placeholder.svg?height=600&width=800"],
       isActive: true
@@ -426,8 +475,8 @@ async function main() {
       longitude: 77.5500,
       propertyType: "farm-house",
       propertyCategory: "farm house",
-      bedrooms: 2,
-      bathrooms: 2,
+      bedrooms: null,
+      bathrooms: null,
       area: 4200,
       images: ["/placeholder.svg?height=600&width=800"],
       isActive: true
@@ -441,10 +490,10 @@ async function main() {
       longitude: 77.5800,
       propertyType: "farm-house",
       propertyCategory: "farm house",
-      bedrooms: 3,
-      bathrooms: 3,
+      bedrooms: null,
+      bathrooms: null,
       area: 4800,
-      images: ["/placeholder.svg?height=600&width=800"],
+      images: ["/placeholder.svg?height=800&width=800"],
       isActive: true
     }
   ]
@@ -678,8 +727,8 @@ async function main() {
       longitude: 77.6850,
       propertyType: "farm-house",
       propertyCategory: "investment",
-      bedrooms: 2,
-      bathrooms: 2,
+      bedrooms: null,
+      bathrooms: null,
       area: 3500,
       images: ["/placeholder.svg?height=600&width=800"],
       isActive: true

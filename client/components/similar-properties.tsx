@@ -9,7 +9,7 @@ interface Property {
   id: string
   title: string
   location: string
-  image: string
+  images: string[]
   beds?: number
   baths?: number
   sqft: number
@@ -38,7 +38,7 @@ export default function SimilarProperties({
   const [loading, setLoading] = useState(true)
   const [visibleProperties, setVisibleProperties] = useState<Property[]>([])
   const [startIndex, setStartIndex] = useState(0)
-  const [visibleCount, setVisibleCount] = useState(3)
+  const [visibleCount, setVisibleCount] = useState(1) // Show only 1 property at a time
 
   // Fetch similar properties from the database
   useEffect(() => {
@@ -92,16 +92,16 @@ export default function SimilarProperties({
               id: property.id,
               title: property.title || "Property",
               location: property.location || "Location not specified",
-              image: property.images?.[0] || "/placeholder.svg?height=600&width=800",
+              images: property.images || ["/placeholder.svg"],
               beds: property.bedrooms || undefined, // Only set if bedrooms exist
               baths: property.bathrooms || undefined, // Only set if bathrooms exist
               sqft: property.area || 0,
               amenities: ["Security", "Parking", "Power Backup"], // Default amenities
               isNew: true,
               featured: true,
-              type: property.propertyType || "residential",
+              type: property.propertyCategory || property.propertyType || "residential",
               rating: 4.8,
-              price: property.price ? `₹${(property.price / 10000000).toFixed(1)} Cr` : "Price on Application",
+              price: property.price ? `INR ${(property.price / 10000000).toFixed(1)} Cr` : "Price on Application",
               development: true
             }))
             .slice(0, 12) // Limit to 12 properties max
@@ -129,16 +129,16 @@ export default function SimilarProperties({
                     id: property.id,
                     title: property.title || "Property",
                     location: property.location || "Location not specified",
-                    image: property.images?.[0] || "/placeholder.svg?height=600&width=800",
+                    images: property.images || ["/placeholder.svg"],
                     beds: property.bedrooms || undefined, // Only set if bedrooms exist
                     baths: property.bathrooms || undefined, // Only set if bathrooms exist
                     sqft: property.area || 0,
                     amenities: ["Security", "Parking", "Power Backup"],
                     isNew: true,
                     featured: true,
-                    type: property.propertyType || "residential",
+                    type: property.propertyCategory || property.propertyType || "residential",
                     rating: 4.8,
-                    price: property.price ? `₹${(property.price / 10000000).toFixed(1)} Cr` : "Price on Application",
+                    price: property.price ? `INR ${(property.price / 10000000).toFixed(1)} Cr` : "Price on Application",
                     development: true
                   }))
                   .slice(0, 12)
@@ -172,15 +172,9 @@ export default function SimilarProperties({
   }, [currentPropertyId, currentPropertyType, currentPropertyLocation])
 
   useEffect(() => {
-    // Update visible count based on screen size
+    // Update visible count based on screen size - always show 1 per row for better UI
     const handleResize = () => {
-      if (window.innerWidth < 768) {
-        setVisibleCount(1)
-      } else if (window.innerWidth < 1024) {
-        setVisibleCount(2)
-      } else {
-        setVisibleCount(3)
-      }
+      setVisibleCount(1) // Always show 1 property per row
     }
 
     handleResize()
@@ -206,21 +200,19 @@ export default function SimilarProperties({
     setStartIndex(newStartIndex)
   }
 
-  // Don't show navigation if we have 3 or fewer properties
-  const showNavigation = properties.length > visibleCount
+  // Don't show navigation if we have 1 or fewer properties
+  const showNavigation = properties.length > 1
 
   if (loading) {
     return (
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {[...Array(3)].map((_, i) => (
-          <div key={i} className="animate-pulse">
-            <div className="bg-gray-200 h-64 rounded-lg mb-4"></div>
-            <div className="space-y-2">
-              <div className="bg-gray-200 h-4 rounded w-3/4"></div>
-              <div className="bg-gray-200 h-4 rounded w-1/2"></div>
-            </div>
+      <div className="grid grid-cols-1 gap-8">
+        <div className="animate-pulse">
+          <div className="bg-gray-200 h-64 rounded-lg mb-4"></div>
+          <div className="space-y-2">
+            <div className="bg-gray-200 h-4 rounded w-3/4"></div>
+            <div className="bg-gray-200 h-4 rounded w-1/2"></div>
           </div>
-        ))}
+        </div>
       </div>
     )
   }
@@ -261,7 +253,7 @@ export default function SimilarProperties({
         </div>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 gap-8">
         {visibleProperties.map((property) => (
           <PropertyCard key={property.id} property={property} />
         ))}

@@ -44,6 +44,43 @@ function PropertiesContent() {
   })
   const [loading, setLoading] = useState(true)
 
+  // Temporary mock data for testing the new design
+  const mockProperties = [
+    {
+      id: "1",
+      title: "10 OXFORD",
+      location: "Jumeirah Village Circle, Dubai",
+      images: ["/placeholder.svg", "/placeholder.svg"],
+      bedrooms: 2,
+      bathrooms: 2,
+      area: 1200,
+      propertyType: "Apartments, Flat",
+      price: 678150
+    },
+    {
+      id: "2", 
+      title: "Luxury Villa in Koramangala",
+      location: "Koramangala 5th Block, Bangalore",
+      images: ["/placeholder.svg", "/placeholder.svg"],
+      bedrooms: 4,
+      bathrooms: 3,
+      area: 2800,
+      propertyType: "Luxury Villa",
+      price: 45000000
+    },
+    {
+      id: "3",
+      title: "Modern Apartment in HSR Layout",
+      location: "HSR Layout Sector 2, Bangalore",
+      images: ["/placeholder.svg", "/placeholder.svg"],
+      bedrooms: 3,
+      bathrooms: 3,
+      area: 1850,
+      propertyType: "Apartment",
+      price: 28000000
+    }
+  ]
+
   // Fetch properties from API
   useEffect(() => {
     const fetchProperties = async () => {
@@ -62,9 +99,26 @@ function PropertiesContent() {
         if (data.properties) {
           setProperties(data.properties)
           setPagination(data.pagination)
+        } else {
+          // Use mock data if API fails
+          setProperties(mockProperties)
+          setPagination({
+            page: 1,
+            limit: 9,
+            total: mockProperties.length,
+            totalPages: 1
+          })
         }
       } catch (error) {
         console.error('Error fetching properties:', error)
+        // Use mock data if API fails
+        setProperties(mockProperties)
+        setPagination({
+          page: 1,
+          limit: 9,
+          total: mockProperties.length,
+          totalPages: 1
+        })
       } finally {
         setLoading(false)
       }
@@ -189,24 +243,24 @@ function PropertiesContent() {
               <p className="text-slate-500">Loading properties...</p>
             </div>
           ) : properties.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="space-y-6">
               {properties.map((property: any) => (
                 <div key={property.id} className="animate-fade-in">
                   <PropertyCard property={{
                     id: property.id,
                     title: property.title,
                     location: property.location,
-                    image: property.images?.[0] || "/placeholder.svg?height=600&width=800",
+                    images: property.images || ["/placeholder.svg"],
                     beds: property.bedrooms,
                     baths: property.bathrooms,
                     sqft: property.area,
                     amenities: ["Security", "Parking", "Power Backup"],
                     isNew: true,
                     featured: true,
-                    type: property.propertyType,
+                    type: property.propertyCategory || property.propertyType,
                     rating: 4.8,
                     development: true,
-                    price: property.price ? `₹${(property.price / 10000000).toFixed(1)} Cr` : "Price on Application"
+                    price: property.price ? `INR ${(property.price / 10000000).toFixed(1)} Cr` : "Price on Application"
                   }} />
                 </div>
               ))}

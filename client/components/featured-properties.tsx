@@ -14,8 +14,7 @@ const properties = [
     id: 1,
     title: "Luxury Villa in Koramangala",
     location: "Koramangala 5th Block, Bangalore",
-
-    image: "/placeholder.svg?height=600&width=800",
+    images: ["/placeholder.svg"],
     beds: 4,
     baths: 3,
     sqft: 2800,
@@ -31,7 +30,7 @@ const properties = [
     title: "Commercial Office Space",
     location: "Outer Ring Road, Bangalore",
 
-    image: "/placeholder.svg?height=600&width=800",
+    images: ["/placeholder.svg"],
     beds: null,
     baths: 4,
     sqft: 3500,
@@ -47,7 +46,7 @@ const properties = [
     title: "Residential Plot in Whitefield",
     location: "Whitefield, Bangalore",
 
-    image: "/placeholder.svg?height=600&width=800",
+    images: ["/placeholder.svg"],
     beds: null,
     baths: null,
     sqft: 2400,
@@ -63,7 +62,7 @@ const properties = [
     title: "Retail Shop in Commercial Street",
     location: "Commercial Street, Bangalore",
 
-    image: "/placeholder.svg?height=600&width=800",
+    images: ["/placeholder.svg"],
     beds: null,
     baths: 1,
     sqft: 450,
@@ -79,7 +78,7 @@ const properties = [
     title: "3BHK Apartment in HSR Layout",
     location: "HSR Layout Sector 2, Bangalore",
 
-    image: "/placeholder.svg?height=600&width=800",
+    images: ["/placeholder.svg"],
     beds: 3,
     baths: 3,
     sqft: 1850,
@@ -95,7 +94,7 @@ const properties = [
     title: "Warehouse in Electronic City",
     location: "Electronic City Phase 2, Bangalore",
 
-    image: "/placeholder.svg?height=600&width=800",
+    images: ["/placeholder.svg"],
     beds: null,
     baths: 2,
     sqft: 8500,
@@ -166,7 +165,7 @@ export default function FeaturedProperties() {
             className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-slate-200 flex flex-col h-full"
           >
             <div className="relative h-64">
-              <Image src={property.image || "/placeholder.svg"} alt={property.title} fill className="object-cover" />
+              <Image src={property.images?.[0] || "/placeholder.svg"} alt={property.title} fill className="object-cover" />
               {property.isNew && (
                 <Badge className="absolute top-4 left-4 bg-gradient-to-r from-gold-500 to-gold-600 text-white border-0">
                   New Listing

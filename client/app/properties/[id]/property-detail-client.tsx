@@ -179,8 +179,8 @@ export default function PropertyDetailPageClient({ property }: PropertyDetailPag
               </h1>
 
               {/* Price */}
-              <div className="text-3xl font-bold text-black font-['Suisse_Intl',sans-serif]">
-                {property.price}
+              <div className="text-2xl font-bold text-black" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '500'}}>
+                Strating from {property.price}
               </div>
 
               {/* Property Type */}
@@ -226,7 +226,7 @@ export default function PropertyDetailPageClient({ property }: PropertyDetailPag
               </div> */}
 
               {/* Guide Price Section */}
-              <div className="border-t pt-6">
+              {/* <div className="border-t pt-6">
                 <h3 className="text-lg font-semibold mb-4 font-['Suisse_Intl',sans-serif]">Guide price</h3>
                 <div className="flex items-center justify-between">
                   <div className="text-2xl font-bold text-black font-['Suisse_Intl',sans-serif]">
@@ -237,7 +237,7 @@ export default function PropertyDetailPageClient({ property }: PropertyDetailPag
                     <ChevronDown className="h-4 w-4" />
                   </div>
                 </div>
-              </div>
+              </div> */}
 
               {/* Agent Section */}
               <div className="border-t pt-6">

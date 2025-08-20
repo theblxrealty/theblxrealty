@@ -34,7 +34,7 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
       description: property.description || "",
       longDescription: property.description || "",
       location: property.location || "Location not specified",
-      price: property.price ? `₹${(property.price / 10000000).toFixed(1)} Cr` : "Price on Application",
+              price: property.price ? `INR ${(property.price / 10000000).toFixed(1)} Cr` : "Price on Application",
       development: true,
       propertyRef: property.id.slice(-8).toUpperCase(),
       coordinates: property.latitude && property.longitude 
