@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client'
+import { hashPassword } from '../lib/auth'
 
 const prisma = new PrismaClient()
 
@@ -17,6 +18,25 @@ function generatePropertyImages() {
 }
 
 async function main() {
+  // Create admin user first
+  console.log('Creating admin user...')
+  const adminPassword = await hashPassword('admin123')
+  
+  const admin = await prisma.admin.upsert({
+    where: { email: 'admin@11square.com' },
+    update: {},
+    create: {
+      email: 'admin@11square.com',
+      phone: '+919876543210',
+      password: adminPassword,
+      firstName: 'Admin',
+      lastName: 'User',
+      role: 'admin'
+    }
+  })
+  
+  console.log('Admin user created:', admin.email)
+
   // Create sample blog posts
   const blogPosts = [
     {
@@ -354,7 +374,7 @@ async function main() {
       bedrooms: 4,
       bathrooms: 3,
       area: 3000,
-      images: ["/placeholder.svg?height=600&width=800"],
+      ...generatePropertyImages(),
       isActive: true
     },
     {
@@ -369,7 +389,7 @@ async function main() {
       bedrooms: 3,
       bathrooms: 2,
       area: 1600,
-      images: ["/placeholder.svg?height=600&width=800"],
+      ...generatePropertyImages(),
       isActive: true
     },
     {
@@ -384,7 +404,7 @@ async function main() {
       bedrooms: 5,
       bathrooms: 4,
       area: 4000,
-      images: ["/placeholder.svg?height=600&width=800"],
+      ...generatePropertyImages(),
       isActive: true
     },
     {
@@ -399,7 +419,7 @@ async function main() {
       bedrooms: 3,
       bathrooms: 2,
       area: 1900,
-      images: ["/placeholder.svg?height=600&width=800"],
+      ...generatePropertyImages(),
       isActive: true
     },
     {
@@ -414,7 +434,7 @@ async function main() {
       bedrooms: 4,
       bathrooms: 3,
       area: 2500,
-      images: ["/placeholder.svg?height=600&width=800"],
+      ...generatePropertyImages(),
       isActive: true
     }
   ]
@@ -433,7 +453,7 @@ async function main() {
       bedrooms: null,
       bathrooms: null,
       area: 5500,
-      images: ["/placeholder.svg?height=600&width=800"],
+      ...generatePropertyImages(),
       isActive: true
     },
     {
@@ -448,7 +468,7 @@ async function main() {
       bedrooms: null,
       bathrooms: null,
       area: 3200,
-      images: ["/placeholder.svg?height=600&width=800"],
+      ...generatePropertyImages(),
       isActive: true
     },
     {
@@ -463,7 +483,7 @@ async function main() {
       bedrooms: null,
       bathrooms: null,
       area: 3800,
-      images: ["/placeholder.svg?height=600&width=800"],
+      ...generatePropertyImages(),
       isActive: true
     },
     {
@@ -478,7 +498,7 @@ async function main() {
       bedrooms: null,
       bathrooms: null,
       area: 4200,
-      images: ["/placeholder.svg?height=600&width=800"],
+      ...generatePropertyImages(),
       isActive: true
     },
     {
@@ -493,7 +513,7 @@ async function main() {
       bedrooms: null,
       bathrooms: null,
       area: 4800,
-      images: ["/placeholder.svg?height=800&width=800"],
+      ...generatePropertyImages(),
       isActive: true
     }
   ]
@@ -512,7 +532,7 @@ async function main() {
       bedrooms: null,
       bathrooms: null,
       area: 6000,
-      images: ["/placeholder.svg?height=600&width=800"],
+      ...generatePropertyImages(),
       isActive: true
     },
     {
@@ -527,7 +547,7 @@ async function main() {
       bedrooms: null,
       bathrooms: null,
       area: 4000,
-      images: ["/placeholder.svg?height=600&width=800"],
+      ...generatePropertyImages(),
       isActive: true
     },
     {
@@ -542,7 +562,7 @@ async function main() {
       bedrooms: null,
       bathrooms: null,
       area: 3500,
-      images: ["/placeholder.svg?height=600&width=800"],
+      ...generatePropertyImages(),
       isActive: true
     },
     {
@@ -557,7 +577,7 @@ async function main() {
       bedrooms: null,
       bathrooms: null,
       area: 5000,
-      images: ["/placeholder.svg?height=600&width=800"],
+      ...generatePropertyImages(),
       isActive: true
     },
     {
@@ -572,7 +592,7 @@ async function main() {
       bedrooms: null,
       bathrooms: null,
       area: 5500,
-      images: ["/placeholder.svg?height=600&width=800"],
+      ...generatePropertyImages(),
       isActive: true
     }
   ]
@@ -591,7 +611,7 @@ async function main() {
       bedrooms: null,
       bathrooms: 2,
       area: 1200,
-      images: ["/placeholder.svg?height=600&width=800"],
+      ...generatePropertyImages(),
       isActive: true
     },
     {
@@ -606,7 +626,7 @@ async function main() {
       bedrooms: null,
       bathrooms: 3,
       area: 1500,
-      images: ["/placeholder.svg?height=600&width=800"],
+      ...generatePropertyImages(),
       isActive: true
     },
     {
@@ -621,7 +641,7 @@ async function main() {
       bedrooms: null,
       bathrooms: 2,
       area: 1800,
-      images: ["/placeholder.svg?height=600&width=800"],
+      ...generatePropertyImages(),
       isActive: true
     },
     {
@@ -636,7 +656,7 @@ async function main() {
       bedrooms: null,
       bathrooms: 4,
       area: 2500,
-      images: ["/placeholder.svg?height=600&width=800"],
+      ...generatePropertyImages(),
       isActive: true
     },
     {
@@ -651,7 +671,7 @@ async function main() {
       bedrooms: null,
       bathrooms: 2,
       area: 3000,
-      images: ["/placeholder.svg?height=600&width=800"],
+      ...generatePropertyImages(),
       isActive: true
     }
   ]
@@ -670,7 +690,7 @@ async function main() {
       bedrooms: 4,
       bathrooms: 3,
       area: 2600,
-      images: ["/placeholder.svg?height=600&width=800"],
+      ...generatePropertyImages(),
       isActive: true
     },
     {
@@ -685,7 +705,7 @@ async function main() {
       bedrooms: 3,
       bathrooms: 2,
       area: 1400,
-      images: ["/placeholder.svg?height=600&width=800"],
+      ...generatePropertyImages(),
       isActive: true
     },
     {
@@ -700,7 +720,7 @@ async function main() {
       bedrooms: null,
       bathrooms: null,
       area: 4800,
-      images: ["/placeholder.svg?height=600&width=800"],
+      ...generatePropertyImages(),
       isActive: true
     },
     {
@@ -715,7 +735,7 @@ async function main() {
       bedrooms: null,
       bathrooms: 3,
       area: 2000,
-      images: ["/placeholder.svg?height=600&width=800"],
+      ...generatePropertyImages(),
       isActive: true
     },
     {
@@ -730,7 +750,7 @@ async function main() {
       bedrooms: null,
       bathrooms: null,
       area: 3500,
-      images: ["/placeholder.svg?height=600&width=800"],
+      ...generatePropertyImages(),
       isActive: true
     }
   ]
@@ -750,7 +770,10 @@ async function main() {
   
   for (const propertyData of allProperties) {
     const property = await prisma.property.create({
-      data: propertyData
+      data: {
+        ...propertyData,
+        adminId: admin.id // Link properties to admin
+      }
     })
     console.log(`Created property: ${property.title} (${propertyData.propertyCategory})`)
   }
