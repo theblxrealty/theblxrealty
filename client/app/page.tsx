@@ -1,6 +1,6 @@
 import Link from "next/link"
 import Image from "next/image"
-import { ArrowRight, Building, Award, Shield, TrendingUp, MapPin, Phone } from "lucide-react"
+import { ArrowRight, Building, Award, Shield, TrendingUp, MapPin, Phone,Mail } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import HeroSection from "@/components/hero-section"
 import FeaturedProperties from "@/components/featured-properties"
@@ -8,6 +8,7 @@ import TeamMember from "@/components/team-member"
 
 import ContactForm from "@/components/contact-form"
 import ThemeToggle from "@/components/theme-toggle"
+import Email from "next-auth/providers/email"
 
 // Sample team data
 const teamMembers = [
@@ -86,10 +87,10 @@ export default function HomePage() {
             <div className="order-1 lg:order-2">
               <h2 className="text-4xl md:text-4xl font-bold mb-6 text-black" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>Dream properties</h2>
               <p className="text-lg text-gray-500 mb-8 font-['Suisse_Intl',sans-serif]">
-                We specialise in selling and letting a wide range of homes, from modern London apartments to historical country houses, farms, and international pieds-à-terre.
+                Your vision of a perfect home is our blueprint for action. 11 Square Realty is dedicated to turning aspirations into addresses, with passion, precision, and personalized care.
               </p>
               <div className="space-y-8">
-                <Link href="/properties" className="group cursor-pointer block">
+                <Link href="/contact" className="group cursor-pointer block">
                   <div className="text-black font-['Suisse_Intl',sans-serif] relative inline-block" style={{fontSize: '1.2rem', fontWeight: 550, lineHeight: 1}}>
                     Sell with us
                     <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-red-500 transition-all duration-300 group-hover:w-full"></span>
@@ -114,17 +115,17 @@ export default function HomePage() {
             <div>
               <h2 className="text-4xl md:text-4xl font-bold mb-6 text-black" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>We're here for you</h2>
               <p className="text-lg text-gray-500 mb-8 font-['Suisse_Intl',sans-serif]">
-                Whether you're looking to buy, sell or rent a property, as your next home or an investment, we're committed to finding your perfect match.
+                Whether you're looking to buy or sell a property, as your next home or an investment, we're committed to finding your perfect match.
               </p>
               <div className="mb-8">
                 <div className="flex items-start">
                   <blockquote className="text-3xl font-bold text-black mb-6 leading-tight flex-1" style={{fontFamily: 'Tiempos Headline, serif', lineHeight: 1.2, fontWeight: '500'}}>
-                    "This was by far and away the best experience I have had with an estate agency. Lovely people and above all supremely professional with both me as a seller and the buyers."
+                    "At 11 Square Realty, every property is a promise and every client a partner. We blend expertise with empathy to create seamless transitions from dreams to doorsteps."
                   </blockquote>
                 </div>
                 <div className="mt-6">
                   <div className="font-bold text-black text-lg font-['Suisse_Intl',sans-serif]">Lorraine</div>
-                  <div className="text-gray-600">11Square office</div>
+                  <div className="text-gray-600">11Square</div>
                 </div>
               </div>
             </div>
@@ -209,12 +210,13 @@ export default function HomePage() {
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-4xl font-bold mb-6 text-black" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>Why Choose 11Square</h2>
             <p className="text-lg text-gray-500 mb-8 font-['Suisse_Intl',sans-serif] max-w-3xl mx-auto">
-              Bangalore's premier luxury property marketplace connecting discerning buyers and sellers across
-              residential, commercial, and investment properties.
+              Bengaluru's premier luxury property marketplace connecting discerning buyers and sellers across
+              residential, commercial, and investment properties. Where 11 Square has become NRI's favorite property search hub helping accross borders.
+
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             {/* Card 1 - Premium Property Portfolio */}
             <div className="relative h-80 rounded-lg shadow-lg overflow-hidden group">
               <Image
@@ -226,11 +228,11 @@ export default function HomePage() {
               <div className="absolute inset-0 bg-gradient-to-t from-[#011337]/90 via-[#011337]/50 to-transparent transition-opacity duration-300 group-hover:from-[#011337]/95 group-hover:via-[#011337]/60"></div>
               <div className="absolute inset-0 p-8 flex flex-col justify-end">
                 <h3 className="text-2xl font-bold mb-3 text-white font-['Suisse_Intl',sans-serif]">
-                  Premium Property Portfolio
+                  Premium Property Portfolio, Buy Ready and Off-Plan Properties  
                 </h3>
                 <p className="text-white/90 font-['Suisse_Intl',sans-serif] leading-relaxed">
                   Curated collection of luxury apartments, villas, commercial spaces, and investment properties in
-                  Bangalore's most prestigious locations.
+                  Bengaluru's most prestigious locations.
                 </p>
               </div>
             </div>
@@ -246,7 +248,7 @@ export default function HomePage() {
               <div className="absolute inset-0 bg-gradient-to-t from-[#011337]/90 via-[#011337]/50 to-transparent transition-opacity duration-300 group-hover:from-[#011337]/95 group-hover:via-[#011337]/60"></div>
               <div className="absolute inset-0 p-8 flex flex-col justify-end">
                 <h3 className="text-2xl font-bold mb-3 text-white font-['Suisse_Intl',sans-serif]">
-                  Expert Market Insights
+                  Expert Market Insights & Investment Advisory
                 </h3>
                 <p className="text-white/90 font-['Suisse_Intl',sans-serif] leading-relaxed">
                   Professional property valuations, market analysis, and investment guidance from certified real estate
@@ -271,6 +273,25 @@ export default function HomePage() {
                 <p className="text-white/90 font-['Suisse_Intl',sans-serif] leading-relaxed">
                   End-to-end support with legal verification, documentation, financing assistance, and secure transaction
                   management.
+                </p>
+              </div>
+            </div>
+
+                        {/* Card 4 - Expert Market Insights */}
+            <div className="relative h-80 rounded-lg shadow-lg overflow-hidden group">
+              <Image
+                src="/wcu_2.webp"
+                alt="Expert Market Insights"
+                fill
+                className="object-cover transition-transform duration-300 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#011337]/90 via-[#011337]/50 to-transparent transition-opacity duration-300 group-hover:from-[#011337]/95 group-hover:via-[#011337]/60"></div>
+              <div className="absolute inset-0 p-8 flex flex-col justify-end">
+                <h3 className="text-2xl font-bold mb-3 text-white font-['Suisse_Intl',sans-serif]">
+                  Mortgage & Financing Assistance
+                </h3>
+                <p className="text-white/90 font-['Suisse_Intl',sans-serif] leading-relaxed">
+                  we simplify the process by connecting you with top-tier financial institutions offering competitive rates and flexible terms. Our goal is to ensure you make informed decisions that align with your investment strategy.
                 </p>
               </div>
             </div>
@@ -395,7 +416,7 @@ export default function HomePage() {
                   </div>
                   <div>
                     <h3 className="font-bold text-black text-lg font-['Suisse_Intl',sans-serif]">Visit Our Premium Office</h3>
-                    <p className="text-gray-500 font-['Suisse_Intl',sans-serif]">Brigade Road, Bangalore, Karnataka 560001</p>
+                    <p className="text-gray-500 font-['Suisse_Intl',sans-serif]"> 59, 10th A Cross Road, West of Chord Road, Bangalore, Karnataka 560086</p>
                   </div>
                 </div>
 
@@ -405,25 +426,20 @@ export default function HomePage() {
                   </div>
                   <div>
                     <h3 className="font-bold text-black text-lg font-['Suisse_Intl',sans-serif]">Call Our Experts</h3>
-                    <p className="text-gray-500 font-['Suisse_Intl',sans-serif]">+91 98765 43210</p>
+                    <p className="text-gray-500 font-['Suisse_Intl',sans-serif]">+91 9743264328</p>
                   </div>
-                </div>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Button
-                  size="lg"
-                  className="bg-red-500 hover:bg-red-600 text-white px-8 py-4 font-['Suisse_Intl',sans-serif] font-medium"
-                >
-                  List Your Property
-                </Button>
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="border-red-500 text-red-500 hover:bg-red-500 hover:text-white px-8 py-4 font-['Suisse_Intl',sans-serif] font-medium"
-                >
-                  Get Property Valuation
-                </Button>
+              <div className="flex items-start">
+                  <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mr-4">
+                    <Mail className="h-6 w-6 text-red-600" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-black text-lg font-['Suisse_Intl',sans-serif]">Email</h3>
+                    <p className="text-gray-500 font-['Suisse_Intl',sans-serif]">discover@11squarerealty.com</p>
+                  </div>
+              </div>
+
               </div>
             </div>
 
