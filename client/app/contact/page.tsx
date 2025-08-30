@@ -6,9 +6,9 @@ import ContactMap from "@/components/contact-map"
 
 export default function ContactPage() {
   return (
-    <div className="flex flex-col min-h-screen pt-16">
+    <div className="flex flex-col min-h-screen pt-30">
       {/* Hero Section */}
-      <section className="relative w-full h-[85vh] overflow-hidden">
+      <section className="relative w-full h-[100vh] overflow-hidden">
         {/* Video Background */}
         <div className="absolute inset-0">
           <Image
@@ -40,7 +40,7 @@ export default function ContactPage() {
                   className="text-lg text-white mb-8 font-['Suisse_Intl',sans-serif] animate-slide-up-delay-1"
                 >
                   Connect with our luxury property experts for personalized guidance on buying, selling, or investing in
-                  Bangalore's premium real estate market.
+                  Bengaluru's, Dubai's and UK's premium real estate market.
                 </p>
               </div>
             </div>
@@ -62,7 +62,7 @@ export default function ContactPage() {
               <div className="space-y-8">
                 {/* Bangalore Office */}
                 <div className="border-l-4 border-red-500 pl-6">
-                  <h3 className="font-bold text-black text-xl mb-4 font-['Suisse_Intl',sans-serif]">Bangalore Office</h3>
+                  <h3 className="font-bold text-black text-xl mb-4 font-['Suisse_Intl',sans-serif]">Bengaluru</h3>
                   
                   <div className="space-y-6">
                     <div className="flex items-start">
@@ -71,9 +71,9 @@ export default function ContactPage() {
                       </div>
                       <div>
                         <h4 className="font-bold text-black text-lg font-['Suisse_Intl',sans-serif]">Visit Our Premium Office</h4>
-                        <p className="text-gray-500 font-['Suisse_Intl',sans-serif]">Brigade Road, Bangalore, Karnataka 560001</p>
+                        <p className="text-gray-500 font-['Suisse_Intl',sans-serif]">59, 10th A Cross Road, West of Chord Road, Bangalore, Karnataka 560086</p>
                         <p className="text-gray-500 mt-1 font-['Suisse_Intl',sans-serif]">
-                          Our luxury showroom is open for walk-ins and scheduled appointments.
+                           open for walk-ins and scheduled appointments.
                         </p>
                       </div>
                     </div>
@@ -84,9 +84,9 @@ export default function ContactPage() {
                       </div>
                       <div>
                         <h4 className="font-bold text-black text-lg font-['Suisse_Intl',sans-serif]">Call Our Experts</h4>
-                        <p className="text-gray-500 font-['Suisse_Intl',sans-serif]">+91 98765 43210</p>
+                        <p className="text-gray-500 font-['Suisse_Intl',sans-serif]">+91 97432 64328</p>
                         <p className="text-gray-500 mt-1 font-['Suisse_Intl',sans-serif]">
-                          Our luxury property specialists are available Monday through Friday, 9am to 6pm.
+                          Our property specialists are available Monday through Saturday, 9am to 6pm.
                         </p>
                       </div>
                     </div>
@@ -97,7 +97,7 @@ export default function ContactPage() {
                       </div>
                       <div>
                         <h4 className="font-bold text-black text-lg font-['Suisse_Intl',sans-serif]">Email Us</h4>
-                        <p className="text-gray-500 font-['Suisse_Intl',sans-serif]">bangalore@11square.com</p>
+                        <p className="text-gray-500 font-['Suisse_Intl',sans-serif]">discover@11squarerealty.com</p>
                         <p className="text-gray-500 mt-1 font-['Suisse_Intl',sans-serif]">
                           We aim to respond to all inquiries within 24 hours during business days.
                         </p>
@@ -108,7 +108,7 @@ export default function ContactPage() {
 
                 {/* London Office */}
                 <div className="border-l-4 border-blue-500 pl-6">
-                  <h3 className="font-bold text-black text-xl mb-4 font-['Suisse_Intl',sans-serif]">London Office</h3>
+                  <h3 className="font-bold text-black text-xl mb-4 font-['Suisse_Intl',sans-serif]">London, UK</h3>
                   
                   <div className="space-y-6">
                     <div className="flex items-start">
@@ -117,9 +117,9 @@ export default function ContactPage() {
                       </div>
                       <div>
                         <h4 className="font-bold text-black text-lg font-['Suisse_Intl',sans-serif]">Visit Our Premium Office</h4>
-                        <p className="text-gray-500 font-['Suisse_Intl',sans-serif]">Mayfair, London, W1K 1AP, United Kingdom</p>
+                        <p className="text-gray-500 font-['Suisse_Intl',sans-serif]">Suite RA01, 195-197 Wood Street, London, E17 3NU, United Kingdom</p>
                         <p className="text-gray-500 mt-1 font-['Suisse_Intl',sans-serif]">
-                          Our luxury showroom is open for walk-ins and scheduled appointments.
+                          open for walk-ins and scheduled appointments.
                         </p>
                       </div>
                     </div>
@@ -130,10 +130,8 @@ export default function ContactPage() {
                       </div>
                       <div>
                         <h4 className="font-bold text-black text-lg font-['Suisse_Intl',sans-serif]">Call Our Experts</h4>
-                        <p className="text-gray-500 font-['Suisse_Intl',sans-serif]">+44 20 7123 4567</p>
-                        <p className="text-gray-500 mt-1 font-['Suisse_Intl',sans-serif]">
-                          Our luxury property specialists are available Monday through Friday, 9am to 6pm GMT.
-                        </p>
+                        <p className="text-gray-500 font-['Suisse_Intl',sans-serif]">+44 7944450039</p>
+                         
                       </div>
                     </div>
 
@@ -143,29 +141,27 @@ export default function ContactPage() {
                       </div>
                       <div>
                         <h4 className="font-bold text-black text-lg font-['Suisse_Intl',sans-serif]">Email Us</h4>
-                        <p className="text-gray-500 font-['Suisse_Intl',sans-serif]">london@11square.com</p>
-                        <p className="text-gray-500 mt-1 font-['Suisse_Intl',sans-serif]">
-                          We aim to respond to all inquiries within 24 hours during business days.
-                        </p>
+                        <p className="text-gray-500 font-['Suisse_Intl',sans-serif]">discover@11squarerealty.com</p>
+                      
                       </div>
                     </div>
                   </div>
                 </div>
 
-                <div className="border-l-4 border-blue-500 pl-6">
+                <div className="border-l-4 border-red-500 pl-6">
                   <div className="flex items-start">
-                    <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
-                      <Clock className="h-6 w-6 text-blue-600" />
+                    <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mr-4">
+                      <Clock className="h-6 w-6 text-red-600" />
                     </div>
                     <div>
                       <h3 className="font-bold text-black text-lg font-['Suisse_Intl',sans-serif]">Business Hours</h3>
                       <div className="text-gray-500 grid grid-cols-2 gap-x-4 gap-y-1 mt-1 font-['Suisse_Intl',sans-serif]">
-                        <span>Monday - Friday:</span>
+                        <span>Monday - Saturday:</span>
                         <span>9:00 AM - 6:00 PM</span>
-                        <span>Saturday:</span>
-                        <span>10:00 AM - 4:00 PM</span>
-                        <span>Sunday:</span>
-                        <span>Closed</span>
+                         
+                        
+                        <span>Sunday: Closed</span>
+                         
                       </div>
                     </div>
                   </div>
@@ -195,7 +191,7 @@ export default function ContactPage() {
                     </svg>
                     <span className="sr-only">Facebook</span>
                   </a>
-                  <a
+                                    <a
                     href="#"
                     className="bg-gradient-to-br from-red-100 to-red-200 p-3 rounded-2xl text-red-600 hover:from-red-200 hover:to-red-300 transition-colors"
                   >
@@ -211,12 +207,13 @@ export default function ContactPage() {
                       strokeLinejoin="round"
                       className="h-6 w-6"
                     >
-                      <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path>
+                      <path d="M2.5 17a24.12 24.12 0 0 1 0-10A24.12 24.12 0 0 1 2.5 17m19 0a24.12 24.12 0 0 0 0-10A24.12 24.12 0 0 0 21.5 17m-15.5-5a9 9 0 0 0 9 9 9 9 0 0 0 9-9 9 9 0 0 0-9-9 9 9 0 0 0-9 9Z"></path>
+                      <path d="m9.5 15.5 7-4-7-4Z"></path>
                     </svg>
-                    <span className="sr-only">Twitter</span>
+                    <span className="sr-only">Youtube</span>
                   </a>
                   <a
-                    href="#"
+                    href="https://www.linkedin.com/company/11-square-realty/?viewAsMember=true"
                     className="bg-gradient-to-br from-red-100 to-red-200 p-3 rounded-2xl text-red-600 hover:from-red-200 hover:to-red-300 transition-colors"
                   >
                     <svg
@@ -238,7 +235,7 @@ export default function ContactPage() {
                     <span className="sr-only">LinkedIn</span>
                   </a>
                   <a
-                    href="#"
+                    href="https://www.instagram.com/11squarerealty?igsh=MXE3cDQ4bXo0MjA3aA=="
                     className="bg-gradient-to-br from-red-100 to-red-200 p-3 rounded-2xl text-red-600 hover:from-red-200 hover:to-red-300 transition-colors"
                   >
                     <svg
@@ -277,8 +274,7 @@ export default function ContactPage() {
           <div className="text-center max-w-3xl mx-auto mb-12">
             <h2 className="text-2xl md:text-4xl font-bold mb-4 text-black" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>Our Global Offices</h2>
             <p className="text-gray-500 font-['Suisse_Intl',sans-serif]">
-              Visit our premium offices to explore our luxury property portfolio and speak with our expert team in
-              person.
+              Walk into our refined offices to explore our high-end property portfolio and consult with our experienced professionals face-to-face.
             </p>
           </div>
 
@@ -286,48 +282,44 @@ export default function ContactPage() {
             {/* Bangalore Office */}
             <div className="space-y-4">
               <div className="text-center">
-                <h3 className="text-xl font-bold mb-2 text-black font-['Suisse_Intl',sans-serif]">Bangalore Office</h3>
+                <h3 className="text-xl font-bold mb-2 text-black font-['Suisse_Intl',sans-serif]">Bangalore </h3>
                 <p className="text-gray-500 font-['Suisse_Intl',sans-serif] text-sm">
-                  Brigade Road, Bangalore, Karnataka 560001
+                  59, 10th A Cross Road, West of Chord Road, Bangalore, Karnataka 560086
                 </p>
               </div>
               <div className="h-[400px] rounded-lg overflow-hidden shadow-lg border border-gray-100">
                 <ContactMap 
                   center={{ lat: 12.9716, lng: 77.5946 }}
                   officeName="11Square Bangalore"
-                  address="Brigade Road, Bangalore, Karnataka 560001"
-                  phone="+91 98765 43210"
-                  email="bangalore@11square.com"
+                  address="59, 10th A Cross Road, West of Chord Road, Bangalore, Karnataka 560086"
+                  phone="+91 9743264328"
+                  email="discover@11squarerealty.com"
                 />
               </div>
               <div className="text-center">
-                <p className="text-gray-500 font-['Suisse_Intl',sans-serif] text-sm">
-                  Premium parking available on-site
-                </p>
+                 
               </div>
             </div>
 
             {/* London Office */}
             <div className="space-y-4">
               <div className="text-center">
-                <h3 className="text-xl font-bold mb-2 text-black font-['Suisse_Intl',sans-serif]">London Office</h3>
+                <h3 className="text-xl font-bold mb-2 text-black font-['Suisse_Intl',sans-serif]">London  </h3>
                 <p className="text-gray-500 font-['Suisse_Intl',sans-serif] text-sm">
-                  Mayfair, London, W1K 1AP, United Kingdom
+                 Suite RA01, 195-197 Wood Street, London, E17 3NU, United Kingdom
                 </p>
               </div>
               <div className="h-[400px] rounded-lg overflow-hidden shadow-lg border border-gray-100">
                 <ContactMap 
                   center={{ lat: 51.5074, lng: -0.1278 }}
                   officeName="11Square London"
-                  address="Mayfair, London, W1K 1AP, United Kingdom"
-                  phone="+44 20 7123 4567"
-                  email="london@11square.com"
+                  address="Suite RA01, 195-197 Wood Street, London, E17 3NU, United Kingdom"
+                  phone="+44 7944450039"
+                  email="discover@11squarerealty.com"
                 />
               </div>
               <div className="text-center">
-                <p className="text-gray-500 font-['Suisse_Intl',sans-serif] text-sm">
-                  Underground parking available nearby
-                </p>
+                 
               </div>
             </div>
           </div>
