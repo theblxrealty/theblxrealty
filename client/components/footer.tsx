@@ -3,7 +3,7 @@
 import { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { Mail, Phone, MapPin, Facebook, Twitter, Instagram, Linkedin } from "lucide-react"
+import { Mail, Phone, MapPin, Facebook, Youtube, Instagram, Linkedin } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useToast } from "@/hooks/use-toast"
@@ -71,17 +71,17 @@ export default function Footer() {
             <Link href="/" className="flex items-center mb-6">
               <div className="relative w-12 h-12 overflow-hidden">
                 <Image
-                  src="/logo.jpg"
+                  src="/logo.png"
                   alt="11Square Logo"
                   fill
                   className="object-contain"
                   priority
                 />
               </div>
-              <span className="ml-3 text-xl font-bold text-white font-['Suisse_Intl',sans-serif]">11Square</span>
+              <span className="ml-3 text-xl font-bold text-white font-['Suisse_Intl',sans-serif]">11Square Realty</span>
             </Link>
             <p className="text-slate-300 mb-6 font-['Suisse_Intl',sans-serif]">
-              Your trusted partner for buying, selling, and investing in premium properties across Bangalore's most
+              Your trusted partner for buying, selling and investing in premium properties, Residential & Commercial Plots across Bengaluru's most
               prestigious locations.
             </p>
             <div className="flex space-x-4">
@@ -90,14 +90,14 @@ export default function Footer() {
                 <span className="sr-only">Facebook</span>
               </a>
               <a href="#" className="text-slate-400 hover:text-red-400 transition-colors">
-                <Twitter className="h-5 w-5" />
-                <span className="sr-only">Twitter</span>
+                <Youtube className="h-5 w-5" />
+                <span className="sr-only">Youtube</span>
               </a>
-              <a href="#" className="text-slate-400 hover:text-red-400 transition-colors">
+              <a href="https://www.instagram.com/11squarerealty?igsh=MXE3cDQ4bXo0MjA3aA==" className="text-slate-400 hover:text-red-400 transition-colors">
                 <Instagram className="h-5 w-5" />
                 <span className="sr-only">Instagram</span>
               </a>
-              <a href="#" className="text-slate-400 hover:text-red-400 transition-colors">
+              <a href="https://www.linkedin.com/company/11-square-realty/?viewAsMember=true" className="text-slate-400 hover:text-red-400 transition-colors">
                 <Linkedin className="h-5 w-5" />
                 <span className="sr-only">LinkedIn</span>
               </a>
@@ -142,15 +142,15 @@ export default function Footer() {
             <ul className="space-y-4">
               <li className="flex">
                 <MapPin className="h-5 w-5 text-red-400 mr-3 flex-shrink-0" />
-                <span className="text-slate-300 font-['Suisse_Intl',sans-serif]">Brigade Road, Bangalore, Karnataka 560001</span>
+                <span className="text-slate-300 font-['Suisse_Intl',sans-serif]">59, 10th A Cross Road, West of Chord Road, Bangalore, Karnataka 560086</span>
               </li>
               <li className="flex">
                 <Phone className="h-5 w-5 text-red-400 mr-3 flex-shrink-0" />
-                <span className="text-slate-300 font-['Suisse_Intl',sans-serif]">+91 98765 43210</span>
+                <span className="text-slate-300 font-['Suisse_Intl',sans-serif]">+91 9743264328</span>
               </li>
               <li className="flex">
                 <Mail className="h-5 w-5 text-red-400 mr-3 flex-shrink-0" />
-                <span className="text-slate-300 font-['Suisse_Intl',sans-serif]">info@11square.com</span>
+                <span className="text-slate-300 font-['Suisse_Intl',sans-serif]">discover@11squarerealty.com</span>
               </li>
             </ul>
           </div>
@@ -186,7 +186,7 @@ export default function Footer() {
 
         <div className="border-t border-slate-700 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-slate-400 text-sm mb-4 md:mb-0 font-['Suisse_Intl',sans-serif]">
-            &copy; {new Date().getFullYear()} 11Square. All rights reserved.
+            &copy; {new Date().getFullYear()} 11Square Realty. All rights reserved.
           </p>
           <div className="flex space-x-6">
             <Link href="/terms" className="text-slate-400 hover:text-red-400 text-sm transition-colors font-['Suisse_Intl',sans-serif]">
