@@ -6,16 +6,16 @@ import { Button } from "@/components/ui/button"
 
 export default function AboutPage() {
   return (
-    <div className="flex flex-col min-h-screen pt-16">
+    <div className="flex flex-col min-h-screen pt-30">
       {/* Hero Section */}
-      <section className="relative w-full h-[85vh] overflow-hidden">
+      <section className="relative w-full h-[100vh] overflow-hidden">
         {/* Video Background */}
         <div className="absolute inset-0">
           <Image
             src="/about-banner.jpg?height=1080&width=1920"
             alt="Luxury building with premium architecture"
             fill
-            className="object-cover"
+            className="w-full h-full object-cover"
           />
           
           {/* Overlay */}
@@ -39,8 +39,7 @@ export default function AboutPage() {
                 <p 
                   className="text-lg text-white mb-8 font-['Suisse_Intl',sans-serif] animate-slide-up-delay-1"
                 >
-                  At 11Square, we're committed to creating exceptional real estate experiences that connect discerning
-                  clients with Bangalore's most prestigious properties.
+                   11 Square Realty — Turning aspirations into addresses.
                 </p>
               </div>
             </div>
@@ -53,22 +52,16 @@ export default function AboutPage() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
-              <h2 className="text-4xl md:text-4xl font-bold mb-6 text-black" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>From Vision to Reality</h2>
+              <h2 className="text-4xl md:text-4xl font-bold mb-6 text-red-500" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>From Vision to Reality</h2>
               <p className="text-lg text-gray-500 mb-8 font-['Suisse_Intl',sans-serif]">
-                11Square was founded in 2015 with a singular vision: to redefine luxury real estate in Bangalore by
-                creating a platform that connects discerning buyers and sellers with the city's most exceptional
-                properties.
+                Welcome to 11 Square Realty, where your property dreams take shape and become a reality. Founded with a passion for real estate and a commitment to excellence, we specialize in helping clients buy and sell properties with confidence and ease over past 5 years across London, Dubai and India.
+
               </p>
+              <h4 className="text-4xl md:text-3xl font-bold mb-6 text-red-500" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>Who We Are</h4>
               <p className="text-lg text-gray-500 mb-8 font-['Suisse_Intl',sans-serif]">
-                Our founder, Sarah Johnson, recognized that Bangalore's rapidly growing luxury market needed a
-                sophisticated approach that combined deep local knowledge with international standards of service and
-                professionalism.
+                At 11 Square Realty, we are more than just a real estate company—we are trusted partners in your journey to find the perfect home or investment property. With branches in India, Dubai, and the UK, we bring a global perspective combined with local market expertise. Our diverse team of skilled professionals is dedicated to delivering personalized solutions tailored to your unique needs and aspirations.
               </p>
-              <p className="text-lg text-gray-500 mb-8 font-['Suisse_Intl',sans-serif]">
-                Today, 11Square has grown into Bangalore's premier luxury real estate platform, with a portfolio
-                spanning premium residential properties, commercial spaces, and investment opportunities across the
-                city's most prestigious locations.
-              </p>
+               
               <Link href="/contact">
                 <Button className="bg-red-500 hover:bg-red-600 text-white px-8 py-4 font-['Suisse_Intl',sans-serif] font-medium">
                   Get in Touch <ArrowRight className="ml-2 h-4 w-4" />
@@ -102,18 +95,26 @@ export default function AboutPage() {
               </div>
             </div>
             <div className="order-1 lg:order-2">
-              <h2 className="text-4xl md:text-4xl font-bold mb-6 text-black" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>Leading the Luxury Market</h2>
+              <h2 className="text-4xl md:text-4xl font-bold mb-6 text-red-500" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>Our Mission</h2>
               <p className="text-lg text-gray-500 mb-8 font-['Suisse_Intl',sans-serif]">
-                As Bangalore's premier luxury real estate platform, we've established ourselves as the trusted partner
-                for high-net-worth individuals, institutional investors, and discerning property buyers and sellers.
+                Our mission is simple: to help you discover and own your dream property. We believe that buying or selling real estate is not just a transaction; it's a life-changing experience. That's why we focus on transparency, integrity, and unparalleled client support throughout every step of the process. We strive to make your journey seamless, rewarding, and inspiring.
+
+              </p>
+              <h2 className="text-4xl md:text-3xl font-bold mb-6 text-red-500" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}> What Sets Us Apart</h2>
+              <p className="text-lg text-gray-500 mb-8 font-['Suisse_Intl',sans-serif]">
+                <strong className="font-bold text-black">Global Reach with Local Insight:</strong> Our presence across key international markets means you have access to the best properties and opportunities around the world.
+
               </p>
               <p className="text-lg text-gray-500 mb-8 font-['Suisse_Intl',sans-serif]">
-                Our deep understanding of the local market dynamics, combined with international standards of service,
-                has positioned us as the go-to destination for premium property transactions in the city.
+                <strong className="font-bold text-black">Client-Centric Approach:</strong> Every client is unique, and so is our approach. We listen carefully, understand your goals, and tailor our services to exceed your expectations.
+
               </p>
-              <p className="text-lg text-gray-500 mb-8 font-['Suisse_Intl',sans-serif]">
-                With over ₹500 crores in successful transactions and a portfolio spanning the city's most prestigious
-                locations, we continue to set new benchmarks in luxury real estate excellence.
+               <p className="text-lg text-gray-500 mb-8 font-['Suisse_Intl',sans-serif]">
+                <strong className="font-bold text-black">Experienced Team:</strong> Our experts bring years of industry knowledge and insightful guidance, ensuring you make informed decisions.
+
+              </p>
+               <p className="text-lg text-gray-500 mb-8 font-['Suisse_Intl',sans-serif]">
+                 <strong className="font-bold text-black">Commitment to Excellence:</strong> We uphold the highest standards of professionalism, ethics, and customer service in every deal we handle.
               </p>
               <Link href="/properties">
                 <Button className="bg-red-500 hover:bg-red-600 text-white px-8 py-4 font-['Suisse_Intl',sans-serif] font-medium">
@@ -130,19 +131,21 @@ export default function AboutPage() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
-              <h2 className="text-4xl md:text-4xl font-bold mb-6 text-black" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>Technology Meets Luxury</h2>
+              <h2 className="text-4xl md:text-4xl font-bold mb-6 text-red-500" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>Why Choose 11 Square Realty?
+</h2>
               <p className="text-lg text-gray-500 mb-8 font-['Suisse_Intl',sans-serif]">
-                We leverage cutting-edge technology to enhance the luxury real estate experience, from virtual property
-                tours to advanced market analytics and seamless transaction management.
+                When you choose 11 Square Realty, you're not just getting a real estate agent—you're gaining a dedicated partner who cares about your future. We help you navigate the complexities of the property market, whether it's your first home or your next big investment. Our goal is to unlock the door to opportunities that match your lifestyle and ambitions.
+
+
               </p>
+              <h2 className="text-4xl md:text-3xl font-bold mb-6 text-red-500" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}> Join Us on This Journey
+
+</h2>
               <p className="text-lg text-gray-500 mb-8 font-['Suisse_Intl',sans-serif]">
-                Our proprietary platform combines AI-powered property matching, blockchain-secured transactions, and
-                immersive 3D property visualizations to deliver an unparalleled service experience.
+               We invite you to explore the possibilities with 11 Square Realty. Let us be the key to your perfect nest—where comfort, security, and happiness come together. Whether you're buying, selling, or seeking expert advice, we're here to make your real estate dreams come true.
+
               </p>
-              <p className="text-lg text-gray-500 mb-8 font-['Suisse_Intl',sans-serif]">
-                By embracing innovation while maintaining the personal touch that luxury clients expect, we're
-                revolutionizing how premium properties are bought, sold, and managed in Bangalore.
-              </p>
+               
               <Link href="/contact">
                 <Button className="bg-red-500 hover:bg-red-600 text-white px-8 py-4 font-['Suisse_Intl',sans-serif] font-medium">
                   Experience Innovation <ArrowRight className="ml-2 h-4 w-4" />
