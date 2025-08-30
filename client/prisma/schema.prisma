@@ -1,16 +1,15 @@
 generator client {
-  provider      = "prisma-client-js"
-  binaryTargets = ["native", "debian-openssl-1.1.x"]
+  provider        = "prisma-client-js"
   previewFeatures = ["driverAdapters"]
+  binaryTargets   = ["native", "debian-openssl-1.1.x"]
 }
 
-/// @seed = "tsx prisma/seed.ts"
+/// @seed="tsx prisma/seed.ts"
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
-
 
 model User {
   id                   String                @id @default(cuid())
@@ -20,13 +19,14 @@ model User {
   firstName            String?
   lastName             String?
   title                String?
-  image                String?
   createdAt            DateTime              @default(now())
   updatedAt            DateTime              @updatedAt
+  image                String?
+  accounts             Account[]
   careerApplications   CareerApplication[]
   contactRequests      ContactRequest[]
   propertyViewRequests PropertyViewRequest[]
-  accounts             Account[]
+  savedProperties      SavedProperty[]
   sessions             Session[]
 
   @@map("users")
@@ -57,19 +57,20 @@ model Property {
   latitude             Float?
   longitude            Float?
   propertyType         String?
-  propertyCategory     String                // New field for the 7 main categories
-  bedrooms             Int?                  // Optional for farm land and sites
-  bathrooms            Int?                  // Optional for farm land and sites
+  bedrooms             Int?
+  bathrooms            Int?
   area                 Float?
-  propertyBanner1      String?                 // First banner image for property cards
-  propertyBanner2      String?                 // Second banner image for property cards
-  additionalImages     String[]                // Additional images for property detail page
   isActive             Boolean               @default(true)
   createdAt            DateTime              @default(now())
   updatedAt            DateTime              @updatedAt
   adminId              String?
+  propertyCategory     String
+  additionalImages     String[]
+  propertyBanner1      String?
+  propertyBanner2      String?
   admin                Admin?                @relation(fields: [adminId], references: [id])
   propertyViewRequests PropertyViewRequest[]
+  savedProperties      SavedProperty[]
 
   @@map("properties")
 }
@@ -159,22 +160,20 @@ model NewsletterSubscription {
   @@map("newsletter_subscriptions")
 }
 
-// NextAuth.js Models
 model Account {
   id                String  @id @default(cuid())
   userId            String
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
+  refresh_token     String?
+  access_token      String?
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String? @db.Text
+  id_token          String?
   session_state     String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
   @@map("accounts")
@@ -197,4 +196,16 @@ model VerificationToken {
 
   @@unique([identifier, token])
   @@map("verification_tokens")
+}
+
+model SavedProperty {
+  id         String   @id @default(cuid())
+  userId     String
+  propertyId String
+  createdAt  DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, propertyId])
+  @@map("saved_properties")
 }
