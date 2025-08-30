@@ -125,9 +125,9 @@ export default function BlogPage({ searchParams }: BlogPageProps) {
   }
 
   return (
-    <div className="flex flex-col min-h-screen pt-16">
+    <div className="flex flex-col min-h-screen pt-30">
       {/* Hero Section */}
-      <section className="relative w-full h-[85vh] overflow-hidden">
+      <section className="relative w-full h-[100vh] overflow-hidden">
         {/* Video Background */}
         <div className="absolute inset-0">
           <Image
@@ -155,11 +155,7 @@ export default function BlogPage({ searchParams }: BlogPageProps) {
                 </h1>
 
                 {/* Description */}
-                <p 
-                  className="text-lg text-white mb-8 font-['Suisse_Intl',sans-serif] animate-slide-up-delay-1"
-                >
-                  Stay informed with Bangalore's luxury real estate trends, investment opportunities, and expert market analysis
-                </p>
+                 
 
                 {/* Quick Filter Buttons */}
                 <div className="max-w-4xl mx-auto mb-8 animate-slide-up-delay-2">
