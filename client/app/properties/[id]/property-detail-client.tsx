@@ -3,10 +3,12 @@
 import { useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowLeft, Heart, Share2, MapPin, Phone, ChevronDown, X, ChevronLeft, ChevronRight } from "lucide-react"
+import { ArrowLeft, Share2, MapPin, Phone, ChevronDown, X, ChevronLeft, ChevronRight } from "lucide-react"
 import PropertyContactForm from "@/components/property-contact-form"
 import PropertyMap from "@/components/property-map"
 import SimilarProperties from "@/components/similar-properties"
+import SavePropertyButton from "@/components/save-property-button"
+import ShareModal from "@/components/share-modal"
 
 // Property type definition
 interface Property {
@@ -48,6 +50,7 @@ export default function PropertyDetailPageClient({ property }: PropertyDetailPag
   const [showFullDescription, setShowFullDescription] = useState(false)
   const [isPhotoModalOpen, setIsPhotoModalOpen] = useState(false)
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0)
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false)
 
   const handleOpenForm = () => {
     setIsFormOpen(true)
@@ -84,6 +87,14 @@ export default function PropertyDetailPageClient({ property }: PropertyDetailPag
 
   const goToPhoto = (index: number) => {
     setCurrentPhotoIndex(index)
+  }
+
+  const openShareModal = () => {
+    setIsShareModalOpen(true)
+  }
+
+  const closeShareModal = () => {
+    setIsShareModalOpen(false)
   }
 
   // Keyboard navigation for photo modal
@@ -210,11 +221,11 @@ export default function PropertyDetailPageClient({ property }: PropertyDetailPag
 
               {/* Save and Share buttons */}
               <div className="flex gap-4">
-                <button className="flex items-center gap-2 text-gray-600 hover:text-red-500 transition-colors font-['Suisse_Intl',sans-serif]">
-                  <Heart className="h-5 w-5" />
-                  Save
-                </button>
-                <button className="flex items-center gap-2 text-gray-600 hover:text-red-500 transition-colors font-['Suisse_Intl',sans-serif]">
+                <SavePropertyButton propertyId={property.id} />
+                <button 
+                  onClick={openShareModal}
+                  className="flex items-center gap-2 text-gray-600 hover:text-red-500 transition-colors font-['Suisse_Intl',sans-serif]"
+                >
                   <Share2 className="h-5 w-5" />
                   Share
                 </button>
@@ -461,6 +472,14 @@ export default function PropertyDetailPageClient({ property }: PropertyDetailPag
         propertyTitle={property.id.toString()}
         isOpen={isFormOpen}
         onClose={handleCloseForm}
+      />
+
+      {/* Share Modal */}
+      <ShareModal
+        isOpen={isShareModalOpen}
+        onClose={closeShareModal}
+        propertyTitle={property.title}
+        propertyUrl={`${window.location.origin}/properties/${property.id}`}
       />
 
       {/* Photo Modal */}
