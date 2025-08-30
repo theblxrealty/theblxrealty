@@ -147,9 +147,9 @@ function PropertiesContent() {
 
 
   return (
-    <div className="flex flex-col min-h-screen pt-16">
+    <div className="flex flex-col min-h-screen pt-30">
       {/* Hero Section */}
-      <section className="relative w-full h-[85vh] overflow-hidden">
+      <section className="relative w-full h-[100vh] overflow-hidden">
         {/* Video Background */}
         <div className="absolute inset-0">
           <Image
@@ -173,14 +173,14 @@ function PropertiesContent() {
                 className="font-bold mb-6 font-serif animate-slide-up" 
                 style={{ fontFamily: 'Tiempos Headline, serif', fontSize: '50px', fontWeight: '400' }}
               >
-                Find your dream property
+                Seek Out Your Perfect Nest
               </h1>
 
                 {/* Description */}
                 <p 
                   className="text-lg text-white mb-8 font-['Suisse_Intl',sans-serif] animate-slide-up-delay-1"
                 >
-                  Discover your perfect luxury home from our exclusive collection of premium properties across Bangalore's most prestigious locations
+                  "Let us guide you to a place where your dreams take flight and every corner feels like home."
                 </p>
 
                 {selectedType && (
