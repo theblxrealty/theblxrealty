@@ -1,85 +1,91 @@
-'use client'
-
-import { useSession } from 'next-auth/react'
-import { useAuth } from '@/hooks/use-auth'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { getServerSession } from 'next-auth'
+import { redirect } from 'next/navigation'
+import Link from 'next/link'
+import { Heart, User, Settings } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { signOut } from 'next-auth/react'
-import { LogOut, User, Mail, Calendar } from 'lucide-react'
 
-export default function ProfilePage() {
-  const { session, status } = useAuth(true, '/')
-
-  if (status === 'loading') {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-red-500 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading profile...</p>
-        </div>
-      </div>
-    )
-  }
-
-  if (!session) {
-    return null // Will be redirected by useAuth hook
+export default async function ProfilePage() {
+  const session = await getServerSession()
+  
+  if (!session?.user?.id) {
+    redirect('/')
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-2xl mx-auto">
-        <Card className="bg-white border border-gray-100 shadow-xl">
-          <CardHeader className="text-center">
-            <CardTitle className="text-3xl font-bold text-black" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>
-              Profile
-            </CardTitle>
-            <CardDescription className="text-lg text-gray-500 font-['Suisse_Intl',sans-serif]">
-              Your account information
-            </CardDescription>
-          </CardHeader>
-          
-          <CardContent className="space-y-6">
-            <div className="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg">
-              <div className="w-16 h-16 bg-red-500 rounded-full flex items-center justify-center">
-                <User className="h-8 w-8 text-white" />
+    <div className="min-h-screen pt-16 bg-gray-50">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-12">
+        <div className="max-w-4xl mx-auto">
+          {/* Header */}
+          <div className="text-center mb-12">
+            <h1 className="text-4xl font-bold text-gray-900 mb-4 font-['Tiempos_Headline',serif]">
+              My Profile
+            </h1>
+            <p className="text-lg text-gray-600 font-['Suisse_Intl',sans-serif]">
+              Welcome back, {session.user.name || session.user.email}
+            </p>
+          </div>
+
+          {/* Profile Stats */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            <div className="bg-white rounded-xl p-6 shadow-lg text-center">
+              <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Heart className="h-8 w-8 text-red-500" />
               </div>
-              <div>
-                <h3 className="text-xl font-semibold text-gray-900 font-['Suisse_Intl',sans-serif]">
-                  {session.user?.name || 'User'}
-                </h3>
-                <p className="text-gray-600 font-['Suisse_Intl',sans-serif]">
-                  {session.user?.email}
-                </p>
-              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2 font-['Suisse_Intl',sans-serif]">
+                Saved Properties
+              </h3>
+              <p className="text-gray-600 font-['Suisse_Intl',sans-serif]">
+                View and manage your saved properties
+              </p>
             </div>
 
-            <div className="space-y-4">
-              <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-                <Mail className="h-5 w-5 text-red-500" />
-                <span className="text-gray-700 font-['Suisse_Intl',sans-serif]">
-                  {session.user?.email}
-                </span>
+            <div className="bg-white rounded-xl p-6 shadow-lg text-center">
+              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <User className="h-8 w-8 text-blue-500" />
               </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2 font-['Suisse_Intl',sans-serif]">
+                Personal Info
+              </h3>
+              <p className="text-gray-600 font-['Suisse_Intl',sans-serif]">
+                Update your profile information
+              </p>
+            </div>
+
+            <div className="bg-white rounded-xl p-6 shadow-lg text-center">
+              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Settings className="h-8 w-8 text-green-500" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2 font-['Suisse_Intl',sans-serif]">
+                Preferences
+              </h3>
+              <p className="text-gray-600 font-['Suisse_Intl',sans-serif]">
+                Manage your account settings
+              </p>
+            </div>
+          </div>
+
+          {/* Quick Actions */}
+          <div className="bg-white rounded-xl p-8 shadow-lg">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6 font-['Tiempos_Headline',serif]">
+              Quick Actions
+            </h2>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <Link href="/profile/saved-properties">
+                <Button className="w-full h-16 text-lg bg-red-500 hover:bg-red-600">
+                  <Heart className="h-6 w-6 mr-3" />
+                  View Saved Properties
+                </Button>
+              </Link>
               
-              <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-                <Calendar className="h-5 w-5 text-red-500" />
-                <span className="text-gray-700 font-['Suisse_Intl',sans-serif]">
-                  Member since {new Date().toLocaleDateString()}
-                </span>
-              </div>
+              <Link href="/properties">
+                <Button variant="outline" className="w-full h-16 text-lg">
+                  Browse More Properties
+                </Button>
+              </Link>
             </div>
-
-            <div className="pt-6 border-t border-gray-200">
-              <Button
-                onClick={() => signOut({ callbackUrl: '/' })}
-                className="w-full bg-red-500 hover:bg-red-600 text-white px-8 py-4 font-['Suisse_Intl',sans-serif] font-medium"
-              >
-                <LogOut className="mr-2 h-4 w-4" />
-                Sign Out
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
     </div>
   )
