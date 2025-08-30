@@ -142,7 +142,7 @@ export default function AddPropertyPage() {
     setBanner2Preview("")
   }
 
-  // Upload all images to Supabase
+  // Upload all images to Supabase via API
   const uploadAllImages = async () => {
     setUploadingImages(true)
     try {
@@ -151,7 +151,7 @@ export default function AddPropertyPage() {
       // Upload banner 1
       if (banner1File) {
         uploadPromises.push(
-          uploadImage(banner1File).then(result => result.success ? result.url || null : null)
+          uploadImageViaAPI(banner1File).then(result => result.success ? result.url || null : null)
         )
       } else {
         uploadPromises.push(Promise.resolve(null))
@@ -160,7 +160,7 @@ export default function AddPropertyPage() {
       // Upload banner 2
       if (banner2File) {
         uploadPromises.push(
-          uploadImage(banner2File).then(result => result.success ? result.url || null : null)
+          uploadImageViaAPI(banner2File).then(result => result.success ? result.url || null : null)
         )
       } else {
         uploadPromises.push(Promise.resolve(null))
@@ -169,7 +169,7 @@ export default function AddPropertyPage() {
       // Upload additional images
       for (const file of additionalFiles) {
         uploadPromises.push(
-          uploadImage(file).then(result => result.success ? result.url || null : null)
+          uploadImageViaAPI(file).then(result => result.success ? result.url || null : null)
         )
       }
 
@@ -189,9 +189,51 @@ export default function AddPropertyPage() {
     }
   }
 
+  // Upload image via API using service role key
+  const uploadImageViaAPI = async (file: File): Promise<{ success: boolean; url?: string; error?: string }> => {
+    try {
+      // Get admin token
+      const adminToken = localStorage.getItem('adminToken')
+      if (!adminToken) {
+        return { success: false, error: 'Admin token not found' }
+      }
+
+      // Create form data
+      const formData = new FormData()
+      formData.append('file', file)
+
+      // Upload via API
+      const response = await fetch('/api/upload-image', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${adminToken}`
+        },
+        body: formData
+      })
+
+      const result = await response.json()
+
+      if (response.ok && result.success) {
+        return { success: true, url: result.url }
+      } else {
+        return { success: false, error: result.error || 'Upload failed' }
+      }
+    } catch (error) {
+      console.error('API upload error:', error)
+      return { success: false, error: 'Upload failed' }
+    }
+  }
+
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    
+    // Check if user is admin
+    const adminToken = localStorage.getItem('adminToken')
+    if (!adminToken) {
+      toast.error('Admin access required. Please login as admin.')
+      return
+    }
     
     if (!formData.title || !formData.propertyCategory) {
       toast.error('Title and property category are required')
@@ -208,6 +250,8 @@ export default function AddPropertyPage() {
     try {
       // Upload images first
       const { banner1Url, banner2Url, additionalUrls } = await uploadAllImages()
+      
+      console.log('Upload results:', { banner1Url, banner2Url, additionalUrls })
 
       // Prepare property data
       const propertyData = {
@@ -216,12 +260,11 @@ export default function AddPropertyPage() {
         propertyBanner2: banner2Url,
         additionalImages: additionalUrls
       }
+      
+      console.log('Property data being sent:', propertyData)
 
-      // Get auth token
-      const token = document.cookie
-        .split('; ')
-        .find(row => row.startsWith('token='))
-        ?.split('=')[1]
+      // Get auth token from localStorage (set by auth modal)
+      const token = localStorage.getItem('adminToken')
 
       // Submit to API
       const response = await fetch('/api/addprop', {
