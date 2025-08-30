@@ -11,13 +11,36 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
     console.log('Executing Prisma query for ID:', id)
     
     const property = await prisma.property.findUnique({
-      where: { id }
+      where: { id },
+      select: {
+        id: true,
+        title: true,
+        description: true,
+        price: true,
+        location: true,
+        latitude: true,
+        longitude: true,
+        propertyType: true,
+        propertyCategory: true,
+        bedrooms: true,
+        bathrooms: true,
+        area: true,
+        propertyBanner1: true,
+        propertyBanner2: true,
+        additionalImages: true,
+        isActive: true,
+        createdAt: true,
+        updatedAt: true,
+        adminId: true
+      }
     })
 
     console.log('Property found:', property ? 'Yes' : 'No')
     if (property) {
       console.log('Property title:', property.title)
-      console.log('Property images count:', property.images?.length || 0)
+      console.log('Property banner1:', property.propertyBanner1 ? 'Yes' : 'No')
+      console.log('Property banner2:', property.propertyBanner2 ? 'Yes' : 'No')
+      console.log('Property additional images count:', property.additionalImages?.length || 0)
     }
     
     if (!property) {
@@ -34,13 +57,39 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
       description: property.description || "",
       longDescription: property.description || "",
       location: property.location || "Location not specified",
-              price: property.price ? `INR ${(property.price / 10000000).toFixed(1)} Cr` : "Price on Application",
+      price: property.price ? `INR ${(property.price / 10000000).toFixed(1)} Cr` : "Price on Application",
       development: true,
       propertyRef: property.id.slice(-8).toUpperCase(),
       coordinates: property.latitude && property.longitude 
         ? { lat: property.latitude, lng: property.longitude }
         : { lat: 12.9716, lng: 77.5946 },
-      images: property.images && property.images.length > 0 ? property.images : ["/placeholder.svg?height=600&width=800"],
+      
+      // Combine all images: banner1, banner2, and additional images
+      images: (() => {
+        const allImages: string[] = []
+        
+        // Add banner images first (these are the main showcase images)
+        if ((property as any).propertyBanner1) {
+          allImages.push((property as any).propertyBanner1)
+        }
+        if ((property as any).propertyBanner2) {
+          allImages.push((property as any).propertyBanner2)
+        }
+        
+        // Add additional images
+        if ((property as any).additionalImages && (property as any).additionalImages.length > 0) {
+          allImages.push(...(property as any).additionalImages)
+        }
+        
+        // If no images at all, use placeholder
+        if (allImages.length === 0) {
+          allImages.push("/placeholder.svg?height=600&width=800")
+        }
+        
+        console.log('Combined images for property:', allImages.length, 'images')
+        return allImages
+      })(),
+      
       beds: property.bedrooms || undefined, // Only set if bedrooms exist
       baths: property.bathrooms || undefined, // Only set if bathrooms exist
       sqft: property.area || 0,
