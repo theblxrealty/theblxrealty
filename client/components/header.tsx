@@ -84,21 +84,21 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 backdrop-blur-md shadow-lg bg-gradient-to-br from-[#011337] via-[#011337]/90 to-[#011337]/80 ${
-        isScrolled ? "py-2 -translate-y-full" : "py-4"
-      }`}
-    >
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between">
-          {/* Left Section - Logo */}
-          <Link href="/" className="flex items-center">
-            <div className="relative w-14 h-14 overflow-hidden">
-              <Image
-                src="/logo.jpg"
-                alt="11Square Logo"
-                fill
-                className="object-contain"
-                priority
+  className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+    isScrolled ? "py-2 -translate-y-full" : "py-4"
+  } bg-transparent`}
+>
+  <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="flex items-center justify-between">
+      {/* Left Section - Logo */}
+      <Link href="/" className="flex items-center">
+        <div className="relative w-[120px] h-[120px] overflow-visible">
+          <Image
+            src="/logo.png"
+            alt="11Square Logo"
+            fill
+            className="object-contain"
+            priority
               />
             </div>
           </Link>
@@ -214,7 +214,7 @@ export default function Header() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden backdrop-blur-md border-t border-slate-700 bg-gradient-to-br from-[#011337] via-[#011337]/95 to-[#011337]/90"
+            className="md:hidden border-t border-slate-700 bg-gradient-to-br from-[#011337] via-[#011337]/95 to-[#011337]/90"
           >
             <div className="container mx-auto px-4 py-4 flex flex-col space-y-4">
               {navItems.map((item) => (
