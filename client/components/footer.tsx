@@ -69,7 +69,7 @@ export default function Footer() {
           {/* Section 1: Company Info & Social Links */}
           <div className="lg:col-span-1">
             <Link href="/" className="flex items-center mb-6">
-              <div className="relative w-12 h-12 overflow-hidden">
+              {/* <div className="relative w-12 h-12 overflow-hidden">
                 <Image
                   src="/logo.png"
                   alt="11Square Logo"
@@ -77,10 +77,10 @@ export default function Footer() {
                   className="object-contain"
                   priority
                 />
-              </div>
-              <span className="ml-3 text-xl font-bold text-white font-['Suisse_Intl',sans-serif]">11Square Realty</span>
+              </div> */}
+              <span className="ml-3 text-xl text-white" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '500'}}>11Square Realty</span>
             </Link>
-            <p className="text-slate-300 mb-6 font-['Suisse_Intl',sans-serif]">
+            <p className="text-slate-300 mb-6" style={{fontFamily: 'Tiempos Headline, serif'}}>
               Your trusted partner for buying, selling and investing in premium properties, Residential & Commercial Plots across Bengaluru's most
               prestigious locations.
             </p>
