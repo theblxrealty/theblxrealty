@@ -217,85 +217,88 @@ export default function HomePage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            {/* Card 1 - Premium Property Portfolio */}
-            <div className="relative h-80 rounded-lg shadow-lg overflow-hidden group">
-              <Image
-                src="/wcu_1.webp"
-                alt="Premium Property Portfolio"
-                fill
-                className="object-cover transition-transform duration-300 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#011337]/90 via-[#011337]/50 to-transparent transition-opacity duration-300 group-hover:from-[#011337]/95 group-hover:via-[#011337]/60"></div>
-              <div className="absolute inset-0 p-8 flex flex-col justify-end">
-                <h3 className="text-2xl font-bold mb-3 text-white font-['Suisse_Intl',sans-serif]">
-                  Premium Property Portfolio, Buy Ready and Off-Plan Properties  
-                </h3>
-                <p className="text-white/90 font-['Suisse_Intl',sans-serif] leading-relaxed">
-                  Curated collection of luxury apartments, villas, commercial spaces, and investment properties in
-                  Bengaluru's most prestigious locations.
-                </p>
-              </div>
-            </div>
+      {/* Card 1 */}
+      <Link href="/portfolio" className="relative h-80 rounded-lg shadow-lg overflow-hidden group block">
+        <Image
+          src="/wcu_1.webp"
+          alt="Premium Property Portfolio"
+          fill
+          className="object-cover transition-transform duration-300 group-hover:scale-105"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#011337]/90 via-[#011337]/50 to-transparent transition-opacity duration-300 group-hover:from-[#011337]/95 group-hover:via-[#011337]/60"></div>
+        <div className="absolute inset-0 p-8 flex flex-col justify-end">
+          <h3 className="text-2xl font-bold mb-3 text-white font-['Suisse_Intl',sans-serif]">
+            Premium Property Portfolio, Buy Ready and Off-Plan Properties
+          </h3>
+          <p className="text-white/90 font-['Suisse_Intl',sans-serif] leading-relaxed">
+            Curated collection of luxury apartments, villas, commercial spaces, and investment properties in
+            Bengaluru's most prestigious locations.
+          </p>
+        </div>
+      </Link>
 
-            {/* Card 2 - Expert Market Insights */}
-            <div className="relative h-80 rounded-lg shadow-lg overflow-hidden group">
-              <Image
-                src="/wcu_2.webp"
-                alt="Expert Market Insights"
-                fill
-                className="object-cover transition-transform duration-300 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#011337]/90 via-[#011337]/50 to-transparent transition-opacity duration-300 group-hover:from-[#011337]/95 group-hover:via-[#011337]/60"></div>
-              <div className="absolute inset-0 p-8 flex flex-col justify-end">
-                <h3 className="text-2xl font-bold mb-3 text-white font-['Suisse_Intl',sans-serif]">
-                  Expert Market Insights & Investment Advisory
-                </h3>
-                <p className="text-white/90 font-['Suisse_Intl',sans-serif] leading-relaxed">
-                  Professional property valuations, market analysis, and investment guidance from certified real estate
-                  experts and market specialists.
-                </p>
-              </div>
-            </div>
+      {/* Card 2 */}
+      <Link href="/insights" className="relative h-80 rounded-lg shadow-lg overflow-hidden group block">
+        <Image
+          src="/wcu_2.webp"
+          alt="Expert Market Insights"
+          fill
+          className="object-cover transition-transform duration-300 group-hover:scale-105"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#011337]/90 via-[#011337]/50 to-transparent transition-opacity duration-300 group-hover:from-[#011337]/95 group-hover:via-[#011337]/60"></div>
+        <div className="absolute inset-0 p-8 flex flex-col justify-end">
+          <h3 className="text-2xl font-bold mb-3 text-white font-['Suisse_Intl',sans-serif]">
+            Expert Market Insights & Investment Advisory
+          </h3>
+          <p className="text-white/90 font-['Suisse_Intl',sans-serif] leading-relaxed">
+            Professional property valuations, market analysis, and investment guidance from certified real estate
+            experts and market specialists.
+          </p>
+        </div>
+      </Link>
 
-            {/* Card 3 - Complete Transaction Security */}
-            <div className="relative h-80 rounded-lg shadow-lg overflow-hidden group">
-              <Image
-                src="/wcu_3.webp"
-                alt="Complete Transaction Security"
-                fill
-                className="object-cover transition-transform duration-300 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#011337]/90 via-[#011337]/50 to-transparent transition-opacity duration-300 group-hover:from-[#011337]/95 group-hover:via-[#011337]/60"></div>
-              <div className="absolute inset-0 p-8 flex flex-col justify-end">
-                <h3 className="text-2xl font-bold mb-3 text-white font-['Suisse_Intl',sans-serif]">
-                  Complete Transaction Security
-                </h3>
-                <p className="text-white/90 font-['Suisse_Intl',sans-serif] leading-relaxed">
-                  End-to-end support with legal verification, documentation, financing assistance, and secure transaction
-                  management.
-                </p>
-              </div>
-            </div>
+      {/* Card 3 */}
+      <Link href="/transaction-security" className="relative h-80 rounded-lg shadow-lg overflow-hidden group block">
+        <Image
+          src="/wcu_3.webp"
+          alt="Complete Transaction Security"
+          fill
+          className="object-cover transition-transform duration-300 group-hover:scale-105"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#011337]/90 via-[#011337]/50 to-transparent transition-opacity duration-300 group-hover:from-[#011337]/95 group-hover:via-[#011337]/60"></div>
+        <div className="absolute inset-0 p-8 flex flex-col justify-end">
+          <h3 className="text-2xl font-bold mb-3 text-white font-['Suisse_Intl',sans-serif]">
+            Complete Transaction Security
+          </h3>
+          <p className="text-white/90 font-['Suisse_Intl',sans-serif] leading-relaxed">
+            End-to-end support with legal verification, documentation, financing assistance, and secure transaction
+            management.
+          </p>
+        </div>
+      </Link>
 
-                        {/* Card 4 - Expert Market Insights */}
-            <div className="relative h-80 rounded-lg shadow-lg overflow-hidden group">
-              <Image
-                src="/wcu_2.webp"
-                alt="Expert Market Insights"
-                fill
-                className="object-cover transition-transform duration-300 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#011337]/90 via-[#011337]/50 to-transparent transition-opacity duration-300 group-hover:from-[#011337]/95 group-hover:via-[#011337]/60"></div>
-              <div className="absolute inset-0 p-8 flex flex-col justify-end">
-                <h3 className="text-2xl font-bold mb-3 text-white font-['Suisse_Intl',sans-serif]">
-                  Mortgage & Financing Assistance
-                </h3>
-                <p className="text-white/90 font-['Suisse_Intl',sans-serif] leading-relaxed">
-                  we simplify the process by connecting you with top-tier financial institutions offering competitive rates and flexible terms. Our goal is to ensure you make informed decisions that align with your investment strategy.
-                </p>
-              </div>
-            </div>
-          </div>
+      {/* Card 4 */}
+      <Link href="/financing" className="relative h-80 rounded-lg shadow-lg overflow-hidden group block">
+        <Image
+          src="/wcu_2.webp"
+          alt="Mortgage & Financing Assistance"
+          fill
+          className="object-cover transition-transform duration-300 group-hover:scale-105"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#011337]/90 via-[#011337]/50 to-transparent transition-opacity duration-300 group-hover:from-[#011337]/95 group-hover:via-[#011337]/60"></div>
+        <div className="absolute inset-0 p-8 flex flex-col justify-end">
+          <h3 className="text-2xl font-bold mb-3 text-white font-['Suisse_Intl',sans-serif]">
+            Mortgage & Financing Assistance
+          </h3>
+          <p className="text-white/90 font-['Suisse_Intl',sans-serif] leading-relaxed">
+            We simplify the process by connecting you with top-tier financial institutions offering competitive rates
+            and flexible terms. Our goal is to ensure you make informed decisions that align with your investment
+            strategy.
+          </p>
+        </div>
+      </Link>
+    </div>
+    
         </div>
       </section>
 
