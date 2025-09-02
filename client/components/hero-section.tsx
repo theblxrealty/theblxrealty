@@ -11,7 +11,7 @@ import PropertySearch from "@/components/property-search"
 export default function HeroSection() {
 
   return (
-    <section className="relative w-full h-[85vh] overflow-hidden">
+    <section className="relative w-full h-[100vh] overflow-hidden">
       {/* Video Background */}
       <div className="absolute inset-0">
         <video 
@@ -77,7 +77,7 @@ export default function HeroSection() {
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                 </Link>
-                <Link href="/properties">
+                <Link href="/contact">
                   <Button 
                     size="lg" 
                     variant="ghost"
