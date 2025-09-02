@@ -94,7 +94,7 @@ export default function Header() {
       <Link href="/" className="flex items-center">
         <div className="relative w-[120px] h-[120px] overflow-visible">
           <Image
-            src="/logo.png"
+            src="/logo.svg"
             alt="11Square Logo"
             fill
             className="object-contain"
