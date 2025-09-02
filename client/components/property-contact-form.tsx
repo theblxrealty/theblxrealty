@@ -8,6 +8,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { useSession } from "next-auth/react"
 
 interface PropertyContactFormProps {
   propertyTitle: string
@@ -16,6 +17,7 @@ interface PropertyContactFormProps {
 }
 
 export default function PropertyContactForm({ propertyTitle, isOpen, onClose }: PropertyContactFormProps) {
+  const { data: session } = useSession()
   // Get current date for calendar
   const currentDate = new Date()
   const currentMonth = currentDate.getMonth()
@@ -39,6 +41,7 @@ export default function PropertyContactForm({ propertyTitle, isOpen, onClose }: 
 
   const [user, setUser] = useState<any>(null)
   const [isAutoFilled, setIsAutoFilled] = useState(false)
+  const [isGoogleUser, setIsGoogleUser] = useState(false)
 
   // Calendar navigation state
   const [calendarView, setCalendarView] = useState({
@@ -64,31 +67,57 @@ export default function PropertyContactForm({ propertyTitle, isOpen, onClose }: 
   // Check for logged in user and auto-fill form
   useEffect(() => {
     if (isOpen) {
-      const userData = localStorage.getItem('user')
-      if (userData) {
-        try {
-          const userInfo = JSON.parse(userData)
-          setUser(userInfo)
-          
-          // Auto-fill form with user data
-          setFormState(prev => ({
-            ...prev,
-            title: userInfo.title || "",
-            firstName: userInfo.firstName || "",
-            lastName: userInfo.lastName || "",
-            email: userInfo.email || "",
-            phoneNumber: userInfo.phone || "",
-          }))
-          setIsAutoFilled(true)
-        } catch (error) {
-          console.error('Error parsing user data:', error)
-        }
+      // First check NextAuth session (for Google OAuth users)
+      if (session?.user) {
+        const userInfo = session.user
+        setUser(userInfo)
+        
+        // Extract first and last name from full name
+        const nameParts = userInfo.name?.split(' ') || []
+        const firstName = nameParts[0] || ''
+        const lastName = nameParts.slice(1).join(' ') || ''
+        
+        // Auto-fill form with session data
+        setFormState(prev => ({
+          ...prev,
+          title: "",
+          firstName: firstName,
+          lastName: lastName,
+          email: userInfo.email || "",
+          phoneNumber: "", // Google users don't have phone, leave empty
+        }))
+        setIsAutoFilled(true)
+        setIsGoogleUser(true) // Mark as Google user so phone field is editable
       } else {
-        setUser(null)
-        setIsAutoFilled(false)
+        // Fallback to localStorage (for regular login users)
+        const userData = localStorage.getItem('user')
+        if (userData) {
+          try {
+            const userInfo = JSON.parse(userData)
+            setUser(userInfo)
+            
+            // Auto-fill form with user data
+            setFormState(prev => ({
+              ...prev,
+              title: userInfo.title || "",
+              firstName: userInfo.firstName || "",
+              lastName: userInfo.lastName || "",
+              email: userInfo.email || "",
+              phoneNumber: userInfo.phone || "",
+            }))
+            setIsAutoFilled(true)
+            setIsGoogleUser(false) // Regular user, phone might be pre-filled
+          } catch (error) {
+            console.error('Error parsing user data:', error)
+          }
+        } else {
+          setUser(null)
+          setIsAutoFilled(false)
+          setIsGoogleUser(false)
+        }
       }
     }
-  }, [isOpen])
+  }, [isOpen, session])
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -329,7 +358,8 @@ export default function PropertyContactForm({ propertyTitle, isOpen, onClose }: 
                   <div className="flex items-center">
                     <User className="h-4 w-4 text-green-600 mr-2" />
                     <p className="text-green-800 text-sm font-['Suisse_Intl',sans-serif]">
-                      Welcome back, {user.firstName || user.email}! Your details have been auto-filled.
+                      Welcome back, {user.firstName || user.name || user.email}! Your details have been auto-filled.
+                      {isGoogleUser && " Please provide your phone number below."}
                     </p>
                   </div>
                 </div>
@@ -417,9 +447,14 @@ export default function PropertyContactForm({ propertyTitle, isOpen, onClose }: 
                           value={formState.phoneNumber} 
                           onChange={handleChange} 
                           placeholder="(+91) 98765 43210" 
-                          className={`rounded-l-none font-['Suisse_Intl',sans-serif] ${isAutoFilled ? 'bg-green-50 border-green-300' : ''}`}
-                          readOnly={isAutoFilled}
+                          className={`rounded-l-none font-['Suisse_Intl',sans-serif] ${isAutoFilled && !isGoogleUser ? 'bg-green-50 border-green-300' : ''}`}
+                          readOnly={isAutoFilled && !isGoogleUser}
                         />
+                        {isGoogleUser && isAutoFilled && (
+                          <p className="text-xs text-gray-500 mt-1">
+                            Please provide your phone number to complete the request
+                          </p>
+                        )}
                       </div>
                     </div>
                   </div>

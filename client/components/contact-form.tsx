@@ -6,6 +6,7 @@ import { CheckCircle, Send, User, Mail, Phone, MessageSquare } from "lucide-reac
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
+import { useSession } from "next-auth/react"
 
 interface FormState {
   name: string
@@ -18,6 +19,7 @@ interface FormState {
 }
 
 export default function ContactForm() {
+  const { data: session } = useSession()
   const [formState, setFormState] = useState<FormState>({
     name: "",
     email: "",
@@ -30,33 +32,51 @@ export default function ContactForm() {
 
   const [user, setUser] = useState<any>(null)
   const [isAutoFilled, setIsAutoFilled] = useState(false)
-
-
+  const [isGoogleUser, setIsGoogleUser] = useState(false)
 
   // Check for logged in user and auto-fill form
   useEffect(() => {
-    const userData = localStorage.getItem('user')
-    if (userData) {
-      try {
-        const userInfo = JSON.parse(userData)
-        setUser(userInfo)
-        
-        // Auto-fill form with user data
-        setFormState(prev => ({
-          ...prev,
-          name: `${userInfo.firstName || ''} ${userInfo.lastName || ''}`.trim(),
-          email: userInfo.email || "",
-          phone: userInfo.phone || "",
-        }))
-        setIsAutoFilled(true)
-      } catch (error) {
-        console.error('Error parsing user data:', error)
-      }
+    // First check NextAuth session (for Google OAuth users)
+    if (session?.user) {
+      const userInfo = session.user
+      setUser(userInfo)
+      
+      // Auto-fill form with session data
+      setFormState(prev => ({
+        ...prev,
+        name: userInfo.name || "",
+        email: userInfo.email || "",
+        phone: "", // Google users don't have phone, leave empty
+      }))
+      setIsAutoFilled(true)
+      setIsGoogleUser(true) // Mark as Google user so phone field is editable
     } else {
-      setUser(null)
-      setIsAutoFilled(false)
+      // Fallback to localStorage (for regular login users)
+      const userData = localStorage.getItem('user')
+      if (userData) {
+        try {
+          const userInfo = JSON.parse(userData)
+          setUser(userInfo)
+          
+          // Auto-fill form with user data
+          setFormState(prev => ({
+            ...prev,
+            name: `${userInfo.firstName || ''} ${userInfo.lastName || ''}`.trim(),
+            email: userInfo.email || "",
+            phone: userInfo.phone || "",
+          }))
+          setIsAutoFilled(true)
+          setIsGoogleUser(false) // Regular user, phone might be pre-filled
+        } catch (error) {
+          console.error('Error parsing user data:', error)
+        }
+      } else {
+        setUser(null)
+        setIsAutoFilled(false)
+        setIsGoogleUser(false)
+      }
     }
-  }, [])
+  }, [session])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -171,7 +191,8 @@ export default function ContactForm() {
           <div className="flex items-center">
             <User className="h-4 w-4 text-green-600 mr-2" />
             <p className="text-green-800 text-sm">
-              Welcome back, {user.firstName || user.email}! Your details have been auto-filled.
+              Welcome back, {user.firstName || user.name || user.email}! Your details have been auto-filled.
+              {isGoogleUser && " Please provide your phone number below."}
             </p>
           </div>
         </div>
@@ -221,9 +242,14 @@ export default function ContactForm() {
             value={formState.phone}
             onChange={(e) => setFormState((prev) => ({ ...prev, phone: e.target.value }))}
             required
-            className={`pl-10 bg-white dark:bg-slate-700 border-slate-200 dark:border-slate-600 text-slate-900 dark:text-white placeholder:text-slate-500 dark:placeholder:text-slate-400 ${isAutoFilled ? 'bg-green-50 border-green-300' : ''}`}
-            readOnly={isAutoFilled}
+            className={`pl-10 bg-white dark:bg-slate-700 border-slate-200 dark:border-slate-600 text-slate-900 dark:text-white placeholder:text-slate-500 dark:placeholder:text-slate-400 ${isAutoFilled && !isGoogleUser ? 'bg-green-50 border-green-300' : ''}`}
+            readOnly={isAutoFilled && !isGoogleUser}
           />
+          {isGoogleUser && isAutoFilled && (
+            <p className="text-xs text-gray-500 mt-1">
+              Please provide your phone number to complete the inquiry
+            </p>
+          )}
         </div>
 
         <div className="relative">
