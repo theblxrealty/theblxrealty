@@ -216,9 +216,9 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Card 1 - Premium Property Portfolio */}
-            <div className="relative h-80 rounded-lg shadow-lg overflow-hidden group">
+            <div className="relative h-100  shadow-lg overflow-hidden group">
               <Image
                 src="/wcu_1.webp"
                 alt="Premium Property Portfolio"
@@ -227,8 +227,8 @@ export default function HomePage() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#011337]/90 via-[#011337]/50 to-transparent transition-opacity duration-300 group-hover:from-[#011337]/95 group-hover:via-[#011337]/60"></div>
               <div className="absolute inset-0 p-8 flex flex-col justify-end">
-                <h3 className="text-2xl font-bold mb-3 text-white font-['Suisse_Intl',sans-serif]">
-                  Premium Property Portfolio, Buy Ready and Off-Plan Properties  
+                <h3 className="text-2xl font-bold mb-3 text-white" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '500'}}>
+                  Premium Property Portfolio
                 </h3>
                 <p className="text-white/90 font-['Suisse_Intl',sans-serif] leading-relaxed">
                   Curated collection of luxury apartments, villas, commercial spaces, and investment properties in
@@ -238,7 +238,7 @@ export default function HomePage() {
             </div>
 
             {/* Card 2 - Expert Market Insights */}
-            <div className="relative h-80 rounded-lg shadow-lg overflow-hidden group">
+            <div className="relative h-80  shadow-lg overflow-hidden group">
               <Image
                 src="/wcu_2.webp"
                 alt="Expert Market Insights"
@@ -247,7 +247,7 @@ export default function HomePage() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#011337]/90 via-[#011337]/50 to-transparent transition-opacity duration-300 group-hover:from-[#011337]/95 group-hover:via-[#011337]/60"></div>
               <div className="absolute inset-0 p-8 flex flex-col justify-end">
-                <h3 className="text-2xl font-bold mb-3 text-white font-['Suisse_Intl',sans-serif]">
+                <h3 className="text-2xl font-bold mb-3 text-white" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '500'}}>
                   Expert Market Insights & Investment Advisory
                 </h3>
                 <p className="text-white/90 font-['Suisse_Intl',sans-serif] leading-relaxed">
@@ -258,7 +258,7 @@ export default function HomePage() {
             </div>
 
             {/* Card 3 - Complete Transaction Security */}
-            <div className="relative h-80 rounded-lg shadow-lg overflow-hidden group">
+            <div className="relative h-80  shadow-lg overflow-hidden group">
               <Image
                 src="/wcu_3.webp"
                 alt="Complete Transaction Security"
@@ -267,7 +267,7 @@ export default function HomePage() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#011337]/90 via-[#011337]/50 to-transparent transition-opacity duration-300 group-hover:from-[#011337]/95 group-hover:via-[#011337]/60"></div>
               <div className="absolute inset-0 p-8 flex flex-col justify-end">
-                <h3 className="text-2xl font-bold mb-3 text-white font-['Suisse_Intl',sans-serif]">
+                <h3 className="text-2xl font-bold mb-3 text-white" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '500'}}>
                   Complete Transaction Security
                 </h3>
                 <p className="text-white/90 font-['Suisse_Intl',sans-serif] leading-relaxed">
@@ -278,7 +278,7 @@ export default function HomePage() {
             </div>
 
                         {/* Card 4 - Expert Market Insights */}
-            <div className="relative h-80 rounded-lg shadow-lg overflow-hidden group">
+            <div className="relative h-80  shadow-lg overflow-hidden group">
               <Image
                 src="/wcu_2.webp"
                 alt="Expert Market Insights"
@@ -287,7 +287,7 @@ export default function HomePage() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#011337]/90 via-[#011337]/50 to-transparent transition-opacity duration-300 group-hover:from-[#011337]/95 group-hover:via-[#011337]/60"></div>
               <div className="absolute inset-0 p-8 flex flex-col justify-end">
-                <h3 className="text-2xl font-bold mb-3 text-white font-['Suisse_Intl',sans-serif]">
+                <h3 className="text-2xl font-bold mb-3 text-white" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '500'}}>
                   Mortgage & Financing Assistance
                 </h3>
                 <p className="text-white/90 font-['Suisse_Intl',sans-serif] leading-relaxed">
