@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation"
 import { Search, MapPin, Building, Bed, Bath } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { formatPropertyType } from "@/lib/utils"
 
 interface Property {
   id: string
@@ -281,8 +282,8 @@ export default function PropertySearch({ placeholder = "Search by location, prop
                             {property.bathrooms} Baths
                           </span>
                         )}
-                        <span className="capitalize">
-                          {property.propertyType.replace('-', ' ')}
+                        <span>
+                          {formatPropertyType(property.propertyType)}
                         </span>
                       </div>
                       </div>
