@@ -10,18 +10,11 @@ import PropertyFilters from "@/components/property-filters"
 import PropertyCard from "@/components/property-card"
 import PropertyTypesSection from "@/components/property-types-section"
 import PropertySearch from "@/components/property-search"
+import { formatPropertyType } from "@/lib/utils"
 
-// Property type display names mapping
-const typeDisplayNames: { [key: string]: string } = {
-  "luxury-villas": "Luxury Villas",
-  "flats": "Flats",
-  "new-building": "New Buildings",
-  "farm-house": "Farm Houses",
-  "sites": "Sites",
-  "commercial": "Commercial Properties",
-  "investment": "Investment Properties",
-  "apartments": "Apartments",
-  "residential": "Residential Properties",
+// Property type display names mapping - using centralized utility function
+const getTypeDisplayName = (type: string) => {
+  return formatPropertyType(type)
 }
 
 function PropertiesContent() {
@@ -137,11 +130,11 @@ function PropertiesContent() {
 
   // Get page title based on selected type
   const pageTitle = selectedType 
-    ? `${typeDisplayNames[selectedType]} in Bangalore`
+    ? `${getTypeDisplayName(selectedType)} in Bangalore`
     : "Premium Properties in Bangalore"
 
   const pageDescription = selectedType
-    ? `Discover premium ${typeDisplayNames[selectedType].toLowerCase()} for sale across Bangalore's most prestigious locations`
+    ? `Discover premium ${getTypeDisplayName(selectedType).toLowerCase()} for sale across Bangalore's most prestigious locations`
     : "Discover your perfect luxury home from our exclusive collection of premium properties across Bangalore's most prestigious locations"
 
 
@@ -186,7 +179,7 @@ function PropertiesContent() {
                 {selectedType && (
                   <div className="mt-4 animate-slide-up-delay-2">
                     <span className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-white/10 text-white border border-white/20 font-['Suisse_Intl',sans-serif]">
-                      Showing {pagination.total} {typeDisplayNames[selectedType].toLowerCase()}
+                      Showing {pagination.total} {getTypeDisplayName(selectedType).toLowerCase()}
                     </span>
                   </div>
                 )}
@@ -217,10 +210,10 @@ function PropertiesContent() {
           <div className="flex justify-between items-center mb-6">
             <div>
               <h2 className="text-2xl md:text-3xl font-bold text-black" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>
-                {selectedType ? typeDisplayNames[selectedType] : "Available Properties"}
+                {selectedType ? getTypeDisplayName(selectedType) : "Available Properties"}
               </h2>
               <p className="text-gray-500 mt-2 font-['Suisse_Intl',sans-serif]">
-                {pagination.total} properties found{selectedType ? ` in ${typeDisplayNames[selectedType].toLowerCase()}` : ""}
+                {pagination.total} properties found{selectedType ? ` in ${getTypeDisplayName(selectedType).toLowerCase()}` : ""}
               </p>
             </div>
             <div className="flex items-center gap-2">
@@ -270,7 +263,7 @@ function PropertiesContent() {
               <h3 className="text-xl font-semibold text-slate-700 mb-2">No properties found</h3>
               <p className="text-slate-500 mb-4">
                 {selectedType 
-                  ? `No ${typeDisplayNames[selectedType].toLowerCase()} are currently available.`
+                  ? `No ${getTypeDisplayName(selectedType).toLowerCase()} are currently available.`
                   : "No properties match your current filters."
                 }
               </p>
