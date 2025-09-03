@@ -1,12 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
+import { authOptions } from '@/lib/auth-config'
 import { prisma } from '@/lib/prisma'
 
 export async function POST(request: NextRequest) {
   try {
-    const session = await getServerSession()
+    const session = await getServerSession(authOptions)
     
-    if (!session?.user?.id) {
+    if (!session?.user || !(session.user as any).id) {
       return NextResponse.json(
         { error: 'Authentication required' },
         { status: 401 }
@@ -38,7 +39,7 @@ export async function POST(request: NextRequest) {
     const existingSave = await prisma.savedProperty.findUnique({
       where: {
         userId_propertyId: {
-          userId: session.user.id,
+          userId: (session.user as any).id,
           propertyId: propertyId
         }
       }
@@ -49,7 +50,7 @@ export async function POST(request: NextRequest) {
       await prisma.savedProperty.delete({
         where: {
           userId_propertyId: {
-            userId: session.user.id,
+            userId: (session.user as any).id,
             propertyId: propertyId
           }
         }
@@ -63,7 +64,7 @@ export async function POST(request: NextRequest) {
       // Save the property
       await prisma.savedProperty.create({
         data: {
-          userId: session.user.id,
+          userId: (session.user as any).id,
           propertyId: propertyId
         }
       })
@@ -84,9 +85,9 @@ export async function POST(request: NextRequest) {
 
 export async function GET(request: NextRequest) {
   try {
-    const session = await getServerSession()
+    const session = await getServerSession(authOptions)
     
-    if (!session?.user?.id) {
+    if (!session?.user || !(session.user as any).id) {
       return NextResponse.json(
         { error: 'Authentication required' },
         { status: 401 }
@@ -107,7 +108,7 @@ export async function GET(request: NextRequest) {
     const savedProperty = await prisma.savedProperty.findUnique({
       where: {
         userId_propertyId: {
-          userId: session.user.id,
+          userId: (session.user as any).id,
           propertyId: propertyId
         }
       }
