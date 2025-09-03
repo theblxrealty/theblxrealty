@@ -9,9 +9,10 @@ import { Button } from '@/components/ui/button'
 interface SavePropertyButtonProps {
   propertyId: string
   className?: string
+  onSaveChange?: (isSaved: boolean) => void
 }
 
-export default function SavePropertyButton({ propertyId, className = '' }: SavePropertyButtonProps) {
+export default function SavePropertyButton({ propertyId, className = '', onSaveChange }: SavePropertyButtonProps) {
   const { data: session, status } = useSession()
   const [isSaved, setIsSaved] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
@@ -61,6 +62,7 @@ export default function SavePropertyButton({ propertyId, className = '' }: SaveP
       if (response.ok) {
         const data = await response.json()
         setIsSaved(data.isSaved)
+        onSaveChange?.(data.isSaved)
         toast({
           title: data.isSaved ? "Property Saved!" : "Property Unsaved",
           description: data.message,
