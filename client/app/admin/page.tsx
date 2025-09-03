@@ -11,6 +11,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { toast } from 'sonner'
+import { formatPropertyType } from '@/lib/utils'
 
 interface Property {
   id: string
@@ -626,7 +627,7 @@ export default function AdminDashboard() {
                         <p className="text-gray-600">{property.location}</p>
                       )}
                       {property.propertyType && (
-                        <p className="text-sm text-gray-500 capitalize">{property.propertyType}</p>
+                        <p className="text-sm text-gray-500">{formatPropertyType(property.propertyType)}</p>
                       )}
                       <div className="flex space-x-4 text-sm text-gray-500">
                         {property.bedrooms && <span>{property.bedrooms} beds</span>}
