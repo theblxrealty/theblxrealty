@@ -3,12 +3,13 @@
 import { useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowLeft, Share2, MapPin, Phone, ChevronDown, X, ChevronLeft, ChevronRight } from "lucide-react"
+import { ArrowLeft, Share2, MapPin, Phone, ChevronDown, X, ChevronLeft, ChevronRight, Heart } from "lucide-react"
 import PropertyContactForm from "@/components/property-contact-form"
 import PropertyMap from "@/components/property-map"
 import SimilarProperties from "@/components/similar-properties"
 import SavePropertyButton from "@/components/save-property-button"
 import ShareModal from "@/components/share-modal"
+import SavedPropertiesSidebar from "@/components/saved-properties-sidebar"
 
 // Property type definition
 interface Property {
@@ -51,6 +52,9 @@ export default function PropertyDetailPageClient({ property }: PropertyDetailPag
   const [isPhotoModalOpen, setIsPhotoModalOpen] = useState(false)
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0)
   const [isShareModalOpen, setIsShareModalOpen] = useState(false)
+  const [isSavedPropertiesOpen, setIsSavedPropertiesOpen] = useState(false)
+  const [savedPropertiesRefreshTrigger, setSavedPropertiesRefreshTrigger] = useState(0)
+  const [propertyUrl, setPropertyUrl] = useState('')
 
   const handleOpenForm = () => {
     setIsFormOpen(true)
@@ -96,6 +100,26 @@ export default function PropertyDetailPageClient({ property }: PropertyDetailPag
   const closeShareModal = () => {
     setIsShareModalOpen(false)
   }
+
+  const openSavedProperties = () => {
+    setIsSavedPropertiesOpen(true)
+  }
+
+  const closeSavedProperties = () => {
+    setIsSavedPropertiesOpen(false)
+  }
+
+  const handleSaveChange = (isSaved: boolean) => {
+    // Trigger a refresh of the saved properties sidebar
+    setSavedPropertiesRefreshTrigger(prev => prev + 1)
+  }
+
+  // Set the property URL on client side
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setPropertyUrl(`${window.location.origin}/properties/${property.id}`)
+    }
+  }, [property.id])
   // Keyboard navigation for photo modal
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -219,14 +243,21 @@ export default function PropertyDetailPageClient({ property }: PropertyDetailPag
               </div>
 
               {/* Save and Share buttons */}
-              <div className="flex gap-4">
-                <SavePropertyButton propertyId={property.id} />
+              <div className="flex gap-4 items-center">
+                <SavePropertyButton propertyId={property.id} onSaveChange={handleSaveChange} />
                 <button 
                   onClick={openShareModal}
                   className="flex items-center gap-2 text-gray-600 hover:text-red-500 transition-colors font-['Suisse_Intl',sans-serif]"
                 >
                   <Share2 className="h-5 w-5" />
                   Share
+                </button>
+                <button 
+                  onClick={openSavedProperties}
+                  className="flex items-center gap-2 text-gray-600 hover:text-red-500 transition-colors font-['Suisse_Intl',sans-serif] ml-auto"
+                >
+                  <Heart className="h-5 w-5" />
+                  Saved
                 </button>
               </div>
 
@@ -478,7 +509,14 @@ export default function PropertyDetailPageClient({ property }: PropertyDetailPag
         isOpen={isShareModalOpen}
         onClose={closeShareModal}
         propertyTitle={property.title}
-        propertyUrl={`${window.location.origin}/properties/${property.id}`}
+        propertyUrl={propertyUrl}
+      />
+
+      {/* Saved Properties Sidebar */}
+      <SavedPropertiesSidebar
+        isOpen={isSavedPropertiesOpen}
+        onClose={closeSavedProperties}
+        refreshTrigger={savedPropertiesRefreshTrigger}
       />
       {/* Photo Modal */}
       {isPhotoModalOpen && (
