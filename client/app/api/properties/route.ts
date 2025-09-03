@@ -169,8 +169,37 @@ export async function GET(request: NextRequest) {
     console.log('Properties API - Found properties:', properties.length)
     console.log('Properties API - Property types found:', properties.map(p => p.propertyType))
 
+    // Transform properties to include images array for frontend compatibility
+    const transformedProperties = properties.map(property => {
+      // Create images array from banner images and additional images
+      const images = []
+      
+      // Add banner images first (these will be the main display images)
+      if (property.propertyBanner1) {
+        images.push(property.propertyBanner1)
+      }
+      if (property.propertyBanner2) {
+        images.push(property.propertyBanner2)
+      }
+      
+      // Add additional images
+      if (property.additionalImages && property.additionalImages.length > 0) {
+        images.push(...property.additionalImages)
+      }
+      
+      // If no images at all, add placeholder
+      if (images.length === 0) {
+        images.push('/placeholder.svg')
+      }
+
+      return {
+        ...property,
+        images
+      }
+    })
+
     return NextResponse.json({
-      properties,
+      properties: transformedProperties,
       pagination: {
         page,
         limit,
