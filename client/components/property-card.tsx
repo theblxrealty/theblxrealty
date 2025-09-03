@@ -6,6 +6,7 @@ import Link from "next/link"
 import { motion } from "framer-motion"
 import { Bed, Bath, Maximize, MapPin, ChevronLeft, ChevronRight } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
+import { formatPropertyType } from "@/lib/utils"
 
 interface Property {
   id: string
@@ -76,14 +77,7 @@ export default function PropertyCard({ property }: { property: Property }) {
               <div className="flex items-center justify-between py-2 border-b border-gray-100">
                 <span className="text-amber-600 font-suisse text-sm font-medium">Property Type</span>
                 <span className="text-gray-900 font-suisse font-semibold text-sm">
-                  {property.type === 'luxury villas' ? 'Luxury Villa' : 
-                   property.type === 'flats' ? 'Apartment' : 
-                   property.type === 'new buildings' ? 'New Building' : 
-                   property.type === 'farm house' ? 'Farm House' : 
-                   property.type === 'sites' ? 'Development Plot' : 
-                   property.type === 'commercial' ? 'Commercial Property' : 
-                   property.type === 'investment' ? 'Investment Property' : 
-                   property.type || 'Property'}
+                  {formatPropertyType(property.type)}
                 </span>
               </div>
               
@@ -156,7 +150,7 @@ export default function PropertyCard({ property }: { property: Property }) {
             {/* Image Navigation Arrows */}
             {property.images && property.images.length > 2 && (
               <div className="absolute inset-0 flex items-center justify-between p-2 opacity-0 hover:opacity-100 transition-opacity">
-                <button 
+                {/* <button 
                   className="w-8 h-8 bg-white/90 rounded-full flex items-center justify-center shadow-lg hover:bg-white transition-colors"
                   onClick={(e) => {
                     e.preventDefault()
@@ -173,7 +167,7 @@ export default function PropertyCard({ property }: { property: Property }) {
                   }}
                 >
                   <ChevronRight className="w-4 h-4 text-gray-700" />
-                </button>
+                </button> */}
               </div>
             )}
           </div>
