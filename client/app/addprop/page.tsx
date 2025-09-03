@@ -13,10 +13,7 @@ import { X, Upload } from "lucide-react"
 import { uploadImage } from "@/lib/uploadImage"
 import { toast } from "sonner"
 
-// Helper function to capitalize first letters of words
-const capitalizeWords = (str: string) => {
-  return str.replace(/\b\w/g, (char) => char.toUpperCase())
-}
+import { capitalizeWords } from "@/lib/utils"
 
 interface PropertyFormData {
   title: string
