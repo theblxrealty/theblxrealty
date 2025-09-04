@@ -55,6 +55,8 @@ export default function PropertyDetailPageClient({ property }: PropertyDetailPag
   const [isSavedPropertiesOpen, setIsSavedPropertiesOpen] = useState(false)
   const [savedPropertiesRefreshTrigger, setSavedPropertiesRefreshTrigger] = useState(0)
   const [propertyUrl, setPropertyUrl] = useState('')
+  const [imageLoadingStates, setImageLoadingStates] = useState<Record<number, boolean>>({})
+  const [imageErrors, setImageErrors] = useState<Record<number, boolean>>({})
 
   const handleOpenForm = () => {
     setIsFormOpen(true)
@@ -112,6 +114,20 @@ export default function PropertyDetailPageClient({ property }: PropertyDetailPag
   const handleSaveChange = (isSaved: boolean) => {
     // Trigger a refresh of the saved properties sidebar
     setSavedPropertiesRefreshTrigger(prev => prev + 1)
+  }
+
+  const handleImageLoad = (index: number) => {
+    setImageLoadingStates(prev => ({ ...prev, [index]: false }))
+    setImageErrors(prev => ({ ...prev, [index]: false }))
+  }
+
+  const handleImageError = (index: number) => {
+    setImageLoadingStates(prev => ({ ...prev, [index]: false }))
+    setImageErrors(prev => ({ ...prev, [index]: true }))
+  }
+
+  const handleImageLoadStart = (index: number) => {
+    setImageLoadingStates(prev => ({ ...prev, [index]: true }))
   }
 
   // Set the property URL on client side
@@ -173,14 +189,31 @@ export default function PropertyDetailPageClient({ property }: PropertyDetailPag
           <div className="lg:col-span-2">
             {/* Main Image */}
             <div className="relative h-[500px] mb-4 rounded-lg overflow-hidden group shadow-lg">
-              <Image
-                src={displayImages[0]}
-                alt={property.title}
-                fill
-                className="object-cover group-hover:scale-105 transition-transform duration-500"
-                priority
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              />
+              {imageLoadingStates[0] && (
+                <div className="absolute inset-0 bg-gray-200 animate-pulse flex items-center justify-center">
+                  <div className="text-gray-500 font-['Suisse_Intl',sans-serif]">Loading...</div>
+                </div>
+              )}
+              {imageErrors[0] ? (
+                <div className="absolute inset-0 bg-gray-200 flex items-center justify-center">
+                  <div className="text-gray-500 font-['Suisse_Intl',sans-serif] text-center">
+                    <div className="text-lg mb-2">Image unavailable</div>
+                    <div className="text-sm">Please try refreshing the page</div>
+                  </div>
+                </div>
+              ) : (
+                <Image
+                  src={displayImages[0]}
+                  alt={property.title}
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  priority
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  onLoad={() => handleImageLoad(0)}
+                  onError={() => handleImageError(0)}
+                  onLoadStart={() => handleImageLoadStart(0)}
+                />
+              )}
               <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300" />
             </div>
             
