@@ -130,17 +130,27 @@ export default function PropertyDetailPageClient({ property }: PropertyDetailPag
           closePhotoModal()
           break
         case 'ArrowLeft':
+          event.preventDefault()
           goToPreviousPhoto()
           break
         case 'ArrowRight':
+          event.preventDefault()
           goToNextPhoto()
+          break
+        case 'Home':
+          event.preventDefault()
+          goToPhoto(0)
+          break
+        case 'End':
+          event.preventDefault()
+          goToPhoto(displayImages.length - 1)
           break
       }
     }
 
     document.addEventListener('keydown', handleKeyDown)
     return () => document.removeEventListener('keydown', handleKeyDown)
-  }, [isPhotoModalOpen])
+  }, [isPhotoModalOpen, displayImages.length])
 
   // Get available images (filter out empty strings and ensure we have at least placeholder)
   const availableImages = property.images.filter(img => img && img.trim() !== "")
@@ -526,6 +536,7 @@ export default function PropertyDetailPageClient({ property }: PropertyDetailPag
           role="dialog"
           aria-modal="true"
           aria-labelledby="photo-modal-title"
+          aria-describedby="photo-modal-description"
         >
           <div 
             className="relative w-full max-w-6xl max-h-full bg-white rounded-lg overflow-hidden shadow-2xl"
@@ -535,6 +546,9 @@ export default function PropertyDetailPageClient({ property }: PropertyDetailPag
             <div className="absolute top-4 left-4 z-10 text-white">
               <div id="photo-modal-title" className="sr-only">
                 {property.title} - Photo Gallery
+              </div>
+              <div id="photo-modal-description" className="sr-only">
+                Use arrow keys to navigate between photos, Home/End keys to go to first/last photo, and Escape to close
               </div>
               <div className="text-sm font-medium font-['Suisse_Intl',sans-serif]">
                 {currentPhotoIndex + 1} of {displayImages.length}
