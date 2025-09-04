@@ -243,18 +243,18 @@ export default function PropertyDetailPageClient({ property }: PropertyDetailPag
               </div>
 
               {/* Save and Share buttons */}
-              <div className="flex gap-4 items-center">
+              <div className="flex gap-4 items-center py-4">
                 <SavePropertyButton propertyId={property.id} onSaveChange={handleSaveChange} />
                 <button 
                   onClick={openShareModal}
-                  className="flex items-center gap-2 text-gray-600 hover:text-red-500 transition-colors font-['Suisse_Intl',sans-serif]"
+                  className="flex items-center gap-2 text-gray-600 hover:text-red-500 transition-colors font-['Suisse_Intl',sans-serif] px-3 py-2 rounded-lg hover:bg-gray-50"
                 >
                   <Share2 className="h-5 w-5" />
                   Share
                 </button>
                 <button 
                   onClick={openSavedProperties}
-                  className="flex items-center gap-2 text-gray-600 hover:text-red-500 transition-colors font-['Suisse_Intl',sans-serif] ml-auto"
+                  className="flex items-center gap-2 text-gray-600 hover:text-red-500 transition-colors font-['Suisse_Intl',sans-serif] ml-auto px-3 py-2 rounded-lg hover:bg-gray-50"
                 >
                   <Heart className="h-5 w-5" />
                   Saved
