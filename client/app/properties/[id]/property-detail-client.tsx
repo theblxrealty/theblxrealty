@@ -175,8 +175,8 @@ export default function PropertyDetailPageClient({ property }: PropertyDetailPag
   return (
     <div className="flex flex-col min-h-screen pt-16 bg-white">
       {/* Back to results */}
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-20">
-        <Link href="/properties" className="text-red-500 hover:text-red-600 flex items-center mb-6 font-['Suisse_Intl',sans-serif]">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-16 sm:pt-20">
+        <Link href="/properties" className="text-red-500 hover:text-red-600 flex items-center mb-4 sm:mb-6 font-['Suisse_Intl',sans-serif] text-sm sm:text-base">
           <ArrowLeft className="h-4 w-4 mr-2" />
           Back to results
         </Link>
@@ -188,7 +188,7 @@ export default function PropertyDetailPageClient({ property }: PropertyDetailPag
           {/* Left side - Images */}
           <div className="lg:col-span-2">
             {/* Main Image */}
-            <div className="relative h-[500px] mb-4 rounded-lg overflow-hidden group shadow-lg">
+            <div className="relative h-[300px] sm:h-[400px] lg:h-[500px] mb-4 rounded-lg overflow-hidden group shadow-lg">
               {imageLoadingStates[0] && (
                 <div className="absolute inset-0 bg-gray-200 animate-pulse flex items-center justify-center">
                   <div className="text-gray-500 font-['Suisse_Intl',sans-serif]">Loading...</div>
@@ -219,9 +219,9 @@ export default function PropertyDetailPageClient({ property }: PropertyDetailPag
             
             {/* Thumbnail Images Row */}
             {displayImages.length > 1 && (
-              <div className="grid grid-cols-2 gap-4 mb-4">
+              <div className="grid grid-cols-2 gap-2 sm:gap-4 mb-4">
                 {displayImages.slice(1, 3).map((image, index) => (
-                  <div key={index} className="relative h-48 rounded-lg overflow-hidden group shadow-md">
+                  <div key={index} className="relative h-32 sm:h-40 lg:h-48 rounded-lg overflow-hidden group shadow-md">
                     <Image
                       src={image}
                       alt={`${property.title} - Image ${index + 2}`}
@@ -286,22 +286,24 @@ export default function PropertyDetailPageClient({ property }: PropertyDetailPag
               </div>
 
               {/* Save and Share buttons */}
-              <div className="flex gap-4 items-center py-4">
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-stretch sm:items-center py-4">
                 <SavePropertyButton propertyId={property.id} onSaveChange={handleSaveChange} />
-                <button 
-                  onClick={openShareModal}
-                  className="flex items-center gap-2 text-gray-600 hover:text-red-500 transition-colors font-['Suisse_Intl',sans-serif] px-3 py-2 rounded-lg hover:bg-gray-50"
-                >
-                  <Share2 className="h-5 w-5" />
-                  Share
-                </button>
-                <button 
-                  onClick={openSavedProperties}
-                  className="flex items-center gap-2 text-gray-600 hover:text-red-500 transition-colors font-['Suisse_Intl',sans-serif] ml-auto px-3 py-2 rounded-lg hover:bg-gray-50"
-                >
-                  <Heart className="h-5 w-5" />
-                  Saved
-                </button>
+                <div className="flex gap-3 sm:gap-4">
+                  <button 
+                    onClick={openShareModal}
+                    className="flex items-center justify-center gap-2 text-gray-600 hover:text-red-500 transition-colors font-['Suisse_Intl',sans-serif] px-3 py-2 rounded-lg hover:bg-gray-50 flex-1 sm:flex-none"
+                  >
+                    <Share2 className="h-5 w-5" />
+                    <span className="hidden sm:inline">Share</span>
+                  </button>
+                  <button 
+                    onClick={openSavedProperties}
+                    className="flex items-center justify-center gap-2 text-gray-600 hover:text-red-500 transition-colors font-['Suisse_Intl',sans-serif] px-3 py-2 rounded-lg hover:bg-gray-50 flex-1 sm:flex-none"
+                  >
+                    <Heart className="h-5 w-5" />
+                    <span className="hidden sm:inline">Saved</span>
+                  </button>
+                </div>
               </div>
 
               {/* Property Reference */}
