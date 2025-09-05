@@ -70,7 +70,7 @@ export default function AboutPage() {
             </div>
             <div className="relative h-[600px] w-full">
               <Image
-                src="/placeholder.svg?height=1000&width=800"
+                src="/about1.jpg?height=1000&width=800"
                 alt="11Square founder"
                 fill
                 className="object-cover"
@@ -87,7 +87,7 @@ export default function AboutPage() {
             <div className="order-2 lg:order-1">
               <div className="relative h-[600px] w-full">
                 <Image
-                  src="/placeholder.svg?height=1000&width=800"
+                  src="/about2.jpg?height=1000&width=800"
                   alt="Luxury property portfolio"
                   fill
                   className="object-cover"
@@ -154,7 +154,7 @@ export default function AboutPage() {
             </div>
             <div className="relative h-[600px] w-full">
               <Image
-                src="/placeholder.svg?height=1000&width=800"
+                src="/about3.jpg?height=1000&width=800"
                 alt="Technology and innovation in real estate"
                 fill
                 className="object-cover"
