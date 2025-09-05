@@ -131,7 +131,7 @@ export default function BlogPage({ searchParams }: BlogPageProps) {
         {/* Video Background */}
         <div className="absolute inset-0">
           <Image
-            src="/contact-banner.jpg?height=1080&width=1920"
+            src="/blog-banner.jpg?height=1080&width=1920"
             alt="Our real estate blog and insights"
             fill
             className="object-cover"
