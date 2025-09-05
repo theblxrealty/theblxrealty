@@ -60,7 +60,7 @@ export default function HomePage() {
             </div>
             <div className="relative h-[250px] w-full bg-gray-50 overflow-hidden">
               <Image
-                src="/property-value.webp"
+                src="/property-value.jpg"
                 alt="Luxury property interior"
                 fill
                 className="object-cover"
@@ -77,7 +77,7 @@ export default function HomePage() {
             <div className="order-2 lg:order-1">
               <div className="relative h-[600px] w-full">
                 <Image
-                  src="/image1.webp?height=2560&width=2560"
+                  src="/image1.jpg?height=2560&width=2560"
                   alt="Luxury interior with chandelier"
                   fill
                   className="object-cover"
@@ -216,11 +216,11 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-2 gap-8">
       {/* Card 1 */}
       <Link href="/portfolio" className="relative h-80 rounded-lg shadow-lg overflow-hidden group block">
         <Image
-          src="/wcu_1.webp"
+          src="/wcu_1.jpg"
           alt="Premium Property Portfolio"
           fill
           className="object-cover transition-transform duration-300 group-hover:scale-105"
@@ -240,7 +240,7 @@ export default function HomePage() {
       {/* Card 2 */}
       <Link href="/insights" className="relative h-80 rounded-lg shadow-lg overflow-hidden group block">
         <Image
-          src="/wcu_2.webp"
+          src="/wcu_2.jpg"
           alt="Expert Market Insights"
           fill
           className="object-cover transition-transform duration-300 group-hover:scale-105"
@@ -260,7 +260,7 @@ export default function HomePage() {
       {/* Card 3 */}
       <Link href="/transaction-security" className="relative h-80 rounded-lg shadow-lg overflow-hidden group block">
         <Image
-          src="/wcu_3.webp"
+          src="/wcu_3.jpg"
           alt="Complete Transaction Security"
           fill
           className="object-cover transition-transform duration-300 group-hover:scale-105"
@@ -280,7 +280,7 @@ export default function HomePage() {
       {/* Card 4 */}
       <Link href="/financing" className="relative h-80 rounded-lg shadow-lg overflow-hidden group block">
         <Image
-          src="/wcu_2.webp"
+          src="/wcu_4.jpg"
           alt="Mortgage & Financing Assistance"
           fill
           className="object-cover transition-transform duration-300 group-hover:scale-105"
