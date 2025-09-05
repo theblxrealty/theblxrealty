@@ -9,37 +9,37 @@ const propertyTypes = [
   },
   {
     title: "Flats",
-    imageSrc: "/property_type/flats.webp",
+    imageSrc: "/property_type/flats.jpg",
     href: "/properties?type=flats",
     alt: "Flats"
   },
   {
     title: "New Building",
-    imageSrc: "/property_type/house.webp",
+    imageSrc: "/property_type/house.jpg",
     href: "/properties?type=new-building",
     alt: "New Building"
   },
   {
     title: "Farm House",
-    imageSrc: "/property_type/farmhouse.webp",
+    imageSrc: "/property_type/farmhouse.jpg",
     href: "/properties?type=farm-house",
     alt: "Farm House"
   },
   {
     title: "Sites",
-    imageSrc: "/property_type/farm.webp",
+    imageSrc: "/property_type/img2.webp",
     href: "/properties?type=sites",
     alt: "Sites"
   },
   {
     title: "Commercial",
-    imageSrc: "/property_type/property.webp",
+    imageSrc: "/property_type/property.jpg",
     href: "/properties?type=commercial",
     alt: "Commercial Properties"
   },
   {
     title: "Investment",
-    imageSrc: "/property_type/img2.webp",
+    imageSrc: "/property_type/img2.jpg",
     href: "/properties?type=investment",
     alt: "Investment Properties"
   }
