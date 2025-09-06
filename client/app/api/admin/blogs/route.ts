@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { verifyToken } from '@/lib/auth'
-import { uploadImage } from '@/lib/uploadImage'
 
 // POST - Create a new blog post
 export async function POST(request: NextRequest) {
@@ -36,7 +35,7 @@ export async function POST(request: NextRequest) {
       redirectUrl,
       category,
       tags,
-      featuredImageFile
+      featuredImage
     } = body
 
     // Convert tags string to array if needed
@@ -78,33 +77,8 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Handle featured image upload if provided
-    let featuredImageUrl = null
-    if (featuredImageFile) {
-      try {
-        // Convert base64 to File object
-        const base64Data = featuredImageFile.split(',')[1]
-        const buffer = Buffer.from(base64Data, 'base64')
-        const file = new File([buffer], 'blog-image.jpg', { type: 'image/jpeg' })
-        
-        const uploadResult = await uploadImage(file)
-        if (uploadResult.success && uploadResult.url) {
-          featuredImageUrl = uploadResult.url
-        } else {
-          console.error('Image upload failed:', uploadResult.error)
-          return NextResponse.json(
-            { error: 'Failed to upload featured image' },
-            { status: 500 }
-          )
-        }
-      } catch (error) {
-        console.error('Image upload error:', error)
-        return NextResponse.json(
-          { error: 'Failed to process featured image' },
-          { status: 500 }
-        )
-      }
-    }
+    // Use the provided featured image URL (already uploaded by client)
+    const featuredImageUrl = featuredImage || null
 
     // Create blog post in database
 
