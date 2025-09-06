@@ -37,117 +37,8 @@ async function main() {
   
   console.log('Admin user created:', admin.email)
 
-  // Create sample blog posts
-  const blogPosts = [
-    {
-      title: "Complete Guide to Buying Property in Bangalore",
-      slug: "complete-guide-buying-property-bangalore",
-      excerpt: "Everything you need to know about purchasing residential and commercial properties in Bangalore - from legal checks to financing options.",
-      content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl sit amet nisl.",
-      featuredImage: "/placeholder.svg?height=400&width=600",
-      category: "Buying Guide",
-      tags: ["buying", "guide", "bangalore", "property"],
-      isPublished: true,
-      publishedAt: new Date("2024-03-15"),
-    },
-    {
-      title: "How to Sell Your Property at the Best Price",
-      slug: "how-to-sell-property-best-price",
-      excerpt: "Expert tips on property valuation, staging, marketing, and negotiation strategies to maximize your property's selling price in Bangalore.",
-      content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl sit amet nisl.",
-      featuredImage: "/placeholder.svg?height=400&width=600",
-      category: "Selling Tips",
-      tags: ["selling", "tips", "valuation", "marketing"],
-      isPublished: true,
-      publishedAt: new Date("2024-03-08"),
-    },
-    {
-      title: "Commercial Real Estate Investment Opportunities",
-      slug: "commercial-real-estate-investment-opportunities",
-      excerpt: "Explore lucrative commercial property investment options in Bangalore's growing business districts and IT corridors.",
-      content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl sit amet nisl.",
-      featuredImage: "/placeholder.svg?height=400&width=600",
-      category: "Investment",
-      tags: ["commercial", "investment", "bangalore", "business"],
-      isPublished: true,
-      publishedAt: new Date("2024-02-28"),
-    },
-    {
-      title: "Luxury Property Market Trends in Bangalore",
-      slug: "luxury-property-market-trends-bangalore",
-      excerpt: "Analyze the latest trends in Bangalore's luxury real estate market and discover emerging investment hotspots.",
-      content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl sit amet nisl.",
-      featuredImage: "/placeholder.svg?height=400&width=600",
-      category: "Market Analysis",
-      tags: ["luxury", "trends", "market", "bangalore"],
-      isPublished: true,
-      publishedAt: new Date("2024-02-15"),
-    },
-    {
-      title: "Premium Locations: Where to Invest in 2024",
-      slug: "premium-locations-invest-2024",
-      excerpt: "Discover Bangalore's most promising premium locations for property investment and understand the factors driving growth.",
-      content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl sit amet nisl.",
-      featuredImage: "/placeholder.svg?height=400&width=600",
-      category: "Investment",
-      tags: ["premium", "locations", "investment", "2024"],
-      isPublished: true,
-      publishedAt: new Date("2024-02-05"),
-    },
-    {
-      title: "Legal Guide to Property Transactions",
-      slug: "legal-guide-property-transactions",
-      excerpt: "A comprehensive guide to legal aspects of property buying and selling, including documentation and compliance requirements.",
-      content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl sit amet nisl.",
-      featuredImage: "/placeholder.svg?height=400&width=600",
-      category: "Legal",
-      tags: ["legal", "guide", "transactions", "documentation"],
-      isPublished: true,
-      publishedAt: new Date("2024-01-25"),
-    },
-    {
-      title: "Understanding Property Taxes in Bangalore",
-      slug: "understanding-property-taxes-bangalore",
-      excerpt: "A detailed breakdown of property taxes, stamp duty, and other charges you need to know when buying property in Bangalore.",
-      content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl sit amet nisl.",
-      featuredImage: "/placeholder.svg?height=400&width=600",
-      category: "Legal",
-      tags: ["taxes", "stamp-duty", "bangalore", "property"],
-      isPublished: true,
-      publishedAt: new Date("2024-01-18"),
-    },
-    {
-      title: "Residential vs Commercial Property Investment",
-      slug: "residential-vs-commercial-property-investment",
-      excerpt: "Compare the pros and cons of investing in residential versus commercial properties in Bangalore's real estate market.",
-      content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl sit amet nisl.",
-      featuredImage: "/placeholder.svg?height=400&width=600",
-      category: "Investment",
-      tags: ["residential", "commercial", "investment", "comparison"],
-      isPublished: true,
-      publishedAt: new Date("2024-01-10"),
-    },
-    {
-      title: "Home Loan Guide for First-Time Buyers",
-      slug: "home-loan-guide-first-time-buyers",
-      excerpt: "Everything first-time homebuyers need to know about securing a home loan, including eligibility, documents, and tips.",
-      content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl sit amet nisl.",
-      featuredImage: "/placeholder.svg?height=400&width=600",
-      category: "Buying Guide",
-      tags: ["home-loan", "first-time", "buyers", "eligibility"],
-      isPublished: true,
-      publishedAt: new Date("2024-01-05"),
-    }
-  ]
-
-  console.log('Creating blog posts...')
-  
-  for (const blogData of blogPosts) {
-    const blogPost = await prisma.blogPost.create({
-      data: blogData
-    })
-    console.log(`Created blog post: ${blogPost.title} (${blogPost.category})`)
-  }
+  // Blog posts are now managed through the admin interface
+  console.log('Skipping blog posts creation - managed through admin interface')
 
   // Create sample newsletter subscribers
   const newsletterSubscribers = [
@@ -780,7 +671,7 @@ async function main() {
 
   console.log('Seed completed successfully!')
   console.log(`Total properties created: ${allProperties.length}`)
-  console.log(`Total blog posts created: ${blogPosts.length}`)
+  console.log('Blog posts: Managed through admin interface')
   console.log('Property categories:')
   console.log('- Luxury Villas:', luxuryVillas.length)
   console.log('- Flats:', flats.length)

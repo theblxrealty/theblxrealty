@@ -138,6 +138,7 @@ model BlogPost {
   excerpt       String?
   content       String
   featuredImage String?
+  redirectUrl   String?   // New field for blog redirect URL
   authorId      String?
   category      String?
   tags          String[]
