@@ -390,7 +390,6 @@ export default function PropertyContactForm({ propertyTitle, isOpen, onClose }: 
                         onChange={handleChange} 
                         placeholder="e.g. Mr/Mrs" 
                         className={`mt-1 font-['Suisse_Intl',sans-serif] ${isAutoFilled ? 'bg-green-50 border-green-300' : ''}`}
-                        readOnly={isAutoFilled}
                       />
                     </div>
 
@@ -403,7 +402,6 @@ export default function PropertyContactForm({ propertyTitle, isOpen, onClose }: 
                         onChange={handleChange} 
                         placeholder="Please enter your name" 
                         className={`mt-1 font-['Suisse_Intl',sans-serif] ${isAutoFilled ? 'bg-green-50 border-green-300' : ''}`}
-                        readOnly={isAutoFilled}
                       />
                     </div>
 
@@ -416,7 +414,6 @@ export default function PropertyContactForm({ propertyTitle, isOpen, onClose }: 
                         onChange={handleChange} 
                         placeholder="Please enter your last name" 
                         className={`mt-1 font-['Suisse_Intl',sans-serif] ${isAutoFilled ? 'bg-green-50 border-green-300' : ''}`}
-                        readOnly={isAutoFilled}
                       />
                     </div>
 
@@ -430,7 +427,6 @@ export default function PropertyContactForm({ propertyTitle, isOpen, onClose }: 
                         onChange={handleChange} 
                         placeholder="e.g. name@mail.com" 
                         className={`mt-1 font-['Suisse_Intl',sans-serif] ${isAutoFilled ? 'bg-green-50 border-green-300' : ''}`}
-                        readOnly={isAutoFilled}
                       />
                     </div>
 
@@ -448,7 +444,6 @@ export default function PropertyContactForm({ propertyTitle, isOpen, onClose }: 
                           onChange={handleChange} 
                           placeholder="(+91) 98765 43210" 
                           className={`rounded-l-none font-['Suisse_Intl',sans-serif] ${isAutoFilled && !isGoogleUser ? 'bg-green-50 border-green-300' : ''}`}
-                          readOnly={isAutoFilled && !isGoogleUser}
                         />
                         {isGoogleUser && isAutoFilled && (
                           <p className="text-xs text-gray-500 mt-1">

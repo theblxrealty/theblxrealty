@@ -191,7 +191,7 @@ export default function ContactForm() {
           <div className="flex items-center">
             <User className="h-4 w-4 text-green-600 mr-2" />
             <p className="text-green-800 text-sm">
-              Welcome back, {user.firstName || user.name || user.email}! Your details have been auto-filled.
+              Welcome back, {user.firstName || user.name || user.email}! Your details have been auto-filled and are editable.
               {isGoogleUser && " Please provide your phone number below."}
             </p>
           </div>
@@ -217,7 +217,6 @@ export default function ContactForm() {
             onChange={(e) => setFormState((prev) => ({ ...prev, name: e.target.value }))}
             required
             className={`pl-10 bg-white dark:bg-slate-700 border-slate-200 dark:border-slate-600 text-slate-900 dark:text-white placeholder:text-slate-500 dark:placeholder:text-slate-400 ${isAutoFilled ? 'bg-green-50 border-green-300' : ''}`}
-            readOnly={isAutoFilled}
           />
         </div>
 
@@ -230,7 +229,6 @@ export default function ContactForm() {
             onChange={(e) => setFormState((prev) => ({ ...prev, email: e.target.value }))}
             required
             className={`pl-10 bg-white dark:bg-slate-700 border-slate-200 dark:border-slate-600 text-slate-900 dark:text-white placeholder:text-slate-500 dark:placeholder:text-slate-400 ${isAutoFilled ? 'bg-green-50 border-green-300' : ''}`}
-            readOnly={isAutoFilled}
           />
         </div>
 
@@ -243,7 +241,6 @@ export default function ContactForm() {
             onChange={(e) => setFormState((prev) => ({ ...prev, phone: e.target.value }))}
             required
             className={`pl-10 bg-white dark:bg-slate-700 border-slate-200 dark:border-slate-600 text-slate-900 dark:text-white placeholder:text-slate-500 dark:placeholder:text-slate-400 ${isAutoFilled && !isGoogleUser ? 'bg-green-50 border-green-300' : ''}`}
-            readOnly={isAutoFilled && !isGoogleUser}
           />
           {isGoogleUser && isAutoFilled && (
             <p className="text-xs text-gray-500 mt-1">
