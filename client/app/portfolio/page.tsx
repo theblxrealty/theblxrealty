@@ -8,7 +8,7 @@ export default function PremiumPropertyPortfolio() {
       {/* Hero Section */}
       <div className="relative h-[100vh] w-full">
         <Image
-          src="/wcu_1.webp" // replace with your hero image
+          src="/wcu_1.jpg" // replace with your hero image
           alt="Premium Property Portfolio"
           fill
           priority

@@ -8,7 +8,7 @@ export default function ExpertMarketInsights() {
       {/* Hero Section */}
       <div className="relative h-[100vh] w-full">
         <Image
-          src="/wcu_2.webp" // replace with your hero image
+          src="/wcu_2.jpg" // replace with your hero image
           alt="Expert Market Insights & Investment Advisory"
           fill
           priority

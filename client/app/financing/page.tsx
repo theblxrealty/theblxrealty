@@ -8,7 +8,7 @@ export default function MortgageFinancingAssistance() {
       {/* Hero Section */}
       <div className="relative h-[100vh] w-full">
         <Image
-          src="/wcu_2.webp" // replace with your hero image
+          src="/wcu_3.jpg" // replace with your hero image
           alt="Mortgage & Financing Assistance"
           fill
           priority

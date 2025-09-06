@@ -8,7 +8,7 @@ export default function CompleteTransactionSecurity() {
       {/* Hero Section */}
       <div className="relative h-[100vh] w-full">
         <Image
-          src="/wcu_3.webp" // replace with your hero image
+          src="/wcu_4.jpg" // replace with your hero image
           alt="Complete Transaction Security"
           fill
           priority
