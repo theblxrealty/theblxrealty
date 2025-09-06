@@ -5,7 +5,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { usePathname, useRouter } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
-import { Menu, X, Phone, Search, User, LogOut, Shield, Plus } from "lucide-react"
+import { Menu, X, Phone, Search, User, LogOut, Shield, Plus, Home, FileText } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import ThemeToggle from "@/components/theme-toggle"
 import AuthModal from "@/components/auth-modal"
@@ -28,6 +28,7 @@ export default function Header() {
   const [searchQuery, setSearchQuery] = useState("")
   const [searchType, setSearchType] = useState<"properties" | "blog">("properties")
   const [authModalOpen, setAuthModalOpen] = useState(false)
+  const [addModalOpen, setAddModalOpen] = useState(false)
   const pathname = usePathname()
   const router = useRouter()
   const { data: session, status } = useSession()
@@ -139,15 +140,15 @@ export default function Header() {
               <Search className="h-5 w-5" />
             </button>
 
-            {/* Admin Add Property Button */}
+            {/* Admin Add Button */}
             {isAdmin && !adminLoading && (
-              <Link
-                href="/addprop"
+              <button
+                onClick={() => setAddModalOpen(true)}
                 className="flex items-center space-x-1 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-['Suisse_Intl',sans-serif] font-medium transition-all duration-300 text-sm"
               >
                 <Plus className="h-4 w-4" />
-                <span>Add Property</span>
-              </Link>
+                <span>Add</span>
+              </button>
             )}
 
             {session ? (
@@ -232,16 +233,18 @@ export default function Header() {
                 </Link>
               ))}
 
-              {/* Admin Add Property Button - Mobile */}
+              {/* Admin Add Button - Mobile */}
               {isAdmin && !adminLoading && (
-                <Link
-                  href="/addprop"
+                <button
+                  onClick={() => {
+                    setAddModalOpen(true)
+                    setMobileMenuOpen(false)
+                  }}
                   className="flex items-center space-x-2 bg-red-500 hover:bg-red-600 text-white px-4 py-3 rounded-lg font-['Suisse_Intl',sans-serif] font-medium transition-all duration-300 text-lg"
-                  onClick={() => setMobileMenuOpen(false)}
                 >
                   <Plus className="h-5 w-5" />
-                  <span>Add Property</span>
-                </Link>
+                  <span>Add</span>
+                </button>
               )}
 
               <div className="pt-4 border-t border-slate-700">
@@ -352,6 +355,75 @@ export default function Header() {
         onClose={() => setAuthModalOpen(false)}
         onLoginSuccess={handleLoginSuccess}
       />
+
+      {/* Add Modal */}
+      <AnimatePresence>
+        {addModalOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center"
+            onClick={() => setAddModalOpen(false)}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              className="bg-white rounded-2xl shadow-2xl p-6 max-w-md w-full mx-4"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="text-center mb-6">
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">What would you like to add?</h3>
+                <p className="text-gray-600">Choose an option below to get started</p>
+              </div>
+              
+              <div className="space-y-3">
+                <button
+                  onClick={() => {
+                    router.push('/addprop')
+                    setAddModalOpen(false)
+                  }}
+                  className="w-full flex items-center space-x-3 p-4 bg-red-50 hover:bg-red-100 border border-red-200 rounded-xl transition-all duration-300 group"
+                >
+                  <div className="flex-shrink-0 w-10 h-10 bg-red-500 rounded-lg flex items-center justify-center group-hover:bg-red-600 transition-colors">
+                    <Home className="h-5 w-5 text-white" />
+                  </div>
+                  <div className="text-left">
+                    <h4 className="font-semibold text-gray-900">Add Property</h4>
+                    <p className="text-sm text-gray-600">Create a new property listing</p>
+                  </div>
+                </button>
+                
+                <button
+                  onClick={() => {
+                    router.push('/addblog')
+                    setAddModalOpen(false)
+                  }}
+                  className="w-full flex items-center space-x-3 p-4 bg-blue-50 hover:bg-blue-100 border border-blue-200 rounded-xl transition-all duration-300 group"
+                >
+                  <div className="flex-shrink-0 w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center group-hover:bg-blue-600 transition-colors">
+                    <FileText className="h-5 w-5 text-white" />
+                  </div>
+                  <div className="text-left">
+                    <h4 className="font-semibold text-gray-900">Add Blog Post</h4>
+                    <p className="text-sm text-gray-600">Create a new blog article</p>
+                  </div>
+                </button>
+              </div>
+              
+              <div className="mt-6 pt-4 border-t border-gray-200">
+                <button
+                  onClick={() => setAddModalOpen(false)}
+                  className="w-full px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors"
+                >
+                  Cancel
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   )
 }

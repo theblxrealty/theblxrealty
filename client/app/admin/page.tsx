@@ -468,9 +468,17 @@ export default function AdminDashboard() {
               Welcome back, {admin?.firstName || admin?.email}
             </p>
           </div>
-          <Button onClick={handleLogout} variant="outline">
-            Logout
-          </Button>
+          <div className="flex gap-3">
+            <Button onClick={() => router.push('/admin/blogs')}>
+              Add Blog
+            </Button>
+            <Button onClick={() => router.push('/addprop')}>
+              Add Property
+            </Button>
+            <Button onClick={handleLogout} variant="outline">
+              Logout
+            </Button>
+          </div>
         </div>
 
         {/* Main Content */}
@@ -650,9 +658,16 @@ export default function AdminDashboard() {
           <TabsContent value="blog">
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-2xl font-semibold">Blog Posts</h2>
-              <Button disabled>Add Blog Post</Button>
+              <div className="flex gap-2">
+                <Button onClick={() => router.push('/admin/blogs')}>
+                  Add Blog
+                </Button>
+                <Button variant="outline" onClick={() => router.push('/admin/blogs')}>
+                  Manage Blog Posts
+                </Button>
+              </div>
             </div>
-            <p className="text-gray-600">Blog post management coming soon.</p>
+            <p className="text-gray-600">Click "Add Blog" to create new blog posts or "Manage Blog Posts" to view and edit existing content.</p>
           </TabsContent>
 
           <TabsContent value="contacts">
