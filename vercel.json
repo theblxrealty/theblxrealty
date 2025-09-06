@@ -1,6 +1,6 @@
 {
-  "buildCommand": "pnpm --prefix client build",
-  "installCommand": "pnpm --prefix client install",
+  "buildCommand": "cd client && pnpm build",
+  "installCommand": "cd client && pnpm install",
   "framework": "nextjs",
   "outputDirectory": "client/.next",
   "functions": {
