@@ -7,6 +7,7 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url)
     const category = searchParams.get('category')
     const search = searchParams.get('search')
+    const slug = searchParams.get('slug')
     const page = parseInt(searchParams.get('page') || '1')
     const limit = parseInt(searchParams.get('limit') || '10')
     const skip = (page - 1) * limit
@@ -18,31 +19,36 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    if (category) {
-      whereClause.category = category
-    }
+    // If slug is provided, search by slug instead of other filters
+    if (slug) {
+      whereClause.slug = slug
+    } else {
+      if (category) {
+        whereClause.category = category
+      }
 
-    if (search) {
-      whereClause.OR = [
-        {
-          title: {
-            contains: search,
-            mode: 'insensitive'
+      if (search) {
+        whereClause.OR = [
+          {
+            title: {
+              contains: search,
+              mode: 'insensitive'
+            }
+          },
+          {
+            excerpt: {
+              contains: search,
+              mode: 'insensitive'
+            }
+          },
+          {
+            content: {
+              contains: search,
+              mode: 'insensitive'
+            }
           }
-        },
-        {
-          excerpt: {
-            contains: search,
-            mode: 'insensitive'
-          }
-        },
-        {
-          content: {
-            contains: search,
-            mode: 'insensitive'
-          }
-        }
-      ]
+        ]
+      }
     }
 
     const [posts, total] = await Promise.all([
