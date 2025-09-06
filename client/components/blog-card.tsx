@@ -89,7 +89,7 @@ export default function BlogCard({ post, priority = false }: BlogCardProps) {
     >
       {/* Title and Category - ABOVE the image */}
       <div className="p-4 pb-2">
-        <h3 className="text-2xl font-bold text-gray-900 mb-2 line-clamp-2 leading-tight" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>
+        <h3 className="text-2xl font-bold text-gray-900 mb-2 line-clamp-1 leading-tight" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>
           {post.title}
         </h3>
         {post.category && (
@@ -100,7 +100,7 @@ export default function BlogCard({ post, priority = false }: BlogCardProps) {
       </div>
 
       {/* Image Section - BELOW the title */}
-      <div className="relative h-64 w-full flex-shrink-0 overflow-hidden bg-gray-200">
+      <div className="relative aspect-video w-full flex-shrink-0 overflow-hidden bg-gray-200">
         <motion.div
           animate={{
             scale: isHovered ? 1.05 : 1,
