@@ -1,6 +1,6 @@
 {
-  "buildCommand": "cd client && pnpm build",
-  "installCommand": "cd client && pnpm install",
+  "buildCommand": "pnpm --prefix client build",
+  "installCommand": "pnpm --prefix client install",
   "framework": "nextjs",
   "outputDirectory": "client/.next",
   "functions": {
@@ -14,4 +14,4 @@
       "PRISMA_GENERATE_DATAPROXY": "true"
     }
   }
-}
+} 
