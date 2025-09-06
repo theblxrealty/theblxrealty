@@ -1,0 +1,18 @@
+{
+  "name": "11square-monorepo",
+  "private": true,
+  "workspaces": [
+    "client"
+  ],
+  "scripts": {
+    "dev": "cd client && pnpm dev",
+    "build": "cd client && pnpm build",
+    "start": "cd client && pnpm start",
+    "install": "cd client && pnpm install"
+  },
+  "dependencies": {
+    "next": "15.2.4",
+    "@prisma/extension-accelerate": "^2.0.2",
+    "react-icons": "^5.5.0"
+  }
+}
