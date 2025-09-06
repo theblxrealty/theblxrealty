@@ -16,8 +16,10 @@ export async function GET(request: NextRequest) {
       hasNextAuthUrl: !!process.env.NEXTAUTH_URL,
       hasNextAuthSecret: !!process.env.NEXTAUTH_SECRET,
       hasJwtSecret: !!process.env.JWT_SECRET,
-      hasEmailUser: !!process.env.EMAIL_USER,
-      hasEmailPass: !!process.env.EMAIL_PASS,
+      hasAzureTenantId: !!process.env.AZURE_TENANT_ID,
+      hasAzureClientId: !!process.env.AZURE_CLIENT_ID,
+      hasAzureClientSecret: !!process.env.AZURE_CLIENT_SECRET,
+      hasEmailFrom: !!process.env.EMAIL_FROM,
       hasGoogleMapsApi: !!process.env.GOOGLE_MAPS_API,
       hasNextPublicGoogleMapsApi: !!process.env.NEXT_PUBLIC_GOOGLE_MAPS_API
     }
