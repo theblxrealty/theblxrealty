@@ -100,7 +100,7 @@ export default function BlogCard({ post, priority = false }: BlogCardProps) {
       </div>
 
       {/* Image Section - BELOW the title */}
-      <div className="relative h-64 flex-shrink-0 overflow-hidden">
+      <div className="relative h-64 w-full flex-shrink-0 overflow-hidden bg-gray-200">
         <motion.div
           animate={{
             scale: isHovered ? 1.05 : 1,
@@ -113,7 +113,8 @@ export default function BlogCard({ post, priority = false }: BlogCardProps) {
             alt={post.title} 
             fill 
             priority={priority}
-            className="object-cover" 
+            className="object-cover object-center" 
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
         </motion.div>
 

@@ -1,143 +1,79 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { useParams } from "next/navigation"
+import { useParams, useRouter } from "next/navigation"
 import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Calendar, User, Tag, ArrowLeft, Share2, Facebook, Twitter, Linkedin } from "lucide-react"
-
-// Import the same blog posts data
-const blogPosts = [
-  {
-    id: 1,
-    title: "Complete Guide to Buying Property in Bangalore",
-    excerpt: "Everything you need to know about purchasing residential and commercial properties in Bangalore - from legal checks to financing options.",
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl sit amet nisl. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl sit amet nisl.",
-    image: "/placeholder.svg?height=400&width=600",
-    date: "March 15, 2024",
-    author: "Arjun Mehta",
-    category: "Buying Guide",
-    featured: true,
-  },
-  {
-    id: 2,
-    title: "How to Sell Your Property at the Best Price",
-    excerpt: "Expert tips on property valuation, staging, marketing, and negotiation strategies to maximize your property's selling price in Bangalore.",
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl sit amet nisl. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl sit amet nisl.",
-    image: "/placeholder.svg?height=400&width=600",
-    date: "March 8, 2024",
-    author: "Sneha Patel",
-    category: "Selling Tips",
-    featured: true,
-  },
-  {
-    id: 3,
-    title: "Commercial Real Estate Investment Opportunities",
-    excerpt: "Explore lucrative commercial property investment options in Bangalore's growing business districts and IT corridors.",
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl sit amet nisl. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl sit amet nisl.",
-    image: "/placeholder.svg?height=400&width=600",
-    date: "February 28, 2024",
-    author: "Vikram Singh",
-    category: "Investment",
-    featured: true,
-  },
-  {
-    id: 4,
-    title: "Luxury Property Market Trends in Bangalore",
-    excerpt: "Analyze the latest trends in Bangalore's luxury real estate market and discover emerging investment hotspots.",
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl sit amet nisl. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl sit amet nisl.",
-    image: "/placeholder.svg?height=400&width=600",
-    date: "February 15, 2024",
-    author: "Emily Rodriguez",
-    category: "Market Analysis",
-    featured: false,
-  },
-  {
-    id: 5,
-    title: "Premium Locations: Where to Invest in 2024",
-    excerpt: "Discover Bangalore's most promising premium locations for property investment and understand the factors driving growth.",
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl sit amet nisl. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl sit amet nisl.",
-    image: "/placeholder.svg?height=400&width=600",
-    date: "February 5, 2024",
-    author: "David Wilson",
-    category: "Investment",
-    featured: false,
-  },
-  {
-    id: 6,
-    title: "Legal Guide to Property Transactions",
-    excerpt: "A comprehensive guide to legal aspects of property buying and selling, including documentation and compliance requirements.",
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl sit amet nisl. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl sit amet nisl.",
-    image: "/placeholder.svg?height=400&width=600",
-    date: "January 25, 2024",
-    author: "Sarah Johnson",
-    category: "Legal",
-    featured: false,
-  },
-  {
-    id: 7,
-    title: "Understanding Property Taxes in Bangalore",
-    excerpt: "A detailed breakdown of property taxes, stamp duty, and other charges you need to know when buying property in Bangalore.",
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl sit amet nisl. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl sit amet nisl.",
-    image: "/placeholder.svg?height=400&width=600",
-    date: "January 18, 2024",
-    author: "Rahul Kumar",
-    category: "Legal",
-    featured: false,
-  },
-  {
-    id: 8,
-    title: "Residential vs Commercial Property Investment",
-    excerpt: "Compare the pros and cons of investing in residential versus commercial properties in Bangalore's real estate market.",
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl sit amet nisl. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl sit amet nisl.",
-    image: "/placeholder.svg?height=400&width=600",
-    date: "January 10, 2024",
-    author: "Priya Sharma",
-    category: "Investment",
-    featured: false,
-  },
-  {
-    id: 9,
-    title: "Home Loan Guide for First-Time Buyers",
-    excerpt: "Everything first-time homebuyers need to know about securing a home loan, including eligibility, documents, and tips.",
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl sit amet nisl. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl sit amet nisl.",
-    image: "/placeholder.svg?height=400&width=600",
-    date: "January 5, 2024",
-    author: "Amit Patel",
-    category: "Buying Guide",
-    featured: false,
-  },
-]
+import { Calendar, User, Tag, ArrowLeft, Share2, Facebook, Twitter, Linkedin, ExternalLink } from "lucide-react"
 
 interface BlogPost {
-  id: number
+  id: string
   title: string
-  excerpt: string
+  slug: string
+  excerpt?: string
   content: string
-  image: string
-  date: string
-  author: string
-  category: string
-  featured: boolean
+  featuredImage?: string
+  redirectUrl?: string
+  category?: string
+  tags: string[]
+  isPublished: boolean
+  publishedAt?: string
+  createdAt: string
+  author: {
+    id: string
+    firstName?: string
+    lastName?: string
+    email: string
+  }
 }
 
 export default function BlogPostPage() {
   const params = useParams()
+  const router = useRouter()
   const [post, setPost] = useState<BlogPost | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [redirecting, setRedirecting] = useState(false)
 
   useEffect(() => {
-    const postId = parseInt(params.slug as string)
-    const foundPost = blogPosts.find(p => p.id === postId)
-    
-    if (foundPost) {
-      setPost(foundPost)
-    } else {
-      setError('Blog post not found')
+    const fetchBlogPost = async () => {
+      try {
+        const slug = params.slug as string
+        const response = await fetch(`/api/blog/posts?slug=${slug}`)
+        
+        if (!response.ok) {
+          throw new Error('Blog post not found')
+        }
+        
+        const data = await response.json()
+        
+        if (data.posts && data.posts.length > 0) {
+          const blogPost = data.posts[0]
+          
+          // Check if the post has a redirect URL
+          if (blogPost.redirectUrl) {
+            // Show redirecting message and redirect to external URL
+            setRedirecting(true)
+            setTimeout(() => {
+              window.location.href = blogPost.redirectUrl
+            }, 2000) // 2 second delay to show the message
+            return
+          }
+          
+          setPost(blogPost)
+        } else {
+          setError('Blog post not found')
+        }
+      } catch (err) {
+        console.error('Error fetching blog post:', err)
+        setError('Blog post not found')
+      } finally {
+        setLoading(false)
+      }
     }
-    setLoading(false)
+
+    fetchBlogPost()
   }, [params.slug])
 
   const shareUrl = typeof window !== 'undefined' ? window.location.href : ''
@@ -168,6 +104,37 @@ export default function BlogPostPage() {
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-500 mx-auto"></div>
             <p className="mt-4 text-gray-600">Loading blog post...</p>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  if (redirecting) {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <div className="container mx-auto px-4 py-16">
+          <div className="text-center max-w-2xl mx-auto">
+            <div className="animate-pulse">
+              <ExternalLink className="h-16 w-16 text-red-500 mx-auto mb-4" />
+            </div>
+            <h1 className="text-2xl font-bold mb-4 text-gray-900">Redirecting to External Article</h1>
+            <p className="text-gray-600 mb-6">
+              You are being redirected to the full article. Please wait...
+            </p>
+            <div className="bg-white rounded-lg p-6 shadow-sm border">
+              <p className="text-sm text-gray-500">
+                If you are not redirected automatically, 
+                <a 
+                  href={post?.redirectUrl} 
+                  className="text-red-600 hover:text-red-700 ml-1 underline"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  click here
+                </a>
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -211,24 +178,28 @@ export default function BlogPostPage() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <article className="max-w-4xl mx-auto">
           {/* Featured Image */}
-          {post.image && (
-            <div className="relative h-96 mb-8 rounded-lg overflow-hidden">
+          {post.featuredImage && (
+            <div className="relative h-96 w-full mb-8 rounded-lg overflow-hidden bg-gray-200">
               <Image
-                src={post.image}
+                src={post.featuredImage}
                 alt={post.title}
                 fill
-                className="object-cover"
+                className="object-cover object-center"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
+                priority
               />
             </div>
           )}
 
           {/* Post Header */}
           <header className="mb-8">
-            <div className="mb-4">
-              <span className="inline-block bg-red-100 text-red-800 text-sm px-3 py-1 rounded-full font-medium">
-                {post.category}
-              </span>
-            </div>
+            {post.category && (
+              <div className="mb-4">
+                <span className="inline-block bg-red-100 text-red-800 text-sm px-3 py-1 rounded-full font-medium">
+                  {post.category}
+                </span>
+              </div>
+            )}
 
             <h1 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>
               {post.title}
@@ -244,11 +215,11 @@ export default function BlogPostPage() {
               <div className="flex items-center space-x-4">
                 <div className="flex items-center">
                   <Calendar className="h-4 w-4 mr-1" />
-                  {post.date}
+                  {post.publishedAt ? new Date(post.publishedAt).toLocaleDateString() : new Date(post.createdAt).toLocaleDateString()}
                 </div>
                 <div className="flex items-center">
                   <User className="h-4 w-4 mr-1" />
-                  {post.author}
+                  {post.author.firstName} {post.author.lastName}
                 </div>
               </div>
 
@@ -268,14 +239,30 @@ export default function BlogPostPage() {
                 ))}
               </div>
             </div>
+
+            {/* Tags */}
+            {post.tags && post.tags.length > 0 && (
+              <div className="flex flex-wrap gap-2 mb-6">
+                {post.tags.map((tag, index) => (
+                  <span
+                    key={index}
+                    className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800"
+                  >
+                    <Tag className="h-3 w-3 mr-1" />
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
           </header>
 
           {/* Post Content */}
           <div className="prose prose-lg max-w-none mb-8">
             <div 
-              className="text-gray-700 leading-relaxed font-['Suisse_Intl',sans-serif]"
-              dangerouslySetInnerHTML={{ __html: post.content }}
-            />
+              className="text-gray-700 leading-relaxed font-['Suisse_Intl',sans-serif] whitespace-pre-wrap"
+            >
+              {post.content}
+            </div>
           </div>
 
           {/* Author Bio */}
@@ -286,7 +273,7 @@ export default function BlogPostPage() {
               </div>
               <div>
                 <h3 className="text-lg font-semibold text-gray-900">
-                  {post.author}
+                  {post.author.firstName} {post.author.lastName}
                 </h3>
                 <p className="text-gray-600 text-sm">
                   Real Estate Professional at 11Square
