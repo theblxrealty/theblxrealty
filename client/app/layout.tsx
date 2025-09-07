@@ -11,7 +11,19 @@ export const metadata = {
   title: "11Square | Premium Real Estate in Bangalore",
   description:
     "Find your dream property in Bangalore with 11Square. Expert guidance for buying, selling, and renting properties across the city's prime locations.",
-    generator: 'v0.dev'
+  generator: 'v0.dev',
+  icons: {
+    icon: [
+      { url: '/logo.svg', sizes: '64x64', type: 'image/svg+xml' },
+      { url: '/logo.svg', sizes: '48x48', type: 'image/svg+xml' },
+      { url: '/logo.svg', sizes: '32x32', type: 'image/svg+xml' },
+    ],
+    shortcut: '/logo.svg',
+    apple: [
+      { url: '/logo.svg', sizes: '192x192', type: 'image/svg+xml' },
+      { url: '/logo.svg', sizes: '180x180', type: 'image/svg+xml' },
+    ],
+  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
