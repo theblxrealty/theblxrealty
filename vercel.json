@@ -3,7 +3,6 @@
   "installCommand": "pnpm install",
   "framework": "nextjs",
   "outputDirectory": ".next",
-  "rootDirectory": "client",
   "functions": {
     "app/api/**/*.ts": {
       "maxDuration": 30
@@ -15,4 +14,3 @@
       "PRISMA_GENERATE_DATAPROXY": "true"
     }
   }
-} 
