@@ -7,7 +7,6 @@ import FeaturedProperties from "@/components/featured-properties"
 import TeamMember from "@/components/team-member"
 
 import ContactForm from "@/components/contact-form"
-import ThemeToggle from "@/components/theme-toggle"
 import Email from "next-auth/providers/email"
 
 // Sample team data
@@ -169,28 +168,6 @@ export default function HomePage() {
       </section> */}
 
 
-      {/* Featured Properties */}
-      {/* <section className="py-20 bg-white dark:bg-slate-900">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-end mb-12">
-            <div>
-              <h2 className="text-3xl md:text-4xl font-bold text-navy-900 dark:text-white mb-4">Featured Properties</h2>
-              <p className="text-lg text-slate-600 dark:text-slate-300 max-w-2xl">
-                Discover exceptional properties for sale across Bangalore - from luxury residences to prime commercial
-                investments.
-              </p>
-            </div>
-            <Link
-              href="/properties"
-              className="text-navy-600 dark:text-gold-400 font-medium flex items-center hover:text-navy-700 dark:hover:text-gold-300 transition-colors"
-            >
-              View All Properties <ArrowRight className="ml-1 h-4 w-4" />
-            </Link>
-          </div>
-
-          <FeaturedProperties />
-        </div>
-      </section> */}
 
       {/* Testimonials */}
       {/* <section className="py-20 bg-gradient-to-br from-navy-900 via-navy-800 to-slate-900 text-white">

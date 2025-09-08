@@ -1,6 +1,5 @@
 import { Inter } from "next/font/google"
 import "./globals.css"
-import { ThemeProvider } from "@/components/theme-provider"
 import { Providers } from "@/components/providers"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
@@ -31,11 +30,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
         <Providers>
-          <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
-            <Header />
-            {children}
-            <Footer />
-          </ThemeProvider>
+          <Header />
+          {children}
+          <Footer />
         </Providers>
       </body>
     </html>

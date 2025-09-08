@@ -130,12 +130,17 @@ export default function PropertyDetailPageClient({ property }: PropertyDetailPag
     setImageLoadingStates(prev => ({ ...prev, [index]: true }))
   }
 
+  // Get available images (filter out empty strings and ensure we have at least placeholder)
+  const availableImages = property.images.filter(img => img && img.trim() !== "")
+  const displayImages = availableImages.length > 0 ? availableImages : ["/placeholder.svg"]
+
   // Set the property URL on client side
   useEffect(() => {
     if (typeof window !== 'undefined') {
       setPropertyUrl(`${window.location.origin}/properties/${property.id}`)
     }
   }, [property.id])
+
   // Keyboard navigation for photo modal
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -167,10 +172,6 @@ export default function PropertyDetailPageClient({ property }: PropertyDetailPag
     document.addEventListener('keydown', handleKeyDown)
     return () => document.removeEventListener('keydown', handleKeyDown)
   }, [isPhotoModalOpen, displayImages.length])
-
-  // Get available images (filter out empty strings and ensure we have at least placeholder)
-  const availableImages = property.images.filter(img => img && img.trim() !== "")
-  const displayImages = availableImages.length > 0 ? availableImages : ["/placeholder.svg"]
 
   return (
     <div className="flex flex-col min-h-screen pt-16 bg-white">
