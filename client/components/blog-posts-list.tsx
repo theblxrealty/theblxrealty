@@ -35,7 +35,7 @@ export default function BlogPostsList() {
     setLoading(true)
     try {
       const token = localStorage.getItem('adminToken')
-      const response = await fetch('/api/admin/blog', {
+      const response = await fetch('/api/admin/blogs', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -72,7 +72,7 @@ export default function BlogPostsList() {
   const handlePublishToggle = async (postId: string, isPublished: boolean) => {
     try {
       const token = localStorage.getItem('adminToken')
-      const response = await fetch(`/api/admin/blog/${postId}`, {
+      const response = await fetch(`/api/admin/blogs/${postId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -102,7 +102,7 @@ export default function BlogPostsList() {
 
     try {
       const token = localStorage.getItem('adminToken')
-      const response = await fetch(`/api/admin/blog/${postId}`, {
+      const response = await fetch(`/api/admin/blogs/${postId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`

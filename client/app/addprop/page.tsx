@@ -18,6 +18,7 @@ import { capitalizeWords } from "@/lib/utils"
 interface PropertyFormData {
   title: string
   description: string
+  longDescription: string
   price: string
   location: string
   latitude: string
@@ -27,6 +28,25 @@ interface PropertyFormData {
   bedrooms: string
   bathrooms: string
   area: string
+  yearBuilt: string
+  lotSize: string
+  amenities: string
+  ecoFeatures: string
+  agentName: string
+  agentPhone: string
+  agentEmail: string
+  agentImage: string
+  // Individual nearby amenity distances
+  shoppingCentersDistance: string
+  schoolsDistance: string
+  hospitalsDistance: string
+  parksDistance: string
+  publicTransportDistance: string
+  // Individual transportation times
+  busStopTime: string
+  metroStationTime: string
+  airportTime: string
+  highwayAccessTime: string
 }
 
 export default function AddPropertyPage() {
@@ -47,6 +67,7 @@ export default function AddPropertyPage() {
   const [formData, setFormData] = useState<PropertyFormData>({
     title: "",
     description: "",
+    longDescription: "",
     price: "",
     location: "",
     latitude: "",
@@ -55,7 +76,26 @@ export default function AddPropertyPage() {
     propertyCategory: "",
     bedrooms: "",
     bathrooms: "",
-    area: ""
+    area: "",
+    yearBuilt: "",
+    lotSize: "",
+    amenities: "",
+    ecoFeatures: "",
+    agentName: "",
+    agentPhone: "",
+    agentEmail: "",
+    agentImage: "",
+    // Individual nearby amenity distances
+    shoppingCentersDistance: "",
+    schoolsDistance: "",
+    hospitalsDistance: "",
+    parksDistance: "",
+    publicTransportDistance: "",
+    // Individual transportation times
+    busStopTime: "",
+    metroStationTime: "",
+    airportTime: "",
+    highwayAccessTime: ""
   })
 
   // Handle form input changes with auto-formatting
@@ -250,12 +290,31 @@ export default function AddPropertyPage() {
       
       console.log('Upload results:', { banner1Url, banner2Url, additionalUrls })
 
+      // Build nearby amenities object from individual fields
+      const nearbyAmenitiesJson: Record<string, string> = {}
+      if (formData.shoppingCentersDistance.trim()) nearbyAmenitiesJson["Shopping Centers"] = formData.shoppingCentersDistance.trim()
+      if (formData.schoolsDistance.trim()) nearbyAmenitiesJson["Schools"] = formData.schoolsDistance.trim()
+      if (formData.hospitalsDistance.trim()) nearbyAmenitiesJson["Hospitals"] = formData.hospitalsDistance.trim()
+      if (formData.parksDistance.trim()) nearbyAmenitiesJson["Parks"] = formData.parksDistance.trim()
+      if (formData.publicTransportDistance.trim()) nearbyAmenitiesJson["Public Transport"] = formData.publicTransportDistance.trim()
+
+      // Build transportation object from individual fields
+      const transportationJson: Record<string, string> = {}
+      if (formData.busStopTime.trim()) transportationJson["Bus Stop"] = formData.busStopTime.trim()
+      if (formData.metroStationTime.trim()) transportationJson["Metro Station"] = formData.metroStationTime.trim()
+      if (formData.airportTime.trim()) transportationJson["Airport"] = formData.airportTime.trim()
+      if (formData.highwayAccessTime.trim()) transportationJson["Highway Access"] = formData.highwayAccessTime.trim()
+
       // Prepare property data
       const propertyData = {
         ...formData,
         propertyBanner1: banner1Url,
         propertyBanner2: banner2Url,
-        additionalImages: additionalUrls
+        additionalImages: additionalUrls,
+        amenities: formData.amenities.split(',').map(a => a.trim()).filter(a => a),
+        ecoFeatures: formData.ecoFeatures.split(',').map(f => f.trim()).filter(f => f),
+        nearbyAmenities: Object.keys(nearbyAmenitiesJson).length > 0 ? nearbyAmenitiesJson : null,
+        transportation: Object.keys(transportationJson).length > 0 ? transportationJson : null
       }
       
       console.log('Property data being sent:', propertyData)
@@ -359,17 +418,29 @@ export default function AddPropertyPage() {
                     </div>
                   </div>
 
-                  <div>
-                    <Label htmlFor="description" className="font-['Suisse_Intl',sans-serif]">Description</Label>
-                    <Textarea
-                      id="description"
-                      value={formData.description}
-                      onChange={(e) => handleInputChange('description', e.target.value)}
-                      placeholder="Describe the property features and highlights..."
-                      rows={4}
-                      className="font-['Suisse_Intl',sans-serif]"
-                    />
-                  </div>
+                    <div>
+                      <Label htmlFor="description" className="font-['Suisse_Intl',sans-serif]">Description</Label>
+                      <Textarea
+                        id="description"
+                        value={formData.description}
+                        onChange={(e) => handleInputChange('description', e.target.value)}
+                        placeholder="Describe the property features and highlights..."
+                        rows={3}
+                        className="font-['Suisse_Intl',sans-serif]"
+                      />
+                    </div>
+
+                    <div>
+                      <Label htmlFor="longDescription" className="font-['Suisse_Intl',sans-serif]">Extended Description</Label>
+                      <Textarea
+                        id="longDescription"
+                        value={formData.longDescription}
+                        onChange={(e) => handleInputChange('longDescription', e.target.value)}
+                        placeholder="Provide more detailed information about the property, neighborhood, and investment potential..."
+                        rows={5}
+                        className="font-['Suisse_Intl',sans-serif]"
+                      />
+                    </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
@@ -482,6 +553,229 @@ export default function AddPropertyPage() {
                         className="font-['Suisse_Intl',sans-serif]"
                       />
                     </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <Label htmlFor="yearBuilt" className="font-['Suisse_Intl',sans-serif]">Year Built</Label>
+                      <Input
+                        id="yearBuilt"
+                        type="number"
+                        value={formData.yearBuilt}
+                        onChange={(e) => handleInputChange('yearBuilt', e.target.value)}
+                        placeholder="e.g., 2020"
+                        className="font-['Suisse_Intl',sans-serif]"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="lotSize" className="font-['Suisse_Intl',sans-serif]">Lot Size</Label>
+                      <Input
+                        id="lotSize"
+                        value={formData.lotSize}
+                        onChange={(e) => handleInputChange('lotSize', e.target.value)}
+                        placeholder="e.g., 40x60 ft, 2400 sq ft"
+                        className="font-['Suisse_Intl',sans-serif]"
+                      />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Property Features */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="font-['Suisse_Intl',sans-serif]">Property Features</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <div>
+                    <Label htmlFor="amenities" className="font-['Suisse_Intl',sans-serif]">Amenities</Label>
+                    <Textarea
+                      id="amenities"
+                      value={formData.amenities}
+                      onChange={(e) => handleInputChange('amenities', e.target.value)}
+                      placeholder="Enter amenities separated by commas (e.g., Swimming Pool, Gym, Garden, Security, Parking)"
+                      rows={3}
+                      className="font-['Suisse_Intl',sans-serif]"
+                    />
+                    <p className="text-sm text-gray-500 mt-1">Separate each amenity with a comma</p>
+                  </div>
+
+                  <div>
+                    <Label htmlFor="ecoFeatures" className="font-['Suisse_Intl',sans-serif]">Eco-Friendly Features</Label>
+                    <Textarea
+                      id="ecoFeatures"
+                      value={formData.ecoFeatures}
+                      onChange={(e) => handleInputChange('ecoFeatures', e.target.value)}
+                      placeholder="Enter eco-friendly features separated by commas (e.g., Solar Panels, Rainwater Harvesting, Energy Efficient Lighting)"
+                      rows={2}
+                      className="font-['Suisse_Intl',sans-serif]"
+                    />
+                    <p className="text-sm text-gray-500 mt-1">Separate each feature with a comma</p>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Neighborhood Information */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="font-['Suisse_Intl',sans-serif]">Neighborhood Information</CardTitle>
+                  <p className="text-sm text-gray-600">Enter distances to nearby amenities. Leave blank to display "-" on the property page.</p>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <div>
+                    <h4 className="text-lg font-semibold mb-4 font-['Suisse_Intl',sans-serif]">Nearby Amenities</h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <Label htmlFor="shoppingCentersDistance" className="font-['Suisse_Intl',sans-serif]">Shopping Centers Distance</Label>
+                        <Input
+                          id="shoppingCentersDistance"
+                          value={formData.shoppingCentersDistance}
+                          onChange={(e) => handleInputChange('shoppingCentersDistance', e.target.value)}
+                          placeholder="e.g., 0.8 km, 10 min walk"
+                          className="font-['Suisse_Intl',sans-serif]"
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="schoolsDistance" className="font-['Suisse_Intl',sans-serif]">Schools Distance</Label>
+                        <Input
+                          id="schoolsDistance"
+                          value={formData.schoolsDistance}
+                          onChange={(e) => handleInputChange('schoolsDistance', e.target.value)}
+                          placeholder="e.g., 1.3 km, 15 min walk"
+                          className="font-['Suisse_Intl',sans-serif]"
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="hospitalsDistance" className="font-['Suisse_Intl',sans-serif]">Hospitals Distance</Label>
+                        <Input
+                          id="hospitalsDistance"
+                          value={formData.hospitalsDistance}
+                          onChange={(e) => handleInputChange('hospitalsDistance', e.target.value)}
+                          placeholder="e.g., 2.0 km, 25 min walk"
+                          className="font-['Suisse_Intl',sans-serif]"
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="parksDistance" className="font-['Suisse_Intl',sans-serif]">Parks Distance</Label>
+                        <Input
+                          id="parksDistance"
+                          value={formData.parksDistance}
+                          onChange={(e) => handleInputChange('parksDistance', e.target.value)}
+                          placeholder="e.g., 0.3 km, 5 min walk"
+                          className="font-['Suisse_Intl',sans-serif]"
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="publicTransportDistance" className="font-['Suisse_Intl',sans-serif]">Public Transport Distance</Label>
+                        <Input
+                          id="publicTransportDistance"
+                          value={formData.publicTransportDistance}
+                          onChange={(e) => handleInputChange('publicTransportDistance', e.target.value)}
+                          placeholder="e.g., 0.5 km, 7 min walk"
+                          className="font-['Suisse_Intl',sans-serif]"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h4 className="text-lg font-semibold mb-4 font-['Suisse_Intl',sans-serif]">Transportation</h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <Label htmlFor="busStopTime" className="font-['Suisse_Intl',sans-serif]">Bus Stop</Label>
+                        <Input
+                          id="busStopTime"
+                          value={formData.busStopTime}
+                          onChange={(e) => handleInputChange('busStopTime', e.target.value)}
+                          placeholder="e.g., 5 min walk"
+                          className="font-['Suisse_Intl',sans-serif]"
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="metroStationTime" className="font-['Suisse_Intl',sans-serif]">Metro Station</Label>
+                        <Input
+                          id="metroStationTime"
+                          value={formData.metroStationTime}
+                          onChange={(e) => handleInputChange('metroStationTime', e.target.value)}
+                          placeholder="e.g., 15 min walk"
+                          className="font-['Suisse_Intl',sans-serif]"
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="airportTime" className="font-['Suisse_Intl',sans-serif]">Airport</Label>
+                        <Input
+                          id="airportTime"
+                          value={formData.airportTime}
+                          onChange={(e) => handleInputChange('airportTime', e.target.value)}
+                          placeholder="e.g., 45 min drive"
+                          className="font-['Suisse_Intl',sans-serif]"
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="highwayAccessTime" className="font-['Suisse_Intl',sans-serif]">Highway Access</Label>
+                        <Input
+                          id="highwayAccessTime"
+                          value={formData.highwayAccessTime}
+                          onChange={(e) => handleInputChange('highwayAccessTime', e.target.value)}
+                          placeholder="e.g., 15 min drive"
+                          className="font-['Suisse_Intl',sans-serif]"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Agent Information */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="font-['Suisse_Intl',sans-serif]">Agent Information</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <Label htmlFor="agentName" className="font-['Suisse_Intl',sans-serif]">Agent Name</Label>
+                      <Input
+                        id="agentName"
+                        value={formData.agentName}
+                        onChange={(e) => handleInputChange('agentName', e.target.value)}
+                        placeholder="e.g., John Smith"
+                        className="font-['Suisse_Intl',sans-serif]"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="agentPhone" className="font-['Suisse_Intl',sans-serif]">Agent Phone</Label>
+                      <Input
+                        id="agentPhone"
+                        value={formData.agentPhone}
+                        onChange={(e) => handleInputChange('agentPhone', e.target.value)}
+                        placeholder="e.g., +91 9876543210"
+                        className="font-['Suisse_Intl',sans-serif]"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <Label htmlFor="agentEmail" className="font-['Suisse_Intl',sans-serif]">Agent Email</Label>
+                    <Input
+                      id="agentEmail"
+                      type="email"
+                      value={formData.agentEmail}
+                      onChange={(e) => handleInputChange('agentEmail', e.target.value)}
+                      placeholder="e.g., john.smith@11square.com"
+                      className="font-['Suisse_Intl',sans-serif]"
+                    />
+                  </div>
+
+                  <div>
+                    <Label htmlFor="agentImage" className="font-['Suisse_Intl',sans-serif]">Agent Profile Image URL</Label>
+                    <Input
+                      id="agentImage"
+                      value={formData.agentImage}
+                      onChange={(e) => handleInputChange('agentImage', e.target.value)}
+                      placeholder="e.g., https://example.com/agent-photo.jpg"
+                      className="font-['Suisse_Intl',sans-serif]"
+                    />
                   </div>
                 </CardContent>
               </Card>

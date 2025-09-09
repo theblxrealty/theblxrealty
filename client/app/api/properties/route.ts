@@ -194,7 +194,13 @@ export async function GET(request: NextRequest) {
 
       return {
         ...property,
-        images
+        images,
+        sqft: property.area || 0, // Add sqft field for property card compatibility
+        beds: property.bedrooms,
+        baths: property.bathrooms,
+        type: property.propertyType || 'residential',
+        price: property.price ? `INR ${(property.price / 10000000).toFixed(1)} Cr` : "Price on Application",
+        priceRange: property.price ? `INR ${(property.price / 10000000).toFixed(1)} Cr` : "Price on Application"
       }
     })
 

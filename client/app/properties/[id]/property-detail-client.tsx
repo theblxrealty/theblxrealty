@@ -40,6 +40,8 @@ interface Property {
     email: string
     image: string
   }
+  nearbyAmenities?: Record<string, string>
+  transportation?: Record<string, string>
 }
 
 interface PropertyDetailPageClientProps {
@@ -387,35 +389,41 @@ export default function PropertyDetailPageClient({ property }: PropertyDetailPag
               
               {showFullDescription && (
                 <div className="text-gray-500 font-['Suisse_Intl',sans-serif] leading-relaxed mb-6 space-y-4">
-                  <p>
-                    {property.longDescription || `This ${property.propertyCategory === 'farm house' ? 'farm house' : 
-                      property.propertyCategory === 'commercial' ? 'commercial property' : 
-                      property.propertyCategory === 'luxury villas' ? 'luxury villa' : 
-                      property.propertyCategory === 'flats' ? 'apartment' : 
-                      property.propertyCategory === 'new buildings' ? 'new building' : 
-                      property.propertyCategory === 'sites' ? 'development plot' : 
-                      property.propertyCategory === 'investment' ? 'investment property' : 'property'} offers excellent potential for development and investment. 
-                      The location in ${property.location} provides strategic advantages for ${property.propertyCategory === 'farm house' ? 'agricultural and residential development' : 
-                      property.propertyCategory === 'commercial' ? 'business operations and expansion' : 
-                      property.propertyCategory === 'sites' ? 'construction and development' : 
-                      property.propertyCategory === 'investment' ? 'investment returns and appreciation' : 'comfortable family living and lifestyle enhancement'}.`}
-                  </p>
-                  
-                  <p>
-                    {property.location} is a thriving area with excellent amenities including schools, shopping centers, 
-                    restaurants, and recreational facilities. The location provides easy access to major transportation 
-                    networks, making it convenient for daily commutes and business operations.
-                  </p>
-                  
-                  <p>
-                    This represents a unique opportunity to acquire a ${property.propertyCategory === 'sites' ? 'development plot' : 
-                      property.propertyCategory === 'commercial' ? 'commercial space' : 
-                      property.propertyCategory === 'investment' ? 'investment property' : 'residential property'} in one of ${property.location.split(',')[1]?.trim() || 'the area'}'s most 
-                      sought-after locations, with excellent potential for ${property.propertyCategory === 'farm house' ? 'agricultural and residential development' : 
-                      property.propertyCategory === 'commercial' ? 'business expansion' : 
-                      property.propertyCategory === 'sites' ? 'construction and development' : 
-                      property.propertyCategory === 'investment' ? 'investment returns and appreciation' : 'family living and investment'}.
-                  </p>
+                  {property.longDescription ? (
+                    <div dangerouslySetInnerHTML={{ __html: property.longDescription.replace(/\n/g, '<br />') }} />
+                  ) : (
+                    <>
+                      <p>
+                        This {property.propertyCategory === 'farm house' ? 'farm house' : 
+                          property.propertyCategory === 'commercial' ? 'commercial property' : 
+                          property.propertyCategory === 'luxury villas' ? 'luxury villa' : 
+                          property.propertyCategory === 'flats' ? 'apartment' : 
+                          property.propertyCategory === 'new buildings' ? 'new building' : 
+                          property.propertyCategory === 'sites' ? 'development plot' : 
+                          property.propertyCategory === 'investment' ? 'investment property' : 'property'} offers excellent potential for development and investment. 
+                          The location in {property.location} provides strategic advantages for {property.propertyCategory === 'farm house' ? 'agricultural and residential development' : 
+                          property.propertyCategory === 'commercial' ? 'business operations and expansion' : 
+                          property.propertyCategory === 'sites' ? 'construction and development' : 
+                          property.propertyCategory === 'investment' ? 'investment returns and appreciation' : 'comfortable family living and lifestyle enhancement'}.
+                      </p>
+                      
+                      <p>
+                        {property.location} is a thriving area with excellent amenities including schools, shopping centers, 
+                        restaurants, and recreational facilities. The location provides easy access to major transportation 
+                        networks, making it convenient for daily commutes and business operations.
+                      </p>
+                      
+                      <p>
+                        This represents a unique opportunity to acquire a {property.propertyCategory === 'sites' ? 'development plot' : 
+                          property.propertyCategory === 'commercial' ? 'commercial space' : 
+                          property.propertyCategory === 'investment' ? 'investment property' : 'residential property'} in one of {property.location.split(',')[1]?.trim() || 'the area'}'s most 
+                          sought-after locations, with excellent potential for {property.propertyCategory === 'farm house' ? 'agricultural and residential development' : 
+                          property.propertyCategory === 'commercial' ? 'business expansion' : 
+                          property.propertyCategory === 'sites' ? 'construction and development' : 
+                          property.propertyCategory === 'investment' ? 'investment returns and appreciation' : 'family living and investment'}.
+                      </p>
+                    </>
+                  )}
                 </div>
               )}
               
@@ -484,23 +492,23 @@ export default function PropertyDetailPageClient({ property }: PropertyDetailPag
                 <div className="space-y-3 font-['Suisse_Intl',sans-serif]">
                   <div className="flex items-center justify-between">
                     <span className="text-gray-600">Shopping Centers</span>
-                    <span className="font-semibold">0.8 km</span>
+                    <span className="font-semibold">{property.nearbyAmenities?.["Shopping Centers"] || "-"}</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-gray-600">Schools</span>
-                    <span className="font-semibold">1.3 km</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-gray-600">Public Transport</span>
-                    <span className="font-semibold">0.5 km</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-gray-600">Parks</span>
-                    <span className="font-semibold">0.3 km</span>
+                    <span className="font-semibold">{property.nearbyAmenities?.["Schools"] || "-"}</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-gray-600">Hospitals</span>
-                    <span className="font-semibold">2.0 km</span>
+                    <span className="font-semibold">{property.nearbyAmenities?.["Hospitals"] || "-"}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-gray-600">Parks</span>
+                    <span className="font-semibold">{property.nearbyAmenities?.["Parks"] || "-"}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-gray-600">Public Transport</span>
+                    <span className="font-semibold">{property.nearbyAmenities?.["Public Transport"] || "-"}</span>
                   </div>
                 </div>
               </div>
@@ -510,19 +518,19 @@ export default function PropertyDetailPageClient({ property }: PropertyDetailPag
                 <div className="space-y-3 font-['Suisse_Intl',sans-serif]">
                   <div className="flex items-center justify-between">
                     <span className="text-gray-600">Bus Stop</span>
-                    <span className="font-semibold">5 min walk</span>
+                    <span className="font-semibold">{property.transportation?.["Bus Stop"] || "-"}</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-gray-600">Metro Station</span>
-                    <span className="font-semibold">15 min walk</span>
+                    <span className="font-semibold">{property.transportation?.["Metro Station"] || "-"}</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-gray-600">Airport</span>
-                    <span className="font-semibold">45 min drive</span>
+                    <span className="font-semibold">{property.transportation?.["Airport"] || "-"}</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-gray-600">Highway Access</span>
-                    <span className="font-semibold">15 min drive</span>
+                    <span className="font-semibold">{property.transportation?.["Highway Access"] || "-"}</span>
                   </div>
                 </div>
               </div>

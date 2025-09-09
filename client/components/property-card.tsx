@@ -86,21 +86,23 @@ export default function PropertyCard({ property }: { property: Property }) {
               {/* Area */}
               <div className={`flex items-center justify-between py-2 ${(property.beds !== undefined && property.beds > 0) || (property.baths !== undefined && property.baths > 0) ? '' : 'border-b border-gray-100'}`}>
                 <span className="text-amber-600 font-suisse text-sm font-medium">Area</span>
-                <span className="text-gray-900 font-suisse font-semibold text-sm">{property.sqft} sq ft</span>
+                <span className="text-gray-900 font-suisse font-semibold text-sm">
+                  {property.sqft && property.sqft > 0 ? `${property.sqft} sq ft` : '-'}
+                </span>
               </div>
 
               {/* Unit Types - Only show for properties with bedrooms/bathrooms */}
               {(property.beds !== undefined && property.beds > 0) || (property.baths !== undefined && property.baths > 0) ? (
                 <div className="flex items-center justify-between py-2 border-b border-gray-100">
-                  <span className="text-amber-600 font-suisse text-sm font-medium">Unit Types</span>
+                  <span className="text-amber-600 font-suisse text-sm font-medium">Configuration</span>
                   <span className="text-gray-900 font-suisse font-semibold text-sm">
                     {property.beds !== undefined && property.beds > 0 && property.baths !== undefined && property.baths > 0 
-                      ? `${property.beds}, ${property.beds + 1} & ${property.beds + 2} Bed Apartment`
+                      ? `${property.beds} BHK, ${property.baths} Bath`
                       : property.beds !== undefined && property.beds > 0 
-                      ? `${property.beds} Bed Apartment`
+                      ? `${property.beds} Bedroom${property.beds > 1 ? 's' : ''}`
                       : property.baths !== undefined && property.baths > 0 
-                      ? `${property.baths} Bath Apartment`
-                      : 'Studio Apartment'}
+                      ? `${property.baths} Bathroom${property.baths > 1 ? 's' : ''}`
+                      : 'Studio'}
                   </span>
                 </div>
               ) : null}

@@ -373,8 +373,8 @@ export default function Header() {
               onClick={(e) => e.stopPropagation()}
             >
               <div className="text-center mb-6">
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">What would you like to add?</h3>
-                <p className="text-gray-600">Choose an option below to get started</p>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">Admin Panel</h3>
+                <p className="text-gray-600">Manage your properties and blog posts</p>
               </div>
               
               <div className="space-y-3">
@@ -407,6 +407,38 @@ export default function Header() {
                   <div className="text-left">
                     <h4 className="font-semibold text-gray-900">Add Blog Post</h4>
                     <p className="text-sm text-gray-600">Create a new blog article</p>
+                  </div>
+                </button>
+                
+                <button
+                  onClick={() => {
+                    router.push('/admin-properties')
+                    setAddModalOpen(false)
+                  }}
+                  className="w-full flex items-center space-x-3 p-4 bg-green-50 hover:bg-green-100 border border-green-200 rounded-xl transition-all duration-300 group"
+                >
+                  <div className="flex-shrink-0 w-10 h-10 bg-green-500 rounded-lg flex items-center justify-center group-hover:bg-green-600 transition-colors">
+                    <Home className="h-5 w-5 text-white" />
+                  </div>
+                  <div className="text-left">
+                    <h4 className="font-semibold text-gray-900">Manage Properties</h4>
+                    <p className="text-sm text-gray-600">View and delete properties</p>
+                  </div>
+                </button>
+                
+                <button
+                  onClick={() => {
+                    router.push('/admin-blogs')
+                    setAddModalOpen(false)
+                  }}
+                  className="w-full flex items-center space-x-3 p-4 bg-purple-50 hover:bg-purple-100 border border-purple-200 rounded-xl transition-all duration-300 group"
+                >
+                  <div className="flex-shrink-0 w-10 h-10 bg-purple-500 rounded-lg flex items-center justify-center group-hover:bg-purple-600 transition-colors">
+                    <FileText className="h-5 w-5 text-white" />
+                  </div>
+                  <div className="text-left">
+                    <h4 className="font-semibold text-gray-900">Manage Blog Posts</h4>
+                    <p className="text-sm text-gray-600">View and delete blog posts</p>
                   </div>
                 </button>
               </div>

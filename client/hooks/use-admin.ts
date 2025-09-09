@@ -43,18 +43,24 @@ export function useAdmin() {
           return
         }
 
-        // Verify admin token with backend
-        const response = await fetch('/api/auth/admin/me', {
-          headers: {
-            'Authorization': `Bearer ${token}`
+        // Verify admin token locally (decode JWT)
+        try {
+          const payload = JSON.parse(atob(token.split('.')[1]))
+          if (payload.type === 'admin' && payload.exp > Date.now() / 1000) {
+            setIsAdmin(true)
+            setAdminUser({
+              id: payload.id,
+              email: payload.email,
+              firstName: payload.firstName,
+              lastName: payload.lastName,
+              role: payload.role || 'admin'
+            })
+          } else {
+            setIsAdmin(false)
+            setAdminUser(null)
           }
-        })
-
-        if (response.ok) {
-          const data = await response.json()
-          setIsAdmin(true)
-          setAdminUser(data.admin)
-        } else {
+        } catch (error) {
+          console.error('Token decode error:', error)
           setIsAdmin(false)
           setAdminUser(null)
         }

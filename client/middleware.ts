@@ -26,7 +26,7 @@ export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
   // Protect admin routes
-  if (pathname.startsWith('/admin') || pathname === '/addprop') {
+  if (pathname === '/addprop' || pathname === '/addblog' || pathname === '/admin-properties' || pathname === '/admin-blogs') {
     const token = request.cookies.get('token')?.value || 
                   request.headers.get('authorization')?.replace('Bearer ', '')
 
@@ -60,9 +60,11 @@ export function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    '/admin/:path*',
     '/api/admin/:path*',
     '/addprop',
+    '/addblog',
+    '/admin-properties',
+    '/admin-blogs',
     '/api/addprop'
   ]
 } 
