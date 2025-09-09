@@ -18,12 +18,12 @@ const teamMembers = [
     image: "/placeholder.svg?height=400&width=400",
     bio: "With over 15 years of experience in luxury real estate and property development, Nishchith founded 11Square to transform premium property transactions in Bangalore.",
   },
-  // {
-  //   name: "Michael Chen",
-  //   role: "Chief Investment Officer",
-  //   image: "/placeholder.svg?height=400&width=400",
-  //   bio: "Michael specializes in commercial real estate investments and has successfully managed property portfolios worth over ₹500 crores across Bangalore.",
-  // },
+  {
+    name: "Michael Chen",
+    role: "Chief Investment Officer",
+    image: "/placeholder.svg?height=400&width=400",
+    bio: "Michael specializes in commercial real estate investments and has successfully managed property portfolios worth over ₹500 crores across Bangalore.",
+  },
   // { 
   //   name: "Emily Rodriguez",
   //   role: "Head of Luxury Sales",
