@@ -13,10 +13,10 @@ import Email from "next-auth/providers/email"
 // Sample team data
 const teamMembers = [
   {
-    name: "Sarah Johnson",
+    name: "Nishchith K U",
     role: "Founder & CEO",
     image: "/placeholder.svg?height=400&width=400",
-    bio: "With over 15 years of experience in luxury real estate and property development, Sarah founded 11Square to transform premium property transactions in Bangalore.",
+    bio: "With over 15 years of experience in luxury real estate and property development, Nishchith founded 11Square to transform premium property transactions in Bangalore.",
   },
   // {
   //   name: "Michael Chen",
