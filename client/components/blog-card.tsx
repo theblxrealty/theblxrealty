@@ -120,7 +120,6 @@ export default function BlogCard({ post, priority = false }: BlogCardProps) {
 
         {/* Published Date Overlay - Top Right */}
         <div className="absolute top-4 right-4 bg-white/95 rounded-full px-4 py-2">
-          <p className="text-xs text-gray-600 font-medium">PUBLISHED</p>
           <p className="text-sm font-bold text-amber-700">
             {formatDate(post.publishedAt)}
           </p>

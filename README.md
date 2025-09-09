@@ -142,10 +142,10 @@ npx prisma migrate dev --name migration-name
    npx tsx scripts/create-admin.ts
    ```
 
-2. **Access Admin Dashboard**
-   - Navigate to `/admin`
-   - Login with admin credentials
-   - Manage properties and blog posts
+2. **Admin Features**
+   - Login with admin credentials via the normal sign-in modal
+   - Access "Add Property" and "Add Blog" features from the header
+   - Manage properties and blog posts through dedicated pages
 
 ## 🎨 Customization
 
