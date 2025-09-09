@@ -13,25 +13,17 @@ export const metadata = {
   generator: 'v0.dev',
   icons: {
     icon: [
-<<<<<<< HEAD
-      { url: '/logo2.jpg', sizes: '64x64', type: 'image/svg+xml' },
-      { url: '/logo2.jpg', sizes: '48x48', type: 'image/svg+xml' },
-      { url: '/logo2.jpg', sizes: '32x32', type: 'image/svg+xml' },
-    ],
-    shortcut: '/logo2.jpg',
-    apple: [
-      { url: '/logo2.jpg', sizes: '192x192', type: 'image/svg+xml' },
-      { url: '/logo2.jpg', sizes: '180x180', type: 'image/svg+xml' },
-=======
+ 
+ 
       { url: '/logo.svg', sizes: '64x64', type: 'image/svg+xml' },
       { url: '/logo.svg', sizes: '48x48', type: 'image/svg+xml' },
-      { url: '/logo.svg', sizes: '32x32', type: 'image/svg+xml' },
+      { url: '/logo.svg', sizes: '32x32', type: 'image/svg+xml' },``
     ],
     shortcut: '/logo.svg',
     apple: [
       { url: '/logo.svg', sizes: '192x192', type: 'image/svg+xml' },
       { url: '/logo.svg', sizes: '180x180', type: 'image/svg+xml' },
->>>>>>> aa146855485316c6d1b83d14eee0f5ab89569131
+ 
     ],
   },
 }
