@@ -18,24 +18,24 @@ const teamMembers = [
     image: "/placeholder.svg?height=400&width=400",
     bio: "With over 15 years of experience in luxury real estate and property development, Sarah founded 11Square to transform premium property transactions in Bangalore.",
   },
-  {
-    name: "Michael Chen",
-    role: "Chief Investment Officer",
-    image: "/placeholder.svg?height=400&width=400",
-    bio: "Michael specializes in commercial real estate investments and has successfully managed property portfolios worth over ₹500 crores across Bangalore.",
-  },
-  {
-    name: "Emily Rodriguez",
-    role: "Head of Luxury Sales",
-    image: "/placeholder.svg?height=400&width=400",
-    bio: "Emily leads our luxury property division and has facilitated transactions for some of Bangalore's most prestigious residential and commercial properties.",
-  },
-  {
-    name: "David Wilson",
-    role: "Director of Client Relations",
-    image: "/placeholder.svg?height=400&width=400",
-    bio: "David ensures exceptional client experiences and has built lasting relationships with high-net-worth individuals and institutional investors.",
-  },
+  // {
+  //   name: "Michael Chen",
+  //   role: "Chief Investment Officer",
+  //   image: "/placeholder.svg?height=400&width=400",
+  //   bio: "Michael specializes in commercial real estate investments and has successfully managed property portfolios worth over ₹500 crores across Bangalore.",
+  // },
+  // { 
+  //   name: "Emily Rodriguez",
+  //   role: "Head of Luxury Sales",
+  //   image: "/placeholder.svg?height=400&width=400",
+  //   bio: "Emily leads our luxury property division and has facilitated transactions for some of Bangalore's most prestigious residential and commercial properties.",
+  // },
+  // {
+  //   name: "David Wilson",
+  //   role: "Director of Client Relations",
+  //   image: "/placeholder.svg?height=400&width=400",
+  //   bio: "David ensures exceptional client experiences and has built lasting relationships with high-net-worth individuals and institutional investors.",
+  // },
 ]
 
 export default function HomePage() {

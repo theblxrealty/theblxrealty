@@ -93,9 +93,9 @@ export default function Header() {
     <div className="flex items-center justify-between">
       {/* Left Section - Logo */}
       <Link href="/" className="flex items-center">
-        <div className="relative w-[120px] h-[120px] overflow-visible">
+        <div className="relative w-[90px] h-[90px] overflow-visible">
           <Image
-            src="/logo.svg"
+            src="/logo.PNG"
             alt="11Square Logo"
             fill
             className="object-contain"

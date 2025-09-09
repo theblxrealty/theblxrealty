@@ -69,15 +69,15 @@ export default function Footer() {
           {/* Section 1: Company Info & Social Links */}
           <div className="lg:col-span-1">
             <Link href="/" className="flex items-center mb-6">
-              {/* <div className="relative w-12 h-12 overflow-hidden">
+              <div className="relative w-12 h-12 overflow-hidden">
                 <Image
-                  src="/logo.png"
+                  src="/logo2.jpg"
                   alt="11Square Logo"
                   fill
                   className="object-contain"
                   priority
                 />
-              </div> */}
+              </div>
               <span className="ml-3 text-xl text-white" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '500'}}>11Square Realty</span>
             </Link>
             <p className="text-slate-300 mb-6" style={{fontFamily: 'Tiempos Headline, serif'}}>
