@@ -12,39 +12,17 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
     
     const property = await prisma.property.findUnique({
       where: { id },
-      select: {
-        id: true,
-        title: true,
-        description: true,
-        longDescription: true,
-        price: true,
-        location: true,
-        latitude: true,
-        longitude: true,
-        propertyType: true,
-        propertyCategory: true,
-        bedrooms: true,
-        bathrooms: true,
-        area: true,
-        yearBuilt: true,
-        lotSize: true,
-        amenities: true,
-        ecoFeatures: true,
-        agentName: true,
-        agentPhone: true,
-        agentEmail: true,
-        agentImage: true,
-        nearbyAmenities: true,
-        transportation: true,
-        propertyBanner1: true,
-        propertyBanner2: true,
-        additionalImages: true,
-        isActive: true,
-        createdAt: true,
-        updatedAt: true,
-        adminId: true
+      include: {
+        admin: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            email: true
+          }
+        }
       }
-    })
+    }) as any
 
     console.log('Property found:', property ? 'Yes' : 'No')
     if (property) {
@@ -66,7 +44,7 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
       id: property.id,
       title: property.title,
       description: property.description || "",
-      longDescription: property.longDescription || property.description || "",
+      longDescription: (property as any).longDescription || property.description || "",
       location: property.location || "Location not specified",
       price: property.price ? `INR ${(property.price / 10000000).toFixed(1)} Cr` : "Price on Application",
       development: true,
@@ -118,19 +96,8 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
         email: property.agentEmail || "discover@11squarerealty.com",
         image: property.agentImage || "/placeholder-user.jpg",
       },
-      nearbyAmenities: property.nearbyAmenities || {
-        "Shopping Centers": "0.8 km",
-        "Schools": "1.3 km", 
-        "Public Transport": "0.5 km",
-        "Parks": "0.3 km",
-        "Hospitals": "2.0 km"
-      },
-      transportation: property.transportation || {
-        "Bus Stop": "5 min walk",
-        "Metro Station": "15 min walk", 
-        "Airport": "45 min drive",
-        "Highway Access": "15 min drive"
-      }
+      nearbyAmenities: property.nearbyAmenities || null,
+      transportation: property.transportation || null
     }
 
     console.log('Property transformation completed, returning component')

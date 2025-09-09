@@ -25,7 +25,7 @@ interface Property {
   images: string[]
   beds?: number
   baths?: number
-  sqft: number
+  sqft: number | null
   yearBuilt: number
   lotSize: string
   ecoFeatures: string[]
@@ -40,8 +40,8 @@ interface Property {
     email: string
     image: string
   }
-  nearbyAmenities?: Record<string, string>
-  transportation?: Record<string, string>
+  nearbyAmenities?: Record<string, string> | null
+  transportation?: Record<string, string> | null
 }
 
 interface PropertyDetailPageClientProps {
