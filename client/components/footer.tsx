@@ -71,7 +71,7 @@ export default function Footer() {
             <Link href="/" className="flex items-center mb-6">
               <div className="relative w-12 h-12 overflow-hidden">
                 <Image
-                  src="/logo2.jpg"
+                  src="/logo2.png"
                   alt="11Square Logo"
                   fill
                   className="object-contain"
