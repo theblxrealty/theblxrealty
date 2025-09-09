@@ -12,28 +12,17 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
     
     const property = await prisma.property.findUnique({
       where: { id },
-      select: {
-        id: true,
-        title: true,
-        description: true,
-        price: true,
-        location: true,
-        latitude: true,
-        longitude: true,
-        propertyType: true,
-        propertyCategory: true,
-        bedrooms: true,
-        bathrooms: true,
-        area: true,
-        propertyBanner1: true,
-        propertyBanner2: true,
-        additionalImages: true,
-        isActive: true,
-        createdAt: true,
-        updatedAt: true,
-        adminId: true
+      include: {
+        admin: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            email: true
+          }
+        }
       }
-    })
+    }) as any
 
     console.log('Property found:', property ? 'Yes' : 'No')
     if (property) {
@@ -55,7 +44,7 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
       id: property.id,
       title: property.title,
       description: property.description || "",
-      longDescription: property.description || "",
+      longDescription: (property as any).longDescription || property.description || "",
       location: property.location || "Location not specified",
       price: property.price ? `INR ${(property.price / 10000000).toFixed(1)} Cr` : "Price on Application",
       development: true,
@@ -90,38 +79,25 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
         return allImages
       })(),
       
-      beds: property.bedrooms || undefined, // Only set if bedrooms exist
-      baths: property.bathrooms || undefined, // Only set if bathrooms exist
-      sqft: property.area || 0,
-      yearBuilt: 2024,
-      lotSize: "0.25 acres",
-      ecoFeatures: [
-        "Solar Panels",
-        "Rainwater Harvesting",
-        "Green Roof",
-        "Energy-Efficient Appliances",
-        "Smart Home System",
-        "Sustainable Building Materials",
-      ],
-      amenities: [
-        "Open Floor Plan",
-        "Gourmet Kitchen",
-        "Home Office",
-        "Walk-in Closets",
-        "Hardwood Floors",
-        "Central Air Conditioning",
-        "Fireplace",
-      ],
+      beds: property.bedrooms || undefined,
+      baths: property.bathrooms || undefined,
+      sqft: property.area || null,
+      yearBuilt: property.yearBuilt || new Date().getFullYear(),
+      lotSize: property.lotSize || "Not specified",
+      ecoFeatures: property.ecoFeatures || [],
+      amenities: property.amenities || [],
       type: property.propertyType || "residential",
       propertyCategory: property.propertyCategory || "flats",
-      isNew: true,
+      isNew: property.yearBuilt ? (new Date().getFullYear() - property.yearBuilt) <= 2 : false,
       featured: true,
       agent: {
-        name: "Arjun Mehta",
-        phone: "+91 98765 43210",
-        email: "arjun@11square.com",
-        image: "/placeholder.svg?height=200&width=200",
+        name: property.agentName || "11Square Realty Agent",
+        phone: property.agentPhone || "+91 9743264328",
+        email: property.agentEmail || "discover@11squarerealty.com",
+        image: property.agentImage || "/placeholder-user.jpg",
       },
+      nearbyAmenities: property.nearbyAmenities || null,
+      transportation: property.transportation || null
     }
 
     console.log('Property transformation completed, returning component')

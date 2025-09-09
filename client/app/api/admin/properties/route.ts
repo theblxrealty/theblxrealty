@@ -19,7 +19,7 @@ const verifyAdminToken = (request: NextRequest) => {
   return decoded
 }
 
-// GET - Get all properties
+// GET - Get all properties for admin management
 export async function GET(request: NextRequest) {
   try {
     const admin = verifyAdminToken(request)
@@ -30,21 +30,31 @@ export async function GET(request: NextRequest) {
       )
     }
 
-    const properties = await prisma.property.findMany({
-      include: {
-        admin: {
-          select: {
-            id: true,
-            firstName: true,
-            lastName: true,
-            email: true
+    const { searchParams } = new URL(request.url)
+    const page = parseInt(searchParams.get('page') || '1')
+    const limit = parseInt(searchParams.get('limit') || '10')
+    const skip = (page - 1) * limit
+
+    const [properties, total] = await Promise.all([
+      prisma.property.findMany({
+        include: {
+          admin: {
+            select: {
+              id: true,
+              firstName: true,
+              lastName: true,
+              email: true
+            }
           }
-        }
-      },
-      orderBy: {
-        createdAt: 'desc'
-      }
-    })
+        },
+        orderBy: {
+          createdAt: 'desc'
+        },
+        skip,
+        take: limit
+      }),
+      prisma.property.count()
+    ])
 
     // Transform properties to include images array for frontend compatibility
     const transformedProperties = properties.map(property => {
@@ -75,7 +85,15 @@ export async function GET(request: NextRequest) {
       }
     })
 
-    return NextResponse.json(transformedProperties)
+    return NextResponse.json({
+      properties: transformedProperties,
+      pagination: {
+        page,
+        limit,
+        total,
+        totalPages: Math.ceil(total / limit)
+      }
+    })
 
   } catch (error) {
     console.error('Get properties error:', error)
@@ -85,70 +103,3 @@ export async function GET(request: NextRequest) {
     )
   }
 }
-
-// POST - Create new property
-export async function POST(request: NextRequest) {
-  try {
-    const admin = verifyAdminToken(request)
-    if (!admin) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      )
-    }
-
-    const body = await request.json()
-    const {
-      title,
-      description,
-      price,
-      location,
-      latitude,
-      longitude,
-      propertyType,
-      propertyCategory,
-      bedrooms,
-      bathrooms,
-      area,
-      images
-    } = body
-
-    // Validate required fields
-    if (!title) {
-      return NextResponse.json(
-        { error: 'Property title is required' },
-        { status: 400 }
-      )
-    }
-
-    const property = await prisma.property.create({
-      data: {
-        title,
-        description,
-        price: price ? parseFloat(price) : null,
-        location,
-        latitude: latitude ? parseFloat(latitude) : null,
-        longitude: longitude ? parseFloat(longitude) : null,
-        propertyType,
-        propertyCategory,
-        bedrooms: bedrooms ? parseInt(bedrooms) : null,
-        bathrooms: bathrooms ? parseInt(bathrooms) : null,
-        area: area ? parseFloat(area) : null,
-        images: images || [],
-        adminId: admin.id
-      }
-    })
-
-    return NextResponse.json({
-      message: 'Property created successfully',
-      property
-    }, { status: 201 })
-
-  } catch (error) {
-    console.error('Create property error:', error)
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    )
-  }
-} 

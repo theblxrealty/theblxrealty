@@ -1,6 +1,5 @@
 import { Inter } from "next/font/google"
 import "../../globals.css"
-import { ThemeProvider } from "@/components/theme-provider"
 import { Providers } from "@/components/providers"
 import Footer from "@/components/footer"
 
@@ -18,10 +17,8 @@ export default function PropertyDetailLayout({ children }: { children: React.Rea
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
         <Providers>
-          <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
-            {children}
-            <Footer />
-          </ThemeProvider>
+          {children}
+          <Footer />
         </Providers>
       </body>
     </html>

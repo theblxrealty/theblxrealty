@@ -162,8 +162,8 @@ export default function ContactForm() {
         className="text-center py-8"
       >
         <CheckCircle className="h-16 w-16 text-green-500 mx-auto mb-4" />
-        <h3 className="text-xl font-bold text-navy-900 dark:text-white mb-2">Message Sent Successfully!</h3>
-        <p className="text-slate-600 dark:text-slate-300 mb-6">
+        <h3 className="text-xl font-bold text-navy-900 mb-2">Message Sent Successfully!</h3>
+        <p className="text-slate-600 mb-6">
           Thank you for contacting us. Our team will get back to you within 24 hours.
         </p>
         <Button
@@ -179,8 +179,8 @@ export default function ContactForm() {
   return (
     <div>
       <div className="text-center mb-8">
-        <h3 className="text-2xl font-bold text-navy-900 dark:text-white mb-2">Get in Touch</h3>
-        <p className="text-slate-600 dark:text-slate-300">
+        <h3 className="text-2xl font-bold text-navy-900 mb-2">Get in Touch</h3>
+        <p className="text-slate-600">
           Ready to start your luxury property journey? Let's discuss your requirements.
         </p>
       </div>
@@ -216,7 +216,7 @@ export default function ContactForm() {
             value={formState.name}
             onChange={(e) => setFormState((prev) => ({ ...prev, name: e.target.value }))}
             required
-            className={`pl-10 bg-white dark:bg-slate-700 border-slate-200 dark:border-slate-600 text-slate-900 dark:text-white placeholder:text-slate-500 dark:placeholder:text-slate-400 ${isAutoFilled ? 'bg-green-50 border-green-300' : ''}`}
+            className={`pl-10 bg-white border-slate-200 text-slate-900 placeholder:text-slate-500 ${isAutoFilled ? 'bg-green-50 border-green-300' : ''}`}
           />
         </div>
 
@@ -228,7 +228,7 @@ export default function ContactForm() {
             value={formState.email}
             onChange={(e) => setFormState((prev) => ({ ...prev, email: e.target.value }))}
             required
-            className={`pl-10 bg-white dark:bg-slate-700 border-slate-200 dark:border-slate-600 text-slate-900 dark:text-white placeholder:text-slate-500 dark:placeholder:text-slate-400 ${isAutoFilled ? 'bg-green-50 border-green-300' : ''}`}
+            className={`pl-10 bg-white border-slate-200 text-slate-900 placeholder:text-slate-500 ${isAutoFilled ? 'bg-green-50 border-green-300' : ''}`}
           />
         </div>
 
@@ -240,7 +240,7 @@ export default function ContactForm() {
             value={formState.phone}
             onChange={(e) => setFormState((prev) => ({ ...prev, phone: e.target.value }))}
             required
-            className={`pl-10 bg-white dark:bg-slate-700 border-slate-200 dark:border-slate-600 text-slate-900 dark:text-white placeholder:text-slate-500 dark:placeholder:text-slate-400 ${isAutoFilled && !isGoogleUser ? 'bg-green-50 border-green-300' : ''}`}
+            className={`pl-10 bg-white border-slate-200 text-slate-900 placeholder:text-slate-500 ${isAutoFilled && !isGoogleUser ? 'bg-green-50 border-green-300' : ''}`}
           />
           {isGoogleUser && isAutoFilled && (
             <p className="text-xs text-gray-500 mt-1">
@@ -257,7 +257,7 @@ export default function ContactForm() {
             onChange={(e) => setFormState((prev) => ({ ...prev, message: e.target.value }))}
             required
             rows={4}
-            className="pl-10 bg-white dark:bg-slate-700 border-slate-200 dark:border-slate-600 text-slate-900 dark:text-white placeholder:text-slate-500 dark:placeholder:text-slate-400 resize-none"
+            className="pl-10 bg-white border-slate-200 text-slate-900 placeholder:text-slate-500 resize-none"
           />
         </div>
 

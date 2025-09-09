@@ -75,7 +75,7 @@ export default function BlogPostForm({ onSuccess, post }: BlogPostFormProps) {
       const token = localStorage.getItem('adminToken')
       const tags = formState.tags.split(',').map(tag => tag.trim()).filter(tag => tag)
 
-      const response = await fetch('/api/admin/blog', {
+      const response = await fetch('/api/admin/blogs', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

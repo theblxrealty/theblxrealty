@@ -52,6 +52,7 @@ model Property {
   id                   String                @id @default(cuid())
   title                String
   description          String?
+  longDescription      String?               // Extended description for "more about property"
   price                Float?
   location             String?
   latitude             Float?
@@ -60,6 +61,8 @@ model Property {
   bedrooms             Int?
   bathrooms            Int?
   area                 Float?
+  yearBuilt            Int?                  // Year the property was built
+  lotSize              String?               // Lot size information
   isActive             Boolean               @default(true)
   createdAt            DateTime              @default(now())
   updatedAt            DateTime              @updatedAt
@@ -68,6 +71,21 @@ model Property {
   additionalImages     String[]
   propertyBanner1      String?
   propertyBanner2      String?
+  
+  // Amenities and features
+  amenities            String[]              // Property amenities
+  ecoFeatures          String[]              // Eco-friendly features
+  
+  // Neighborhood information
+  nearbyAmenities      Json?                 // JSON object with nearby amenities and distances
+  transportation       Json?                 // JSON object with transportation options and times
+  
+  // Agent information
+  agentName            String?               // Agent name
+  agentPhone           String?               // Agent phone
+  agentEmail           String?               // Agent email
+  agentImage           String?               // Agent profile image
+  
   admin                Admin?                @relation(fields: [adminId], references: [id])
   propertyViewRequests PropertyViewRequest[]
   savedProperties      SavedProperty[]
