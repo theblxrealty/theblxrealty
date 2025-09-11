@@ -71,7 +71,8 @@ export default function ContactPage() {
                       </div>
                       <div>
                         <h4 className="font-bold text-black text-lg font-['Suisse_Intl',sans-serif]">Visit Our Premium Office</h4>
-                        <p className="text-gray-500 font-['Suisse_Intl',sans-serif]">59, 10th A Cross Road, West of Chord Road, Bangalore, Karnataka 560086</p>
+                        <p className="text-gray-500 font-['Suisse_Intl',sans-serif]">#0301D 3rd floor, Brigade Twin Towers
+Ward No. 38, No. 11/1-4 Pipeline Road HMT, Yeswanthpur, Bengaluru, Karnataka 560022, India</p>
                         <p className="text-gray-500 mt-1 font-['Suisse_Intl',sans-serif]">
                            open for walk-ins and scheduled appointments.
                         </p>
@@ -171,7 +172,7 @@ export default function ContactPage() {
               <div className="mt-12">
                 <h3 className="font-bold text-lg mb-4 text-black font-['Suisse_Intl',sans-serif]">Connect With Us</h3>
                 <div className="flex space-x-4">
-                  <a
+                  {/* <a
                     href="#"
                     className="bg-gradient-to-br from-red-100 to-red-200 p-3 rounded-2xl text-red-600 hover:from-red-200 hover:to-red-300 transition-colors"
                   >
@@ -190,8 +191,8 @@ export default function ContactPage() {
                       <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
                     </svg>
                     <span className="sr-only">Facebook</span>
-                  </a>
-                                    <a
+                  </a> */}
+                                    {/* <a
                     href="#"
                     className="bg-gradient-to-br from-red-100 to-red-200 p-3 rounded-2xl text-red-600 hover:from-red-200 hover:to-red-300 transition-colors"
                   >
@@ -211,7 +212,7 @@ export default function ContactPage() {
                       <path d="m9.5 15.5 7-4-7-4Z"></path>
                     </svg>
                     <span className="sr-only">Youtube</span>
-                  </a>
+                  </a> */}
                   <a
                     href="https://www.linkedin.com/company/11-square-realty/?viewAsMember=true"
                     className="bg-gradient-to-br from-red-100 to-red-200 p-3 rounded-2xl text-red-600 hover:from-red-200 hover:to-red-300 transition-colors"
@@ -284,14 +285,16 @@ export default function ContactPage() {
               <div className="text-center">
                 <h3 className="text-xl font-bold mb-2 text-black font-['Suisse_Intl',sans-serif]">Bangalore </h3>
                 <p className="text-gray-500 font-['Suisse_Intl',sans-serif] text-sm">
-                  59, 10th A Cross Road, West of Chord Road, Bangalore, Karnataka 560086
+                  #0301D 3rd floor, Brigade Twin Towers
+Ward No. 38, No. 11/1-4 Pipeline Road HMT, Yeswanthpur, Bengaluru, Karnataka 560022, India
                 </p>
               </div>
               <div className="h-[400px] rounded-lg overflow-hidden shadow-lg border border-gray-100">
                 <ContactMap 
-                  center={{ lat: 12.9716, lng: 77.5946 }}
+                  center={{ lat: 13.11, lng: 77.4484}}
                   officeName="11Square Bangalore"
-                  address="59, 10th A Cross Road, West of Chord Road, Bangalore, Karnataka 560086"
+                  address="#0301D 3rd floor, Brigade Twin Towers
+Ward No. 38, No. 11/1-4 Pipeline Road HMT, Yeswanthpur, Bengaluru, Karnataka 560022, India"
                   phone="+91 9743264328"
                   email="discover@11squarerealty.com"
                 />
@@ -308,10 +311,11 @@ export default function ContactPage() {
                 <p className="text-gray-500 font-['Suisse_Intl',sans-serif] text-sm">
                  Suite RA01, 195-197 Wood Street, London, E17 3NU, United Kingdom
                 </p>
+                <br />
               </div>
               <div className="h-[400px] rounded-lg overflow-hidden shadow-lg border border-gray-100">
                 <ContactMap 
-                  center={{ lat: 51.5074, lng: -0.1278 }}
+                  center={{ lat: 51.585813, lng: -0.001676 }}
                   officeName="11Square London"
                   address="Suite RA01, 195-197 Wood Street, London, E17 3NU, United Kingdom"
                   phone="+44 7944450039"

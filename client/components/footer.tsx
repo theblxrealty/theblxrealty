@@ -85,14 +85,14 @@ export default function Footer() {
               prestigious locations.
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="text-slate-400 hover:text-red-400 transition-colors">
+              {/* <a href="#" className="text-slate-400 hover:text-red-400 transition-colors">
                 <Facebook className="h-5 w-5" />
                 <span className="sr-only">Facebook</span>
-              </a>
-              <a href="#" className="text-slate-400 hover:text-red-400 transition-colors">
+              </a> */}
+              {/* <a href="#" className="text-slate-400 hover:text-red-400 transition-colors">
                 <Youtube className="h-5 w-5" />
                 <span className="sr-only">Youtube</span>
-              </a>
+              </a> */}
               <a href="https://www.instagram.com/11squarerealty?igsh=MXE3cDQ4bXo0MjA3aA==" className="text-slate-400 hover:text-red-400 transition-colors">
                 <Instagram className="h-5 w-5" />
                 <span className="sr-only">Instagram</span>
@@ -142,7 +142,8 @@ export default function Footer() {
             <ul className="space-y-4">
               <li className="flex">
                 <MapPin className="h-5 w-5 text-red-400 mr-3 flex-shrink-0" />
-                <span className="text-slate-300 font-['Suisse_Intl',sans-serif]">59, 10th A Cross Road, West of Chord Road, Bangalore, Karnataka 560086</span>
+                <span className="text-slate-300 font-['Suisse_Intl',sans-serif]">#0301D 3rd floor, Brigade Twin Towers
+Ward No. 38, No. 11/1-4 Pipeline Road HMT, Yeswanthpur, Bengaluru, Karnataka 560022, India</span>
               </li>
               <li className="flex">
                 <Phone className="h-5 w-5 text-red-400 mr-3 flex-shrink-0" />

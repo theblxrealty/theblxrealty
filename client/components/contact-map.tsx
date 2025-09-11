@@ -18,12 +18,12 @@ interface ContactMapProps {
 }
 
 export default function ContactMap({
-  center = { lat: 12.9716, lng: 77.5946 }, // Bangalore coordinates
+  center = { lat: 13.11, lng: 77.4484 }, // Bangalore coordinates
   zoom = 15,
-  officeName = "11Square Premium Office",
-  address = "Brigade Road, Bangalore, Karnataka, India",
-  phone = "+91 98765 43210",
-  email = "contact@11square.com",
+  officeName = "11 Square Realty Office",
+  address = "#0301D 3rd floor, Brigade Twin Towers\nWard No. 38, No. 11/1-4 Pipeline Road HMT, Yeswanthpur, Bengaluru, Karnataka 560022, India",
+  phone = "+91 9743264328",
+  email = "Discover@11squarerealty.com",
   height = "500px"
 }: ContactMapProps) {
   const mapRef = useRef<HTMLDivElement>(null)

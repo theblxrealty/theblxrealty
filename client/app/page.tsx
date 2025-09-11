@@ -11,12 +11,41 @@ import Email from "next-auth/providers/email"
 
 // Sample team data
 const teamMembers = [
-  {
-    name: "Nishchith K U",
+{
+    name: "Nishchith Umesh",
     role: "Founder & CEO",
-    image: "/placeholder.svg?height=400&width=400",
-    bio: "With over 15 years of experience in luxury real estate and property development, Nishchith founded 11Square to transform premium property transactions in Bangalore.",
+    image: "/nishchith.jpg?height=400&width=400",
+    bio: `
+<p>
+Nishchith Umesh is a visionary entrepreneur and seasoned property investor, driven by a commitment to transforming landscapes across India and internationally.
+</p>
+<br />
+<p>
+Serving as Managing Director & CEO at <strong>Stonesbridge Developers India</strong> and <strong>NUE Properties Ltd London</strong>, he has built a reputation for leadership within the real estate sector, developing impactful projects and pioneering innovative business strategies.
+</p>
+<br />
+<p>
+Nishchith combines years of hands-on experience with a global perspective, enabling him to guide clients and teams through every stage of property buying, selling, and investment.
+</p>
+<br />
+<p>
+With roots in the UK property market and substantial expertise in both Indian and overseas real estate, Nishchith brings <strong>strategic insight, integrity, and client-focused passion</strong> to 11 Square Realty. His approach centers on helping people achieve their dreams of home ownership and investment success, while upholding the highest standards of professionalism and service.
+</p>
+<br />
+<p>
+Under his leadership, 11 Square Realty continues to expand its footprint, empower its clients, and build thriving communities.
+</p>
+<br />
+<h3 class="font-bold mt-4 mb-2">Key Highlights</h3>
+<ul class="list-disc ml-6 space-y-2">
+  <li><strong>Visionary entrepreneurship:</strong> Renowned for leading and innovating in property investment and development.</li>
+  <li><strong>Global experience:</strong> Direct involvement in real estate markets throughout India, UK, Dubai and overseas.</li>
+  <li><strong>Client-driven approach:</strong> Focused on unlocking property opportunities and guiding clients to realize their dreams.</li>
+  <li><strong>Commitment to excellence:</strong> Dedicated to ethical business practices and professional growth for the entire 11 Square Realty team.</li>
+</ul>
+`
   },
+
   // {
   //   name: "Michael Chen",
   //   role: "Chief Investment Officer",
@@ -395,7 +424,8 @@ export default function HomePage() {
                   </div>
                   <div>
                     <h3 className="font-bold text-black text-lg font-['Suisse_Intl',sans-serif]">Visit Our Premium Office</h3>
-                    <p className="text-gray-500 font-['Suisse_Intl',sans-serif]"> 59, 10th A Cross Road, West of Chord Road, Bangalore, Karnataka 560086</p>
+                    <p className="text-gray-500 font-['Suisse_Intl',sans-serif]"> #0301D 3rd floor, Brigade Twin Towers
+Ward No. 38, No. 11/1-4 Pipeline Road HMT, Yeswanthpur, Bengaluru, Karnataka 560022, India</p>
                   </div>
                 </div>
 
