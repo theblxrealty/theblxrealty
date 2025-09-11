@@ -222,7 +222,8 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+
       {/* Card 1 */}
       <Link href="/portfolio" className="relative h-80 rounded-lg shadow-lg overflow-hidden group block">
         <Image
