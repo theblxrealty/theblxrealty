@@ -291,7 +291,7 @@ Ward No. 38, No. 11/1-4 Pipeline Road HMT, Yeswanthpur, Bengaluru, Karnataka 56
               </div>
               <div className="h-[400px] rounded-lg overflow-hidden shadow-lg border border-gray-100">
                 <ContactMap 
-                  center={{ lat: 13.11, lng: 77.4484}}
+                  center={{ lat: 13.0303765, lng: 77.542251}}
                   officeName="11Square Bangalore"
                   address="#0301D 3rd floor, Brigade Twin Towers
 Ward No. 38, No. 11/1-4 Pipeline Road HMT, Yeswanthpur, Bengaluru, Karnataka 560022, India"

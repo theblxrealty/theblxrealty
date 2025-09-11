@@ -18,7 +18,7 @@ interface ContactMapProps {
 }
 
 export default function ContactMap({
-  center = { lat: 13.11, lng: 77.4484 }, // Bangalore coordinates
+  center = { lat: 13.0303765, lng: 77.542251 }, // Bangalore coordinates
   zoom = 15,
   officeName = "11 Square Realty Office",
   address = "#0301D 3rd floor, Brigade Twin Towers\nWard No. 38, No. 11/1-4 Pipeline Road HMT, Yeswanthpur, Bengaluru, Karnataka 560022, India",
