@@ -91,9 +91,9 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
       isNew: property.yearBuilt ? (new Date().getFullYear() - property.yearBuilt) <= 2 : false,
       featured: true,
       agent: {
-        name: property.agentName || "11Square Realty Agent",
+        name: property.agentName || "The BLX Realty Agent",
         phone: property.agentPhone || "+91 9743264328",
-        email: property.agentEmail || "discover@11squarerealty.com",
+        email: property.agentEmail || "Discoverblr@theblxrealty.com",
         image: property.agentImage || "/placeholder-user.jpg",
       },
       nearbyAmenities: property.nearbyAmenities || null,

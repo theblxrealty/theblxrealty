@@ -762,7 +762,7 @@ export default function AddPropertyPage() {
                       type="email"
                       value={formData.agentEmail}
                       onChange={(e) => handleInputChange('agentEmail', e.target.value)}
-                      placeholder="e.g., john.smith@11square.com"
+                      placeholder="e.g., john.smith@The BLX Realty.com"
                       className="font-['Suisse_Intl',sans-serif]"
                     />
                   </div>

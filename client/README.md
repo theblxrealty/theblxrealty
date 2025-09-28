@@ -1,4 +1,4 @@
-# 11Square - Premium Real Estate Platform
+# The BLX Realty- Premium Real Estate Platform
 
 A comprehensive real estate website built with Next.js 15, featuring property listings, admin dashboard, blog management, contact forms, and email notifications. Designed for luxury property management with modern UI/UX.
 
@@ -112,7 +112,7 @@ pnpm dev
 curl -X POST http://localhost:3000/api/auth/admin/register \
   -H "Content-Type: application/json" \
   -d '{
-    "email": "admin@11square.com",
+    "email": "admin@The BLX Realty.com",
     "phone": "1234567890",
     "password": "secure-password",
     "firstName": "Admin",
@@ -394,9 +394,9 @@ Visit `/api/health` to check system status and environment configuration.
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-## 🏢 About 11Square
+## 🏢 About The BLX Realty
 
-11Square is a premium real estate platform designed for luxury property management. The platform provides comprehensive tools for property listing, client management, and content marketing, making it ideal for real estate agencies and property developers.
+The BLX Realtyis a premium real estate platform designed for luxury property management. The platform provides comprehensive tools for property listing, client management, and content marketing, making it ideal for real estate agencies and property developers.
 
 ---
 

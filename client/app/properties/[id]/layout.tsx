@@ -6,9 +6,9 @@ import Footer from "@/components/footer"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata = {
-  title: "11Square | Premium Real Estate in Bangalore",
+  title: "The BLX Realty| Premium Real Estate in Bangalore",
   description:
-    "Find your dream property in Bangalore with 11Square. Expert guidance for buying, selling, and renting properties across the city's prime locations.",
+    "Find your dream property in Bangalore with The BLX Realty. Expert guidance for buying, selling, and renting properties across the city's prime locations.",
     generator: 'v0.dev'
 }
 

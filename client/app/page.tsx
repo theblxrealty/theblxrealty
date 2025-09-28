@@ -9,6 +9,7 @@ import TeamMember from "@/components/team-member"
 import ContactForm from "@/components/contact-form"
 import Email from "next-auth/providers/email"
 
+
 // Sample team data
 const teamMembers = [
 {
@@ -29,11 +30,11 @@ Nishchith combines years of hands-on experience with a global perspective, enabl
 </p>
 <br />
 <p>
-With roots in the UK property market and substantial expertise in both Indian and overseas real estate, Nishchith brings <strong>strategic insight, integrity, and client-focused passion</strong> to 11 Square Realty. His approach centers on helping people achieve their dreams of home ownership and investment success, while upholding the highest standards of professionalism and service.
+With roots in the UK property market and substantial expertise in both Indian and overseas real estate, Nishchith brings <strong>strategic insight, integrity, and client-focused passion</strong> to The BLX Realty. His approach centers on helping people achieve their dreams of home ownership and investment success, while upholding the highest standards of professionalism and service.
 </p>
 <br />
 <p>
-Under his leadership, 11 Square Realty continues to expand its footprint, empower its clients, and build thriving communities.
+Under his leadership, The BLX Realty continues to expand its footprint, empower its clients, and build thriving communities.
 </p>
 <br />
 <h3 class="font-bold mt-4 mb-2">Key Highlights</h3>
@@ -41,7 +42,7 @@ Under his leadership, 11 Square Realty continues to expand its footprint, empowe
   <li><strong>Visionary entrepreneurship:</strong> Renowned for leading and innovating in property investment and development.</li>
   <li><strong>Global experience:</strong> Direct involvement in real estate markets throughout India, UK, Dubai and overseas.</li>
   <li><strong>Client-driven approach:</strong> Focused on unlocking property opportunities and guiding clients to realize their dreams.</li>
-  <li><strong>Commitment to excellence:</strong> Dedicated to ethical business practices and professional growth for the entire 11 Square Realty team.</li>
+  <li><strong>Commitment to excellence:</strong> Dedicated to ethical business practices and professional growth for the entire The BLX Realty team.</li>
 </ul>
 `
   },
@@ -115,7 +116,7 @@ export default function HomePage() {
             <div className="order-1 lg:order-2">
               <h2 className="text-4xl md:text-4xl font-bold mb-6 text-black" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>Dream properties</h2>
               <p className="text-lg text-gray-500 mb-8 font-['Suisse_Intl',sans-serif]">
-                Your vision of a perfect home is our blueprint for action. 11 Square Realty is dedicated to turning aspirations into addresses, with passion, precision, and personalized care.
+                Your vision of a perfect home is our blueprint for action. The BLX Realty is dedicated to turning aspirations into addresses, with passion, precision, and personalized care.
               </p>
               <div className="space-y-8">
                 <Link href="/contact" className="group cursor-pointer block">
@@ -148,12 +149,12 @@ export default function HomePage() {
               <div className="mb-8">
                 <div className="flex items-start">
                   <blockquote className="text-3xl font-bold text-black mb-6 leading-tight flex-1" style={{fontFamily: 'Tiempos Headline, serif', lineHeight: 1.2, fontWeight: '500'}}>
-                    "At 11 Square Realty, every property is a promise and every client a partner. We blend expertise with empathy to create seamless transitions from dreams to doorsteps."
+                    "At The BLX Realty, every property is a promise and every client a partner. We blend expertise with empathy to create seamless transitions from dreams to doorsteps."
                   </blockquote>
                 </div>
                 <div className="mt-6">
                   <div className="font-bold text-black text-lg font-['Suisse_Intl',sans-serif]">Lorraine</div>
-                  <div className="text-gray-600">11Square</div>
+                  <div className="text-gray-600">The BLX Realty</div>
                 </div>
               </div>
             </div>
@@ -184,7 +185,7 @@ export default function HomePage() {
               </div>
             </div>
             <div className="order-1 lg:order-2">
-              <h2 className="text-4xl md:text-4xl font-bold mb-6 text-black" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>The View from 11Square Realty</h2>
+              <h2 className="text-4xl md:text-4xl font-bold mb-6 text-black" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>The View from The BLX Realty</h2>
               <p className="text-lg text-gray-500 mb-8 font-['Suisse_Intl',sans-serif]">
                 Dream property inspiration, the latest on luxury trends, and insights into the best areas to live in the Bangalore.
               </p>
@@ -204,7 +205,7 @@ export default function HomePage() {
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Success Stories</h2>
             <p className="text-lg text-slate-300 max-w-3xl mx-auto">
-              Hear from discerning property buyers and sellers who achieved their real estate goals with 11Square.
+              Hear from discerning property buyers and sellers who achieved their real estate goals with The BLX Realty.
             </p>
           </div>
         </div>
@@ -214,10 +215,10 @@ export default function HomePage() {
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-4xl font-bold mb-6 text-black" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>Why Choose 11Square</h2>
+            <h2 className="text-4xl md:text-4xl font-bold mb-6 text-black" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>Why Choose The BLX Realty</h2>
             <p className="text-lg text-gray-500 mb-8 font-['Suisse_Intl',sans-serif] max-w-3xl mx-auto">
               Bengaluru's premier luxury property marketplace connecting discerning buyers and sellers across
-              residential, commercial, and investment properties. Where 11 Square has become NRI's favorite property search hub helping accross borders.
+              residential, commercial, and investment properties. Where BLX Realty has become NRI's favorite property search hub helping accross borders.
 
             </p>
           </div>
@@ -333,7 +334,7 @@ export default function HomePage() {
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-4xl font-bold mb-6 text-black" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>Our Success Stories</h2>
             <p className="text-lg text-gray-500 mb-8 font-['Suisse_Intl',sans-serif] max-w-3xl mx-auto">
-              Hear from discerning property buyers and sellers who achieved their real estate goals with 11Square.
+              Hear from discerning property buyers and sellers who achieved their real estate goals with BLX Realty.
             </p>
           </div>
 
@@ -373,7 +374,7 @@ export default function HomePage() {
                   />
                 </div>
                 <blockquote className="text-lg text-gray-700 mb-4 font-['Suisse_Intl',sans-serif] leading-relaxed">
-                  "11Square helped me sell my premium property in record time with excellent returns. Their market knowledge is unmatched."
+                  "The BLX Realty helped me sell my premium property in record time with excellent returns. Their market knowledge is unmatched."
                 </blockquote>
               </div>
               <div>
@@ -395,7 +396,7 @@ export default function HomePage() {
                   />
                 </div>
                 <blockquote className="text-lg text-gray-700 mb-4 font-['Suisse_Intl',sans-serif] leading-relaxed">
-                  "Found my dream home through 11Square. Their personalized approach and attention to detail made all the difference."
+                  "Found my dream home through The BLX Realty. Their personalized approach and attention to detail made all the difference."
                 </blockquote>
               </div>
               <div>
@@ -446,7 +447,7 @@ Ward No. 38, No. 11/1-4 Pipeline Road HMT, Yeswanthpur, Bengaluru, Karnataka 56
                   </div>
                   <div>
                     <h3 className="font-bold text-black text-lg font-['Suisse_Intl',sans-serif]">Email</h3>
-                    <p className="text-gray-500 font-['Suisse_Intl',sans-serif]">discover@11squarerealty.com</p>
+                    <p className="text-gray-500 font-['Suisse_Intl',sans-serif]">Discoverblr@theblxrealty.com</p>
                   </div>
               </div>
 

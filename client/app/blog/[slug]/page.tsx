@@ -276,7 +276,7 @@ export default function BlogPostPage() {
                   {post.author.firstName} {post.author.lastName}
                 </h3>
                 <p className="text-gray-600 text-sm">
-                  Real Estate Professional at 11Square
+                  Real Estate Professional at The BLX Realty
                 </p>
               </div>
             </div>

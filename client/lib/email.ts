@@ -6,7 +6,7 @@ import "isomorphic-fetch"
 const tenantId = process.env.AZURE_TENANT_ID
 const clientId = process.env.AZURE_CLIENT_ID
 const clientSecret = process.env.AZURE_CLIENT_SECRET
-const fromEmail = process.env.EMAIL_FROM || "discover@11squarerealty.com"
+const fromEmail = process.env.EMAIL_FROM || "Discoverblr@theblxrealty.com"
 
 // Validate required environment variables
 if (!tenantId || !clientId || !clientSecret) {
@@ -117,7 +117,7 @@ export const sendPropertyViewRequestEmail = async (data: PropertyViewRequestEmai
       </p>
     </div>
   `
-  return sendEmail("discover@11squarerealty.com", `Request property view of ${data.propertyId}`, html)
+  return sendEmail("Discoverblr@theblxrealty.com", `Request property view of ${data.propertyId}`, html)
 }
 
 export const sendCareerApplicationEmail = async (data: CareerApplicationEmail) => {
@@ -147,7 +147,7 @@ export const sendCareerApplicationEmail = async (data: CareerApplicationEmail) =
       </p>
     </div>
   `
-  return sendEmail("discover@11squarerealty.com", "Career Application", html)
+  return sendEmail("Discoverblr@theblxrealty.com", "Career Application", html)
 }
 
 export const sendContactRequestEmail = async (data: ContactRequestEmail) => {
@@ -172,7 +172,7 @@ export const sendContactRequestEmail = async (data: ContactRequestEmail) => {
       </p>
     </div>
   `
-  return sendEmail("discover@11squarerealty.com", "Contact Request", html)
+  return sendEmail("Discoverblr@theblxrealty.com", "Contact Request", html)
 }
 
 export const sendNewsletterEmail = async (data: NewsletterEmail) => {
@@ -181,7 +181,7 @@ export const sendNewsletterEmail = async (data: NewsletterEmail) => {
       <div style="background-color: white; border-radius: 10px; padding: 30px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
         <!-- Header -->
         <div style="text-align: center; margin-bottom: 30px;">
-          <h1 style="color: #011337; margin: 0; font-size: 24px;">11Square Newsletter</h1>
+          <h1 style="color: #011337; margin: 0; font-size: 24px;">The BLX RealtyNewsletter</h1>
           <p style="color: #666; margin: 10px 0 0 0;">Latest Property Insights & Market Updates</p>
         </div>
         
@@ -209,7 +209,7 @@ export const sendNewsletterEmail = async (data: NewsletterEmail) => {
         <!-- Footer -->
         <div style="text-align: center; color: #999; font-size: 12px;">
           <p>You're receiving this email because you subscribed to our newsletter.</p>
-          <p>© ${new Date().getFullYear()} 11Square. All rights reserved.</p>
+          <p>© ${new Date().getFullYear()} The BLX Realty. All rights reserved.</p>
           <p>Brigade Road, Bangalore, Karnataka 560001</p>
         </div>
       </div>

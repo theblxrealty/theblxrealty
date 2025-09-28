@@ -95,7 +95,7 @@ export default function Header() {
         <div className="relative w-[90px] h-[90px] overflow-visible">
           <Image
             src="/logo.PNG"
-            alt="11Square Logo"
+            alt="The BLX RealtyLogo"
             fill
             className="object-contain"
             priority

@@ -14,7 +14,7 @@ const testimonials = [
     role: "Property Buyer",
     image: "/placeholder.svg?height=200&width=200",
     quote:
-      "11Square helped me find the perfect commercial space for my business in Koramangala. Their market knowledge and negotiation skills saved me both time and money. Excellent service!",
+      "The BLX Realtyhelped me find the perfect commercial space for my business in Koramangala. Their market knowledge and negotiation skills saved me both time and money. Excellent service!",
     rating: 5,
   },
   {
@@ -23,7 +23,7 @@ const testimonials = [
     role: "Property Seller",
     image: "/placeholder.svg?height=200&width=200",
     quote:
-              "I was able to sell my apartment in HSR Layout successfully through 11Square. They handled everything from valuation to documentation. Highly professional team!",
+              "I was able to sell my apartment in HSR Layout successfully through The BLX Realty. They handled everything from valuation to documentation. Highly professional team!",
     rating: 5,
   },
   {
@@ -32,7 +32,7 @@ const testimonials = [
     role: "Land Investor",
     image: "/placeholder.svg?height=200&width=200",
     quote:
-      "Bought a residential plot in Whitefield through 11Square. Their due diligence process and legal verification gave me complete confidence in my investment. Great experience!",
+      "Bought a residential plot in Whitefield through The BLX Realty. Their due diligence process and legal verification gave me complete confidence in my investment. Great experience!",
     rating: 5,
   },
   {
@@ -41,7 +41,7 @@ const testimonials = [
     role: "First-time Buyer",
     image: "/placeholder.svg?height=200&width=200",
     quote:
-      "As a first-time property buyer, 11Square guided me through the entire process. From home loan assistance to registration, they made everything seamless and stress-free.",
+      "As a first-time property buyer, The BLX Realtyguided me through the entire process. From home loan assistance to registration, they made everything seamless and stress-free.",
     rating: 5,
   },
 ]

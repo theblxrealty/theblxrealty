@@ -72,13 +72,13 @@ export default function Footer() {
               <div className="relative w-12 h-12 overflow-hidden">
                 <Image
                   src="/logo2.png"
-                  alt="11Square Logo"
+                  alt="The BLX RealtyLogo"
                   fill
                   className="object-contain"
                   priority
                 />
               </div>
-              <span className="ml-3 text-xl text-white" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '500'}}>11Square Realty</span>
+              <span className="ml-3 text-xl text-white" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '500'}}>The BLX Realty</span>
             </Link>
             <p className="text-slate-300 mb-6" style={{fontFamily: 'Tiempos Headline, serif'}}>
               Your trusted partner for buying, selling and investing in premium properties, Residential & Commercial Plots across Bengaluru's most
@@ -93,7 +93,7 @@ export default function Footer() {
                 <Youtube className="h-5 w-5" />
                 <span className="sr-only">Youtube</span>
               </a> */}
-              <a href="https://www.instagram.com/11squarerealty?igsh=MXE3cDQ4bXo0MjA3aA==" className="text-slate-400 hover:text-red-400 transition-colors">
+              <a href="https://www.instagram.com/The BLX Realtyrealty?igsh=MXE3cDQ4bXo0MjA3aA==" className="text-slate-400 hover:text-red-400 transition-colors">
                 <Instagram className="h-5 w-5" />
                 <span className="sr-only">Instagram</span>
               </a>
@@ -151,7 +151,7 @@ Ward No. 38, No. 11/1-4 Pipeline Road HMT, Yeswanthpur, Bengaluru, Karnataka 56
               </li>
               <li className="flex">
                 <Mail className="h-5 w-5 text-red-400 mr-3 flex-shrink-0" />
-                <span className="text-slate-300 font-['Suisse_Intl',sans-serif]">discover@11squarerealty.com</span>
+                <span className="text-slate-300 font-['Suisse_Intl',sans-serif]">Discoverblr@theblxrealty.com</span>
               </li>
             </ul>
           </div>
@@ -187,7 +187,7 @@ Ward No. 38, No. 11/1-4 Pipeline Road HMT, Yeswanthpur, Bengaluru, Karnataka 56
 
         <div className="border-t border-slate-700 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-slate-400 text-sm mb-4 md:mb-0 font-['Suisse_Intl',sans-serif]">
-            &copy; {new Date().getFullYear()} 11Square Realty. All rights reserved.
+            &copy; {new Date().getFullYear()} The BLX Realty. All rights reserved.
           </p>
           <div className="flex space-x-6">
             <Link href="/terms" className="text-slate-400 hover:text-red-400 text-sm transition-colors font-['Suisse_Intl',sans-serif]">
