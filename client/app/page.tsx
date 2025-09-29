@@ -153,14 +153,14 @@ export default function HomePage() {
                   </blockquote>
                 </div>
                 <div className="mt-6">
-                  <div className="font-bold text-black text-lg font-['Suisse_Intl',sans-serif]">Lorraine</div>
+                  <div className="font-bold text-black text-lg font-['Suisse_Intl',sans-serif]"> Loana Grace</div>
                   <div className="text-gray-600">The BLX Realty</div>
                 </div>
               </div>
             </div>
             <div className="relative h-[600px] w-full">
               <Image
-                src="/image2.webp?height=2560&width=2560"
+                src="/image2.jpg?height=2560&width=2560"
                 alt="Woman with teacup"
                 fill
                 className="object-cover"

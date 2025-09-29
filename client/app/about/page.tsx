@@ -54,12 +54,12 @@ export default function AboutPage() {
             <div>
               <h2 className="text-4xl md:text-4xl font-bold mb-6 text-red-500" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>From Vision to Reality</h2>
               <p className="text-lg text-gray-500 mb-8 font-['Suisse_Intl',sans-serif]">
-                Welcome to The BLX Realty, where your property dreams take shape and become a reality. Founded with a passion for real estate and a commitment to excellence, we specialize in helping clients buy and sell properties with confidence and ease over past 5 years across London, Dubai and India.
+                Welcome to The Bengaluru-London Exchange [BLX] Realty, where your property dreams take shape and become a reality. Founded with a passion for real estate and a commitment to excellence, we specialize in helping clients buy and sell properties with confidence and ease over past 5 years across London, Dubai and India.
 
               </p>
               <h4 className="text-4xl md:text-3xl font-bold mb-6 text-red-500" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>Who We Are</h4>
               <p className="text-lg text-gray-500 mb-8 font-['Suisse_Intl',sans-serif]">
-                At The BLX Realty, we are more than just a real estate company—we are trusted partners in your journey to find the perfect home or investment property. With branches in India, Dubai, and the UK, we bring a global perspective combined with local market expertise. Our diverse team of skilled professionals is dedicated to delivering personalized solutions tailored to your unique needs and aspirations.
+                At The Bengaluru-London Exchange [BLX] Realty, we are more than just a real estate company—we are trusted partners in your journey to find the perfect home or investment property. With branches in India, Dubai, and the UK, we bring a global perspective combined with local market expertise. Our diverse team of skilled professionals is dedicated to delivering personalized solutions tailored to your unique needs and aspirations.
               </p>
                
               <Link href="/contact">
@@ -131,7 +131,7 @@ export default function AboutPage() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
-              <h2 className="text-4xl md:text-4xl font-bold mb-6 text-red-500" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>Why Choose The BLX Realty?
+              <h2 className="text-4xl md:text-4xl font-bold mb-6 text-red-500" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>Why Choose The Bengaluru-London Exchange Realty?
 </h2>
               <p className="text-lg text-gray-500 mb-8 font-['Suisse_Intl',sans-serif]">
                 When you choose The BLX Realty, you're not just getting a real estate agent—you're gaining a dedicated partner who cares about your future. We help you navigate the complexities of the property market, whether it's your first home or your next big investment. Our goal is to unlock the door to opportunities that match your lifestyle and ambitions.

@@ -78,7 +78,7 @@ export default function Footer() {
                   priority
                 />
               </div>
-              <span className="ml-3 text-xl text-white" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '500'}}>The BLX Realty</span>
+              <span className="ml-3 text-xl text-white" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '500'}}>The Bengaluru-London Exchange Realty</span>
             </Link>
             <p className="text-slate-300 mb-6" style={{fontFamily: 'Tiempos Headline, serif'}}>
               Your trusted partner for buying, selling and investing in premium properties, Residential & Commercial Plots across Bengaluru's most
