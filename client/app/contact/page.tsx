@@ -157,13 +157,13 @@ Ward No. 38, No. 11/1-4 Pipeline Road HMT, Yeswanthpur, Bengaluru, Karnataka 56
                     <div>
                       <h3 className="font-bold text-black text-lg font-['Suisse_Intl',sans-serif]">Business Hours</h3>
                       <div className="text-gray-500 grid grid-cols-2 gap-x-4 gap-y-1 mt-1 font-['Suisse_Intl',sans-serif]">
-                        <span>Monday - Saturday:</span>
+                        <span>Monday - Sunday:</span>
                         <span>9:00 AM - 6:00 PM</span>
                          
                         
-                        <span>Sunday: Closed</span>
                          
-                      </div>
+                         
+                     </div>
                     </div>
                   </div>
                 </div>

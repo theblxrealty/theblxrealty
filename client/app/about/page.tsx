@@ -39,7 +39,7 @@ export default function AboutPage() {
                 <p 
                   className="text-lg text-white mb-8 font-['Suisse_Intl',sans-serif] animate-slide-up-delay-1"
                 >
-                   The BLX Realty — Turning aspirations into addresses.
+                   The Bengaluru-London Exchange Realty — Turning aspirations into addresses.
                 </p>
               </div>
             </div>

@@ -144,7 +144,7 @@ export default function HomePage() {
             <div>
               <h2 className="text-4xl md:text-4xl font-bold mb-6 text-black" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>We're here for you</h2>
               <p className="text-lg text-gray-500 mb-8 font-['Suisse_Intl',sans-serif]">
-                Whether you're looking to buy or sell a property, as your next home or an investment, we're committed to finding your perfect match.
+                Whether you're looking to buy or sell a property in Bengaluru, London or anywhere globally as your next home or an investment, we're committed to finding your perfect match.
               </p>
               <div className="mb-8">
                 <div className="flex items-start">
@@ -154,7 +154,7 @@ export default function HomePage() {
                 </div>
                 <div className="mt-6">
                   <div className="font-bold text-black text-lg font-['Suisse_Intl',sans-serif]"> Loana Grace</div>
-                  <div className="text-gray-600">The BLX Realty</div>
+                  <div className="text-gray-600">Sale team lead London-The BLX Realty</div>
                 </div>
               </div>
             </div>
@@ -217,7 +217,7 @@ export default function HomePage() {
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-4xl font-bold mb-6 text-black" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>Why Choose The BLX Realty</h2>
             <p className="text-lg text-gray-500 mb-8 font-['Suisse_Intl',sans-serif] max-w-3xl mx-auto">
-              Bengaluru's premier luxury property marketplace connecting discerning buyers and sellers across
+              Bengaluru's & London's premier luxury property marketplace connecting discerning buyers and sellers across
               residential, commercial, and investment properties. Where BLX Realty has become NRI's favorite property search hub helping accross borders.
 
             </p>
