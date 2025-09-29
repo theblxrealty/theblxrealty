@@ -92,7 +92,7 @@ export default function Header() {
     <div className="flex items-center justify-between">
       {/* Left Section - Logo */}
       <Link href="/" className="flex items-center">
-        <div className="relative w-[90px] h-[90px] overflow-visible">
+        <div className="relative w-[150px] h-[150px] overflow-visible">
           <Image
             src="/logo.PNG"
             alt="The BLX RealtyLogo"

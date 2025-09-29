@@ -31,13 +31,13 @@ export default function TeamMember({ member }: TeamMemberProps) {
         onMouseLeave={() => setIsHovered(false)}
         onClick={() => setIsOpen(true)}
       >
-        <div className="relative h-80">
-          <Image
-            src={member.image || "/placeholder.svg"}
-            alt={member.name}
-            fill
-            className="w-10 h-64 rounded-2xl object-cover"
-          />
+       <div className="relative h-80 w-full">
+  <Image
+    src={member.image || "/placeholder.svg"}
+    alt={member.name}
+    fill
+    className="rounded-2xl object-center object-cover"
+  />
 
           {/* Hover Social Icons */}
           <motion.div
@@ -93,7 +93,7 @@ export default function TeamMember({ member }: TeamMemberProps) {
       {/* Content */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
         {/* Left: Image */}
-        <div className="relative w-full  md:h-[500px] flex-shrink-0">
+        <div className="relative w-full  md:h-[700px] flex-shrink-0">
           <Image
             src={member.image || "/placeholder.svg"}
             alt={member.name}

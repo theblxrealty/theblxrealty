@@ -93,7 +93,7 @@ export default function Footer() {
                 <Youtube className="h-5 w-5" />
                 <span className="sr-only">Youtube</span>
               </a> */}
-              <a href="https://www.instagram.com/The BLX Realtyrealty?igsh=MXE3cDQ4bXo0MjA3aA==" className="text-slate-400 hover:text-red-400 transition-colors">
+              <a href="https://www.instagram.com/theblxrealty/" className="text-slate-400 hover:text-red-400 transition-colors">
                 <Instagram className="h-5 w-5" />
                 <span className="sr-only">Instagram</span>
               </a>

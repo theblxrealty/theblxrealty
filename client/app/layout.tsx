@@ -19,7 +19,7 @@ export const metadata = {
       { url: '/logo2.jpg', sizes: '48x48', type: 'image/jpeg' },
       { url: '/logo2.jpg', sizes: '32x32', type: 'image/jpeg' },
     ],
-    shortcut: '/logo2.jpg',
+    shortcut: '/logo2.jpg',                    
     apple: [
       { url: '/logo2.jpg', sizes: '192x192', type: 'image/jpeg' },
       { url: '/logo2.jpg', sizes: '180x180', type: 'image/jpeg' },

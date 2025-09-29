@@ -142,7 +142,7 @@ Ward No. 38, No. 11/1-4 Pipeline Road HMT, Yeswanthpur, Bengaluru, Karnataka 56
                       </div>
                       <div>
                         <h4 className="font-bold text-black text-lg font-['Suisse_Intl',sans-serif]">Email Us</h4>
-                        <p className="text-gray-500 font-['Suisse_Intl',sans-serif]">Discoverblr@theblxrealty.com</p>
+                        <p className="text-gray-500 font-['Suisse_Intl',sans-serif]">Discoveruk@theblxrealty.com</p>
                       
                       </div>
                     </div>
@@ -236,7 +236,7 @@ Ward No. 38, No. 11/1-4 Pipeline Road HMT, Yeswanthpur, Bengaluru, Karnataka 56
                     <span className="sr-only">LinkedIn</span>
                   </a>
                   <a
-                    href="https://www.instagram.com/The BLX Realtyrealty?igsh=MXE3cDQ4bXo0MjA3aA=="
+                    href="https://www.instagram.com/theblxrealty/"
                     className="bg-gradient-to-br from-red-100 to-red-200 p-3 rounded-2xl text-red-600 hover:from-red-200 hover:to-red-300 transition-colors"
                   >
                     <svg
