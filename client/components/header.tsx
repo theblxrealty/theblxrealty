@@ -35,18 +35,19 @@ export default function Header() {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 10) {
+      // Check if scroll position is more than 10 pixels from the top
+      if (window.scrollY > 500) {
         setIsScrolled(true)
       } else {
         setIsScrolled(false)
       }
     }
 
+    handleScroll() 
+
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
-
-  // No need for localStorage logic with NextAuth
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
@@ -82,23 +83,36 @@ export default function Header() {
     setAuthModalOpen(false)
   }
 
+  // Determine text color based on scrolled state for high contrast
+  const textColor = isScrolled ? "text-gray-900" : "text-slate-200"
+  const hoverTextColor = "hover:text-red-600"
+  const activeTextColor = "text-red-600 font-bold"
+
+  const headerPadding = "py-"
+
   return (
     <header
-  className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-    isScrolled ? "py-2 -translate-y-full" : "py-4"
-  } bg-transparent`}
->
-  <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-    <div className="flex items-center justify-between">
-      {/* Left Section - Logo */}
-      <Link href="/" className="flex items-center">
-        <div className="relative w-[150px] h-[150px] overflow-visible">
-          <Image
-            src="/logo.PNG"
-            alt="The BLX RealtyLogo"
-            fill
-            className="object-contain"
-            priority
+      className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${
+        isScrolled 
+          // 1. New: bg-gray-100 for light gray background when scrolled
+          ? "bg-gray-100 shadow-lg" 
+          : "bg-transparent" 
+      }`}
+    >
+      {/* 2. Reduced padding (py-2 for both states) to reduce overall height */}
+      <div className={`container mx-auto px-4 sm:px-6 lg:px-8 transition-all duration-300 ${headerPadding}`}>
+        <div className="flex items-center justify-between">
+          
+          {/* Left Section - Logo */}
+          <Link href="/" className="flex items-center">
+             {/* 3. Significantly reduced logo size to reduce height further */}
+            <div className="relative w-[120px] h-[120px] overflow-visible">
+              <Image
+                src="/logo.PNG"
+                alt="The BLX RealtyLogo"
+                fill
+                className="object-contain"
+                priority
               />
             </div>
           </Link>
@@ -113,8 +127,9 @@ export default function Header() {
                 rel={item.newWindow ? "noopener noreferrer" : undefined}
                 className={`text-base font-medium transition-colors relative font-['Suisse_Intl',sans-serif] ${
                   pathname === item.path
-                    ? "text-red-400 font-bold"
-                    : "text-slate-200 hover:text-red-400"
+                    ? activeTextColor // Red and bold when active
+                    // 4. Updated default and hover colors for light gray background
+                    : `${textColor} ${hoverTextColor}` 
                 }`}
               >
                 {item.name}
@@ -130,16 +145,18 @@ export default function Header() {
 
           {/* Right Section - Search, Admin Actions, Auth Button and Toggle */}
           <div className="hidden md:flex items-center space-x-4">
+            
             {/* Search Button */}
             <button
               onClick={() => setSearchOpen(!searchOpen)}
-              className="text-white hover:text-red-400 transition-colors p-2"
+              // 4. Updated text color for light gray background
+              className={`${isScrolled ? "text-gray-900" : "text-white"} hover:text-red-600 transition-colors p-2`}
               aria-label="Search"
             >
               <Search className="h-5 w-5" />
             </button>
 
-            {/* Admin Add Button */}
+            {/* Admin Add Button (Colors remain the same as it has its own background) */}
             {isAdmin && !adminLoading && (
               <button
                 onClick={() => setAddModalOpen(true)}
@@ -150,14 +167,16 @@ export default function Header() {
               </button>
             )}
 
+            {/* User Session/Login/Admin Display */}
             {session ? (
               <div className="flex items-center space-x-2">
-                <span className="text-white text-sm">
+                <span className={textColor + " text-sm"}>
                   Welcome, {session.user?.name || session.user?.email}
                 </span>
                 <Button
                   onClick={handleLogout}
-                  className="bg-transparent text-white px-4 py-2 font-['Suisse_Intl',sans-serif] font-medium hover:bg-transparent hover:text-white transition-all duration-300 relative group text-sm"
+                  // 4. Updated text color for light gray background
+                  className={`bg-transparent ${textColor} px-4 py-2 font-['Suisse_Intl',sans-serif] font-medium hover:bg-transparent ${hoverTextColor} transition-all duration-300 relative group text-sm`}
                 >
                   <LogOut className="h-4 w-4 mr-1" />
                   Logout
@@ -165,17 +184,17 @@ export default function Header() {
               </div>
             ) : isAdmin && !adminLoading ? (
               <div className="flex items-center space-x-2">
-                <div className="flex items-center space-x-1 text-white text-sm">
-                  <Shield className="h-4 w-4 text-red-400" />
+                <div className="flex items-center space-x-1 text-sm" style={{ color: isScrolled ? '#374151' : 'white' }}>
+                  <Shield className="h-4 w-4 text-red-600" />
                   <span>Admin: {adminUser?.firstName || adminUser?.email}</span>
                 </div>
                 <Button
                   onClick={() => {
-                    // Use the logout function from useAdmin hook
                     logout()
-                    window.location.reload() // Refresh to show login modal
+                    window.location.reload() 
                   }}
-                  className="bg-transparent text-white px-4 py-2 font-['Suisse_Intl',sans-serif] font-medium hover:bg-transparent hover:text-white transition-all duration-300 relative group text-sm"
+                  // 4. Updated text color for light gray background
+                  className={`bg-transparent ${textColor} px-4 py-2 font-['Suisse_Intl',sans-serif] font-medium hover:bg-transparent ${hoverTextColor} transition-all duration-300 relative group text-sm`}
                 >
                   <LogOut className="h-4 w-4 mr-1" />
                   Logout
@@ -184,7 +203,8 @@ export default function Header() {
             ) : (
               <Button 
                 onClick={() => setAuthModalOpen(true)}
-                className="bg-transparent text-white px-6 py-2 font-['Suisse_Intl',sans-serif] font-medium hover:bg-transparent hover:text-white transition-all duration-300 relative group text-base"
+                // 4. Updated text color for light gray background
+                className={`bg-transparent ${textColor} px-6 py-2 font-['Suisse_Intl',sans-serif] font-medium hover:bg-transparent ${hoverTextColor} transition-all duration-300 relative group text-base`}
               >
                 <span className="relative flex items-center gap-2">
                   <User className="h-4 w-4" />
@@ -199,15 +219,18 @@ export default function Header() {
           <div className="md:hidden flex items-center space-x-2">
             <button className="md:hidden" onClick={() => setMobileMenuOpen(!mobileMenuOpen)} aria-label="Toggle menu">
               {mobileMenuOpen ? (
-                <X className="h-6 w-6 text-white" />
+                // 4. Updated icon color for light gray background
+                <X className={`h-6 w-6 ${isScrolled ? "text-gray-900" : "text-white"}`} />
               ) : (
-                <Menu className="h-6 w-6 text-white" />
+                // 4. Updated icon color for light gray background
+                <Menu className={`h-6 w-6 ${isScrolled ? "text-gray-900" : "text-white"}`} />
               )}
             </button>
           </div>
         </div>
       </div>
 
+      {/* Mobile Menu Content (Keep dark background for readability) */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
@@ -268,10 +291,9 @@ export default function Header() {
                     </div>
                     <Button
                       onClick={() => {
-                        // Clear admin token
-                        document.cookie = 'token=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT'
+                        logout() 
                         setMobileMenuOpen(false)
-                        window.location.reload() // Refresh to show login modal
+                        window.location.reload() 
                       }}
                       className="w-full bg-transparent text-white font-['Suisse_Intl',sans-serif] font-medium hover:bg-transparent hover:text-white transition-all duration-300 relative group text-lg"
                     >
@@ -296,7 +318,7 @@ export default function Header() {
           </motion.div>
         )}
 
-        {/* Search Overlay */}
+        {/* Search Overlay (No changes needed) */}
         {searchOpen && (
           <motion.div
             initial={{ opacity: 0 }}
@@ -348,14 +370,14 @@ export default function Header() {
         )}
       </AnimatePresence>
       
-      {/* Auth Modal */}
+      {/* Auth Modal (No changes needed) */}
       <AuthModal
         isOpen={authModalOpen}
         onClose={() => setAuthModalOpen(false)}
         onLoginSuccess={handleLoginSuccess}
       />
 
-      {/* Add Modal */}
+      {/* Add Modal (No changes needed) */}
       <AnimatePresence>
         {addModalOpen && (
           <motion.div

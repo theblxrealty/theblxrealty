@@ -143,29 +143,35 @@ export default function HomePage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
               <h2 className="text-4xl md:text-4xl font-bold mb-6 text-black" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>We're here for you</h2>
+              <br />
               <p className="text-lg text-gray-500 mb-8 font-['Suisse_Intl',sans-serif]">
                 Whether you're looking to buy or sell a property in Bengaluru, London or anywhere globally as your next home or an investment, we're committed to finding your perfect match.
               </p>
+              <br />
+              <br />
+              <br />
               <div className="mb-8">
                 <div className="flex items-start">
                   <blockquote className="text-3xl font-bold text-black mb-6 leading-tight flex-1" style={{fontFamily: 'Tiempos Headline, serif', lineHeight: 1.2, fontWeight: '500'}}>
                     "At The BLX Realty, every property is a promise and every client a partner. We blend expertise with empathy to create seamless transitions from dreams to doorsteps."
                   </blockquote>
                 </div>
-                <div className="mt-6">
-                  <div className="font-bold text-black text-lg font-['Suisse_Intl',sans-serif]"> Loana Grace</div>
-                  <div className="text-gray-600">Sale team lead London-The BLX Realty</div>
-                </div>
+                
               </div>
             </div>
-            <div className="relative h-[600px] w-full">
+            <div className="relative h-[450px] w-full">
               <Image
                 src="/image2.jpg?height=2560&width=2560"
                 alt="Woman with teacup"
                 fill
                 className="object-cover"
               />
+              
             </div>
+            <div className="mt-6">
+                  <div className="font-bold text-black text-lg font-['Suisse_Intl',sans-serif]"> Loana Grace</div>
+                  <div className="text-gray-600">Sale team lead London-The BLX Realty</div>
+                </div>
           </div>
         </div>
       </section>
