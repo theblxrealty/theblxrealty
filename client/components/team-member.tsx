@@ -36,7 +36,8 @@ export default function TeamMember({ member }: TeamMemberProps) {
         onTouchStart={() => setIsHovered(!isHovered)}
         onClick={() => setIsOpen(true)}
       >
-        <div className="relative h-80 w-full">
+        <div className="relative h-64 sm:h-72 md:h-80 w-full">
+
           <Image
             src={member.image || "/placeholder.svg"}
             alt={member.name}
