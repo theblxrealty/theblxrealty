@@ -5,7 +5,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { usePathname, useRouter } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
-import { Menu, X, Phone, Search, User, LogOut, Shield, Plus, Home, FileText } from "lucide-react"
+import { Menu, X, Phone, Search, User, LogOut, Shield, Plus, Home, FileText, Briefcase } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import AuthModal from "@/components/auth-modal"
 import { useSession, signOut } from "next-auth/react"
@@ -434,6 +434,22 @@ export default function Header() {
                 
                 <button
                   onClick={() => {
+                    router.push('/add-career-posting')
+                    setAddModalOpen(false)
+                  }}
+                  className="w-full flex items-center space-x-3 p-4 bg-orange-50 hover:bg-orange-100 border border-orange-200 rounded-xl transition-all duration-300 group"
+                >
+                  <div className="flex-shrink-0 w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center group-hover:bg-orange-600 transition-colors">
+                    <FileText className="h-5 w-5 text-white" />
+                  </div>
+                  <div className="text-left">
+                    <h4 className="font-semibold text-gray-900">Add Career Posting</h4>
+                    <p className="text-sm text-gray-600">Create a new job posting</p>
+                  </div>
+                </button>
+                
+                <button
+                  onClick={() => {
                     router.push('/admin-properties')
                     setAddModalOpen(false)
                   }}
@@ -461,6 +477,22 @@ export default function Header() {
                   <div className="text-left">
                     <h4 className="font-semibold text-gray-900">Manage Blog Posts</h4>
                     <p className="text-sm text-gray-600">View and delete blog posts</p>
+                  </div>
+                </button>
+                
+                <button
+                  onClick={() => {
+                    router.push('/admin-career-postings')
+                    setAddModalOpen(false)
+                  }}
+                  className="w-full flex items-center space-x-3 p-4 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 rounded-xl transition-all duration-300 group"
+                >
+                  <div className="flex-shrink-0 w-10 h-10 bg-indigo-500 rounded-lg flex items-center justify-center group-hover:bg-indigo-600 transition-colors">
+                    <Briefcase className="h-5 w-5 text-white" />
+                  </div>
+                  <div className="text-left">
+                    <h4 className="font-semibold text-gray-900">Manage Career Postings</h4>
+                    <p className="text-sm text-gray-600">View and delete job postings</p>
                   </div>
                 </button>
                 

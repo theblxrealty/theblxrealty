@@ -149,6 +149,23 @@ model CareerApplication {
   @@map("career_applications")
 }
 
+model CareerPosting {
+  id          String    @id @default(cuid())
+  title       String
+  location    String
+  type        String
+  salary      String?
+  experience  String
+  description String
+  requirements String[]
+  benefits    String[]
+  isActive    Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@map("career_postings")
+}
+
 model BlogPost {
   id            String    @id @default(cuid())
   title         String

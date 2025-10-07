@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Image from "next/image"
 
 import { Upload, Send, MapPin, Clock, DollarSign, Building } from "lucide-react"
@@ -10,8 +10,23 @@ import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Label } from "@/components/ui/label"
 
+interface CareerPosting {
+  id: string
+  title: string
+  location: string
+  type: string
+  salary?: string
+  experience: string
+  description: string
+  requirements: string[]
+  benefits: string[]
+}
+
 export default function CareersPage() {
-  const [activeTab, setActiveTab] = useState<'apply' | 'jobs'>('apply')
+  const [activeTab, setActiveTab] = useState<'apply' | 'jobs'>('jobs') // Default to 'jobs' tab
+  const [jobPostings, setJobPostings] = useState<CareerPosting[]>([])
+  const [loadingPostings, setLoadingPostings] = useState(true)
+  const [errorPostings, setErrorPostings] = useState<string | null>(null)
   
   const [formState, setFormState] = useState({
     firstName: "",
@@ -27,135 +42,25 @@ export default function CareersPage() {
     error: "",
   })
 
-  // Job listings data
-  const jobListings = [
-    {
-      id: 1,
-      title: "Senior Real Estate Agent",
-      location: "Bangalore, Karnataka",
-      type: "Full-time",
-      salary: "₹8-12 LPA",
-      experience: "3-5 years",
-      description: "Join our elite team of luxury property specialists. You'll work with high-net-worth clients, manage premium property portfolios, and drive sales in Bangalore's most prestigious locations.",
-      requirements: [
-        "Proven track record in luxury real estate sales",
-        "Excellent communication and negotiation skills",
-        "Strong network in the luxury property market",
-        "Real estate license required"
-      ],
-      benefits: [
-        "Competitive commission structure",
-        "Luxury car allowance",
-        "Health insurance",
-        "Professional development opportunities"
-      ]
-    },
-    {
-      id: 2,
-      title: "Property Consultant",
-      location: "Bangalore, Karnataka",
-      type: "Full-time",
-      salary: "₹6-10 LPA",
-      experience: "2-4 years",
-      description: "Provide expert consultation to clients looking to buy, sell, or invest in premium properties. Help clients make informed decisions about their real estate investments.",
-      requirements: [
-        "Experience in property consultation",
-        "Strong analytical skills",
-        "Market research capabilities",
-        "Excellent client relationship skills"
-      ],
-      benefits: [
-        "Performance-based bonuses",
-        "Flexible work arrangements",
-        "Comprehensive training",
-        "Career growth opportunities"
-      ]
-    },
-    {
-      id: 3,
-      title: "Marketing Specialist",
-      location: "Bangalore, Karnataka",
-      type: "Full-time",
-      salary: "₹5-8 LPA",
-      experience: "2-3 years",
-      description: "Develop and execute marketing strategies for our luxury property portfolio. Create compelling content, manage digital campaigns, and enhance our brand presence.",
-      requirements: [
-        "Experience in real estate marketing",
-        "Digital marketing expertise",
-        "Content creation skills",
-        "Analytics and reporting knowledge"
-      ],
-      benefits: [
-        "Creative freedom",
-        "Latest marketing tools",
-        "Performance bonuses",
-        "Professional development"
-      ]
-    },
-    {
-      id: 4,
-      title: "UI/UX Designer",
-      location: "Bangalore, Karnataka",
-      type: "Full-time",
-      salary: "₹7-12 LPA",
-      experience: "3-5 years",
-      description: "Design exceptional user experiences for our digital platforms. Create intuitive interfaces that enhance our luxury property showcase and client interactions.",
-      requirements: [
-        "Strong portfolio in web/mobile design",
-        "Proficiency in Figma, Sketch, or Adobe XD",
-        "Understanding of luxury brand aesthetics",
-        "Experience with real estate platforms"
-      ],
-      benefits: [
-        "Latest design tools and software",
-        "Creative workspace",
-        "Health and wellness benefits",
-        "Professional development budget"
-      ]
-    },
-    {
-      id: 5,
-      title: "Sales Manager",
-      location: "Bangalore, Karnataka",
-      type: "Full-time",
-      salary: "₹10-15 LPA",
-      experience: "5-8 years",
-      description: "Lead and manage our sales team to achieve targets in the luxury real estate market. Develop sales strategies and mentor junior agents.",
-      requirements: [
-        "Proven leadership experience",
-        "Strong sales track record",
-        "Team management skills",
-        "Luxury market knowledge"
-      ],
-      benefits: [
-        "Leadership development programs",
-        "Performance-based incentives",
-        "Executive benefits package",
-        "Career advancement opportunities"
-      ]
-    },
-    {
-      id: 6,
-      title: "Content Writer",
-      location: "Remote",
-      type: "Full-time",
-      salary: "₹4-7 LPA",
-      experience: "2-4 years",
-      description: "Create compelling content for our luxury property listings, blog posts, and marketing materials. Help tell the story of our premium properties.",
-      requirements: [
-        "Excellent writing skills",
-        "Real estate industry knowledge",
-        "SEO content experience",
-        "Portfolio of published work"
-      ],
-      benefits: [
-        "Remote work flexibility",
-        "Creative writing opportunities",
-        "Health insurance",
-        "Professional development"
-      ]
+  useEffect(() => {
+    const fetchJobPostings = async () => {
+      try {
+        const response = await fetch('/api/admin/career-postings')
+        if (response.ok) {
+          const data = await response.json()
+          setJobPostings(data.postings)
+        } else {
+          setErrorPostings('Failed to fetch job postings')
+        }
+      } catch (error) {
+        console.error('Error fetching job postings:', error)
+        setErrorPostings('Failed to fetch job postings')
+      } finally {
+        setLoadingPostings(false)
+      }
     }
-  ]
+    fetchJobPostings()
+  }, [])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
@@ -236,19 +141,7 @@ export default function CareersPage() {
     }
   }
 
-  const positionOptions = [
-    "Real Estate Agent",
-    "Property Consultant",
-    "Sales Manager", 
-    "Content Writer",
-    "UI/UX Designer",
-    "Marketing Specialist",
-    "Business Development",
-    "Customer Relations",
-    "Operations Manager",
-    "Administrative Support",
-    "Other"
-  ]
+  const positionOptions = jobPostings.map(job => job.title)
 
   const experienceOptions = [
     "Entry Level (0-1 years)",
@@ -590,75 +483,83 @@ export default function CareersPage() {
                   </p>
                 </div>
 
-                <div className="space-y-4 max-h-[600px] overflow-y-auto">
-                  {jobListings.map((job) => (
-                    <div key={job.id} className="border border-gray-200 rounded-lg p-4 hover:border-red-300 transition-colors">
-                      <div className="flex justify-between items-start mb-3">
-                        <h3 className="font-bold text-lg text-black font-['Suisse_Intl',sans-serif]">
-                          {job.title}
-                        </h3>
-                        <Button
-                          onClick={() => {
-                            setActiveTab('apply')
-                            setFormState(prev => ({ ...prev, position: job.title.toLowerCase().replace(/\s+/g, '-') }))
-                          }}
-                          size="sm"
-                          className="bg-red-500 hover:bg-red-600 text-white font-['Suisse_Intl',sans-serif]"
-                        >
-                          Apply Now
-                        </Button>
+                {loadingPostings ? (
+                  <div className="text-center py-12 text-gray-500">Loading job postings...</div>
+                ) : errorPostings ? (
+                  <div className="text-center py-12 text-red-500">Error: {errorPostings}</div>
+                ) : jobPostings.length === 0 ? (
+                  <div className="text-center py-12 text-gray-500">No job postings available at the moment.</div>
+                ) : (
+                  <div className="space-y-4 max-h-[600px] overflow-y-auto">
+                    {jobPostings.map((job) => (
+                      <div key={job.id} className="border border-gray-200 rounded-lg p-4 hover:border-red-300 transition-colors">
+                        <div className="flex justify-between items-start mb-3">
+                          <h3 className="font-bold text-lg text-black font-['Suisse_Intl',sans-serif]">
+                            {job.title}
+                          </h3>
+                          <Button
+                            onClick={() => {
+                              setActiveTab('apply')
+                              setFormState(prev => ({ ...prev, position: job.title }))
+                            }}
+                            size="sm"
+                            className="bg-red-500 hover:bg-red-600 text-white font-['Suisse_Intl',sans-serif]"
+                          >
+                            Apply Now
+                          </Button>
+                        </div>
+                        
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-3 text-sm">
+                          <div className="flex items-center text-gray-600">
+                            <MapPin className="h-4 w-4 mr-2" />
+                            <span className="font-['Suisse_Intl',sans-serif]">{job.location}</span>
+                          </div>
+                          <div className="flex items-center text-gray-600">
+                            <Building className="h-4 w-4 mr-2" />
+                            <span className="font-['Suisse_Intl',sans-serif]">{job.type}</span>
+                          </div>
+                          <div className="flex items-center text-gray-600">
+                            <DollarSign className="h-4 w-4 mr-2" />
+                            <span className="font-['Suisse_Intl',sans-serif]">{job.salary}</span>
+                          </div>
+                          <div className="flex items-center text-gray-600">
+                            <Clock className="h-4 w-4 mr-2" />
+                            <span className="font-['Suisse_Intl',sans-serif]">{job.experience}</span>
+                          </div>
+                        </div>
+                        
+                        <p className="text-gray-600 text-sm mb-3 font-['Suisse_Intl',sans-serif]">
+                          {job.description}
+                        </p>
+                        
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                          <div>
+                            <h4 className="font-semibold text-black mb-2 font-['Suisse_Intl',sans-serif]">Requirements:</h4>
+                            <ul className="text-gray-600 space-y-1 font-['Suisse_Intl',sans-serif]">
+                              {job.requirements.map((req, index) => (
+                                <li key={index} className="flex items-start">
+                                  <span className="text-red-500 mr-2">•</span>
+                                  {req}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                          <div>
+                            <h4 className="font-semibold text-black mb-2 font-['Suisse_Intl',sans-serif]">Benefits:</h4>
+                            <ul className="text-gray-600 space-y-1 font-['Suisse_Intl',sans-serif]">
+                              {job.benefits.map((benefit, index) => (
+                                <li key={index} className="flex items-start">
+                                  <span className="text-green-500 mr-2">•</span>
+                                  {benefit}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </div>
                       </div>
-                      
-                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-3 text-sm">
-                        <div className="flex items-center text-gray-600">
-                          <MapPin className="h-4 w-4 mr-2" />
-                          <span className="font-['Suisse_Intl',sans-serif]">{job.location}</span>
-                        </div>
-                        <div className="flex items-center text-gray-600">
-                          <Building className="h-4 w-4 mr-2" />
-                          <span className="font-['Suisse_Intl',sans-serif]">{job.type}</span>
-                        </div>
-                        <div className="flex items-center text-gray-600">
-                          <DollarSign className="h-4 w-4 mr-2" />
-                          <span className="font-['Suisse_Intl',sans-serif]">{job.salary}</span>
-                        </div>
-                        <div className="flex items-center text-gray-600">
-                          <Clock className="h-4 w-4 mr-2" />
-                          <span className="font-['Suisse_Intl',sans-serif]">{job.experience}</span>
-                        </div>
-                      </div>
-                      
-                      <p className="text-gray-600 text-sm mb-3 font-['Suisse_Intl',sans-serif]">
-                        {job.description}
-                      </p>
-                      
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                        <div>
-                          <h4 className="font-semibold text-black mb-2 font-['Suisse_Intl',sans-serif]">Requirements:</h4>
-                          <ul className="text-gray-600 space-y-1 font-['Suisse_Intl',sans-serif]">
-                            {job.requirements.map((req, index) => (
-                              <li key={index} className="flex items-start">
-                                <span className="text-red-500 mr-2">•</span>
-                                {req}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                        <div>
-                          <h4 className="font-semibold text-black mb-2 font-['Suisse_Intl',sans-serif]">Benefits:</h4>
-                          <ul className="text-gray-600 space-y-1 font-['Suisse_Intl',sans-serif]">
-                            {job.benefits.map((benefit, index) => (
-                              <li key={index} className="flex items-start">
-                                <span className="text-green-500 mr-2">•</span>
-                                {benefit}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+                    ))}
+                  </div>
+                )}
               </>
             )}
               </div>
