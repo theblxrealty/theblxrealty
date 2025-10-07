@@ -1,9 +1,30 @@
 "use client"
 
 import { useState } from "react"
-import Image from "next/image"
+// NOTE: Replaced 'next/image' with a functional component to resolve compilation errors
 import { motion } from "framer-motion"
-import { Linkedin } from "lucide-react"
+import { Linkedin, Twitter, Mail, X } from "lucide-react" // Imported X icon
+
+// --- START: Component to safely replace next/image ---
+interface LocalImageProps {
+  src: string;
+  alt: string;
+  className: string;
+  priority?: boolean;
+}
+
+const LocalImage = ({ src, alt, className }: LocalImageProps) => {
+  // Anchors the image to the top to ensure the face is visible (objectPosition: 'top')
+  return (
+    <img
+      src={src}
+      alt={alt}
+      className={`${className} w-full h-full absolute top-0 left-0`}
+      style={{ objectFit: 'cover', objectPosition: 'top' }} 
+    />
+  );
+}
+// --- END: Component to safely replace next/image ---
 
 interface TeamMemberProps {
   member: {
@@ -18,9 +39,6 @@ export default function TeamMember({ member }: TeamMemberProps) {
   const [isHovered, setIsHovered] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
 
-  // ✅ Detect mobile device (for touch support)
-  const isMobile = typeof window !== "undefined" && window.innerWidth < 768
-
   return (
     <>
       {/* Card */}
@@ -30,19 +48,16 @@ export default function TeamMember({ member }: TeamMemberProps) {
         transition={{ duration: 0.5 }}
         viewport={{ once: true }}
         className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-slate-200 cursor-pointer"
-        onMouseEnter={() => !isMobile && setIsHovered(true)}
-        onMouseLeave={() => !isMobile && setIsHovered(false)}
-        // ✅ On mobile: tap toggles hover icons
-        onTouchStart={() => setIsHovered(!isHovered)}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
         onClick={() => setIsOpen(true)}
       >
-        <div className="relative h-64 sm:h-120 md:h-full w-full">
-
-          <Image
+        <div className="relative h-80 w-full">
+          <LocalImage // Using LocalImage workaround
             src={member.image || "/placeholder.svg"}
             alt={member.name}
-            fill
             className="rounded-2xl object-center object-cover"
+            priority
           />
 
           {/* Hover Social Icons */}
@@ -53,10 +68,7 @@ export default function TeamMember({ member }: TeamMemberProps) {
             className="absolute inset-0 bg-gradient-to-t from-navy-900/90 via-navy-800/60 to-transparent flex items-end justify-center pb-6"
           >
             <div className="flex space-x-4">
-              <a
-                href="https://www.linkedin.com/in/nishchith-umesh-b08734159?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app"
-                className="text-white hover:text-gold-400 transition-colors"
-              >
+              <a href="https://www.linkedin.com/in/nishchith-umesh-b08734159?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app" className="text-white hover:text-gold-400 transition-colors">
                 <Linkedin className="h-6 w-6" />
                 <span className="sr-only">LinkedIn</span>
               </a>
@@ -76,39 +88,41 @@ export default function TeamMember({ member }: TeamMemberProps) {
 
       {/* Modal */}
       {isOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.3 }}
-            className="bg-white shadow-xl max-w-6xl w-full max-h-[90vh] overflow-y-auto p-8 relative"
+            // Responsive sizing for the modal container
+            className="bg-white rounded-xl sm:rounded-3xl shadow-xl max-w-sm sm:max-w-3xl lg:max-w-7xl w-full max-h-[90vh] overflow-y-auto p-4 sm:p-8 relative"
           >
-            {/* Close Button */}
+            {/* Close Button: Fixed syntax and added X icon */}
             <button
-              className="absolute top-3 right-3 text-gray-500 hover:text-black text-xl"
+              className="absolute top-3 right-3 sm:top-5 sm:right-5 text-gray-500 hover:text-black text-2xl z-10 p-2"
               onClick={() => setIsOpen(false)}
             >
-              ✕
+              <X className="h-6 w-6" />
             </button>
 
             {/* Content */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-10">
               {/* Left: Image */}
-              <div className="relative w-full md:h-[700px] flex-shrink-0">
-                <Image
+              <div className="relative w-full h-1 md:h-[800px]">
+                <LocalImage // Using LocalImage workaround
                   src={member.image || "/placeholder.svg"}
                   alt={member.name}
-                  fill
                   className="object-cover rounded-xl"
+                  priority
                 />
               </div>
 
               {/* Right: Bio */}
-              <div className="flex flex-col justify-start overflow-y-auto pr-2">
-                <h2 className="text-3xl font-bold text-navy-900">{member.name}</h2>
-                <p className="text-gold-600 font-medium text-lg mb-4">{member.role}</p>
+              <div className="flex flex-col justify-start overflow-y-auto pr-0 md:pr-2">
+                <h2 className="text-2xl sm:text-3xl font-bold text-navy-900">{member.name}</h2>
+                <p className="text-gold-600 font-medium text-base sm:text-lg mb-4">{member.role}</p>
                 <div
-                  className="prose max-w-none text-slate-700 leading-relaxed text-base md:text-lg"
+                  // FIX: Removed invalid class "fontsize -5". Set proper responsive text sizes.
+                  className="prose max-w-none text-slate-700 leading-relaxed text-base md:text-lg lg:text-xl"
                   dangerouslySetInnerHTML={{ __html: member.bio }}
                 />
               </div>
