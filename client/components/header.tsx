@@ -463,6 +463,22 @@ export default function Header() {
                     <p className="text-sm text-gray-600">View and delete blog posts</p>
                   </div>
                 </button>
+                
+                <button
+                  onClick={() => {
+                    router.push('/admin-careers')
+                    setAddModalOpen(false)
+                  }}
+                  className="w-full flex items-center space-x-3 p-4 bg-yellow-50 hover:bg-yellow-100 border border-yellow-200 rounded-xl transition-all duration-300 group"
+                >
+                  <div className="flex-shrink-0 w-10 h-10 bg-yellow-500 rounded-lg flex items-center justify-center group-hover:bg-yellow-600 transition-colors">
+                    <FileText className="h-5 w-5 text-white" />
+                  </div>
+                  <div className="text-left">
+                    <h4 className="font-semibold text-gray-900">Manage Career Applications</h4>
+                    <p className="text-sm text-gray-600">View and delete career applications</p>
+                  </div>
+                </button>
               </div>
               
               <div className="mt-6 pt-4 border-t border-gray-200">
