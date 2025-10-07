@@ -107,7 +107,7 @@ export default function TeamMember({ member }: TeamMemberProps) {
             {/* Content */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-10">
               {/* Left: Image */}
-              <div className="relative w-full h-1 md:h-[800px]">
+              <div className="relative w-full h-96 md:h-[800px]">
                 <LocalImage // Using LocalImage workaround
                   src={member.image || "/placeholder.svg"}
                   alt={member.name}
