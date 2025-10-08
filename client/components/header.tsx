@@ -81,12 +81,20 @@ export default function Header() {
   const handleLogout = async () => {
     try {
       await signOut({ callbackUrl: '/' })
+      localStorage.removeItem('user')
+      localStorage.removeItem('token')
+      localStorage.removeItem('adminUser')
+      localStorage.removeItem('adminToken')
+      setUserDisplayName(null)
     } catch (error) {
       console.error('Logout error:', error)
     }
   }
 
   const handleLoginSuccess = (userData: any, adminStatus: boolean) => {
+    if (!adminStatus) {
+      setUserDisplayName(userData.firstName || userData.email)
+    }
     // Handle admin login success
     if (adminStatus) {
       // Force refresh to update admin state
@@ -180,10 +188,10 @@ export default function Header() {
             )}
 
             {/* User Session/Login/Admin Display */}
-            {session ? (
+            {userDisplayName ? (
               <div className="flex items-center space-x-2">
                 <span className={textColor + " text-sm"}>
-                  Welcome, {session.user?.name || session.user?.email}
+                  Welcome, {userDisplayName}
                 </span>
                 <Button
                   onClick={handleLogout}
@@ -282,10 +290,10 @@ export default function Header() {
               )}
 
               <div className="pt-4 border-t border-slate-700">
-                {session ? (
+                {userDisplayName ? (
                   <div className="space-y-2">
                     <div className="text-white text-sm">
-                      Welcome, {session.user?.name || session.user?.email}
+                      Welcome, {userDisplayName}
                     </div>
                     <Button
                       onClick={handleLogout}
