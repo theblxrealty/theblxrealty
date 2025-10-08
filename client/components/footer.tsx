@@ -180,14 +180,14 @@ Ward No. 38, No. 11/1-4 Pipeline Road HMT, Yeswanthpur, Bengaluru, Karnataka 56
               </Button>
             </form>
             <p className="text-slate-400 text-xs mt-2 font-['Suisse_Intl',sans-serif]">
-              We respect your privacy. Unsubscribe at any time.
+              We respect your privacy. 
             </p>
           </div>
         </div>
 
         <div className="border-t border-slate-700 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-slate-400 text-sm mb-4 md:mb-0 font-['Suisse_Intl',sans-serif]">
-            &copy; {new Date().getFullYear()} The BLX Realty. All rights reserved.
+            &copy; {new Date().getFullYear()} BLX Realty Pvt LTD. All rights reserved.
           </p>
           <div className="flex space-x-6">
             <Link href="/terms" className="text-slate-400 hover:text-red-400 text-sm transition-colors font-['Suisse_Intl',sans-serif]">

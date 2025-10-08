@@ -87,7 +87,7 @@ Ward No. 38, No. 11/1-4 Pipeline Road HMT, Yeswanthpur, Bengaluru, Karnataka 56
                         <h4 className="font-bold text-black text-lg font-['Suisse_Intl',sans-serif]">Call Our Experts</h4>
                         <p className="text-gray-500 font-['Suisse_Intl',sans-serif]">+91 97432 64328</p>
                         <p className="text-gray-500 mt-1 font-['Suisse_Intl',sans-serif]">
-                          Our property specialists are available Monday through Saturday, 9am to 6pm.
+                          Our property specialists are available Monday to Saturday, 9:00 AM to 6:00 PM.
                         </p>
                       </div>
                     </div>
@@ -292,7 +292,7 @@ Ward No. 38, No. 11/1-4 Pipeline Road HMT, Yeswanthpur, Bengaluru, Karnataka 56
               <div className="h-[400px] rounded-lg overflow-hidden shadow-lg border border-gray-100">
                 <ContactMap 
                   center={{ lat: 13.0303765, lng: 77.542251}}
-                  officeName="The BLX RealtyBangalore"
+                  officeName="The BLX Realty Bangalore"
                   address="#0301D 3rd floor, Brigade Twin Towers
 Ward No. 38, No. 11/1-4 Pipeline Road HMT, Yeswanthpur, Bengaluru, Karnataka 560022, India"
                   phone="+91 9743264328"
@@ -316,7 +316,7 @@ Ward No. 38, No. 11/1-4 Pipeline Road HMT, Yeswanthpur, Bengaluru, Karnataka 56
               <div className="h-[400px] rounded-lg overflow-hidden shadow-lg border border-gray-100">
                 <ContactMap 
                   center={{ lat: 51.585813, lng: -0.001676 }}
-                  officeName="The BLX RealtyLondon"
+                  officeName="The BLX Realty London"
                   address="Suite RA01, 195-197 Wood Street, London, E17 3NU, United Kingdom"
                   phone="+44 7944450039"
                   email="Discoverblr@theblxrealty.com"

@@ -28,6 +28,7 @@ export default function Header() {
   const [searchType, setSearchType] = useState<"properties" | "blog">("properties")
   const [authModalOpen, setAuthModalOpen] = useState(false)
   const [addModalOpen, setAddModalOpen] = useState(false)
+  const [userDisplayName, setUserDisplayName] = useState<string | null>(null)
   const pathname = usePathname()
   const router = useRouter()
   const { data: session, status } = useSession()
@@ -47,6 +48,17 @@ export default function Header() {
 
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+
+  // Effect to load user data from localStorage on initial render
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const storedUser = localStorage.getItem('user')
+      if (storedUser) {
+        const user = JSON.parse(storedUser)
+        setUserDisplayName(user.firstName || user.email)
+      }
+    }
   }, [])
 
   const handleSearch = (e: React.FormEvent) => {
@@ -191,7 +203,7 @@ export default function Header() {
                 <Button
                   onClick={() => {
                     logout()
-                    window.location.reload() 
+                    window.location.reload()
                   }}
                   // 4. Updated text color for light gray background
                   className={`bg-transparent ${textColor} px-4 py-2 font-['Suisse_Intl',sans-serif] font-medium hover:bg-transparent ${hoverTextColor} transition-all duration-300 relative group text-sm`}
@@ -201,7 +213,7 @@ export default function Header() {
                 </Button>
               </div>
             ) : (
-              <Button 
+              <Button
                 onClick={() => setAuthModalOpen(true)}
                 // 4. Updated text color for light gray background
                 className={`bg-transparent ${textColor} px-6 py-2 font-['Suisse_Intl',sans-serif] font-medium hover:bg-transparent ${hoverTextColor} transition-all duration-300 relative group text-base`}
@@ -331,7 +343,7 @@ export default function Header() {
               initial={{ opacity: 0, scale: 0.9, y: -20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: -20 }}
-              className="absolute top-20 left-1/2 transform -translate-x-1/2 w-full max-w-2xl mx-4"
+              className="absolute top-20 left-[40%] transform -translate-x-1/2 w-full max-w-2xl mx-4"
               onClick={(e) => e.stopPropagation()}
             >
               <form onSubmit={handleSearch} className="bg-white rounded-2xl shadow-2xl overflow-hidden">
