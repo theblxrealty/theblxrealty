@@ -1,0 +1,47 @@
+import { NextRequest, NextResponse } from 'next/server'
+import { prisma } from '@/lib/prisma'
+
+// GET - Get all active career postings
+export async function GET(request: NextRequest) {
+  try {
+    const { searchParams } = new URL(request.url)
+    const page = parseInt(searchParams.get('page') || '1')
+    const limit = parseInt(searchParams.get('limit') || '10')
+    const skip = (page - 1) * limit
+
+    const [postings, total] = await Promise.all([
+      prisma.careerPosting.findMany({
+        where: {
+          isActive: true,
+        },
+        orderBy: {
+          createdAt: 'desc'
+        },
+        skip,
+        take: limit
+      }),
+      prisma.careerPosting.count({
+        where: {
+          isActive: true,
+        },
+      })
+    ])
+
+    return NextResponse.json({
+      postings,
+      pagination: {
+        page,
+        limit,
+        total,
+        totalPages: Math.ceil(total / limit)
+      }
+    })
+
+  } catch (error) {
+    console.error('Get active career postings error:', error)
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    )
+  }
+}

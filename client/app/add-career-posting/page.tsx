@@ -285,7 +285,7 @@ export default function AddCareerPostingPage() {
                       type="checkbox"
                       id="isActive"
                       checked={formData.isActive}
-                      onChange={(e) => handleInputChange('isActive', e.target.checked.toString())}
+                      onChange={(e) => handleInputChange('isActive', e.target.checked)}
                       className="form-checkbox h-5 w-5 text-red-600 rounded"
                     />
                     Is Active

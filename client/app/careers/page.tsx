@@ -45,7 +45,7 @@ export default function CareersPage() {
   useEffect(() => {
     const fetchJobPostings = async () => {
       try {
-        const response = await fetch('/api/admin/career-postings')
+        const response = await fetch('/api/career-postings') // Changed to public API endpoint
         if (response.ok) {
           const data = await response.json()
           setJobPostings(data.postings)
