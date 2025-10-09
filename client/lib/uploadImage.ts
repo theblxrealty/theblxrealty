@@ -6,9 +6,9 @@ export interface UploadResult {
   error?: string
 }
 
-export const uploadImage = async (file: File): Promise<UploadResult> => {
+export const uploadImage = async (file: File, folder: string = 'properties'): Promise<UploadResult> => {
   try {
-    console.log('Starting image upload for file:', file.name, 'Size:', file.size)
+    console.log(`Starting image upload for file: ${file.name}, Size: ${file.size}, Folder: ${folder}`)
     
     // Check if Supabase credentials are available
     if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
@@ -34,7 +34,7 @@ export const uploadImage = async (file: File): Promise<UploadResult> => {
     // Generate unique filename
     const fileExt = file.name.split('.').pop()
     const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`
-    const filePath = `properties/${fileName}`
+    const filePath = `${folder}/${fileName}`
     
     console.log('Uploading to path:', filePath)
 

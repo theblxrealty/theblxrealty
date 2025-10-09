@@ -9,6 +9,8 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Label } from "@/components/ui/label"
+import { toast } from "sonner"
+import { uploadImage } from "@/lib/uploadImage"
 
 interface CareerPosting {
   id: string
@@ -40,6 +42,7 @@ export default function CareersPage() {
     submitted: false,
     loading: false,
     error: "",
+    uploadingResume: false,
   })
 
   useEffect(() => {
@@ -87,7 +90,30 @@ export default function CareersPage() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setFormState((prev) => ({ ...prev, loading: true, error: "" }))
+    setFormState((prev) => ({ ...prev, loading: true, error: "", uploadingResume: false }))
+
+    let resumeUrl: string | null = null
+    if (formState.resume) {
+      setFormState(prev => ({ ...prev, uploadingResume: true }))
+      try {
+        const uploadResult = await uploadImage(formState.resume, 'resumes')
+        if (uploadResult.success && uploadResult.url) {
+          resumeUrl = uploadResult.url
+          toast.success('Resume uploaded successfully!')
+        } else {
+          toast.error(uploadResult.error || 'Failed to upload resume.')
+          setFormState((prev) => ({ ...prev, loading: false, uploadingResume: false }))
+          return // Stop submission if resume upload fails
+        }
+      } catch (uploadError) {
+        console.error('Resume upload error:', uploadError)
+        toast.error('An error occurred during resume upload.')
+        setFormState((prev) => ({ ...prev, loading: false, uploadingResume: false }))
+        return // Stop submission if resume upload fails
+      } finally {
+        setFormState(prev => ({ ...prev, uploadingResume: false }))
+      }
+    }
 
     try {
       const response = await fetch('/api/career-application', {
@@ -103,7 +129,7 @@ export default function CareersPage() {
           position: formState.position,
           experience: formState.experience,
           message: formState.message,
-          resume: formState.resume,
+          resume: resumeUrl, // Pass the uploaded resume URL
         }),
       })
 
@@ -445,13 +471,13 @@ export default function CareersPage() {
                 <div className="pt-4">
                   <Button
                     type="submit"
-                    disabled={formState.loading}
+                    disabled={formState.loading || formState.uploadingResume}
                     className="w-full bg-red-500 hover:bg-red-600 text-white py-3 font-['Suisse_Intl',sans-serif] font-medium transition-colors"
                   >
-                    {formState.loading ? (
+                    {formState.loading || formState.uploadingResume ? (
                       <>
                         <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                        Submitting Application...
+                        {formState.uploadingResume ? 'Uploading Resume...' : 'Submitting Application...'}
                       </>
                     ) : (
                       <>
