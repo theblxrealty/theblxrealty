@@ -30,6 +30,7 @@ export async function POST(request: NextRequest) {
     }, request)
 
     if (!validation.isValid) {
+      console.error('Career application validation failed:', validation.errors)
       return NextResponse.json(
         { 
           error: 'Validation failed',
