@@ -275,14 +275,14 @@ export const validateCareerApplication = async (
 
   // Rate limiting checks
   const rateLimitKey = `career_${data.email}`
-  if (!checkRateLimit(rateLimitKey, 1, 3600000)) { // 1 application per hour
+  if (!checkRateLimit(rateLimitKey, 100, 3600000)) { // 100 applications per hour for testing
     errors.push('Too many career applications. Please wait before making another application.')
   }
 
   // IP-based rate limiting
   if (request) {
     const clientIP = getClientIP(request)
-    if (!checkIPRateLimit(clientIP, 5, 3600000)) { // 5 applications per hour per IP
+    if (!checkIPRateLimit(clientIP, 100, 3600000)) { // 100 applications per hour per IP for testing
       errors.push('Too many applications from this IP address. Please wait before making another application.')
     }
   }
