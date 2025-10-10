@@ -134,7 +134,7 @@ export const sendCareerApplicationEmail = async (data: CareerApplicationEmail) =
       <h3 style="color: #666;">Application Details</h3>
       <p><strong>Position:</strong> ${data.position}</p>
       <p><strong>Experience Level:</strong> ${data.experience}</p>
-      ${data.resume ? `<p><strong>Resume:</strong> ${data.resume}</p>` : ''}
+      ${data.resume ? `<p><strong>Resume:</strong> A resume file was provided and is stored in the database (Base64 encoded).</p>` : ''}
       
       <h3 style="color: #666;">Message</h3>
       <p style="background: #f9f9f9; padding: 15px; border-radius: 5px;">
