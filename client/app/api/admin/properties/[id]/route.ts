@@ -46,6 +46,7 @@ const PropertyUpdateSchema = z.object({
   propertyBanner1: z.string().url().or(z.literal("")).nullable().optional(),
   propertyBanner2: z.string().url().or(z.literal("")).nullable().optional(),
   images: z.array(z.string().url()).optional(), // Assuming images are URLs
+  additionalImages: z.array(z.string().url()).optional(), // Add this line
   isActive: z.boolean().optional(),
 }).strict()
 
