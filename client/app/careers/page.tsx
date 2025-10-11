@@ -434,13 +434,14 @@ function CareersContent() {
                       <Select
                         value={formState.position}
                         onValueChange={(value) => handleSelectChange('position', value)}
+                        required
                       >
                         <SelectTrigger className="mt-1 font-['Suisse_Intl',sans-serif]">
                           <SelectValue placeholder="Select a position" />
                         </SelectTrigger>
                         <SelectContent>
                           {positionOptions.map((option) => (
-                            <SelectItem key={option} value={option.toLowerCase().replace(/\s+/g, '-')}>
+                            <SelectItem key={option} value={option}>
                               {option}
                             </SelectItem>
                           ))}
@@ -456,13 +457,14 @@ function CareersContent() {
                     <Select
                       value={formState.experience}
                       onValueChange={(value) => handleSelectChange('experience', value)}
+                      required
                     >
                       <SelectTrigger className="mt-1 font-['Suisse_Intl',sans-serif]">
                         <SelectValue placeholder="Select experience level" />
                       </SelectTrigger>
                       <SelectContent>
                         {experienceOptions.map((option) => (
-                          <SelectItem key={option} value={option.toLowerCase().replace(/\s+/g, '-')}>
+                          <SelectItem key={option} value={option}>
                             {option}
                           </SelectItem>
                         ))}
@@ -471,21 +473,32 @@ function CareersContent() {
                   </div>
                 </div>
 
-                {/* New Location Field */}
-                {formState.location && (
-                  <div>
-                    <Label htmlFor="location" className="text-sm font-['Suisse_Intl',sans-serif] font-medium">
-                      Location *
-                    </Label>
-                    <Input
-                      id="location"
-                      name="location"
-                      value={formState.location}
-                      readOnly
-                      className="mt-1 font-['Suisse_Intl',sans-serif] bg-gray-100 cursor-not-allowed"
-                    />
-                  </div>
-                )}
+                {/* Location Field - Always display a Select for user input */}
+                <div>
+                  <Label className="text-sm font-['Suisse_Intl',sans-serif] font-medium">
+                    Location *
+                  </Label>
+                  <Select
+                    value={formState.location}
+                    onValueChange={(value) => handleSelectChange('location', value)}
+                    required
+                  >
+                    <SelectTrigger className="mt-1 font-['Suisse_Intl',sans-serif]">
+                      <SelectValue placeholder="Select a location" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {availableLocations.length === 0 ? (
+                        <SelectItem value="" disabled>No locations available</SelectItem>
+                      ) : (
+                        availableLocations.map((loc) => (
+                          <SelectItem key={loc} value={loc}>
+                            {loc}
+                          </SelectItem>
+                        ))
+                      )}
+                    </SelectContent>
+                  </Select>
+                </div>
 
                 {/* Message */}
                 <div>
