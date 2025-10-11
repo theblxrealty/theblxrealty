@@ -196,19 +196,7 @@ export default function JobDetailContent() {
               )}
             </div>
 
-            <div className="mt-8 border-t pt-6">
-              <h4 className="text-lg font-bold text-gray-900 mb-3 font-serif"
-                style={{ fontFamily: 'Tiempos Headline, serif', fontWeight: '400' }}>
-                Share This Job
-              </h4>
-              {/* Social Share Buttons - Placeholder */}
-              <div className="flex gap-3">
-                <Button variant="outline" size="icon"><Link href="#"><Image src="/images/social-facebook.svg" alt="Facebook" width={20} height={20} /></Link></Button>
-                <Button variant="outline" size="icon"><Link href="#"><Image src="/images/social-twitter.svg" alt="Twitter" width={20} height={20} /></Link></Button>
-                <Button variant="outline" size="icon"><Link href="#"><Image src="/images/social-linkedin.svg" alt="LinkedIn" width={20} height={20} /></Link></Button>
-                <Button variant="outline" size="icon"><Link href="#"><Image src="/images/social-whatsapp.svg" alt="WhatsApp" width={20} height={20} /></Link></Button>
-              </div>
-            </div>
+            {/* Removed Share This Job Section */}
           </div>
         </div>
       </div>

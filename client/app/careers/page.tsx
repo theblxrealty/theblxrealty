@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link" // Import Link for navigation
 import { Checkbox } from "@/components/ui/checkbox"
+import { useSearchParams } from 'next/navigation'
 
 import { Upload, Send, MapPin, Clock, DollarSign, Building } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -50,6 +51,8 @@ export default function CareersPage() {
   const [availableLocations, setAvailableLocations] = useState<string[]>([])
   const [selectedLocations, setSelectedLocations] = useState<string[]>([])
 
+  const searchParams = useSearchParams() // Initialize useSearchParams
+
   useEffect(() => {
     const fetchJobPostings = async () => {
       try {
@@ -76,6 +79,14 @@ export default function CareersPage() {
     }
     fetchJobPostings()
   }, [selectedLocations]) // Rerun fetch when selectedLocations change
+
+  useEffect(() => {
+    const positionFromUrl = searchParams.get('position')
+    if (positionFromUrl) {
+      setActiveTab('apply')
+      setFormState(prev => ({ ...prev, position: positionFromUrl }))
+    }
+  }, [searchParams])
 
   const handleLocationFilterChange = (location: string) => {
     setSelectedLocations(prev => 
