@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -25,7 +25,10 @@ interface CareerPostingFormData {
 
 export default function AddCareerPostingPage() {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const [loading, setLoading] = useState(false)
+  const [isEditing, setIsEditing] = useState(false)
+  const [postingId, setPostingId] = useState<string | null>(null)
   const [formData, setFormData] = useState<CareerPostingFormData>({
     title: "",
     location: "",
@@ -38,8 +41,57 @@ export default function AddCareerPostingPage() {
     isActive: true,
   })
 
+  useEffect(() => {
+    const id = searchParams.get('id')
+    if (id) {
+      setIsEditing(true)
+      setPostingId(id)
+      fetchPosting(id)
+    }
+  }, [searchParams])
+
+  const fetchPosting = async (id: string) => {
+    setLoading(true)
+    try {
+      const token = localStorage.getItem('adminToken')
+      if (!token) {
+        toast.error('Admin access required. Please login as admin.')
+        router.push('/')
+        return
+      }
+      const response = await fetch(`/api/admin/career-postings/${id}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+      if (response.ok) {
+        const data = await response.json()
+        setFormData({
+          title: data.title,
+          location: data.location,
+          type: data.type,
+          salary: data.salary || "",
+          experience: data.experience,
+          description: data.description,
+          requirements: data.requirements || [""],
+          benefits: data.benefits || [""],
+          isActive: data.isActive,
+        })
+      } else {
+        toast.error('Failed to fetch career posting for editing.')
+        router.push('/admin-career-postings')
+      }
+    } catch (error) {
+      console.error('Error fetching career posting:', error)
+      toast.error('Failed to fetch career posting.')
+      router.push('/admin-career-postings')
+    } finally {
+      setLoading(false)
+    }
+  }
+
   // Handle form input changes
-  const handleInputChange = (field: keyof CareerPostingFormData, value: string) => {
+  const handleInputChange = (field: keyof CareerPostingFormData, value: string | boolean) => {
     setFormData(prev => ({
       ...prev,
       [field]: value
@@ -81,8 +133,11 @@ export default function AddCareerPostingPage() {
     setLoading(true)
     
     try {
-      const response = await fetch('/api/admin/career-postings', {
-        method: 'POST',
+      const url = isEditing ? `/api/admin/career-postings/${postingId}` : '/api/admin/career-postings'
+      const method = isEditing ? 'PUT' : 'POST'
+
+      const response = await fetch(url, {
+        method: method,
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${adminToken}`
@@ -93,14 +148,14 @@ export default function AddCareerPostingPage() {
       const result = await response.json()
 
       if (response.ok) {
-        toast.success('Career posting created successfully!')
+        toast.success(`Career posting ${isEditing ? 'updated' : 'created'} successfully!`)
         router.push('/admin-career-postings') // Redirect to admin postings list
       } else {
-        toast.error(result.error || 'Failed to create career posting')
+        toast.error(result.error || `Failed to ${isEditing ? 'update' : 'create'} career posting`)
       }
     } catch (error) {
       console.error('Submit error:', error)
-      toast.error('Failed to create career posting')
+      toast.error(`Failed to ${isEditing ? 'update' : 'create'} career posting`)
     } finally {
       setLoading(false)
     }
@@ -116,7 +171,7 @@ export default function AddCareerPostingPage() {
               className="text-3xl md:text-4xl font-bold mb-4 text-black"
               style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}
             >
-              Add New Career Posting
+              {isEditing ? 'Edit Career Posting' : 'Add New Career Posting'}
             </h1>
             <p className="text-lg text-gray-600 font-['Suisse_Intl',sans-serif]">
               Create a new job opening for the careers page
@@ -309,7 +364,7 @@ export default function AddCareerPostingPage() {
                   disabled={loading}
                   className="bg-red-500 hover:bg-red-600 text-white font-['Suisse_Intl',sans-serif]"
                 >
-                  {loading ? 'Creating Posting...' : 'Create Career Posting'}
+                  {loading ? (isEditing ? 'Updating Posting...' : 'Creating Posting...') : (isEditing ? 'Update Career Posting' : 'Create Career Posting')}
                 </Button>
               </div>
             </form>

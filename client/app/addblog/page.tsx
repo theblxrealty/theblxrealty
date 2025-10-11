@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -25,12 +25,16 @@ interface BlogFormData {
 
 export default function AddBlogPage() {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const [loading, setLoading] = useState(false)
   const [uploadingImage, setUploadingImage] = useState(false)
+  const [isEditing, setIsEditing] = useState(false)
+  const [blogId, setBlogId] = useState<string | null>(null)
   
   // Featured image
   const [featuredImageFile, setFeaturedImageFile] = useState<File | null>(null)
   const [featuredImagePreview, setFeaturedImagePreview] = useState<string>("")
+  const [featuredImageExistingUrl, setFeaturedImageExistingUrl] = useState<string | null>(null)
 
   const [formData, setFormData] = useState<BlogFormData>({
     title: "",
@@ -41,6 +45,54 @@ export default function AddBlogPage() {
     tags: "",
     featuredImage: ""
   })
+
+  useEffect(() => {
+    const id = searchParams.get('id')
+    if (id) {
+      setIsEditing(true)
+      setBlogId(id)
+      fetchBlogPost(id)
+    }
+  }, [searchParams])
+
+  const fetchBlogPost = async (id: string) => {
+    setLoading(true)
+    try {
+      const token = localStorage.getItem('adminToken')
+      if (!token) {
+        toast.error('Admin access required. Please login as admin.')
+        router.push('/')
+        return
+      }
+      const response = await fetch(`/api/admin/blog/${id}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+      if (response.ok) {
+        const data = await response.json()
+        setFormData({
+          title: data.title || "",
+          excerpt: data.excerpt || "",
+          content: data.content || "",
+          redirectUrl: data.redirectUrl || "",
+          category: data.category || "",
+          tags: data.tags ? data.tags.join(', ') : "",
+          featuredImage: data.featuredImage || "" // This will be set as existing URL
+        })
+        setFeaturedImageExistingUrl(data.featuredImage || null)
+      } else {
+        toast.error('Failed to fetch blog post for editing.')
+        router.push('/admin-blogs')
+      }
+    } catch (error) {
+      console.error('Error fetching blog post:', error)
+      toast.error('Failed to fetch blog post.')
+      router.push('/admin-blogs')
+    } finally {
+      setLoading(false)
+    }
+  }
 
   // Handle form input changes
   const handleInputChange = (field: keyof BlogFormData, value: string) => {
@@ -69,10 +121,11 @@ export default function AddBlogPage() {
     }
     setFeaturedImageFile(null)
     setFeaturedImagePreview("")
+    setFeaturedImageExistingUrl(null)
   }
 
   // Upload featured image via API using service role key
-  const uploadFeaturedImage = async () => {
+  const uploadFeaturedImage = async (): Promise<string | null> => {
     if (!featuredImageFile) return null
 
     setUploadingImage(true)
@@ -123,16 +176,23 @@ export default function AddBlogPage() {
     setLoading(true)
     
     try {
-      // Upload featured image if selected
-      let featuredImageUrl = ""
+      let finalFeaturedImageUrl = featuredImageExistingUrl
+      // Upload new featured image if a new file is selected
       if (featuredImageFile) {
-        featuredImageUrl = await uploadFeaturedImage() || ""
+        finalFeaturedImageUrl = await uploadFeaturedImage()
+      } else if (featuredImageExistingUrl === null) {
+        // If no new file and existing was removed, ensure it's null
+        finalFeaturedImageUrl = null
       }
 
       // Prepare form data for API
       const submitData = {
         ...formData,
-        featuredImage: featuredImageUrl
+        tags: formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag),
+        featuredImage: finalFeaturedImageUrl || null,
+        // Ensure slug is generated or handled on the backend for updates, or pass it from here
+        // For simplicity, we are assuming backend handles slug generation/update based on title.
+        slug: formData.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-*|-*$/g, '') // Basic slug generation
       }
 
       // Get admin token for authentication
@@ -142,9 +202,13 @@ export default function AddBlogPage() {
         return
       }
 
+      // Determine URL and method based on editing status
+      const url = isEditing ? `/api/admin/blog/${blogId}` : '/api/admin/blogs'
+      const method = isEditing ? 'PUT' : 'POST'
+
       // Submit to API
-      const response = await fetch('/api/admin/blogs', {
-        method: 'POST',
+      const response = await fetch(url, {
+        method: method,
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${adminToken}`
@@ -155,14 +219,14 @@ export default function AddBlogPage() {
       const result = await response.json()
 
       if (response.ok) {
-        toast.success("Blog post created successfully!")
-        router.push('/blog')
+        toast.success(`Blog post ${isEditing ? 'updated' : 'created'} successfully!`)
+        router.push('/admin-blogs')
       } else {
-        toast.error(result.error || "Failed to create blog post")
+        toast.error(result.error || `Failed to ${isEditing ? 'update' : 'create'} blog post`)
       }
     } catch (error) {
       console.error('Submit error:', error)
-      toast.error("Failed to create blog post")
+      toast.error(`Failed to ${isEditing ? 'update' : 'create'} blog post`)
     } finally {
       setLoading(false)
     }
@@ -182,8 +246,8 @@ export default function AddBlogPage() {
       <div className="container mx-auto px-4 max-w-4xl">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Add New Blog Post</h1>
-          <p className="text-gray-600">Create and publish a new blog article</p>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">{isEditing ? 'Edit Blog Post' : 'Add New Blog Post'}</h1>
+          <p className="text-gray-600">{isEditing ? 'Modify an existing blog article' : 'Create and publish a new blog article'}</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-8">
@@ -298,7 +362,7 @@ export default function AddBlogPage() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              {!featuredImagePreview ? (
+              {!(featuredImagePreview || featuredImageExistingUrl) ? (
                 <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
                   <Upload className="h-12 w-12 text-gray-400 mx-auto mb-4" />
                   <p className="text-gray-600 mb-4">Upload a featured image for your blog post</p>
@@ -321,7 +385,7 @@ export default function AddBlogPage() {
                 <div className="relative">
                   <div className="relative w-full h-64 rounded-lg overflow-hidden">
                     <Image
-                      src={featuredImagePreview}
+                      src={featuredImagePreview || featuredImageExistingUrl || ''}
                       alt="Featured image preview"
                       fill
                       className="object-cover"
@@ -354,7 +418,7 @@ export default function AddBlogPage() {
               type="submit"
               disabled={loading || uploadingImage}
             >
-              {loading ? "Creating..." : uploadingImage ? "Uploading..." : "Create Blog Post"}
+              {loading ? (isEditing ? "Updating..." : "Creating...") : uploadingImage ? "Uploading..." : (isEditing ? "Update Blog Post" : "Create Blog Post")}
             </Button>
           </div>
         </form>

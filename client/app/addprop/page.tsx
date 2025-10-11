@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -51,18 +51,24 @@ interface PropertyFormData {
 
 export default function AddPropertyPage() {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const [loading, setLoading] = useState(false)
   const [uploadingImages, setUploadingImages] = useState(false)
+  const [isEditing, setIsEditing] = useState(false)
+  const [propertyId, setPropertyId] = useState<string | null>(null)
   
   // Banner images
   const [banner1File, setBanner1File] = useState<File | null>(null)
   const [banner1Preview, setBanner1Preview] = useState<string>("")
+  const [banner1ExistingUrl, setBanner1ExistingUrl] = useState<string | null>(null)
   const [banner2File, setBanner2File] = useState<File | null>(null)
   const [banner2Preview, setBanner2Preview] = useState<string>("")
+  const [banner2ExistingUrl, setBanner2ExistingUrl] = useState<string | null>(null)
   
   // Additional images
   const [additionalFiles, setAdditionalFiles] = useState<File[]>([])
   const [additionalPreviews, setAdditionalPreviews] = useState<string[]>([])
+  const [additionalExistingUrls, setAdditionalExistingUrls] = useState<string[]>([])
 
   const [formData, setFormData] = useState<PropertyFormData>({
     title: "",
@@ -97,6 +103,78 @@ export default function AddPropertyPage() {
     airportTime: "",
     highwayAccessTime: ""
   })
+
+  useEffect(() => {
+    const id = searchParams.get('id')
+    if (id) {
+      setIsEditing(true)
+      setPropertyId(id)
+      fetchProperty(id)
+    }
+  }, [searchParams])
+
+  const fetchProperty = async (id: string) => {
+    setLoading(true)
+    try {
+      const token = localStorage.getItem('adminToken')
+      if (!token) {
+        toast.error('Admin access required. Please login as admin.')
+        router.push('/')
+        return
+      }
+      const response = await fetch(`/api/admin/properties/${id}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+      if (response.ok) {
+        const data = await response.json()
+        setFormData({
+          title: data.title || "",
+          description: data.description || "",
+          longDescription: data.longDescription || "",
+          price: data.price ? String(data.price) : "",
+          location: data.location || "",
+          latitude: data.latitude ? String(data.latitude) : "",
+          longitude: data.longitude ? String(data.longitude) : "",
+          propertyType: data.propertyType || "",
+          propertyCategory: data.propertyCategory || "",
+          bedrooms: data.bedrooms ? String(data.bedrooms) : "",
+          bathrooms: data.bathrooms ? String(data.bathrooms) : "",
+          area: data.area ? String(data.area) : "",
+          yearBuilt: data.yearBuilt ? String(data.yearBuilt) : "",
+          lotSize: data.lotSize || "",
+          amenities: data.amenities ? data.amenities.join(', ') : "",
+          ecoFeatures: data.ecoFeatures ? data.ecoFeatures.join(', ') : "",
+          agentName: data.agentName || "",
+          agentPhone: data.agentPhone || "",
+          agentEmail: data.agentEmail || "",
+          agentImage: data.agentImage || "",
+          shoppingCentersDistance: data.nearbyAmenities?.["Shopping Centers"] || "",
+          schoolsDistance: data.nearbyAmenities?.["Schools"] || "",
+          hospitalsDistance: data.nearbyAmenities?.["Hospitals"] || "",
+          parksDistance: data.nearbyAmenities?.["Parks"] || "",
+          publicTransportDistance: data.nearbyAmenities?.["Public Transport"] || "",
+          busStopTime: data.transportation?.["Bus Stop"] || "",
+          metroStationTime: data.transportation?.["Metro Station"] || "",
+          airportTime: data.transportation?.["Airport"] || "",
+          highwayAccessTime: data.transportation?.["Highway Access"] || ""
+        })
+        setBanner1ExistingUrl(data.propertyBanner1 || null)
+        setBanner2ExistingUrl(data.propertyBanner2 || null)
+        setAdditionalExistingUrls(data.additionalImages || [])
+      } else {
+        toast.error('Failed to fetch property for editing.')
+        router.push('/admin-properties')
+      }
+    } catch (error) {
+      console.error('Error fetching property:', error)
+      toast.error('Failed to fetch property.')
+      router.push('/admin-properties')
+    } finally {
+      setLoading(false)
+    }
+  }
 
   // Handle form input changes with auto-formatting
   const handleInputChange = (field: keyof PropertyFormData, value: string) => {
@@ -154,12 +232,14 @@ export default function AddPropertyPage() {
   }
 
   // Remove additional image
-  const removeAdditionalImage = (index: number) => {
-    setAdditionalFiles(prev => prev.filter((_, i) => i !== index))
-    
-    // Revoke the object URL to prevent memory leaks
-    URL.revokeObjectURL(additionalPreviews[index])
-    setAdditionalPreviews(prev => prev.filter((_, i) => i !== index))
+  const removeAdditionalImage = (index: number, isExisting: boolean = false) => {
+    if (isExisting) {
+      setAdditionalExistingUrls(prev => prev.filter((_, i) => i !== index))
+    } else {
+      setAdditionalFiles(prev => prev.filter((_, i) => i !== index))
+      URL.revokeObjectURL(additionalPreviews[index])
+      setAdditionalPreviews(prev => prev.filter((_, i) => i !== index))
+    }
   }
 
   // Remove banner image
@@ -169,6 +249,7 @@ export default function AddPropertyPage() {
     }
     setBanner1File(null)
     setBanner1Preview("")
+    setBanner1ExistingUrl(null)
   }
 
   const removeBanner2 = () => {
@@ -177,6 +258,7 @@ export default function AddPropertyPage() {
     }
     setBanner2File(null)
     setBanner2Preview("")
+    setBanner2ExistingUrl(null)
   }
 
   // Upload all images to Supabase via API
@@ -191,7 +273,7 @@ export default function AddPropertyPage() {
           uploadImageViaAPI(banner1File).then(result => result.success ? result.url || null : null)
         )
       } else {
-        uploadPromises.push(Promise.resolve(null))
+        uploadPromises.push(Promise.resolve(banner1ExistingUrl))
       }
       
       // Upload banner 2
@@ -200,10 +282,10 @@ export default function AddPropertyPage() {
           uploadImageViaAPI(banner2File).then(result => result.success ? result.url || null : null)
         )
       } else {
-        uploadPromises.push(Promise.resolve(null))
+        uploadPromises.push(Promise.resolve(banner2ExistingUrl))
       }
       
-      // Upload additional images
+      // Upload new additional images
       for (const file of additionalFiles) {
         uploadPromises.push(
           uploadImageViaAPI(file).then(result => result.success ? result.url || null : null)
@@ -213,10 +295,11 @@ export default function AddPropertyPage() {
       const results = await Promise.all(uploadPromises)
       const banner1Url = results[0]
       const banner2Url = results[1]
-      const additionalUrls = results.slice(2).filter(url => url !== null) as string[]
+      const newlyUploadedAdditionalUrls = results.slice(2).filter(url => url !== null) as string[]
+      const allAdditionalUrls = [...additionalExistingUrls, ...newlyUploadedAdditionalUrls]
 
       toast.success(`${results.filter(url => url !== null).length} images uploaded successfully`)
-      return { banner1Url, banner2Url, additionalUrls }
+      return { banner1Url, banner2Url, additionalUrls: allAdditionalUrls }
     } catch (error) {
       console.error('Image upload error:', error)
       toast.error('Failed to upload images')
@@ -277,7 +360,7 @@ export default function AddPropertyPage() {
       return
     }
 
-    if (!banner1File) {
+    if (!banner1File && !banner1ExistingUrl) {
       toast.error('Banner Image 1 is required')
       return
     }
@@ -308,9 +391,16 @@ export default function AddPropertyPage() {
       // Prepare property data
       const propertyData = {
         ...formData,
+        price: parseFloat(formData.price) || null,
+        latitude: parseFloat(formData.latitude) || null,
+        longitude: parseFloat(formData.longitude) || null,
+        bedrooms: parseInt(formData.bedrooms) || null,
+        bathrooms: parseInt(formData.bathrooms) || null,
+        area: parseInt(formData.area) || null,
+        yearBuilt: parseInt(formData.yearBuilt) || null,
         propertyBanner1: banner1Url,
         propertyBanner2: banner2Url,
-        additionalImages: additionalUrls,
+        images: additionalUrls, // Ensure this maps to the correct database field
         amenities: formData.amenities.split(',').map(a => a.trim()).filter(a => a),
         ecoFeatures: formData.ecoFeatures.split(',').map(f => f.trim()).filter(f => f),
         nearbyAmenities: Object.keys(nearbyAmenitiesJson).length > 0 ? nearbyAmenitiesJson : null,
@@ -323,8 +413,11 @@ export default function AddPropertyPage() {
       const token = localStorage.getItem('adminToken')
 
       // Submit to API
-      const response = await fetch('/api/addprop', {
-        method: 'POST',
+      const url = isEditing ? `/api/admin/properties/${propertyId}` : '/api/addprop'
+      const method = isEditing ? 'PUT' : 'POST'
+
+      const response = await fetch(url, {
+        method: method,
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
@@ -335,14 +428,14 @@ export default function AddPropertyPage() {
       const result = await response.json()
 
       if (response.ok) {
-        toast.success('Property created successfully!')
-        router.push('/properties')
+        toast.success(`Property ${isEditing ? 'updated' : 'created'} successfully!`)
+        router.push('/admin-properties') // Redirect to admin properties list
       } else {
-        toast.error(result.error || 'Failed to create property')
+        toast.error(result.error || `Failed to ${isEditing ? 'update' : 'create'} property`)
       }
     } catch (error) {
       console.error('Submit error:', error)
-      toast.error('Failed to create property')
+      toast.error(`Failed to ${isEditing ? 'update' : 'create'} property`)
     } finally {
       setLoading(false)
     }
@@ -355,7 +448,7 @@ export default function AddPropertyPage() {
       if (banner2Preview) URL.revokeObjectURL(banner2Preview)
       additionalPreviews.forEach(url => URL.revokeObjectURL(url))
     }
-  }, [])
+  }, [banner1Preview, banner2Preview, additionalPreviews])
 
   return (
     <div className="flex flex-col min-h-screen pt-40 bg-gray-50">
@@ -367,10 +460,10 @@ export default function AddPropertyPage() {
               className="text-3xl md:text-4xl font-bold mb-4 text-black"
               style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}
             >
-              Add New Property
+              {isEditing ? 'Edit Property' : 'Add New Property'}
             </h1>
             <p className="text-lg text-gray-600 font-['Suisse_Intl',sans-serif]">
-              Create a new property listing with images and detailed information
+              {isEditing ? 'Modify an existing property listing' : 'Create a new property listing with images and detailed information'}
             </p>
           </div>
         </div>
@@ -812,16 +905,16 @@ export default function AddPropertyPage() {
                           <div className="text-center">
                             <Upload className="mx-auto h-8 w-8 text-gray-400 mb-2" />
                             <span className="text-gray-600">
-                              {banner1File ? 'Change Banner 1' : 'Upload Banner 1'}
+                              {banner1File || banner1ExistingUrl ? 'Change Banner 1' : 'Upload Banner 1'}
                             </span>
                           </div>
                         </Button>
                       </div>
-                      {banner1Preview && (
+                      {(banner1Preview || banner1ExistingUrl) && (
                         <div className="mt-2 relative group">
                           <div className="aspect-video relative overflow-hidden rounded-lg border border-gray-200">
                             <Image
-                              src={banner1Preview}
+                              src={banner1Preview || banner1ExistingUrl || ''}
                               alt="Banner 1 Preview"
                               fill
                               className="object-cover"
@@ -866,16 +959,16 @@ export default function AddPropertyPage() {
                           <div className="text-center">
                             <Upload className="mx-auto h-8 w-8 text-gray-400 mb-2" />
                             <span className="text-gray-600">
-                              {banner2File ? 'Change Banner 2' : 'Upload Banner 2'}
+                              {banner2File || banner2ExistingUrl ? 'Change Banner 2' : 'Upload Banner 2'}
                             </span>
                           </div>
                         </Button>
                       </div>
-                      {banner2Preview && (
+                      {(banner2Preview || banner2ExistingUrl) && (
                         <div className="mt-2 relative group">
                           <div className="aspect-video relative overflow-hidden rounded-lg border border-gray-200">
                             <Image
-                              src={banner2Preview}
+                              src={banner2Preview || banner2ExistingUrl || ''}
                               alt="Banner 2 Preview"
                               fill
                               className="object-cover"
@@ -912,7 +1005,7 @@ export default function AddPropertyPage() {
                 <CardContent className="space-y-6">
                   <div>
                     <Label htmlFor="additionalImages" className="font-['Suisse_Intl',sans-serif]">
-                      Upload Additional Images (Max 8)
+                      Upload Additional Images (Max {8 - additionalExistingUrls.length})
                     </Label>
                     <div className="mt-2">
                       <input
@@ -928,14 +1021,14 @@ export default function AddPropertyPage() {
                         variant="outline"
                         onClick={() => document.getElementById('additionalImages')?.click()}
                         className="w-full h-32 border-dashed border-2 border-gray-300 hover:border-gray-400 font-['Suisse_Intl',sans-serif]"
-                        disabled={additionalFiles.length >= 8}
+                        disabled={additionalFiles.length + additionalExistingUrls.length >= 8}
                       >
                         <div className="text-center">
                           <Upload className="mx-auto h-8 w-8 text-gray-400 mb-2" />
                           <span className="text-gray-600">
-                            {additionalFiles.length >= 8 
+                            {additionalFiles.length + additionalExistingUrls.length >= 8 
                               ? 'Maximum 8 additional images selected' 
-                              : `Upload additional images (${additionalFiles.length}/8)`
+                              : `Upload additional images (${additionalFiles.length + additionalExistingUrls.length}/8)`
                             }
                           </span>
                         </div>
@@ -943,15 +1036,48 @@ export default function AddPropertyPage() {
                     </div>
                   </div>
 
-                  {/* Additional Image Previews */}
+                  {/* Existing Additional Image Previews */}
+                  {additionalExistingUrls.length > 0 && (
+                    <div>
+                      <Label className="font-['Suisse_Intl',sans-serif]">
+                        Existing Images ({additionalExistingUrls.length})
+                      </Label>
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-2">
+                        {additionalExistingUrls.map((url, index) => (
+                          <div key={`existing-${index}`} className="relative group">
+                            <div className="aspect-square relative overflow-hidden rounded-lg border border-gray-200">
+                              <Image
+                                src={url}
+                                alt={`Existing Image ${index + 1}`}
+                                fill
+                                className="object-cover"
+                                sizes="(max-width: 768px) 50vw, 25vw"
+                              />
+                            </div>
+                            <Button
+                              type="button"
+                              variant="destructive"
+                              size="sm"
+                              onClick={() => removeAdditionalImage(index, true)}
+                              className="absolute -top-2 -right-2 h-6 w-6 rounded-full p-0 opacity-0 group-hover:opacity-100 transition-opacity"
+                            >
+                              <X className="h-3 w-3" />
+                            </Button>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Newly Added Additional Image Previews */}
                   {additionalFiles.length > 0 && (
                     <div>
                       <Label className="font-['Suisse_Intl',sans-serif]">
-                        Additional Images ({additionalFiles.length}/8)
+                        New Images ({additionalFiles.length})
                       </Label>
                       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-2">
                         {additionalPreviews.map((url, index) => (
-                          <div key={index} className="relative group">
+                          <div key={`new-${index}`} className="relative group">
                             <div className="aspect-square relative overflow-hidden rounded-lg border border-gray-200">
                               <Image
                                 src={url}
@@ -993,7 +1119,7 @@ export default function AddPropertyPage() {
                   disabled={loading || uploadingImages}
                   className="bg-red-500 hover:bg-red-600 text-white font-['Suisse_Intl',sans-serif]"
                 >
-                  {loading ? 'Creating Property...' : uploadingImages ? 'Uploading Images...' : 'Create Property'}
+                  {loading ? (isEditing ? 'Updating Property...' : 'Creating Property...') : (isEditing ? 'Update Property' : 'Create Property')}
                 </Button>
               </div>
             </form>

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { verifyToken } from '@/lib/auth'
+import { z } from 'zod'
 
 // Middleware to verify admin token
 const verifyAdminToken = (request: NextRequest) => {
@@ -19,8 +20,67 @@ const verifyAdminToken = (request: NextRequest) => {
   return decoded
 }
 
-// PATCH - Update blog post
-export async function PATCH(
+const BlogPostUpdateSchema = z.object({
+  title: z.string().min(1, "Title is required").optional(),
+  slug: z.string().min(1, "Slug is required").optional(),
+  excerpt: z.string().optional(),
+  content: z.string().min(1, "Content is required").optional(),
+  featuredImage: z.string().url().or(z.literal("")).nullable().optional(),
+  redirectUrl: z.string().url().or(z.literal("")).optional(),
+  category: z.string().optional(),
+  tags: z.array(z.string()).optional(),
+  isPublished: z.boolean().optional(),
+  publishedAt: z.string().datetime().nullable().optional(),
+}).strict()
+
+// GET - Get single blog post
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const admin = verifyAdminToken(request)
+    if (!admin) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      )
+    }
+
+    const { id } = await params
+    const post = await prisma.blogPost.findUnique({
+      where: { id },
+      include: {
+        author: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            email: true
+          }
+        }
+      }
+    })
+
+    if (!post) {
+      return NextResponse.json(
+        { error: 'Blog post not found' },
+        { status: 404 }
+      )
+    }
+
+    return NextResponse.json(post)
+  } catch (error) {
+    console.error('Get blog post error:', error)
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    )
+  }
+}
+
+// PUT - Update blog post
+export async function PUT(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
@@ -35,17 +95,28 @@ export async function PATCH(
 
     const { id } = await params
     const body = await request.json()
+
+    const validatedData = BlogPostUpdateSchema.safeParse(body)
+    if (!validatedData.success) {
+      console.error("Validation Error:", validatedData.error.errors)
+      return NextResponse.json(
+        { error: validatedData.error.errors },
+        { status: 400 }
+      )
+    }
+
     const {
       title,
       slug,
       excerpt,
       content,
       featuredImage,
+      redirectUrl,
       category,
       tags,
       isPublished,
       publishedAt
-    } = body
+    } = validatedData.data
 
     // Check if slug already exists (if slug is being changed)
     if (slug) {
@@ -72,8 +143,9 @@ export async function PATCH(
         excerpt,
         content,
         featuredImage,
+        redirectUrl,
         category,
-        tags: tags || [],
+        tags,
         isPublished,
         publishedAt
       }

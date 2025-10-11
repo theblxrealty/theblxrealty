@@ -257,6 +257,15 @@ export default function AdminBlogsPage() {
                     </Button>
                     <Button
                       size="sm"
+                      variant="outline"
+                      onClick={() => router.push(`/addblog?id=${post.id}`)}
+                      className="flex-1"
+                    >
+                      <Edit className="h-4 w-4 mr-1" />
+                      Edit
+                    </Button>
+                    <Button
+                      size="sm"
                       variant={post.isPublished ? "secondary" : "default"}
                       onClick={() => togglePublishStatus(post.id, post.isPublished)}
                     >

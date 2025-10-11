@@ -86,8 +86,8 @@ export default function CareersPage() {
       const reader = new FileReader()
       reader.readAsDataURL(file) // Read file as Base64
       reader.onload = () => {
-        setFormState((prev) => ({
-          ...prev,
+    setFormState((prev) => ({
+      ...prev,
           resume: reader.result as string, // Store Base64 string
         }))
       }
@@ -508,75 +508,75 @@ export default function CareersPage() {
                 ) : jobPostings.length === 0 ? (
                   <div className="text-center py-12 text-gray-500">No job postings available at the moment.</div>
                 ) : (
-                  <div className="space-y-4 max-h-[600px] overflow-y-auto">
+                <div className="space-y-4 max-h-[600px] overflow-y-auto">
                     {jobPostings.map((job) => (
-                      <div key={job.id} className="border border-gray-200 rounded-lg p-4 hover:border-red-300 transition-colors">
-                        <div className="flex justify-between items-start mb-3">
-                          <h3 className="font-bold text-lg text-black font-['Suisse_Intl',sans-serif]">
-                            {job.title}
-                          </h3>
-                          <Button
-                            onClick={() => {
-                              setActiveTab('apply')
+                    <div key={job.id} className="border border-gray-200 rounded-lg p-4 hover:border-red-300 transition-colors">
+                      <div className="flex justify-between items-start mb-3">
+                        <h3 className="font-bold text-lg text-black font-['Suisse_Intl',sans-serif]">
+                          {job.title}
+                        </h3>
+                        <Button
+                          onClick={() => {
+                            setActiveTab('apply')
                               setFormState(prev => ({ ...prev, position: job.title }))
-                            }}
-                            size="sm"
-                            className="bg-red-500 hover:bg-red-600 text-white font-['Suisse_Intl',sans-serif]"
-                          >
-                            Apply Now
-                          </Button>
+                          }}
+                          size="sm"
+                          className="bg-red-500 hover:bg-red-600 text-white font-['Suisse_Intl',sans-serif]"
+                        >
+                          Apply Now
+                        </Button>
+                      </div>
+                      
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-3 text-sm">
+                        <div className="flex items-center text-gray-600">
+                          <MapPin className="h-4 w-4 mr-2" />
+                          <span className="font-['Suisse_Intl',sans-serif]">{job.location}</span>
                         </div>
-                        
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-3 text-sm">
-                          <div className="flex items-center text-gray-600">
-                            <MapPin className="h-4 w-4 mr-2" />
-                            <span className="font-['Suisse_Intl',sans-serif]">{job.location}</span>
-                          </div>
-                          <div className="flex items-center text-gray-600">
-                            <Building className="h-4 w-4 mr-2" />
-                            <span className="font-['Suisse_Intl',sans-serif]">{job.type}</span>
-                          </div>
-                          <div className="flex items-center text-gray-600">
-                            <DollarSign className="h-4 w-4 mr-2" />
-                            <span className="font-['Suisse_Intl',sans-serif]">{job.salary}</span>
-                          </div>
-                          <div className="flex items-center text-gray-600">
-                            <Clock className="h-4 w-4 mr-2" />
-                            <span className="font-['Suisse_Intl',sans-serif]">{job.experience}</span>
-                          </div>
+                        <div className="flex items-center text-gray-600">
+                          <Building className="h-4 w-4 mr-2" />
+                          <span className="font-['Suisse_Intl',sans-serif]">{job.type}</span>
                         </div>
-                        
-                        <p className="text-gray-600 text-sm mb-3 font-['Suisse_Intl',sans-serif]">
-                          {job.description}
-                        </p>
-                        
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                          <div>
-                            <h4 className="font-semibold text-black mb-2 font-['Suisse_Intl',sans-serif]">Requirements:</h4>
-                            <ul className="text-gray-600 space-y-1 font-['Suisse_Intl',sans-serif]">
-                              {job.requirements.map((req, index) => (
-                                <li key={index} className="flex items-start">
-                                  <span className="text-red-500 mr-2">•</span>
-                                  {req}
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                          <div>
-                            <h4 className="font-semibold text-black mb-2 font-['Suisse_Intl',sans-serif]">Benefits:</h4>
-                            <ul className="text-gray-600 space-y-1 font-['Suisse_Intl',sans-serif]">
-                              {job.benefits.map((benefit, index) => (
-                                <li key={index} className="flex items-start">
-                                  <span className="text-green-500 mr-2">•</span>
-                                  {benefit}
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
+                        <div className="flex items-center text-gray-600">
+                          <DollarSign className="h-4 w-4 mr-2" />
+                          <span className="font-['Suisse_Intl',sans-serif]">{job.salary}</span>
+                        </div>
+                        <div className="flex items-center text-gray-600">
+                          <Clock className="h-4 w-4 mr-2" />
+                          <span className="font-['Suisse_Intl',sans-serif]">{job.experience}</span>
                         </div>
                       </div>
-                    ))}
-                  </div>
+                      
+                      <p className="text-gray-600 text-sm mb-3 font-['Suisse_Intl',sans-serif]">
+                        {job.description}
+                      </p>
+                      
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                        <div>
+                          <h4 className="font-semibold text-black mb-2 font-['Suisse_Intl',sans-serif]">Requirements:</h4>
+                          <ul className="text-gray-600 space-y-1 font-['Suisse_Intl',sans-serif]">
+                            {job.requirements.map((req, index) => (
+                              <li key={index} className="flex items-start">
+                                <span className="text-red-500 mr-2">•</span>
+                                {req}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                        <div>
+                          <h4 className="font-semibold text-black mb-2 font-['Suisse_Intl',sans-serif]">Benefits:</h4>
+                          <ul className="text-gray-600 space-y-1 font-['Suisse_Intl',sans-serif]">
+                            {job.benefits.map((benefit, index) => (
+                              <li key={index} className="flex items-start">
+                                <span className="text-green-500 mr-2">•</span>
+                                {benefit}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
                 )}
               </>
             )}

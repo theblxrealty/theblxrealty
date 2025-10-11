@@ -198,7 +198,7 @@ export default function AdminCareerPostingsPage() {
                     <Button
                       size="sm"
                       variant="outline"
-                      onClick={() => { /* Implement edit logic */ }}
+                      onClick={() => router.push(`/add-career-posting?id=${posting.id}`)}
                       className="flex-1"
                     >
                       <Edit className="h-4 w-4 mr-1" />
