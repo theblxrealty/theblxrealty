@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from "react"
 import Image from "next/image"
+import Link from "next/link" // Import Link for navigation
+import { Checkbox } from "@/components/ui/checkbox"
 
 import { Upload, Send, MapPin, Clock, DollarSign, Building } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -45,13 +47,23 @@ export default function CareersPage() {
     // uploadingResume: false, // Removed this state
   })
 
+  const [availableLocations, setAvailableLocations] = useState<string[]>([])
+  const [selectedLocations, setSelectedLocations] = useState<string[]>([])
+
   useEffect(() => {
     const fetchJobPostings = async () => {
       try {
-        const response = await fetch('/api/career-postings') // Changed to public API endpoint
+        const queryParams = new URLSearchParams()
+        selectedLocations.forEach(loc => queryParams.append('location', loc))
+        const queryString = queryParams.toString()
+        
+        const response = await fetch(`/api/career-postings${queryString ? `?${queryString}` : ''}`)
         if (response.ok) {
-          const data = await response.json()
+          const data: { postings: CareerPosting[] } = await response.json()
           setJobPostings(data.postings)
+          // Extract unique locations for filters
+          const uniqueLocations = Array.from(new Set(data.postings.map((job: CareerPosting) => job.location)))
+          setAvailableLocations(uniqueLocations)
         } else {
           setErrorPostings('Failed to fetch job postings')
         }
@@ -63,7 +75,15 @@ export default function CareersPage() {
       }
     }
     fetchJobPostings()
-  }, [])
+  }, [selectedLocations]) // Rerun fetch when selectedLocations change
+
+  const handleLocationFilterChange = (location: string) => {
+    setSelectedLocations(prev => 
+      prev.includes(location)
+        ? prev.filter(loc => loc !== location)
+        : [...prev, location]
+    )
+  }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
@@ -247,6 +267,32 @@ export default function CareersPage() {
                   join our growing team
                 </button>.
               </p>
+
+              {/* Location Filters */}
+              <div className="bg-white/90 backdrop-blur-sm rounded-xl p-6 shadow-xl mt-8">
+                <h3 className="text-xl font-bold text-black mb-4" style={{fontFamily: 'Tiempos Headline, serif', fontWeight: '400'}}>
+                  Filter by Location
+                </h3>
+                <div className="space-y-3">
+                  {availableLocations.map(location => (
+                    <div key={location} className="flex items-center space-x-2">
+                      <Checkbox 
+                        id={location}
+                        checked={selectedLocations.includes(location)}
+                        onCheckedChange={() => handleLocationFilterChange(location)}
+                      />
+                      <label
+                        htmlFor={location}
+                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-800"
+                      >
+                        {location} ({jobPostings.filter(job => job.location === location).length})
+                      </label>
+                    </div>
+                  ))}
+                  {availableLocations.length === 0 && <p className="text-sm text-gray-500">No locations available</p>}
+                </div>
+              </div>
+
             </div>
 
             {/* Right Side - Content */}
@@ -510,71 +556,33 @@ export default function CareersPage() {
                 ) : (
                 <div className="space-y-4 max-h-[600px] overflow-y-auto">
                     {jobPostings.map((job) => (
-                    <div key={job.id} className="border border-gray-200 rounded-lg p-4 hover:border-red-300 transition-colors">
-                      <div className="flex justify-between items-start mb-3">
+                    <Link href={`/careers/${job.id}`} key={job.id}>
+                    <div className="border border-gray-200 rounded-lg p-4 hover:border-red-300 transition-colors cursor-pointer">
+                      <div className="flex justify-between items-start mb-1">
                         <h3 className="font-bold text-lg text-black font-['Suisse_Intl',sans-serif]">
                           {job.title}
                         </h3>
-                        <Button
-                          onClick={() => {
-                            setActiveTab('apply')
-                              setFormState(prev => ({ ...prev, position: job.title }))
-                          }}
-                          size="sm"
-                          className="bg-red-500 hover:bg-red-600 text-white font-['Suisse_Intl',sans-serif]"
-                        >
-                          Apply Now
-                        </Button>
+                        {/* Optional: Display job type/date like in the first screenshot */}
+                        <div className="text-sm text-gray-500 font-['Suisse_Intl',sans-serif] flex-shrink-0">
+                          {job.type}
+                          {/* Add creation date if available and desired */}
+                          {/* {job.createdAt && <span className="ml-2">{new Date(job.createdAt).toLocaleDateString()}</span>} */}
+                        </div>
                       </div>
                       
-                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-3 text-sm">
-                        <div className="flex items-center text-gray-600">
+                      <div className="flex items-center text-gray-600 text-sm mb-2">
                           <MapPin className="h-4 w-4 mr-2" />
                           <span className="font-['Suisse_Intl',sans-serif]">{job.location}</span>
-                        </div>
-                        <div className="flex items-center text-gray-600">
-                          <Building className="h-4 w-4 mr-2" />
-                          <span className="font-['Suisse_Intl',sans-serif]">{job.type}</span>
-                        </div>
-                        <div className="flex items-center text-gray-600">
-                          <DollarSign className="h-4 w-4 mr-2" />
-                          <span className="font-['Suisse_Intl',sans-serif]">{job.salary}</span>
-                        </div>
-                        <div className="flex items-center text-gray-600">
-                          <Clock className="h-4 w-4 mr-2" />
-                          <span className="font-['Suisse_Intl',sans-serif]">{job.experience}</span>
-                        </div>
                       </div>
                       
-                      <p className="text-gray-600 text-sm mb-3 font-['Suisse_Intl',sans-serif]">
+                      <p className="text-gray-600 text-sm font-['Suisse_Intl',sans-serif] line-clamp-2">
                         {job.description}
                       </p>
                       
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                        <div>
-                          <h4 className="font-semibold text-black mb-2 font-['Suisse_Intl',sans-serif]">Requirements:</h4>
-                          <ul className="text-gray-600 space-y-1 font-['Suisse_Intl',sans-serif]">
-                            {job.requirements.map((req, index) => (
-                              <li key={index} className="flex items-start">
-                                <span className="text-red-500 mr-2">•</span>
-                                {req}
-                              </li>
-                            ))}
-                          </ul>
+                      {/* Removed Apply Now button from here as the entire card will be clickable */}
+                      {/* Removed detailed requirements and benefits from here */}
                         </div>
-                        <div>
-                          <h4 className="font-semibold text-black mb-2 font-['Suisse_Intl',sans-serif]">Benefits:</h4>
-                          <ul className="text-gray-600 space-y-1 font-['Suisse_Intl',sans-serif]">
-                            {job.benefits.map((benefit, index) => (
-                              <li key={index} className="flex items-start">
-                                <span className="text-green-500 mr-2">•</span>
-                                {benefit}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
+                    </Link>
                   ))}
                 </div>
                 )}
