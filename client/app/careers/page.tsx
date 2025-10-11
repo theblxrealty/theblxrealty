@@ -28,7 +28,9 @@ interface CareerPosting {
 }
 
 function CareersContent() {
-  const [activeTab, setActiveTab] = useState<'apply' | 'jobs'>('jobs') // Default to 'jobs' tab
+  const searchParams = useSearchParams() // Initialize useSearchParams
+  const initialPositionFromUrl = searchParams.get('position')
+  const [activeTab, setActiveTab] = useState<'apply' | 'jobs'>(initialPositionFromUrl ? 'apply' : 'jobs')
   const [jobPostings, setJobPostings] = useState<CareerPosting[]>([])
   const [loadingPostings, setLoadingPostings] = useState(true)
   const [errorPostings, setErrorPostings] = useState<string | null>(null)
@@ -51,8 +53,6 @@ function CareersContent() {
 
   const [availableLocations, setAvailableLocations] = useState<string[]>([])
   const [selectedLocations, setSelectedLocations] = useState<string[]>([])
-
-  const searchParams = useSearchParams() // Initialize useSearchParams
 
   useEffect(() => {
     const fetchJobPostings = async () => {
