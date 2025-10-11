@@ -422,32 +422,22 @@ function CareersContent() {
                     <Label className="text-sm font-['Suisse_Intl',sans-serif] font-medium">
                       Position of Interest *
                     </Label>
-                    {formState.position ? (
-                      <Input
-                        id="position"
-                        name="position"
-                        value={formState.position}
-                        readOnly
-                        className="mt-1 font-['Suisse_Intl',sans-serif] bg-gray-100 cursor-not-allowed"
-                      />
-                    ) : (
-                      <Select
-                        value={formState.position}
-                        onValueChange={(value) => handleSelectChange('position', value)}
-                        required
-                      >
-                        <SelectTrigger className="mt-1 font-['Suisse_Intl',sans-serif]">
-                          <SelectValue placeholder="Select a position" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {positionOptions.map((option) => (
-                            <SelectItem key={option} value={option}>
-                              {option}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    )}
+                    <Select
+                      value={formState.position}
+                      onValueChange={(value) => handleSelectChange('position', value)}
+                      required
+                    >
+                      <SelectTrigger className="mt-1 font-['Suisse_Intl',sans-serif]">
+                        <SelectValue placeholder="Select a position" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {positionOptions.map((option) => (
+                          <SelectItem key={option} value={option}>
+                            {option}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </div>
 
                   <div>
