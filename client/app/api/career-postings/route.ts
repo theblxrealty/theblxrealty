@@ -22,9 +22,10 @@ export async function GET(request: NextRequest) {
     const [postings, total] = await Promise.all([
       prisma.careerPosting.findMany({
         where: whereClause,
-        orderBy: {
-          createdAt: 'desc',
-        },
+        orderBy: [
+          { order: 'asc' }, // Sort by custom order field first
+          { createdAt: 'desc' }, // Then by creation date
+        ],
         skip,
         take: limit
       }),

@@ -21,6 +21,7 @@ interface CareerPostingFormData {
   requirements: string[]
   benefits: string[]
   isActive: boolean
+  order?: number // New field for custom sorting
 }
 
 function AddCareerPostingContent() {
@@ -39,6 +40,7 @@ function AddCareerPostingContent() {
     requirements: [""],
     benefits: [""],
     isActive: true,
+    order: undefined, // Initialize order as undefined
   })
 
   useEffect(() => {
@@ -76,6 +78,7 @@ function AddCareerPostingContent() {
           requirements: data.requirements || [""],
           benefits: data.benefits || [""],
           isActive: data.isActive,
+          order: data.order || undefined, // Populate order if available
         })
       } else {
         toast.error('Failed to fetch career posting for editing.')
@@ -91,7 +94,7 @@ function AddCareerPostingContent() {
   }
 
   // Handle form input changes
-  const handleInputChange = (field: keyof CareerPostingFormData, value: string | boolean) => {
+  const handleInputChange = (field: keyof CareerPostingFormData, value: string | boolean | number | undefined) => {
     setFormData(prev => ({
       ...prev,
       [field]: value
@@ -268,6 +271,19 @@ function AddCareerPostingContent() {
                       rows={5}
                       className="font-['Suisse_Intl',sans-serif]"
                       required
+                    />
+                  </div>
+
+                  {/* New Order Field */}
+                  <div>
+                    <Label htmlFor="order" className="font-['Suisse_Intl',sans-serif]">Display Order (Optional)</Label>
+                    <Input
+                      id="order"
+                      type="number"
+                      value={formData.order !== undefined ? formData.order : ''}
+                      onChange={(e) => handleInputChange('order', e.target.value === '' ? undefined : parseInt(e.target.value))}
+                      placeholder="e.g., 1 for top priority"
+                      className="font-['Suisse_Intl',sans-serif]"
                     />
                   </div>
                 </CardContent>

@@ -31,6 +31,7 @@ const careerPostingSchema = z.object({
   requirements: z.array(z.string()).optional(),
   benefits: z.array(z.string()).optional(),
   isActive: z.boolean().default(true),
+  order: z.number().int().optional(), // New: Optional integer for display order
 })
 
 // GET - Get all career postings for admin management
@@ -100,7 +101,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const { title, location, type, salary, experience, description, requirements, benefits, isActive } = validatedBody.data
+    const { title, location, type, salary, experience, description, requirements, benefits, isActive, order } = validatedBody.data
 
     const newPosting = await prisma.careerPosting.create({
       data: {
@@ -113,6 +114,7 @@ export async function POST(request: NextRequest) {
         requirements: requirements || [],
         benefits: benefits || [],
         isActive,
+        order, // Save the new order field
       },
     })
 

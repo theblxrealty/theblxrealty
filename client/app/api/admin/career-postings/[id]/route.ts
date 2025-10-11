@@ -30,6 +30,7 @@ const CareerPostingUpdateSchema = z.object({
   requirements: z.array(z.string()).optional(),
   benefits: z.array(z.string()).optional(),
   isActive: z.boolean().optional(),
+  order: z.number().int().optional(), // New: Optional integer for display order
 })
 
 export async function GET(
