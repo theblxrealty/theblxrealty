@@ -4,7 +4,7 @@ const propertyTypes = [
   {
     title: "Luxury Villas",
     imageSrc: "/property_type/img1.webp",
-    href: "/properties?type=luxury-villas",
+    href: "/properties?type=luxury villas",
     alt: "Luxury Villas"
   },
   {
@@ -16,13 +16,13 @@ const propertyTypes = [
   {
     title: "New Building",
     imageSrc: "/property_type/house.jpg",
-    href: "/properties?type=new-building",
+    href: "/properties?type=new buildings",
     alt: "New Building"
   },
   {
     title: "Farm House",
     imageSrc: "/property_type/farmhouse.jpg",
-    href: "/properties?type=farm-house",
+    href: "/properties?type=farm house",
     alt: "Farm House"
   },
   {

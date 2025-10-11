@@ -62,44 +62,17 @@ export async function GET(request: NextRequest) {
       // Create type-based OR conditions using propertyCategory
       const typeConditions = []
       
-      // Map the URL type parameters to our new propertyCategory values
-      if (normalizedType === 'luxury-villas' || normalizedType === 'luxury villas') {
-        typeConditions.push({
-          propertyCategory: 'luxury villas'
-        })
-      } else if (normalizedType === 'flats' || normalizedType === 'apartments') {
-        typeConditions.push({
-          propertyCategory: 'flats'
-        })
-      } else if (normalizedType === 'new buildings' || normalizedType === 'new-buildings') {
-        typeConditions.push({
-          propertyCategory: 'new buildings'
-        })
-      } else if (normalizedType === 'farm house' || normalizedType === 'farm-house' || normalizedType === 'farm') {
-        typeConditions.push({
-          propertyCategory: 'farm house'
-        })
-      } else if (normalizedType === 'sites' || normalizedType === 'plots' || normalizedType === 'development') {
-        typeConditions.push({
-          propertyCategory: 'sites'
-        })
-      } else if (normalizedType === 'commercial') {
-        typeConditions.push({
-          propertyCategory: 'commercial'
-        })
-      } else if (normalizedType === 'investment') {
-        typeConditions.push({
-          propertyCategory: 'investment'
-        })
-      } else {
-        // Fallback: try to match any propertyCategory that contains the type
-        typeConditions.push({
-          propertyCategory: {
-            contains: normalizedType,
-            mode: 'insensitive'
-          }
-        })
-      }
+      // Directly match against propertyCategory
+      typeConditions.push({
+        propertyCategory: normalizedType
+      })
+      // Fallback: try to match any propertyCategory that contains the type (for partial matches)
+      typeConditions.push({
+        propertyCategory: {
+          contains: normalizedType,
+          mode: 'insensitive'
+        }
+      })
       
       // If we have search conditions, combine them with type conditions
       if (whereClause.OR) {
