@@ -1,6 +1,6 @@
-# 11Square Real Estate Platform
+# The BLX Realty Platform
 
-A premium real estate platform built with Next.js, featuring property listings, blog management, and admin functionality for 11Square Realty in Bangalore.
+A premium real estate platform built with Next.js, featuring property listings, blog management, and admin functionality for The BLX Realty in Bangalore.
 
 ## 🏠 Features
 
@@ -27,7 +27,7 @@ A premium real estate platform built with Next.js, featuring property listings, 
 1. **Clone the repository**
    ```bash
    git clone <repository-url>
-   cd 11square
+   cd client
    ```
 
 2. **Install dependencies**
@@ -44,7 +44,7 @@ A premium real estate platform built with Next.js, featuring property listings, 
    Fill in the required environment variables in `.env.local`:
    ```env
    # Database
-   DATABASE_URL="postgresql://username:password@localhost:5432/11square"
+   DATABASE_URL="postgresql://username:password@localhost:5432/theblxrealty"
    
    # NextAuth
    NEXTAUTH_URL="http://localhost:3000"
@@ -86,7 +86,7 @@ A premium real estate platform built with Next.js, featuring property listings, 
 ## 📁 Project Structure
 
 ```
-11square/
+theblxrealty/
 ├── client/                 # Next.js application
 │   ├── app/               # App Router pages
 │   │   ├── api/           # API routes
@@ -223,7 +223,7 @@ pnpm start
 
 ## 📄 License
 
-This project is proprietary software owned by 11Square Realty.
+This project is proprietary software owned by The BLX Realty.
 
 ## 🤝 Contributing
 
@@ -235,10 +235,10 @@ This project is proprietary software owned by 11Square Realty.
 ## 📞 Support
 
 For technical support or questions:
-- Email: discover@11squarerealty.com
+- Email: discoverblr@theblxrealtyrealty.com
 - Phone: +91 9743264328
 - Office: 59, 10th A Cross Road, West of Chord Road, Bangalore, Karnataka 560086
 
 ---
 
-**Built with ❤️ for 11Square Realty**
+**Built with ❤️ for The BLX Realty**
