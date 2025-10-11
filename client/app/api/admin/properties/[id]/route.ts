@@ -108,8 +108,8 @@ export async function GET(
   }
 }
 
-// PATCH - Update property
-export async function PATCH(
+// PUT - Update property
+export async function PUT(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
