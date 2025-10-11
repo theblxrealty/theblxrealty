@@ -46,6 +46,7 @@ function CareersContent() {
     loading: false,
     error: "",
     // uploadingResume: false, // Removed this state
+    location: "", // Add location to formState
   })
 
   const [availableLocations, setAvailableLocations] = useState<string[]>([])
@@ -82,9 +83,15 @@ function CareersContent() {
 
   useEffect(() => {
     const positionFromUrl = searchParams.get('position')
+    const locationFromUrl = searchParams.get('location') // Get location from URL
+
     if (positionFromUrl) {
       setActiveTab('apply')
-      setFormState(prev => ({ ...prev, position: positionFromUrl }))
+      setFormState(prev => ({
+        ...prev,
+        position: positionFromUrl,
+        ...(locationFromUrl && { location: locationFromUrl }), // Set location if present
+      }))
     }
   }, [searchParams])
 
@@ -425,21 +432,31 @@ function CareersContent() {
                     <Label className="text-sm font-['Suisse_Intl',sans-serif] font-medium">
                       Position of Interest *
                     </Label>
-                    <Select
-                      value={formState.position}
-                      onValueChange={(value) => handleSelectChange('position', value)}
-                    >
-                      <SelectTrigger className="mt-1 font-['Suisse_Intl',sans-serif]">
-                        <SelectValue placeholder="Select a position" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {positionOptions.map((option) => (
-                          <SelectItem key={option} value={option.toLowerCase().replace(/\s+/g, '-')}>
-                            {option}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                    {formState.position ? (
+                      <Input
+                        id="position"
+                        name="position"
+                        value={formState.position}
+                        readOnly
+                        className="mt-1 font-['Suisse_Intl',sans-serif] bg-gray-100 cursor-not-allowed"
+                      />
+                    ) : (
+                      <Select
+                        value={formState.position}
+                        onValueChange={(value) => handleSelectChange('position', value)}
+                      >
+                        <SelectTrigger className="mt-1 font-['Suisse_Intl',sans-serif]">
+                          <SelectValue placeholder="Select a position" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {positionOptions.map((option) => (
+                            <SelectItem key={option} value={option.toLowerCase().replace(/\s+/g, '-')}>
+                              {option}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    )}
                   </div>
 
                   <div>
@@ -463,6 +480,22 @@ function CareersContent() {
                     </Select>
                   </div>
                 </div>
+
+                {/* New Location Field */}
+                {formState.location && (
+                  <div>
+                    <Label htmlFor="location" className="text-sm font-['Suisse_Intl',sans-serif] font-medium">
+                      Location *
+                    </Label>
+                    <Input
+                      id="location"
+                      name="location"
+                      value={formState.location}
+                      readOnly
+                      className="mt-1 font-['Suisse_Intl',sans-serif] bg-gray-100 cursor-not-allowed"
+                    />
+                  </div>
+                )}
 
                 {/* Message */}
                 <div>

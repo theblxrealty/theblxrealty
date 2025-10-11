@@ -140,7 +140,7 @@ export default function JobDetailContent() {
             )}
 
             <div className="mt-8">
-              <Link href={`/careers?position=${encodeURIComponent(jobPosting.title)}`}>
+              <Link href={`/careers?position=${encodeURIComponent(jobPosting.title)}&location=${encodeURIComponent(jobPosting.location)}`}>
                 <Button size="lg" className="bg-red-600 hover:bg-red-700 text-white font-['Suisse_Intl',sans-serif]">
                   Apply Now
                 </Button>
