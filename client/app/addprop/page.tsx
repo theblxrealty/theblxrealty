@@ -389,20 +389,30 @@ function AddPropertyContent() {
       if (formData.highwayAccessTime.trim()) transportationJson["Highway Access"] = formData.highwayAccessTime.trim()
 
       // Prepare property data
-      const propertyData = {
-        ...formData,
+      const propertyData: any = {
+        title: formData.title,
+        description: formData.description,
+        longDescription: formData.longDescription,
         price: parseFloat(formData.price) || null,
+        location: formData.location,
         latitude: parseFloat(formData.latitude) || null,
         longitude: parseFloat(formData.longitude) || null,
+        propertyType: formData.propertyType,
+        propertyCategory: formData.propertyCategory,
         bedrooms: parseInt(formData.bedrooms) || null,
         bathrooms: parseInt(formData.bathrooms) || null,
         area: parseInt(formData.area) || null,
         yearBuilt: parseInt(formData.yearBuilt) || null,
-        propertyBanner1: banner1Url,
-        propertyBanner2: banner2Url,
-        images: additionalUrls, // Ensure this maps to the correct database field
+        lotSize: formData.lotSize,
         amenities: formData.amenities.split(',').map(a => a.trim()).filter(a => a),
         ecoFeatures: formData.ecoFeatures.split(',').map(f => f.trim()).filter(f => f),
+        agentName: formData.agentName,
+        agentPhone: formData.agentPhone,
+        agentEmail: formData.agentEmail || undefined, // Send undefined if empty to make it optional
+        agentImage: formData.agentImage || undefined, // Send undefined if empty to make it optional
+        propertyBanner1: banner1Url,
+        propertyBanner2: banner2Url,
+        additionalImages: additionalUrls,
         nearbyAmenities: Object.keys(nearbyAmenitiesJson).length > 0 ? nearbyAmenitiesJson : null,
         transportation: Object.keys(transportationJson).length > 0 ? transportationJson : null
       }
