@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, Suspense } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
@@ -23,7 +23,7 @@ interface BlogFormData {
   featuredImage: string
 }
 
-export default function AddBlogPage() {
+function AddBlogContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const [loading, setLoading] = useState(false)
@@ -424,5 +424,13 @@ export default function AddBlogPage() {
         </form>
       </div>
     </div>
+  )
+}
+
+export default function AddBlogPage() {
+  return (
+    <Suspense fallback={<div>Loading form...</div>}>
+      <AddBlogContent />
+    </Suspense>
   )
 }

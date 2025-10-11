@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, Suspense } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
@@ -49,7 +49,7 @@ interface PropertyFormData {
   highwayAccessTime: string
 }
 
-export default function AddPropertyPage() {
+function AddPropertyContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const [loading, setLoading] = useState(false)
@@ -1127,5 +1127,13 @@ export default function AddPropertyPage() {
         </div>
       </section>
     </div>
+  )
+}
+
+export default function AddPropertyPage() {
+  return (
+    <Suspense fallback={<div>Loading form...</div>}>
+      <AddPropertyContent />
+    </Suspense>
   )
 }

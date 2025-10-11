@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, Suspense } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -23,7 +23,7 @@ interface CareerPostingFormData {
   isActive: boolean
 }
 
-export default function AddCareerPostingPage() {
+function AddCareerPostingContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const [loading, setLoading] = useState(false)
@@ -372,5 +372,13 @@ export default function AddCareerPostingPage() {
         </div>
       </section>
     </div>
+  )
+}
+
+export default function AddCareerPostingPage() {
+  return (
+    <Suspense fallback={<div>Loading form...</div>}>
+      <AddCareerPostingContent />
+    </Suspense>
   )
 }
