@@ -136,7 +136,7 @@ export const sendCareerApplicationEmail = async (data: CareerApplicationEmail) =
       <p><strong>Position:</strong> ${data.position}</p>
       <p><strong>Location:</strong> ${data.location || 'N/A'}</p>
       <p><strong>Experience Level:</strong> ${data.experience}</p>
-      ${data.resume ? `<p><strong>Resume:</strong> ${data.resume}</p>` : ''}
+      ${data.resume ? `<p><strong>Resume:</strong> <a href="${data.resume}" target="_blank" rel="noopener noreferrer">View Resume</a></p>` : ''}
       
       <h3 style="color: #666;">Message</h3>
       <p style="background: #f9f9f9; padding: 15px; border-radius: 5px;">

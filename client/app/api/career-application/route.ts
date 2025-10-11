@@ -2,6 +2,33 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { sendCareerApplicationEmail } from '@/lib/email'
 import { validateCareerApplication } from '@/lib/validation'
+import { supabase } from '@/lib/supabaseClient' // Import Supabase client
+import { Buffer } from 'buffer'; // Import Buffer
+
+// Helper function to upload Base64 file to Supabase
+async function uploadBase64ToSupabase(base64Data: string, fileName: string, bucket: string) {
+  const  fileExt  = fileName.split('.').pop();
+  const  mimetype  = `application/${fileExt === 'pdf' ? 'pdf' : 'octet-stream'}`;
+  
+  // Convert Base64 to ArrayBuffer
+  const base64WithoutPrefix = base64Data.split(',')[1];
+  const imageBuffer = Buffer.from(base64WithoutPrefix, 'base64');
+
+  const { data, error } = await supabase.storage
+    .from(bucket)
+    .upload(fileName, imageBuffer, {
+      contentType: mimetype,
+      upsert: false,
+    });
+
+  if (error) {
+    throw new Error(`Supabase upload failed: ${error.message}`);
+  }
+
+  // Get public URL
+  const { data: publicUrlData } = supabase.storage.from(bucket).getPublicUrl(data.path);
+  return publicUrlData.publicUrl;
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -60,6 +87,22 @@ export async function POST(request: NextRequest) {
       })
     }
 
+    // Supabase resume upload
+    let resumeUrl: string | null = null;
+    if (resume) {
+      try {
+        const uniqueFileName = `resumes/${email}_${position.replace(/\s+/g, '-')}_${Date.now()}.pdf`;
+        resumeUrl = await uploadBase64ToSupabase(resume, uniqueFileName, 'career-resumes');
+      } catch (uploadError: any) {
+        console.error('Error uploading resume to Supabase:', uploadError.message, uploadError.stack);
+        // Continue without resume if upload fails, or return an error
+        return NextResponse.json(
+          { error: 'Failed to upload resume', details: uploadError.message },
+          { status: 500 }
+        );
+      }
+    }
+
     // Create career application in database
     const careerApplication = await prisma.careerApplication.create({
       data: {
@@ -71,7 +114,7 @@ export async function POST(request: NextRequest) {
         position,
         experience,
         message,
-        resume: resume || null, // This will be replaced by Cloudinary URL later
+        resume: resumeUrl, // Store Supabase URL here
         status: 'pending',
         location, // Store the location
       }
@@ -86,7 +129,7 @@ export async function POST(request: NextRequest) {
       position,
       experience,
       message,
-      resume,
+      resume: resumeUrl, // Pass Supabase URL to email function
       location // Pass location to email function
     })
 
@@ -101,10 +144,10 @@ export async function POST(request: NextRequest) {
       emailSent: emailResult.success
     }, { status: 201 })
 
-  } catch (error) {
-    console.error('Career application error:', error)
+  } catch (error: any) {
+    console.error('Career application error:', error.message, error.stack)
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: 'Internal server error', details: error.message },
       { status: 500 }
     )
   }
