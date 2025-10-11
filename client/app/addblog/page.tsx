@@ -6,18 +6,18 @@ import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { X, Upload, FileText, Image as ImageIcon } from "lucide-react"
 // Removed direct uploadImage import - using API route instead
 import { toast } from "sonner"
+import ReactQuill from 'react-quill'
+import 'react-quill/dist/quill.snow.css' // Import Quill styles
 
 interface BlogFormData {
   title: string
   excerpt: string
   content: string
-  redirectUrl: string
   category: string
   tags: string
   featuredImage: string
@@ -40,7 +40,6 @@ function AddBlogContent() {
     title: "",
     excerpt: "",
     content: "",
-    redirectUrl: "",
     category: "",
     tags: "",
     featuredImage: ""
@@ -75,7 +74,6 @@ function AddBlogContent() {
           title: data.title || "",
           excerpt: data.excerpt || "",
           content: data.content || "",
-          redirectUrl: data.redirectUrl || "",
           category: data.category || "",
           tags: data.tags ? data.tags.join(', ') : "",
           featuredImage: data.featuredImage || "" // This will be set as existing URL
@@ -188,11 +186,10 @@ function AddBlogContent() {
       // Prepare form data for API
       const submitData = {
         ...formData,
-        tags: formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag),
+        tags: formData.tags.split(',').map((tag) => tag.trim()).filter((tag) => tag),
         featuredImage: finalFeaturedImageUrl || null,
-        // Ensure slug is generated or handled on the backend for updates, or pass it from here
-        // For simplicity, we are assuming backend handles slug generation/update based on title.
-        slug: formData.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-*|-*$/g, '') // Basic slug generation
+        slug: formData.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-*|-*$/g, ""), // Basic slug generation
+        redirectUrl: undefined, // Explicitly set to undefined to remove it from the payload
       }
 
       // Get admin token for authentication
@@ -273,24 +270,46 @@ function AddBlogContent() {
 
               <div>
                 <Label htmlFor="excerpt">Excerpt</Label>
-                <Textarea
+                <Input
                   id="excerpt"
                   value={formData.excerpt}
                   onChange={(e) => handleInputChange('excerpt', e.target.value)}
                   placeholder="Brief description of the blog post"
-                  rows={3}
                 />
               </div>
 
               <div>
                 <Label htmlFor="content">Content *</Label>
-                <Textarea
-                  id="content"
+                <ReactQuill
                   value={formData.content}
-                  onChange={(e) => handleInputChange('content', e.target.value)}
-                  placeholder="Write your blog post content here..."
-                  rows={10}
-                  required
+                  onChange={(content) => handleInputChange('content', content)}
+                  modules={{
+                    toolbar: [
+                      [{ 'header': [1, 2, 3, false] }],
+                      ['bold', 'italic', 'underline', 'strike'],
+                      [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                      [{ 'script': 'sub'}, { 'script': 'super' }],
+                      [{ 'indent': '-1'}, { 'indent': '+1' }],
+                      [{ 'direction': 'rtl' }],
+                      [{ 'color': [] }, { 'background': [] }],
+                      [{ 'font': [] }],
+                      [{ 'align': [] }],
+                      ['link', 'image', 'video'],
+                      ['clean']
+                    ]
+                  }}
+                  formats={[
+                    'header',
+                    'bold', 'italic', 'underline', 'strike',
+                    'list', 'bullet', 'ordered',
+                    'script',
+                    'indent',
+                    'direction',
+                    'color', 'background',
+                    'font',
+                    'align',
+                    'link', 'image', 'video'
+                  ]}
                 />
               </div>
             </CardContent>
@@ -302,20 +321,6 @@ function AddBlogContent() {
               <CardTitle>SEO & Settings</CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
-              <div>
-                <Label htmlFor="redirectUrl">Redirect URL</Label>
-                <Input
-                  id="redirectUrl"
-                  type="url"
-                  value={formData.redirectUrl}
-                  onChange={(e) => handleInputChange('redirectUrl', e.target.value)}
-                  placeholder="https://example.com/external-article"
-                />
-                <p className="text-sm text-gray-500 mt-1">
-                  If provided, visitors will be redirected to this external URL
-                </p>
-              </div>
-
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <Label htmlFor="category">Category</Label>

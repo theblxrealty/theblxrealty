@@ -14,7 +14,6 @@ interface BlogPost {
   excerpt?: string
   content: string
   featuredImage?: string
-  redirectUrl?: string
   category?: string
   tags: string[]
   isPublished: boolean
@@ -34,7 +33,6 @@ export default function BlogPostPage() {
   const [post, setPost] = useState<BlogPost | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const [redirecting, setRedirecting] = useState(false)
 
   useEffect(() => {
     const fetchBlogPost = async () => {
@@ -50,16 +48,6 @@ export default function BlogPostPage() {
         
         if (data.posts && data.posts.length > 0) {
           const blogPost = data.posts[0]
-          
-          // Check if the post has a redirect URL
-          if (blogPost.redirectUrl) {
-            // Show redirecting message and redirect to external URL
-            setRedirecting(true)
-            setTimeout(() => {
-              window.location.href = blogPost.redirectUrl
-            }, 2000) // 2 second delay to show the message
-            return
-          }
           
           setPost(blogPost)
         } else {
@@ -104,37 +92,6 @@ export default function BlogPostPage() {
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-500 mx-auto"></div>
             <p className="mt-4 text-gray-600">Loading blog post...</p>
-          </div>
-        </div>
-      </div>
-    )
-  }
-
-  if (redirecting) {
-    return (
-      <div className="min-h-screen bg-gray-50">
-        <div className="container mx-auto px-4 py-16">
-          <div className="text-center max-w-2xl mx-auto">
-            <div className="animate-pulse">
-              <ExternalLink className="h-16 w-16 text-red-500 mx-auto mb-4" />
-            </div>
-            <h1 className="text-2xl font-bold mb-4 text-gray-900">Redirecting to External Article</h1>
-            <p className="text-gray-600 mb-6">
-              You are being redirected to the full article. Please wait...
-            </p>
-            <div className="bg-white rounded-lg p-6 shadow-sm border">
-              <p className="text-sm text-gray-500">
-                If you are not redirected automatically, 
-                <a 
-                  href={post?.redirectUrl} 
-                  className="text-red-600 hover:text-red-700 ml-1 underline"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  click here
-                </a>
-              </p>
-            </div>
           </div>
         </div>
       </div>
@@ -258,11 +215,10 @@ export default function BlogPostPage() {
 
           {/* Post Content */}
           <div className="prose prose-lg max-w-none mb-8">
-            <div 
-              className="text-gray-700 leading-relaxed font-['Suisse_Intl',sans-serif] whitespace-pre-wrap"
-            >
-              {post.content}
-            </div>
+            <div
+              className="text-gray-700 leading-relaxed font-['Suisse_Intl',sans-serif]"
+              dangerouslySetInnerHTML={{ __html: post.content }}
+            />
           </div>
 
           {/* Author Bio */}
