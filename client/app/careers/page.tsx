@@ -478,7 +478,7 @@ function CareersContent() {
                     </SelectTrigger>
                     <SelectContent>
                       {availableLocations.length === 0 ? (
-                        <SelectItem value="" disabled>No locations available</SelectItem>
+                        <div className="p-2 text-sm text-gray-500">No locations available</div>
                       ) : (
                         availableLocations.map((loc) => (
                           <SelectItem key={loc} value={loc}>
