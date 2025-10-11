@@ -51,3 +51,39 @@ export async function GET(request: NextRequest) {
     )
   }
 }
+
+export async function POST(request: NextRequest) {
+  try {
+    const body = await request.json()
+    const { title, description, location, type, salary, experience, responsibilities, qualifications, education, benefits } = body
+
+    // Basic validation
+    if (!title || !description || !location || !type) {
+      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
+    }
+
+    const newPosting = await prisma.careerPosting.create({
+      data: {
+        title,
+        description,
+        location,
+        type,
+        salary,
+        experience,
+        responsibilities,
+        qualifications,
+        education,
+        benefits,
+        isActive: true, // New postings are active by default
+      },
+    })
+
+    return NextResponse.json(newPosting, { status: 201 })
+  } catch (error) {
+    console.error('Create career posting error:', error)
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    )
+  }
+}
