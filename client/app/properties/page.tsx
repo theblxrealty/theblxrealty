@@ -260,15 +260,18 @@ function PropertiesContent() {
             </div>
           ) : (
             <div className="text-center py-16">
-              <h3 className="text-xl font-semibold text-slate-700 mb-2">No properties found</h3>
-              <p className="text-slate-500 mb-4">
-                {selectedType 
-                  ? `No ${getTypeDisplayName(selectedType).toLowerCase()} are currently available.`
-                  : "No properties match your current filters."
-                }
+              <h3 className="text-xl md:text-3xl font-bold text-black mb-2" style={{ fontFamily: 'Tiempos Headline, serif', fontWeight: '400' }}>
+                Coming Soon
+              </h3>
+              <p className="text-gray-500 mb-4 font-['Suisse_Intl',sans-serif]">
+                For off-market deals
               </p>
-              <Button variant="outline" onClick={() => router.push('/properties')}>
-                View All Properties
+              <Button
+                variant="default"
+                className="bg-red-500 hover:bg-red-600 text-white px-8 py-4 font-['Suisse_Intl',sans-serif] font-medium"
+                onClick={() => router.push('/contact')}
+              >
+                Contact Us
               </Button>
             </div>
           )}
