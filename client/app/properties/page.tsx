@@ -264,7 +264,7 @@ function PropertiesContent() {
                 Coming Soon
               </h3>
               <p className="text-gray-500 mb-4 font-['Suisse_Intl',sans-serif]">
-                For off-market deals
+                For off-market Deals - Do Contact Us
               </p>
               <Button
                 variant="default"
