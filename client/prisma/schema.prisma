@@ -151,7 +151,7 @@ model CareerApplication {
 }
 
 model CareerPosting {
-  id          String    @id @default(uuid())
+  id          String   @id @default(cuid())
   title       String
   location    String
   type        String
@@ -163,10 +163,7 @@ model CareerPosting {
   isActive    Boolean   @default(true)
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
-  datePosted  DateTime @default(now())
-  priority    Int      @default(0)
 
-  @@index([datePosted])
   @@map("career_postings")
 }
 
