@@ -9,21 +9,27 @@ export async function GET(request: NextRequest) {
     const limit = parseInt(searchParams.get('limit') || '10')
     const skip = (page - 1) * limit
 
+    const locations = searchParams.getAll('location')
+
+    const whereClause: any = {
+      isActive: true,
+    }
+
+    if (locations.length > 0) {
+      whereClause.location = { in: locations }
+    }
+
     const [postings, total] = await Promise.all([
       prisma.careerPosting.findMany({
-        where: {
-          isActive: true,
-        },
+        where: whereClause,
         orderBy: {
-          createdAt: 'desc'
+          createdAt: 'desc',
         },
         skip,
         take: limit
       }),
       prisma.careerPosting.count({
-        where: {
-          isActive: true,
-        },
+        where: whereClause,
       })
     ])
 
