@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, Suspense } from "react"
 import Image from "next/image"
 import Link from "next/link" // Import Link for navigation
 import { Checkbox } from "@/components/ui/checkbox"
@@ -27,7 +27,7 @@ interface CareerPosting {
   benefits: string[]
 }
 
-export default function CareersPage() {
+function CareersContent() {
   const [activeTab, setActiveTab] = useState<'apply' | 'jobs'>('jobs') // Default to 'jobs' tab
   const [jobPostings, setJobPostings] = useState<CareerPosting[]>([])
   const [loadingPostings, setLoadingPostings] = useState(true)
@@ -605,5 +605,13 @@ export default function CareersPage() {
         </div>
       </div>
     </div>
+  )
+}
+
+export default function CareersPage() {
+  return (
+    <Suspense fallback={<div>Loading careers page...</div>}>
+      <CareersContent />
+    </Suspense>
   )
 }
