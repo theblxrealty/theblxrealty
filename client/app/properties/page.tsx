@@ -250,7 +250,7 @@ function PropertiesContent() {
                     amenities: ["Security", "Parking", "Power Backup"],
                     isNew: true,
                     featured: true,
-                    type: property.propertyCategory || property.propertyType,
+                    type: property.propertyCategory, // Use propertyCategory consistently
                     rating: 4.8,
                     development: true,
                     price: property.price ? `INR ${(property.price / 10000000).toFixed(1)} Cr` : "Price on Application"

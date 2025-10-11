@@ -149,7 +149,7 @@ export async function GET(request: NextRequest) {
         orderBy: [
           // Prioritize exact category matches first
           {
-            propertyType: 'asc' // Temporarily using propertyType until Prisma client is updated
+            propertyCategory: 'asc' // Use propertyCategory for ordering
           },
           // Then by creation date
           {
@@ -167,7 +167,9 @@ export async function GET(request: NextRequest) {
     console.log('Properties API - Query params:', { search, type, bedrooms, exclude, limit, page })
     console.log('Properties API - Where clause:', JSON.stringify(whereClause, null, 2))
     console.log('Properties API - Found properties:', properties.length)
-    console.log('Properties API - Property types found:', properties.map(p => p.propertyType))
+    console.log('Properties API - Property categories found:', properties.map(p => p.propertyCategory))
+    // Add a more detailed log to inspect individual property types and categories
+    console.log('Properties API - Detailed property types:', properties.map(p => ({id: p.id, title: p.title, propertyCategory: p.propertyCategory, propertyType: p.propertyType})))
 
     // Transform properties to include images array for frontend compatibility
     const transformedProperties = properties.map(property => {
@@ -198,7 +200,7 @@ export async function GET(request: NextRequest) {
         sqft: property.area || 0, // Add sqft field for property card compatibility
         beds: property.bedrooms,
         baths: property.bathrooms,
-        type: property.propertyType || 'residential',
+        type: property.propertyCategory, // Use propertyCategory consistently for type
         price: property.price ? `INR ${(property.price / 10000000).toFixed(1)} Cr` : "Price on Application",
         priceRange: property.price ? `INR ${(property.price / 10000000).toFixed(1)} Cr` : "Price on Application"
       }
