@@ -77,6 +77,7 @@ export interface CareerApplicationEmail {
   experience: string
   message: string
   resume?: string
+  location?: string // Add location to email interface
 }
 
 export interface NewsletterEmail {
@@ -133,6 +134,7 @@ export const sendCareerApplicationEmail = async (data: CareerApplicationEmail) =
       
       <h3 style="color: #666;">Application Details</h3>
       <p><strong>Position:</strong> ${data.position}</p>
+      <p><strong>Location:</strong> ${data.location || 'N/A'}</p>
       <p><strong>Experience Level:</strong> ${data.experience}</p>
       ${data.resume ? `<p><strong>Resume:</strong> ${data.resume}</p>` : ''}
       

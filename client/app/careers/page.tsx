@@ -319,16 +319,6 @@ function CareersContent() {
                 {/* Tab Navigation */}
                 <div className="flex mb-6 border-b border-gray-200">
                   <button
-                    onClick={() => setActiveTab('apply')}
-                    className={`px-4 py-2 font-['Suisse_Intl',sans-serif] font-medium transition-colors ${
-                      activeTab === 'apply'
-                        ? 'text-red-600 border-b-2 border-red-600'
-                        : 'text-gray-500 hover:text-gray-700'
-                    }`}
-                  >
-                    Apply Now
-                  </button>
-                  <button
                     onClick={() => setActiveTab('jobs')}
                     className={`px-4 py-2 font-['Suisse_Intl',sans-serif] font-medium transition-colors ${
                       activeTab === 'jobs'

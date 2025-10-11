@@ -14,7 +14,8 @@ export async function POST(request: NextRequest) {
       position,
       experience,
       message,
-      resume
+      resume,
+      location // Add location to validation
     } = body
 
     // Validate all data including spam prevention
@@ -26,7 +27,8 @@ export async function POST(request: NextRequest) {
       position,
       experience,
       message,
-      resume
+      resume,
+      location // Add location to validation
     }, request)
 
     if (!validation.isValid) {
@@ -69,8 +71,9 @@ export async function POST(request: NextRequest) {
         position,
         experience,
         message,
-        resume: resume || null, // For now, we'll store the filename if provided
-        status: 'pending'
+        resume: resume || null, // This will be replaced by Cloudinary URL later
+        status: 'pending',
+        location, // Store the location
       }
     })
 
@@ -83,7 +86,8 @@ export async function POST(request: NextRequest) {
       position,
       experience,
       message,
-      resume
+      resume,
+      location // Pass location to email function
     })
 
     if (!emailResult.success) {

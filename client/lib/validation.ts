@@ -229,6 +229,7 @@ export const validateCareerApplication = async (
     experience: string
     message: string
     resume?: string
+    location?: string // Add location to data interface
   },
   request?: Request
 ) => {
@@ -253,6 +254,10 @@ export const validateCareerApplication = async (
 
   if (!data.position || data.position.trim().length < 2) {
     errors.push('Valid position is required')
+  }
+
+  if (!data.location || data.location.trim().length < 2) { // Add validation for location
+    errors.push('Valid location is required')
   }
 
   if (!data.experience || data.experience.trim().length < 2) {
