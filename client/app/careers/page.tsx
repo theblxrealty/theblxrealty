@@ -160,6 +160,7 @@ function CareersContent() {
           experience: formState.experience,
           message: formState.message,
           resume: formState.resume, // Pass the Base64 resume string directly
+          location: formState.location, // Pass location
         }),
       })
 
@@ -172,6 +173,7 @@ function CareersContent() {
           loading: false,
           error: "",
         }))
+        toast.success('Application submitted successfully!')
       } else {
         console.error('Form submission failed:', data.error)
         // Handle validation errors specifically
@@ -186,6 +188,7 @@ function CareersContent() {
           loading: false,
           error: errorMessage
         }))
+        toast.error(errorMessage)
       }
     } catch (error) {
       console.error('Form submission error:', error)
@@ -194,6 +197,7 @@ function CareersContent() {
         loading: false,
         error: 'Network error. Please check your connection and try again.'
       }))
+      toast.error('Network error. Please check your connection and try again.')
     }
   }
 
@@ -402,7 +406,7 @@ function CareersContent() {
 
                 <div>
                   <Label htmlFor="phone" className="text-sm font-['Suisse_Intl',sans-serif] font-medium">
-                    Phone Number *
+                    Phone Number *\
                   </Label>
                   <Input
                     id="phone"
@@ -493,7 +497,7 @@ function CareersContent() {
                 {/* Message */}
                 <div>
                   <Label htmlFor="message" className="text-sm font-['Suisse_Intl',sans-serif] font-medium">
-                    Tell us about your interests and qualifications *
+                    Tell us about your interests and qualifications *\
                   </Label>
                   <Textarea
                     id="message"
@@ -527,7 +531,7 @@ function CareersContent() {
                         </p>
                         {formState.resume && (
                           <p className="mt-1 text-sm text-red-600 font-['Suisse_Intl',sans-serif]">
-                            Selected: {formState.resume.split(',')[1].substring(0, 20)}...
+                            Selected: {formState.resume.split(',')[1].substring(0, 20)}...\
                           </p>
                         )}
                       </div>
@@ -552,7 +556,7 @@ function CareersContent() {
                     {formState.loading ? (
                       <>
                         <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                        Submitting Application...
+                        Submitting Application...\
                       </>
                     ) : (
                       <>
